@@ -63,6 +63,6 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   await newPage.check('input[name="tnbed"]');
   await newPage.click("#bs_submit");
 
-  // Confirm booking (commented out for testing - don't want to actually sign up)
-  // await newPage.click('input[type="submit"][value="verbindlich buchen"]')
+  // Confirm booking
+  await newPage.click('input[type="submit"][value="verbindlich buchen"]');
 });
