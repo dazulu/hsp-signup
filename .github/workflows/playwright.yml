@@ -1,0 +1,42 @@
+name: Sign up to HSP training
+
+on:
+  workflow_dispatch:
+    inputs:
+      sport:
+        description: "Select sport to book"
+        required: true
+        default: "hurling"
+        type: choice
+        options:
+          - hurling
+          - football
+
+jobs:
+  signup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright script
+        run: npx playwright test
+        env:
+          HSP_EMAIL: ${{ secrets.HSP_EMAIL }}
+          HSP_PASSWORD: ${{ secrets.HSP_PASSWORD }}
+          SELECTED_SPORT: ${{ github.event.inputs.sport }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
