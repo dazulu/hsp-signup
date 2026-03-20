@@ -254,7 +254,7 @@ export default function App() {
           complete the booking. They are not stored anywhere else.
         </Text>
       </ScrollView>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </KeyboardAvoidingView>
   );
 }
