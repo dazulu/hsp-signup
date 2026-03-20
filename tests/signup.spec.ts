@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -69,8 +69,9 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   // Wait for page to update after booking
   await newPage.waitForLoadState("networkidle");
 
-  // Capture result for inspection
-  await newPage.screenshot({ path: "booking-result.png", fullPage: true });
-  const bodyText = await newPage.innerText("body");
-  console.log("Page content after booking:", bodyText);
+  // Capture booking result
+  await newPage.screenshot({ path: "test-results/booking-result.png", fullPage: true });
+
+  // Verify successful booking
+  await expect(newPage.locator('text=You have made a confirmed registration for offer')).toBeVisible();
 });
