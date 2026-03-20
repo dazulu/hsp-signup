@@ -1,6 +1,23 @@
 node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.metro-health-check*
+npm-debug.*
+.DS_Store
+
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 .env
+# Local Netlify folder
+.netlify

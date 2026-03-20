@@ -1,15 +1,30 @@
 {
   "name": "hsp-signup",
   "version": "1.0.0",
+  "main": "index.ts",
   "description": "Log in and book an upcoming training session",
   "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
     "test": "playwright test"
   },
   "author": "dazulu",
   "license": "MIT",
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "expo": "~55.0.8",
+    "expo-secure-store": "~15.0.2",
+    "expo-status-bar": "~55.0.4",
+    "react": "19.2.0",
+    "react-native": "0.83.2"
+  },
   "devDependencies": {
     "@playwright/test": "^1.47.0",
-    "@types/node": "^22.5.4",
-    "dotenv": "^16.4.5"
-  }
+    "@types/react": "~19.2.2",
+    "dotenv": "^16.4.5",
+    "typescript": "~5.9.2"
+  },
+  "private": true
 }

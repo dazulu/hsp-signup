@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "HSP Signup",
+    "slug": "easy-hsp-signup",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "extra": {
+      "eas": {
+        "projectId": "ead7a4b6-47bd-465a-8f24-52ba020eaf92"
+      }
+    },
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dazulu.hspsignup"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.dazulu.hspsignup"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "owner": "shiftyapplications"
+  }
+}
