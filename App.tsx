@@ -69,9 +69,11 @@ export default function App() {
 
   // Poll for run status
   const pollStatus = useCallback(async () => {
-    const maxAttempts = 60; // 5 minutes at 5s intervals
+    // Wait 45s before first check (workflow typically takes 40-50s)
+    await new Promise((r) => setTimeout(r, 45000));
+
+    const maxAttempts = 18; // 3 minutes at 10s intervals after initial wait
     for (let i = 0; i < maxAttempts; i++) {
-      await new Promise((r) => setTimeout(r, 5000));
       try {
         const res = await fetch(`${API_URL}/api/status`, {
           headers: { "x-api-key": API_KEY },
@@ -91,6 +93,7 @@ export default function App() {
       } catch {
         // Ignore poll errors, keep trying
       }
+      await new Promise((r) => setTimeout(r, 10000));
     }
     setBooking({
       phase: "done",
