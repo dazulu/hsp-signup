@@ -63,6 +63,14 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   await newPage.check('input[name="tnbed"]');
   await newPage.click("#bs_submit");
 
-  // Confirm booking
+  // Click book button
   await newPage.click('input[type="submit"][value="verbindlich buchen"]');
+
+  // Wait for page to update after booking
+  await newPage.waitForLoadState("networkidle");
+
+  // Capture result for inspection
+  await newPage.screenshot({ path: "booking-result.png", fullPage: true });
+  const bodyText = await newPage.innerText("body");
+  console.log("Page content after booking:", bodyText);
 });
