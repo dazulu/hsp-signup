@@ -83,8 +83,8 @@ export default function App() {
             success: data.conclusion === "success",
             message:
               data.conclusion === "success"
-                ? "Booking successful! Check your email for confirmation."
-                : "Booking failed. Check the workflow run for details.",
+                ? "You're booked! Check your email for confirmation."
+                : "Something went wrong with the booking. Please try again.",
           });
           return;
         }
@@ -95,14 +95,14 @@ export default function App() {
     setBooking({
       phase: "done",
       success: false,
-      message: "Timed out waiting for result. Check GitHub Actions.",
+      message: "Still waiting on a result — try checking back later.",
     });
   }, []);
 
   // Book
   const book = useCallback(async () => {
     if (!email || !password) {
-      Alert.alert("Missing fields", "Enter your HSP email and password.");
+      Alert.alert("Missing details", "Please enter your email and password.");
       return;
     }
 
@@ -123,7 +123,7 @@ export default function App() {
         setBooking({
           phase: "done",
           success: false,
-          message: data.error || "Failed to trigger booking.",
+          message: "Could not start the booking. Please try again later.",
         });
         return;
       }
@@ -134,7 +134,7 @@ export default function App() {
       setBooking({
         phase: "done",
         success: false,
-        message: "Network error. Check your connection.",
+        message: "Couldn't connect. Check your internet and try again.",
       });
     }
   }, [email, password, sport, saveCredentials, pollStatus]);
@@ -159,7 +159,7 @@ export default function App() {
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.title}>HSP Course Booking</Text>
+        <Text style={styles.title}>HamburgGAA HSP Booking</Text>
 
         {/* Email */}
         <Text style={styles.label}>HSP Email</Text>
@@ -250,8 +250,8 @@ export default function App() {
         )}
 
         <Text style={styles.disclaimer}>
-          Your credentials are stored securely on this device and sent directly
-          to the HSP website. They are not stored on any server.
+          Your credentials are stored securely on this device and used only to
+          complete the booking. They are not stored anywhere else.
         </Text>
       </ScrollView>
       <StatusBar style="auto" />
