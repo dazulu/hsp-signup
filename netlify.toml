@@ -1,6 +1,6 @@
 [build]
-  command = "# no build"
-  publish = "."
+  command = "mkdir -p dist"
+  publish = "dist"
 
 [functions]
   directory = "netlify/functions"
