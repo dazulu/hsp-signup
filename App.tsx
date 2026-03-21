@@ -157,9 +157,10 @@ export default function App() {
   // Debug helpers (dev only)
   const debugFakeLoading = useCallback(() => {
     setDebugOpen(false);
-    setBooking({ phase: "triggering" });
+    doneAnim.stopAnimation();
     doneAnim.setValue(0);
     progressAnim.setValue(0);
+    setBooking({ phase: "triggering" });
     setTimeout(() => startCountdown(), 1500);
   }, [startCountdown, doneAnim, progressAnim]);
 
@@ -208,9 +209,10 @@ export default function App() {
       return;
     }
 
-    setBooking({ phase: "triggering" });
+    doneAnim.stopAnimation();
     doneAnim.setValue(0);
     progressAnim.setValue(0);
+    setBooking({ phase: "triggering" });
     await saveCredentials();
     const now = Date.now();
     await AsyncStorage.setItem("hsp_triggered_at", String(now));
@@ -318,7 +320,7 @@ export default function App() {
             {/* Email */}
             <Text style={styles.label}>Hochschulsport Email</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, isLoading && styles.inputDisabled]}
               value={email}
               onChangeText={setEmail}
               placeholder="you@example.com"
@@ -335,7 +337,7 @@ export default function App() {
             <Text style={styles.label}>Hochschulsport Password</Text>
             <View style={styles.passwordRow}>
               <TextInput
-                style={[styles.input, styles.passwordInput]}
+                style={[styles.input, styles.passwordInput, isLoading && styles.inputDisabled]}
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Password"
@@ -346,8 +348,9 @@ export default function App() {
                 accessibilityLabel="Password"
               />
               <Pressable
-                style={styles.eyeBtn}
+                style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
                 onPress={() => setShowPassword((v) => !v)}
+                disabled={isLoading}
                 accessibilityRole="button"
                 accessibilityLabel={showPassword ? "Hide password" : "Show password"}
               >
@@ -364,6 +367,7 @@ export default function App() {
                   style={[
                     styles.sportBtn,
                     sport === s.key && styles.sportBtnActive,
+                    isLoading && styles.sportBtnDisabled,
                   ]}
                   onPress={() => pickSport(s.key)}
                   disabled={isLoading}
@@ -522,6 +526,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e8ecf4",
   },
+  inputDisabled: {
+    opacity: 0.5,
+  },
   passwordRow: {
     flexDirection: "row",
     alignItems: "stretch",
@@ -560,6 +567,9 @@ const styles = StyleSheet.create({
   sportBtnActive: {
     backgroundColor: "#4A6CF7",
     borderColor: "#4A6CF7",
+  },
+  sportBtnDisabled: {
+    opacity: 0.5,
   },
   sportBtnText: { fontSize: 14, fontWeight: "600", color: "#6b7a99" },
   sportBtnTextActive: { color: "#fff" },
