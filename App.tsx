@@ -241,14 +241,14 @@ export default function App() {
             <Pressable onPress={Keyboard.dismiss} accessible={false}>
             <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
             <View style={styles.card}>
-            <Text style={styles.title}>Book HSP training</Text>
+            <Text style={styles.title}>Book Training</Text>
             <Text style={styles.subtitle}>
-              This will book the training session open for signup on
-              the Hochschulsport website
+              This will book the next available training session open for signup on
+              the Hochschulsport website.
             </Text>
 
             {/* Email */}
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>Hochschulsport Email</Text>
             <TextInput
               style={styles.input}
               value={email}
@@ -264,7 +264,7 @@ export default function App() {
             />
 
             {/* Password */}
-            <Text style={styles.label}>Password</Text>
+            <Text style={styles.label}>Hochschulsport Password</Text>
             <View style={styles.passwordRow}>
               <TextInput
                 style={[styles.input, styles.passwordInput]}
