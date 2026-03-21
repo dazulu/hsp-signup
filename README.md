@@ -1,5 +1,8 @@
 # Hamburg GAA — HSP Booking
 
+> [!NOTE]
+> This app is distributed as an **Android APK sideload only**. It is not published on the Google Play Store or Apple App Store to avoid developer account fees.
+
 The Hochschulsport (HSP) Hamburg website uses a clunky, multi-step signup process that requires navigating several pages, logging in through a non-standard form, and clicking through confirmations — all within a tight enrollment window. This app removes that friction.
 
 ## How it works
