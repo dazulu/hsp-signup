@@ -1,17 +1,6 @@
 name: Sign up to HSP training
 
 on:
-  workflow_dispatch:
-    inputs:
-      sport:
-        description: "Select sport to book"
-        required: true
-        default: "hurling"
-        type: choice
-        options:
-          - hurling
-          - football
-
   repository_dispatch:
     types: [book-sport]
 
@@ -25,7 +14,6 @@ jobs:
           node-version: lts/*
 
       - name: Mask credentials
-        if: github.event_name == 'repository_dispatch'
         run: |
           echo "::add-mask::${{ github.event.client_payload.hsp_email }}"
           echo "::add-mask::${{ github.event.client_payload.hsp_password }}"
@@ -39,9 +27,9 @@ jobs:
       - name: Run Playwright script
         run: npx playwright test
         env:
-          HSP_EMAIL: ${{ github.event.client_payload.hsp_email || secrets.HSP_EMAIL }}
-          HSP_PASSWORD: ${{ github.event.client_payload.hsp_password || secrets.HSP_PASSWORD }}
-          SELECTED_SPORT: ${{ github.event.inputs.sport || github.event.client_payload.sport || 'hurling' }}
+          HSP_EMAIL: ${{ github.event.client_payload.hsp_email }}
+          HSP_PASSWORD: ${{ github.event.client_payload.hsp_password }}
+          SELECTED_SPORT: ${{ github.event.client_payload.sport || 'hurling' }}
 
       - uses: actions/upload-artifact@v4
         if: always()
