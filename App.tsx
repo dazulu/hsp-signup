@@ -68,7 +68,7 @@ export default function App() {
     if (!__DEV__) return;
     debugTaps.current += 1;
     if (debugTimer.current) clearTimeout(debugTimer.current);
-    if (debugTaps.current >= 3) {
+    if (debugTaps.current >= 15) {
       debugTaps.current = 0;
       setDebugOpen((v) => !v);
     } else {
