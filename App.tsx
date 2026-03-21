@@ -20,6 +20,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
@@ -38,6 +39,13 @@ type BookingState =
   | { phase: "done" };
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "jakarta-400": require("@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf"),
+    "jakarta-500": require("@expo-google-fonts/plus-jakarta-sans/500Medium/PlusJakartaSans_500Medium.ttf"),
+    "jakarta-600": require("@expo-google-fonts/plus-jakarta-sans/600SemiBold/PlusJakartaSans_600SemiBold.ttf"),
+    "jakarta-700": require("@expo-google-fonts/plus-jakarta-sans/700Bold/PlusJakartaSans_700Bold.ttf"),
+    "jakarta-800": require("@expo-google-fonts/plus-jakarta-sans/800ExtraBold/PlusJakartaSans_800ExtraBold.ttf"),
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [sport, setSport] = useState<SportKey | null>(null);
@@ -256,7 +264,7 @@ export default function App() {
     booking.phase === "triggering" || booking.phase === "waiting";
   const canBook = !!(email && password && sport) && !isLoading;
 
-  if (!ready) {
+  if (!ready || !fontsLoaded) {
     return (
       <SafeAreaProvider>
         <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
@@ -305,7 +313,7 @@ export default function App() {
             <View style={styles.card}>
             <Text style={styles.title}>Book Training</Text>
             <Text style={styles.subtitle}>
-              This will book the next available training session open for signup on
+              Books the next available training session open for signup on
               the Hochschulsport website.
             </Text>
 
@@ -424,7 +432,7 @@ export default function App() {
                 <Text style={styles.statusText}>
                   You should receive a confirmation email shortly from
                   Hochschulsport Hamburg. If you have not received one within 10
-                  minutes, please try again.
+                  minutes, try again.
                 </Text>
                 <Pressable
                   style={styles.dismissBtn}
@@ -454,7 +462,7 @@ export default function App() {
 
             <Text style={styles.disclaimer}>
               Your credentials are stored securely on this device and used only to
-              complete the booking. They are not stored anywhere else.
+              complete the booking.
             </Text>
             </Pressable>
           </ScrollView>
@@ -506,7 +514,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "800",
+    fontFamily: "jakarta-800",
     color: "#1a1f36",
     textAlign: "center",
     marginBottom: 8,
@@ -514,6 +522,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
+    fontFamily: "jakarta-400",
     color: "#6b7a99",
     textAlign: "center",
     marginBottom: 24,
@@ -521,7 +530,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "jakarta-600",
     color: "#6b7a99",
     marginBottom: 6,
     marginTop: 16,
@@ -530,11 +539,14 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#f4f6fb",
     borderRadius: 14,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     fontSize: 16,
+    fontFamily: "jakarta-400",
     color: "#1a1f36",
     borderWidth: 1,
     borderColor: "#e8ecf4",
+    textAlignVertical: "center",
   },
   inputDisabled: {
     opacity: 0.5,
@@ -561,8 +573,9 @@ const styles = StyleSheet.create({
   },
   eyeText: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "jakarta-600",
     color: "#4A6CF7",
+    includeFontPadding: false,
   },
   sportRow: { flexDirection: "row", gap: 10, marginTop: 6 },
   sportBtn: {
@@ -581,7 +594,7 @@ const styles = StyleSheet.create({
   sportBtnDisabled: {
     opacity: 0.5,
   },
-  sportBtnText: { fontSize: 14, fontWeight: "600", color: "#6b7a99" },
+  sportBtnText: { fontSize: 14, fontFamily: "jakarta-600", color: "#6b7a99", includeFontPadding: false },
   sportBtnTextActive: { color: "#fff" },
   bookBtn: {
     marginTop: 28,
@@ -596,7 +609,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   bookBtnDisabled: { backgroundColor: "#A0AEC0", shadowOpacity: 0, elevation: 0, opacity: 0.7 },
-  bookBtnText: { color: "#fff", fontSize: 17, fontWeight: "700", letterSpacing: 0.3 },
+  bookBtnText: { color: "#fff", fontSize: 17, fontFamily: "jakarta-700", letterSpacing: 0.3, includeFontPadding: false },
   loadingRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -620,9 +633,9 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     backgroundColor: "#eef7ee",
   },
-  statusText: { fontSize: 14, lineHeight: 21, color: "#2e7d32" },
+  statusText: { fontSize: 14, fontFamily: "jakarta-400", lineHeight: 21, color: "#2e7d32" },
   dismissBtn: { marginTop: 12, alignSelf: "center" },
-  dismissBtnText: { color: "#4A6CF7", fontWeight: "600", fontSize: 14 },
+  dismissBtnText: { color: "#4A6CF7", fontFamily: "jakarta-600", fontSize: 14 },
   lastBookingBox: {
     borderRadius: 12,
     paddingVertical: 10,
@@ -637,7 +650,7 @@ const styles = StyleSheet.create({
   lastBookingText: {
     fontSize: 13,
     color: "#6b7a99",
-    fontWeight: "500",
+    fontFamily: "jakarta-500",
   },
   lastBookingTextRecent: {
     color: "#2e7d32",
@@ -650,7 +663,7 @@ const styles = StyleSheet.create({
   },
   debugTitle: {
     color: "#ff6b6b",
-    fontWeight: "700",
+    fontFamily: "jakarta-700",
     fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: 1,
@@ -674,13 +687,15 @@ const styles = StyleSheet.create({
   debugBtnText: {
     color: "#fff",
     fontSize: 12,
-    fontWeight: "600",
+    fontFamily: "jakarta-600",
   },
   disclaimer: {
     marginTop: 24,
-    fontSize: 12,
+    fontSize: 13,
+    fontFamily: "jakarta-400",
     color: "#99a4be",
     textAlign: "center",
     lineHeight: 18,
+    includeFontPadding: false,
   },
 });

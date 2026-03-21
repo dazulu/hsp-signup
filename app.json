@@ -29,6 +29,9 @@
       "package": "com.dazulu.hspsignup",
       "newArchEnabled": true
     },
-    "owner": "shiftyapplications"
+    "owner": "shiftyapplications",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
