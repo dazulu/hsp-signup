@@ -525,11 +525,11 @@ const styles = StyleSheet.create({
     fontFamily: "jakarta-400",
     color: "#6b7a99",
     textAlign: "center",
-    marginBottom: 24,
+    marginBottom: 10,
     lineHeight: 20,
   },
   label: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: "jakarta-600",
     color: "#6b7a99",
     marginBottom: 6,
