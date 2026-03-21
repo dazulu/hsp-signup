@@ -24,7 +24,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
 const LOADING_DURATION = 60; // seconds
-const COOLDOWN_DURATION = 120; // seconds — prevent re-booking too quickly
 
 const SPORTS = [
   { key: "hurling", label: "Hurling & Camogie" },
@@ -46,6 +45,10 @@ export default function App() {
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [ready, setReady] = useState(false);
+  const [lastBooking, setLastBooking] = useState<{
+    sport: SportKey;
+    bookedAt: number;
+  } | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const doneAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
@@ -93,12 +96,13 @@ export default function App() {
   // Load saved values on mount and resume countdown if active
   useEffect(() => {
     (async () => {
-      const [savedEmail, savedPassword, savedSport, savedTriggeredAt] =
+      const [savedEmail, savedPassword, savedSport, savedTriggeredAt, savedLastBooking] =
         await Promise.all([
           SecureStore.getItemAsync("hsp_email"),
           SecureStore.getItemAsync("hsp_password"),
           AsyncStorage.getItem("hsp_sport"),
           AsyncStorage.getItem("hsp_triggered_at"),
+          AsyncStorage.getItem("hsp_last_booking"),
         ]);
       if (savedEmail) {
         setEmail(savedEmail);
@@ -108,6 +112,11 @@ export default function App() {
       }
       if (savedSport === "hurling" || savedSport === "football") {
         setSport(savedSport);
+      }
+      if (savedLastBooking) {
+        try {
+          setLastBooking(JSON.parse(savedLastBooking));
+        } catch {}
       }
 
       // Resume countdown if booking was triggered recently
@@ -157,26 +166,15 @@ export default function App() {
       return;
     }
 
-    // Cooldown: prevent re-booking too soon after a previous booking
-    const lastTriggered = await AsyncStorage.getItem("hsp_last_booked_at");
-    if (lastTriggered) {
-      const elapsed = Math.floor((Date.now() - Number(lastTriggered)) / 1000);
-      if (elapsed < COOLDOWN_DURATION) {
-        const remaining = COOLDOWN_DURATION - elapsed;
-        Alert.alert(
-          "Please wait",
-          `You recently submitted a booking. Please wait ${remaining}s before trying again.`,
-        );
-        return;
-      }
-    }
-
     setBooking({ phase: "triggering" });
     doneAnim.setValue(0);
     progressAnim.setValue(0);
     await saveCredentials();
-    await AsyncStorage.setItem("hsp_triggered_at", String(Date.now()));
-    await AsyncStorage.setItem("hsp_last_booked_at", String(Date.now()));
+    const now = Date.now();
+    await AsyncStorage.setItem("hsp_triggered_at", String(now));
+    const bookingRecord = { sport, bookedAt: now };
+    await AsyncStorage.setItem("hsp_last_booking", JSON.stringify(bookingRecord));
+    setLastBooking(bookingRecord);
 
     try {
       const res = await fetch(`${API_URL}/api/book`, {
@@ -246,6 +244,14 @@ export default function App() {
               This will book the next available training session open for signup on
               the Hochschulsport website.
             </Text>
+
+            {lastBooking && booking.phase === "idle" && (
+              <View style={styles.lastBookingBox}>
+                <Text style={styles.lastBookingText}>
+                  Last booked: {SPORTS.find((s) => s.key === lastBooking.sport)?.label} — {formatTimeAgo(lastBooking.bookedAt)}
+                </Text>
+              </View>
+            )}
 
             {/* Email */}
             <Text style={styles.label}>Hochschulsport Email</Text>
@@ -388,6 +394,19 @@ export default function App() {
   );
 }
 
+function formatTimeAgo(timestamp: number): string {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  if (seconds < 60) return "just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days}d ago`;
+  return new Date(timestamp).toLocaleDateString();
+}
+
 const styles = StyleSheet.create({
   gradient: { flex: 1 },
   flex: { flex: 1 },
@@ -522,6 +541,19 @@ const styles = StyleSheet.create({
   statusText: { fontSize: 14, lineHeight: 21, color: "#2e7d32" },
   dismissBtn: { marginTop: 12, alignSelf: "center" },
   dismissBtnText: { color: "#4A6CF7", fontWeight: "600", fontSize: 14 },
+  lastBookingBox: {
+    backgroundColor: "#f4f6fb",
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 8,
+    alignItems: "center",
+  },
+  lastBookingText: {
+    fontSize: 13,
+    color: "#6b7a99",
+    fontWeight: "500",
+  },
   disclaimer: {
     marginTop: 24,
     fontSize: 12,
