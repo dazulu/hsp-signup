@@ -631,6 +631,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e8ecf4",
     textAlignVertical: "center",
+    includeFontPadding: false,
   },
   inputDisabled: {
     opacity: 0.5,
