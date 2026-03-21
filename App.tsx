@@ -309,14 +309,6 @@ export default function App() {
               the Hochschulsport website.
             </Text>
 
-            {lastBooking && booking.phase === "idle" && (
-              <View style={styles.lastBookingBox}>
-                <Text style={styles.lastBookingText}>
-                  Last booked: {SPORTS.find((s) => s.key === lastBooking.sport)?.label} — {formatTimeAgo(lastBooking.bookedAt)}
-                </Text>
-              </View>
-            )}
-
             {/* Email */}
             <Text style={styles.label}>Hochschulsport Email</Text>
             <TextInput
@@ -446,6 +438,20 @@ export default function App() {
             )}
             </View>
 
+            {lastBooking && booking.phase === "idle" && (
+              <View style={[
+                styles.lastBookingBox,
+                isRecentBooking(lastBooking.bookedAt) && styles.lastBookingRecent,
+              ]}>
+                <Text style={[
+                  styles.lastBookingText,
+                  isRecentBooking(lastBooking.bookedAt) && styles.lastBookingTextRecent,
+                ]}>
+                  {"\u2713"} {SPORTS.find((s) => s.key === lastBooking.sport)?.label} {"\u00B7"} {formatTimeAgo(lastBooking.bookedAt)}
+                </Text>
+              </View>
+            )}
+
             <Text style={styles.disclaimer}>
               Your credentials are stored securely on this device and used only to
               complete the booking. They are not stored anywhere else.
@@ -458,6 +464,10 @@ export default function App() {
     </LinearGradient>
     </SafeAreaProvider>
   );
+}
+
+function isRecentBooking(timestamp: number): boolean {
+  return Date.now() - timestamp < 86_400_000; // 24 hours
 }
 
 function formatTimeAgo(timestamp: number): string {
@@ -614,17 +624,23 @@ const styles = StyleSheet.create({
   dismissBtn: { marginTop: 12, alignSelf: "center" },
   dismissBtnText: { color: "#4A6CF7", fontWeight: "600", fontSize: 14 },
   lastBookingBox: {
-    backgroundColor: "#f4f6fb",
     borderRadius: 12,
     paddingVertical: 10,
     paddingHorizontal: 14,
-    marginBottom: 8,
+    marginTop: 16,
     alignItems: "center",
+    backgroundColor: "#f4f6fb",
+  },
+  lastBookingRecent: {
+    backgroundColor: "#eef7ee",
   },
   lastBookingText: {
     fontSize: 13,
     color: "#6b7a99",
     fontWeight: "500",
+  },
+  lastBookingTextRecent: {
+    color: "#2e7d32",
   },
   debugPanel: {
     backgroundColor: "#1a1f36",
