@@ -13,10 +13,10 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -48,11 +48,32 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const doneAnim = useRef(new Animated.Value(0)).current;
+  const progressAnim = useRef(new Animated.Value(0)).current;
+
+  // Animate done state when booking completes
+  useEffect(() => {
+    if (booking.phase === "done") {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Animated.timing(doneAnim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [booking.phase, doneAnim]);
 
   // Start countdown after booking is triggered
   const startCountdown = useCallback((remaining: number = LOADING_DURATION) => {
     setSecondsLeft(remaining);
     setBooking({ phase: "waiting" });
+    progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
+
+    // Animate progress bar smoothly to 100%
+    Animated.timing(progressAnim, {
+      toValue: 1,
+      duration: remaining * 1000,
+      useNativeDriver: false,
+    }).start();
 
     timerRef.current = setInterval(() => {
       setSecondsLeft((prev) => {
@@ -61,20 +82,13 @@ export default function App() {
             clearInterval(timerRef.current);
           }
           timerRef.current = null;
-          AsyncStorage.removeItem("hsp_triggered_at");
           setBooking({ phase: "done" });
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          Animated.timing(doneAnim, {
-            toValue: 1,
-            duration: 400,
-            useNativeDriver: true,
-          }).start();
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
-  }, []);
+  }, [progressAnim]);
 
   // Load saved values on mount and resume countdown if active
   useEffect(() => {
@@ -105,7 +119,6 @@ export default function App() {
           startCountdown(LOADING_DURATION - elapsed);
         } else {
           // Timer expired while app was closed — show done state
-          await AsyncStorage.removeItem("hsp_triggered_at");
           setBooking({ phase: "done" });
           doneAnim.setValue(1);
         }
@@ -146,7 +159,7 @@ export default function App() {
     }
 
     // Cooldown: prevent re-booking too soon after a previous booking
-    const lastTriggered = await AsyncStorage.getItem("hsp_triggered_at");
+    const lastTriggered = await AsyncStorage.getItem("hsp_last_booked_at");
     if (lastTriggered) {
       const elapsed = Math.floor((Date.now() - Number(lastTriggered)) / 1000);
       if (elapsed < COOLDOWN_DURATION) {
@@ -161,8 +174,10 @@ export default function App() {
 
     setBooking({ phase: "triggering" });
     doneAnim.setValue(0);
+    progressAnim.setValue(0);
     await saveCredentials();
     await AsyncStorage.setItem("hsp_triggered_at", String(Date.now()));
+    await AsyncStorage.setItem("hsp_last_booked_at", String(Date.now()));
 
     try {
       const res = await fetch(`${API_URL}/api/book`, {
@@ -201,27 +216,31 @@ export default function App() {
 
   if (!ready) {
     return (
-      <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#4A6CF7" />
-        </View>
-      </LinearGradient>
+      <SafeAreaProvider>
+        <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
+          <SafeAreaView style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#4A6CF7" />
+          </SafeAreaView>
+        </LinearGradient>
+      </SafeAreaProvider>
     );
   }
 
   return (
-    <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAvoidingView
-          style={styles.flex}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
-          <ScrollView
-            contentContainerStyle={styles.scroll}
-            keyboardShouldPersistTaps="handled"
+    <SafeAreaProvider>
+      <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
+        <SafeAreaView style={styles.flex}>
+          <KeyboardAvoidingView
+            style={styles.flex}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
           >
+            <ScrollView
+              contentContainerStyle={styles.scroll}
+              keyboardShouldPersistTaps="handled"
+            >
+            <Pressable onPress={Keyboard.dismiss} accessible={false}>
             <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
-          <View style={styles.card}>
+            <View style={styles.card}>
             <Text style={styles.title}>Book HSP training</Text>
             <Text style={styles.subtitle}>
               This will book the training session open for signup on
@@ -239,7 +258,9 @@ export default function App() {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="email"
               editable={!isLoading}
+              accessibilityLabel="Email address"
             />
 
             {/* Password */}
@@ -252,11 +273,15 @@ export default function App() {
                 placeholder="Password"
                 placeholderTextColor="#b0b8c9"
                 secureTextEntry={!showPassword}
+                autoComplete="password"
                 editable={!isLoading}
+                accessibilityLabel="Password"
               />
               <Pressable
                 style={styles.eyeBtn}
                 onPress={() => setShowPassword((v) => !v)}
+                accessibilityRole="button"
+                accessibilityLabel={showPassword ? "Hide password" : "Show password"}
               >
                 <Text style={styles.eyeText}>{showPassword ? "Hide" : "Show"}</Text>
               </Pressable>
@@ -274,6 +299,9 @@ export default function App() {
                   ]}
                   onPress={() => pickSport(s.key)}
                   disabled={isLoading}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: sport === s.key }}
+                  accessibilityLabel={`Select ${s.label}`}
                 >
                   <Text
                     style={[
@@ -292,6 +320,8 @@ export default function App() {
               style={[styles.bookBtn, isLoading && styles.bookBtnDisabled]}
               onPress={book}
               disabled={isLoading}
+              accessibilityRole="button"
+              accessibilityLabel={isLoading ? "Booking in progress" : "Book training session"}
             >
               {isLoading ? (
                 <View style={styles.loadingRow}>
@@ -310,10 +340,15 @@ export default function App() {
             {/* Progress bar */}
             {booking.phase === "waiting" && (
               <View style={styles.progressTrack}>
-                <View
+                <Animated.View
                   style={[
                     styles.progressFill,
-                    { width: `${((LOADING_DURATION - secondsLeft) / LOADING_DURATION) * 100}%` },
+                    {
+                      width: progressAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ["0%", "100%"],
+                      }),
+                    },
                   ]}
                 />
               </View>
@@ -330,22 +365,26 @@ export default function App() {
                 <Pressable
                   style={styles.dismissBtn}
                   onPress={() => setBooking({ phase: "idle" })}
+                  accessibilityRole="button"
+                  accessibilityLabel="Dismiss message"
                 >
                   <Text style={styles.dismissBtnText}>Dismiss</Text>
                 </Pressable>
               </Animated.View>
             )}
-          </View>
+            </View>
 
-          <Text style={styles.disclaimer}>
-            Your credentials are stored securely on this device and used only to
-            complete the booking. They are not stored anywhere else.
-          </Text>
-        </ScrollView>
-        <StatusBar style="dark" />
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <Text style={styles.disclaimer}>
+              Your credentials are stored securely on this device and used only to
+              complete the booking. They are not stored anywhere else.
+            </Text>
+            </Pressable>
+          </ScrollView>
+          <StatusBar style="dark" />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </LinearGradient>
+    </SafeAreaProvider>
   );
 }
 

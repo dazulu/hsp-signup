@@ -18,14 +18,16 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dazulu.hspsignup"
+      "bundleIdentifier": "com.dazulu.hspsignup",
+      "newArchEnabled": true
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "package": "com.dazulu.hspsignup"
+      "package": "com.dazulu.hspsignup",
+      "newArchEnabled": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
