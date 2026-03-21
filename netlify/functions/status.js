@@ -31,7 +31,8 @@ exports.handler = async (event) => {
   }
 
   try {
-    const run = await getLatestRun(token);
+    const after = event.queryStringParameters?.after || null;
+    const run = await getLatestRun(token, after);
     if (!run) {
       return {
         statusCode: 200,
@@ -58,12 +59,13 @@ exports.handler = async (event) => {
   }
 };
 
-function getLatestRun(token) {
+function getLatestRun(token, after) {
   return new Promise((resolve, reject) => {
+    const path = `/repos/${OWNER}/${REPO}/actions/runs?event=repository_dispatch&per_page=5`;
     const req = https.request(
       {
         hostname: "api.github.com",
-        path: `/repos/${OWNER}/${REPO}/actions/runs?event=repository_dispatch&per_page=1`,
+        path,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -80,7 +82,16 @@ function getLatestRun(token) {
             return reject(new Error(`GitHub ${res.statusCode}: ${body}`));
           }
           const data = JSON.parse(body);
-          resolve(data.workflow_runs?.[0] || null);
+          const runs = data.workflow_runs || [];
+          if (after) {
+            const afterTime = new Date(after).getTime();
+            const match = runs.find(
+              (r) => new Date(r.created_at).getTime() >= afterTime
+            );
+            resolve(match || null);
+          } else {
+            resolve(runs[0] || null);
+          }
         });
       }
     );
