@@ -49,9 +49,26 @@ export default function App() {
     sport: SportKey;
     bookedAt: number;
   } | null>(null);
+  const [debugOpen, setDebugOpen] = useState(false);
+  const debugTaps = useRef(0);
+  const debugTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const doneAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
+
+  const handleCrestTap = useCallback(() => {
+    if (!__DEV__) return;
+    debugTaps.current += 1;
+    if (debugTimer.current) clearTimeout(debugTimer.current);
+    if (debugTaps.current >= 3) {
+      debugTaps.current = 0;
+      setDebugOpen((v) => !v);
+    } else {
+      debugTimer.current = setTimeout(() => {
+        debugTaps.current = 0;
+      }, 500);
+    }
+  }, []);
 
   // Animate done state when booking completes
   useEffect(() => {
@@ -136,6 +153,31 @@ export default function App() {
       setReady(true);
     })();
   }, [startCountdown]);
+
+  // Debug helpers (dev only)
+  const debugFakeLoading = useCallback(() => {
+    setDebugOpen(false);
+    setBooking({ phase: "triggering" });
+    doneAnim.setValue(0);
+    progressAnim.setValue(0);
+    setTimeout(() => startCountdown(), 1500);
+  }, [startCountdown, doneAnim, progressAnim]);
+
+  const debugFakeLastBooking = useCallback(() => {
+    setDebugOpen(false);
+    setLastBooking({ sport: "hurling", bookedAt: Date.now() - 3600_000 });
+  }, []);
+
+  const debugReset = useCallback(() => {
+    setDebugOpen(false);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = null;
+    setBooking({ phase: "idle" });
+    setSecondsLeft(0);
+    setLastBooking(null);
+    progressAnim.setValue(0);
+    doneAnim.setValue(0);
+  }, [progressAnim, doneAnim]);
 
   // Clean up timer on unmount
   useEffect(() => {
@@ -237,7 +279,27 @@ export default function App() {
               keyboardShouldPersistTaps="handled"
             >
             <Pressable onPress={Keyboard.dismiss} accessible={false}>
-            <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
+            <Pressable onPress={handleCrestTap}>
+              <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
+            </Pressable>
+
+            {__DEV__ && debugOpen && (
+              <View style={styles.debugPanel}>
+                <Text style={styles.debugTitle}>Debug</Text>
+                <View style={styles.debugRow}>
+                  <Pressable style={styles.debugBtn} onPress={debugFakeLoading}>
+                    <Text style={styles.debugBtnText}>Fake Loading</Text>
+                  </Pressable>
+                  <Pressable style={styles.debugBtn} onPress={debugFakeLastBooking}>
+                    <Text style={styles.debugBtnText}>Fake Last Booking</Text>
+                  </Pressable>
+                  <Pressable style={[styles.debugBtn, styles.debugBtnReset]} onPress={debugReset}>
+                    <Text style={styles.debugBtnText}>Reset</Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+
             <View style={styles.card}>
             <Text style={styles.title}>Book Training</Text>
             <Text style={styles.subtitle}>
@@ -553,6 +615,40 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#6b7a99",
     fontWeight: "500",
+  },
+  debugPanel: {
+    backgroundColor: "#1a1f36",
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 12,
+  },
+  debugTitle: {
+    color: "#ff6b6b",
+    fontWeight: "700",
+    fontSize: 12,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  debugRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  debugBtn: {
+    flex: 1,
+    backgroundColor: "#2d3352",
+    borderRadius: 10,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  debugBtnReset: {
+    backgroundColor: "#4a2030",
+  },
+  debugBtnText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
   },
   disclaimer: {
     marginTop: 24,
