@@ -3,7 +3,9 @@ import { StatusBar } from "expo-status-bar";
 import {
   ActivityIndicator,
   Alert,
+  Animated,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -11,15 +13,18 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Haptics from "expo-haptics";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
 const LOADING_DURATION = 60; // seconds
+const COOLDOWN_DURATION = 120; // seconds — prevent re-booking too quickly
 
 const SPORTS = [
   { key: "hurling", label: "Hurling & Camogie" },
@@ -39,8 +44,10 @@ export default function App() {
   const [sport, setSport] = useState<SportKey>("hurling");
   const [booking, setBooking] = useState<BookingState>({ phase: "idle" });
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
   const [ready, setReady] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const doneAnim = useRef(new Animated.Value(0)).current;
 
   // Start countdown after booking is triggered
   const startCountdown = useCallback((remaining: number = LOADING_DURATION) => {
@@ -56,6 +63,12 @@ export default function App() {
           timerRef.current = null;
           AsyncStorage.removeItem("hsp_triggered_at");
           setBooking({ phase: "done" });
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          Animated.timing(doneAnim, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+          }).start();
           return 0;
         }
         return prev - 1;
@@ -94,6 +107,7 @@ export default function App() {
           // Timer expired while app was closed — show done state
           await AsyncStorage.removeItem("hsp_triggered_at");
           setBooking({ phase: "done" });
+          doneAnim.setValue(1);
         }
       }
 
@@ -131,7 +145,22 @@ export default function App() {
       return;
     }
 
+    // Cooldown: prevent re-booking too soon after a previous booking
+    const lastTriggered = await AsyncStorage.getItem("hsp_triggered_at");
+    if (lastTriggered) {
+      const elapsed = Math.floor((Date.now() - Number(lastTriggered)) / 1000);
+      if (elapsed < COOLDOWN_DURATION) {
+        const remaining = COOLDOWN_DURATION - elapsed;
+        Alert.alert(
+          "Please wait",
+          `You recently submitted a booking. Please wait ${remaining}s before trying again.`,
+        );
+        return;
+      }
+    }
+
     setBooking({ phase: "triggering" });
+    doneAnim.setValue(0);
     await saveCredentials();
     await AsyncStorage.setItem("hsp_triggered_at", String(Date.now()));
 
@@ -156,6 +185,7 @@ export default function App() {
       }
 
       startCountdown();
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch {
       await AsyncStorage.removeItem("hsp_triggered_at");
       setBooking({ phase: "idle" });
@@ -181,19 +211,20 @@ export default function App() {
 
   return (
     <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <ScrollView
-          contentContainerStyle={styles.scroll}
-          keyboardShouldPersistTaps="handled"
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          style={styles.flex}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
-          <Image source={require("./assets/crest.png")} style={styles.crest} />
+          <ScrollView
+            contentContainerStyle={styles.scroll}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
           <View style={styles.card}>
             <Text style={styles.title}>Book HSP training</Text>
             <Text style={styles.subtitle}>
-              This will book the training session currently open for signups on
+              This will book the training session open for signup on
               the Hochschulsport website
             </Text>
 
@@ -213,15 +244,23 @@ export default function App() {
 
             {/* Password */}
             <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              placeholder="Password"
-              placeholderTextColor="#b0b8c9"
-              secureTextEntry
-              editable={!isLoading}
-            />
+            <View style={styles.passwordRow}>
+              <TextInput
+                style={[styles.input, styles.passwordInput]}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Password"
+                placeholderTextColor="#b0b8c9"
+                secureTextEntry={!showPassword}
+                editable={!isLoading}
+              />
+              <Pressable
+                style={styles.eyeBtn}
+                onPress={() => setShowPassword((v) => !v)}
+              >
+                <Text style={styles.eyeText}>{showPassword ? "Hide" : "Show"}</Text>
+              </Pressable>
+            </View>
 
             {/* Sport picker */}
             <Text style={styles.label}>Sport</Text>
@@ -268,9 +307,21 @@ export default function App() {
               )}
             </Pressable>
 
+            {/* Progress bar */}
+            {booking.phase === "waiting" && (
+              <View style={styles.progressTrack}>
+                <View
+                  style={[
+                    styles.progressFill,
+                    { width: `${((LOADING_DURATION - secondsLeft) / LOADING_DURATION) * 100}%` },
+                  ]}
+                />
+              </View>
+            )}
+
             {/* Status message */}
             {booking.phase === "done" && (
-              <View style={styles.statusBox}>
+              <Animated.View style={[styles.statusBox, { opacity: doneAnim }]}>
                 <Text style={styles.statusText}>
                   You should receive a confirmation email shortly from
                   Hochschulsport Hamburg. If you have not received one within 10
@@ -282,7 +333,7 @@ export default function App() {
                 >
                   <Text style={styles.dismissBtnText}>Dismiss</Text>
                 </Pressable>
-              </View>
+              </Animated.View>
             )}
           </View>
 
@@ -293,6 +344,7 @@ export default function App() {
         </ScrollView>
         <StatusBar style="dark" />
       </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
     </LinearGradient>
   );
 }
@@ -301,10 +353,10 @@ const styles = StyleSheet.create({
   gradient: { flex: 1 },
   flex: { flex: 1 },
   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  scroll: { flexGrow: 1, justifyContent: "center", padding: 24, paddingVertical: 60 },
+  scroll: { flexGrow: 1, justifyContent: "center", padding: 24, paddingVertical: 40 },
   crest: {
-    width: 80,
-    height: 80,
+    width: 96,
+    height: 96,
     alignSelf: "center",
     marginBottom: 16,
   },
@@ -350,6 +402,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e8ecf4",
   },
+  passwordRow: {
+    flexDirection: "row",
+    alignItems: "stretch",
+  },
+  passwordInput: {
+    flex: 1,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderRightWidth: 0,
+  },
+  eyeBtn: {
+    backgroundColor: "#f4f6fb",
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderColor: "#e8ecf4",
+    borderTopRightRadius: 14,
+    borderBottomRightRadius: 14,
+    paddingHorizontal: 14,
+    justifyContent: "center",
+  },
+  eyeText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#4A6CF7",
+  },
   sportRow: { flexDirection: "row", gap: 10, marginTop: 6 },
   sportBtn: {
     flex: 1,
@@ -384,6 +461,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+  },
+  progressTrack: {
+    marginTop: 16,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#e8ecf4",
+    overflow: "hidden",
+  },
+  progressFill: {
+    height: "100%",
+    borderRadius: 3,
+    backgroundColor: "#4A6CF7",
   },
   statusBox: {
     marginTop: 20,
