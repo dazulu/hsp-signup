@@ -14,7 +14,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#11364E"
     },
     "ios": {
       "supportsTablet": true,
@@ -23,14 +23,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#11364E",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
       "package": "com.dazulu.hspsignup",
       "newArchEnabled": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "owner": "shiftyapplications"
   }
