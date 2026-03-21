@@ -1,5 +1,10 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
+import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -15,12 +20,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import * as Haptics from "expo-haptics";
-import * as SecureStore from "expo-secure-store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
@@ -91,44 +91,52 @@ export default function App() {
   }, [booking.phase, doneAnim]);
 
   // Start countdown after booking is triggered
-  const startCountdown = useCallback((remaining: number = LOADING_DURATION) => {
-    setSecondsLeft(remaining);
-    setBooking({ phase: "waiting" });
-    progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
+  const startCountdown = useCallback(
+    (remaining: number = LOADING_DURATION) => {
+      setSecondsLeft(remaining);
+      setBooking({ phase: "waiting" });
+      progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
 
-    // Animate progress bar smoothly to 100%
-    Animated.timing(progressAnim, {
-      toValue: 1,
-      duration: remaining * 1000,
-      useNativeDriver: false,
-    }).start();
+      // Animate progress bar smoothly to 100%
+      Animated.timing(progressAnim, {
+        toValue: 1,
+        duration: remaining * 1000,
+        useNativeDriver: false,
+      }).start();
 
-    timerRef.current = setInterval(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          if (timerRef.current) {
-            clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setSecondsLeft((prev) => {
+          if (prev <= 1) {
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            timerRef.current = null;
+            setBooking({ phase: "done" });
+            return 0;
           }
-          timerRef.current = null;
-          setBooking({ phase: "done" });
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  }, [progressAnim]);
+          return prev - 1;
+        });
+      }, 1000);
+    },
+    [progressAnim],
+  );
 
   // Load saved values on mount and resume countdown if active
   useEffect(() => {
     (async () => {
-      const [savedEmail, savedPassword, savedSport, savedTriggeredAt, savedLastBooking] =
-        await Promise.all([
-          SecureStore.getItemAsync("hsp_email"),
-          SecureStore.getItemAsync("hsp_password"),
-          AsyncStorage.getItem("hsp_sport"),
-          AsyncStorage.getItem("hsp_triggered_at"),
-          AsyncStorage.getItem("hsp_last_booking"),
-        ]);
+      const [
+        savedEmail,
+        savedPassword,
+        savedSport,
+        savedTriggeredAt,
+        savedLastBooking,
+      ] = await Promise.all([
+        SecureStore.getItemAsync("hsp_email"),
+        SecureStore.getItemAsync("hsp_password"),
+        AsyncStorage.getItem("hsp_sport"),
+        AsyncStorage.getItem("hsp_triggered_at"),
+        AsyncStorage.getItem("hsp_last_booking"),
+      ]);
       if (savedEmail) {
         setEmail(savedEmail);
       }
@@ -160,7 +168,7 @@ export default function App() {
 
       setReady(true);
     })();
-  }, [startCountdown]);
+  }, [startCountdown, doneAnim.setValue]);
 
   // Debug helpers (dev only)
   const debugFakeLoading = useCallback(() => {
@@ -225,7 +233,10 @@ export default function App() {
     const now = Date.now();
     await AsyncStorage.setItem("hsp_triggered_at", String(now));
     const bookingRecord = { sport, bookedAt: now };
-    await AsyncStorage.setItem("hsp_last_booking", JSON.stringify(bookingRecord));
+    await AsyncStorage.setItem(
+      "hsp_last_booking",
+      JSON.stringify(bookingRecord),
+    );
     setLastBooking(bookingRecord);
 
     try {
@@ -258,7 +269,16 @@ export default function App() {
         "Couldn't connect. Check your internet and try again.",
       );
     }
-  }, [email, password, sport, saveCredentials, startCountdown]);
+  }, [
+    email,
+    password,
+    sport,
+    saveCredentials,
+    startCountdown,
+    doneAnim.setValue,
+    doneAnim.stopAnimation,
+    progressAnim.setValue,
+  ]);
 
   const isLoading =
     booking.phase === "triggering" || booking.phase === "waiting";
@@ -267,7 +287,10 @@ export default function App() {
   if (!ready || !fontsLoaded) {
     return (
       <SafeAreaProvider>
-        <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
+        <LinearGradient
+          colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
+          style={styles.gradient}
+        >
           <SafeAreaView style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#4A6CF7" />
           </SafeAreaView>
@@ -278,7 +301,10 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <LinearGradient colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]} style={styles.gradient}>
+      <LinearGradient
+        colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
+        style={styles.gradient}
+      >
         <SafeAreaView style={styles.flex}>
           <KeyboardAvoidingView
             style={styles.flex}
@@ -288,188 +314,225 @@ export default function App() {
               contentContainerStyle={styles.scroll}
               keyboardShouldPersistTaps="handled"
             >
-            <Pressable onPress={Keyboard.dismiss} accessible={false}>
-            <Pressable onPress={handleCrestTap}>
-              <Image source={require("./assets/crest.png")} style={styles.crest} resizeMode="contain" />
-            </Pressable>
+              <Pressable onPress={Keyboard.dismiss} accessible={false}>
+                <Pressable onPress={handleCrestTap}>
+                  <Image
+                    source={require("./assets/crest.png")}
+                    style={styles.crest}
+                    resizeMode="contain"
+                  />
+                </Pressable>
 
-            {__DEV__ && debugOpen && (
-              <View style={styles.debugPanel}>
-                <Text style={styles.debugTitle}>Debug</Text>
-                <View style={styles.debugRow}>
-                  <Pressable style={styles.debugBtn} onPress={debugFakeLoading}>
-                    <Text style={styles.debugBtnText}>Fake Loading</Text>
+                {__DEV__ && debugOpen && (
+                  <View style={styles.debugPanel}>
+                    <Text style={styles.debugTitle}>Debug</Text>
+                    <View style={styles.debugRow}>
+                      <Pressable
+                        style={styles.debugBtn}
+                        onPress={debugFakeLoading}
+                      >
+                        <Text style={styles.debugBtnText}>Fake Loading</Text>
+                      </Pressable>
+                      <Pressable
+                        style={styles.debugBtn}
+                        onPress={debugFakeLastBooking}
+                      >
+                        <Text style={styles.debugBtnText}>
+                          Fake Last Booking
+                        </Text>
+                      </Pressable>
+                      <Pressable
+                        style={[styles.debugBtn, styles.debugBtnReset]}
+                        onPress={debugReset}
+                      >
+                        <Text style={styles.debugBtnText}>Reset</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                )}
+
+                <View style={styles.card}>
+                  <Text style={styles.title}>Book Training</Text>
+                  <Text style={styles.subtitle}>
+                    Books the next available training session open for signup on
+                    the Hochschulsport website.
+                  </Text>
+
+                  {/* Email */}
+                  <Text style={styles.label}>Hochschulsport Email</Text>
+                  <TextInput
+                    style={[styles.input, isLoading && styles.inputDisabled]}
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="you@example.com"
+                    placeholderTextColor="#b0b8c9"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    autoComplete="email"
+                    editable={!isLoading}
+                    accessibilityLabel="Email address"
+                  />
+
+                  {/* Password */}
+                  <Text style={styles.label}>Hochschulsport Password</Text>
+                  <View style={styles.passwordRow}>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        styles.passwordInput,
+                        isLoading && styles.inputDisabled,
+                      ]}
+                      value={password}
+                      onChangeText={setPassword}
+                      placeholder="Password"
+                      placeholderTextColor="#b0b8c9"
+                      secureTextEntry={!showPassword}
+                      autoComplete="password"
+                      editable={!isLoading}
+                      accessibilityLabel="Password"
+                    />
+                    <Pressable
+                      style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
+                      onPress={() => setShowPassword((v) => !v)}
+                      disabled={isLoading}
+                      accessibilityRole="button"
+                      accessibilityLabel={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      <Text style={styles.eyeText}>
+                        {showPassword ? "Hide" : "Show"}
+                      </Text>
+                    </Pressable>
+                  </View>
+
+                  {/* Sport picker */}
+                  <Text style={styles.label}>Sport</Text>
+                  <View style={styles.sportRow}>
+                    {SPORTS.map((s) => (
+                      <Pressable
+                        key={s.key}
+                        style={[
+                          styles.sportBtn,
+                          sport === s.key && styles.sportBtnActive,
+                          isLoading && styles.sportBtnDisabled,
+                        ]}
+                        onPress={() => pickSport(s.key)}
+                        disabled={isLoading}
+                        accessibilityRole="button"
+                        accessibilityState={{ selected: sport === s.key }}
+                        accessibilityLabel={`Select ${s.label}`}
+                      >
+                        <Text
+                          style={[
+                            styles.sportBtnText,
+                            sport === s.key && styles.sportBtnTextActive,
+                          ]}
+                        >
+                          {s.label}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </View>
+
+                  {/* Book button */}
+                  <Pressable
+                    style={[styles.bookBtn, !canBook && styles.bookBtnDisabled]}
+                    onPress={book}
+                    disabled={!canBook}
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                      isLoading
+                        ? "Booking in progress"
+                        : "Book training session"
+                    }
+                  >
+                    {isLoading ? (
+                      <View style={styles.loadingRow}>
+                        <ActivityIndicator color="#fff" size="small" />
+                        <Text style={styles.bookBtnText}>
+                          {booking.phase === "triggering"
+                            ? "Sending…"
+                            : `Booking in progress… ${secondsLeft}s`}
+                        </Text>
+                      </View>
+                    ) : (
+                      <Text style={styles.bookBtnText}>Book</Text>
+                    )}
                   </Pressable>
-                  <Pressable style={styles.debugBtn} onPress={debugFakeLastBooking}>
-                    <Text style={styles.debugBtnText}>Fake Last Booking</Text>
-                  </Pressable>
-                  <Pressable style={[styles.debugBtn, styles.debugBtnReset]} onPress={debugReset}>
-                    <Text style={styles.debugBtnText}>Reset</Text>
-                  </Pressable>
+
+                  {/* Progress bar */}
+                  {booking.phase === "waiting" && (
+                    <View style={styles.progressTrack}>
+                      <Animated.View
+                        style={[
+                          styles.progressFill,
+                          {
+                            width: progressAnim.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: ["0%", "100%"],
+                            }),
+                          },
+                        ]}
+                      />
+                    </View>
+                  )}
+
+                  {/* Status message */}
+                  {booking.phase === "done" && (
+                    <Animated.View
+                      style={[styles.statusBox, { opacity: doneAnim }]}
+                    >
+                      <Text style={styles.statusText}>
+                        You should receive a confirmation email shortly from
+                        Hochschulsport Hamburg. If you have not received one
+                        within 10 minutes, try again.
+                      </Text>
+                      <Pressable
+                        style={styles.dismissBtn}
+                        onPress={() => setBooking({ phase: "idle" })}
+                        accessibilityRole="button"
+                        accessibilityLabel="Dismiss message"
+                      >
+                        <Text style={styles.dismissBtnText}>Dismiss</Text>
+                      </Pressable>
+                    </Animated.View>
+                  )}
                 </View>
-              </View>
-            )}
 
-            <View style={styles.card}>
-            <Text style={styles.title}>Book Training</Text>
-            <Text style={styles.subtitle}>
-              Books the next available training session open for signup on
-              the Hochschulsport website.
-            </Text>
-
-            {/* Email */}
-            <Text style={styles.label}>Hochschulsport Email</Text>
-            <TextInput
-              style={[styles.input, isLoading && styles.inputDisabled]}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="you@example.com"
-              placeholderTextColor="#b0b8c9"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              autoComplete="email"
-              editable={!isLoading}
-              accessibilityLabel="Email address"
-            />
-
-            {/* Password */}
-            <Text style={styles.label}>Hochschulsport Password</Text>
-            <View style={styles.passwordRow}>
-              <TextInput
-                style={[styles.input, styles.passwordInput, isLoading && styles.inputDisabled]}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Password"
-                placeholderTextColor="#b0b8c9"
-                secureTextEntry={!showPassword}
-                autoComplete="password"
-                editable={!isLoading}
-                accessibilityLabel="Password"
-              />
-              <Pressable
-                style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
-                onPress={() => setShowPassword((v) => !v)}
-                disabled={isLoading}
-                accessibilityRole="button"
-                accessibilityLabel={showPassword ? "Hide password" : "Show password"}
-              >
-                <Text style={styles.eyeText}>{showPassword ? "Hide" : "Show"}</Text>
-              </Pressable>
-            </View>
-
-            {/* Sport picker */}
-            <Text style={styles.label}>Sport</Text>
-            <View style={styles.sportRow}>
-              {SPORTS.map((s) => (
-                <Pressable
-                  key={s.key}
-                  style={[
-                    styles.sportBtn,
-                    sport === s.key && styles.sportBtnActive,
-                    isLoading && styles.sportBtnDisabled,
-                  ]}
-                  onPress={() => pickSport(s.key)}
-                  disabled={isLoading}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: sport === s.key }}
-                  accessibilityLabel={`Select ${s.label}`}
-                >
-                  <Text
+                {lastBooking && booking.phase === "idle" && (
+                  <View
                     style={[
-                      styles.sportBtnText,
-                      sport === s.key && styles.sportBtnTextActive,
+                      styles.lastBookingBox,
+                      isRecentBooking(lastBooking.bookedAt) &&
+                        styles.lastBookingRecent,
                     ]}
                   >
-                    {s.label}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
+                    <Text
+                      style={[
+                        styles.lastBookingText,
+                        isRecentBooking(lastBooking.bookedAt) &&
+                          styles.lastBookingTextRecent,
+                      ]}
+                    >
+                      {"\u2713"}{" "}
+                      {SPORTS.find((s) => s.key === lastBooking.sport)?.label}{" "}
+                      {"\u00B7"} {formatTimeAgo(lastBooking.bookedAt)}
+                    </Text>
+                  </View>
+                )}
 
-            {/* Book button */}
-            <Pressable
-              style={[styles.bookBtn, !canBook && styles.bookBtnDisabled]}
-              onPress={book}
-              disabled={!canBook}
-              accessibilityRole="button"
-              accessibilityLabel={isLoading ? "Booking in progress" : "Book training session"}
-            >
-              {isLoading ? (
-                <View style={styles.loadingRow}>
-                  <ActivityIndicator color="#fff" size="small" />
-                  <Text style={styles.bookBtnText}>
-                    {booking.phase === "triggering"
-                      ? "Sending…"
-                      : `Booking in progress… ${secondsLeft}s`}
-                  </Text>
-                </View>
-              ) : (
-                <Text style={styles.bookBtnText}>Book</Text>
-              )}
-            </Pressable>
-
-            {/* Progress bar */}
-            {booking.phase === "waiting" && (
-              <View style={styles.progressTrack}>
-                <Animated.View
-                  style={[
-                    styles.progressFill,
-                    {
-                      width: progressAnim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ["0%", "100%"],
-                      }),
-                    },
-                  ]}
-                />
-              </View>
-            )}
-
-            {/* Status message */}
-            {booking.phase === "done" && (
-              <Animated.View style={[styles.statusBox, { opacity: doneAnim }]}>
-                <Text style={styles.statusText}>
-                  You should receive a confirmation email shortly from
-                  Hochschulsport Hamburg. If you have not received one within 10
-                  minutes, try again.
+                <Text style={styles.disclaimer}>
+                  Your credentials are stored securely on this device and used
+                  only to complete the booking.
                 </Text>
-                <Pressable
-                  style={styles.dismissBtn}
-                  onPress={() => setBooking({ phase: "idle" })}
-                  accessibilityRole="button"
-                  accessibilityLabel="Dismiss message"
-                >
-                  <Text style={styles.dismissBtnText}>Dismiss</Text>
-                </Pressable>
-              </Animated.View>
-            )}
-            </View>
-
-            {lastBooking && booking.phase === "idle" && (
-              <View style={[
-                styles.lastBookingBox,
-                isRecentBooking(lastBooking.bookedAt) && styles.lastBookingRecent,
-              ]}>
-                <Text style={[
-                  styles.lastBookingText,
-                  isRecentBooking(lastBooking.bookedAt) && styles.lastBookingTextRecent,
-                ]}>
-                  {"\u2713"} {SPORTS.find((s) => s.key === lastBooking.sport)?.label} {"\u00B7"} {formatTimeAgo(lastBooking.bookedAt)}
-                </Text>
-              </View>
-            )}
-
-            <Text style={styles.disclaimer}>
-              Your credentials are stored securely on this device and used only to
-              complete the booking.
-            </Text>
-            </Pressable>
-          </ScrollView>
-          <StatusBar style="dark" />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </LinearGradient>
+              </Pressable>
+            </ScrollView>
+            <StatusBar style="dark" />
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </LinearGradient>
     </SafeAreaProvider>
   );
 }
@@ -495,7 +558,12 @@ const styles = StyleSheet.create({
   gradient: { flex: 1 },
   flex: { flex: 1 },
   loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-  scroll: { flexGrow: 1, justifyContent: "center", padding: 24, paddingVertical: 40 },
+  scroll: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 24,
+    paddingVertical: 40,
+  },
   crest: {
     width: 96,
     height: 96,
@@ -594,7 +662,12 @@ const styles = StyleSheet.create({
   sportBtnDisabled: {
     opacity: 0.5,
   },
-  sportBtnText: { fontSize: 14, fontFamily: "jakarta-600", color: "#6b7a99", includeFontPadding: false },
+  sportBtnText: {
+    fontSize: 14,
+    fontFamily: "jakarta-600",
+    color: "#6b7a99",
+    includeFontPadding: false,
+  },
   sportBtnTextActive: { color: "#fff" },
   bookBtn: {
     marginTop: 28,
@@ -608,8 +681,19 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
   },
-  bookBtnDisabled: { backgroundColor: "#A0AEC0", shadowOpacity: 0, elevation: 0, opacity: 0.7 },
-  bookBtnText: { color: "#fff", fontSize: 17, fontFamily: "jakarta-700", letterSpacing: 0.3, includeFontPadding: false },
+  bookBtnDisabled: {
+    backgroundColor: "#A0AEC0",
+    shadowOpacity: 0,
+    elevation: 0,
+    opacity: 0.7,
+  },
+  bookBtnText: {
+    color: "#fff",
+    fontSize: 17,
+    fontFamily: "jakarta-700",
+    letterSpacing: 0.3,
+    includeFontPadding: false,
+  },
   loadingRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -633,7 +717,12 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     backgroundColor: "#eef7ee",
   },
-  statusText: { fontSize: 14, fontFamily: "jakarta-400", lineHeight: 21, color: "#2e7d32" },
+  statusText: {
+    fontSize: 14,
+    fontFamily: "jakarta-400",
+    lineHeight: 21,
+    color: "#2e7d32",
+  },
   dismissBtn: { marginTop: 12, alignSelf: "center" },
   dismissBtnText: { color: "#4A6CF7", fontFamily: "jakarta-600", fontSize: 14 },
   lastBookingBox: {

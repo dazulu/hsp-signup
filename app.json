@@ -30,8 +30,6 @@
       "newArchEnabled": true
     },
     "owner": "shiftyapplications",
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }

@@ -1,4 +1,4 @@
-const https = require("https");
+const https = require("node:https");
 
 const OWNER = "dazulu";
 const REPO = "hsp-signup";
@@ -96,9 +96,9 @@ function dispatch(token, sport, hspEmail, hspPassword) {
         let body = "";
         res.on("data", (c) => (body += c));
         res.on("end", () =>
-          reject(new Error(`GitHub ${res.statusCode}: ${body}`))
+          reject(new Error(`GitHub ${res.statusCode}: ${body}`)),
         );
-      }
+      },
     );
     req.on("error", reject);
     req.write(payload);

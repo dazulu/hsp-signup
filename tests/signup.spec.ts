@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -9,7 +9,7 @@ if (!process.env.HSP_EMAIL || !process.env.HSP_PASSWORD) {
 
 test("Book Hurling und Camogie course", async ({ context, page }) => {
   await page.goto(
-    "https://www.hochschulsport.uni-hamburg.de/sportcampus/vona-z.html"
+    "https://www.hochschulsport.uni-hamburg.de/sportcampus/vona-z.html",
   );
 
   // Switch sport depending on SELECTED_SPORT from workflow trigger
@@ -17,7 +17,6 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
     case "football":
       await page.click('a:has-text("Gaelic Football")');
       break;
-    case "hurling":
     default:
       await page.click('a:has-text("Hurling und Camogie")');
       break;
@@ -34,7 +33,7 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   await Promise.all([
     newPage.waitForResponse(
       (response) =>
-        response.url().includes("anmeldung.fcgi") && response.status() === 200
+        response.url().includes("anmeldung.fcgi") && response.status() === 200,
     ),
     newPage.click('input[type="submit"][value="buchen"]'),
   ]);
@@ -44,9 +43,9 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   // Note: had to hook into their js function "toggle_pwa" to trigger this form
   await newPage.waitForSelector("#bs_pw_anmlink", { state: "attached" });
   await newPage.evaluate(() => {
-    // @ts-ignore
+    // @ts-expect-error
     if (typeof toggle_pwa === "function") {
-      // @ts-ignore
+      // @ts-expect-error
       toggle_pwa();
     } else {
       console.error("toggle_pwa function not found");
@@ -70,8 +69,13 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
   await newPage.waitForLoadState("networkidle");
 
   // Capture booking result
-  await newPage.screenshot({ path: "test-results/booking-result.png", fullPage: true });
+  await newPage.screenshot({
+    path: "test-results/booking-result.png",
+    fullPage: true,
+  });
 
   // Verify successful booking
-  await expect(newPage.locator('text=You have made a confirmed registration for offer')).toBeVisible();
+  await expect(
+    newPage.locator("text=You have made a confirmed registration for offer"),
+  ).toBeVisible();
 });
