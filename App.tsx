@@ -65,9 +65,13 @@ export default function App() {
   const progressAnim = useRef(new Animated.Value(0)).current;
 
   const handleCrestTap = useCallback(() => {
-    if (!__DEV__) return;
+    if (!__DEV__) {
+      return;
+    }
     debugTaps.current += 1;
-    if (debugTimer.current) clearTimeout(debugTimer.current);
+    if (debugTimer.current) {
+      clearTimeout(debugTimer.current);
+    }
     if (debugTaps.current >= 15) {
       debugTaps.current = 0;
       setDebugOpen((v) => !v);
@@ -187,7 +191,9 @@ export default function App() {
 
   const debugReset = useCallback(() => {
     setDebugOpen(false);
-    if (timerRef.current) clearInterval(timerRef.current);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
     timerRef.current = null;
     setBooking({ phase: "idle" });
     setSecondsLeft(0);
@@ -543,14 +549,24 @@ function isRecentBooking(timestamp: number): boolean {
 
 function formatTimeAgo(timestamp: number): string {
   const seconds = Math.floor((Date.now() - timestamp) / 1000);
-  if (seconds < 60) return "just now";
+  if (seconds < 60) {
+    return "just now";
+  }
   const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 60) {
+    return `${minutes}m ago`;
+  }
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) {
+    return `${hours}h ago`;
+  }
   const days = Math.floor(hours / 24);
-  if (days === 1) return "yesterday";
-  if (days < 30) return `${days}d ago`;
+  if (days === 1) {
+    return "yesterday";
+  }
+  if (days < 30) {
+    return `${days}d ago`;
+  }
   return new Date(timestamp).toLocaleDateString();
 }
 
