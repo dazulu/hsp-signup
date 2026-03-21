@@ -21,3 +21,6 @@ npm-debug.*
 .env
 # Local Netlify folder
 .netlify
+
+android/
+ios/
