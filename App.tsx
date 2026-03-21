@@ -41,7 +41,7 @@ type BookingState =
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [sport, setSport] = useState<SportKey>("hurling");
+  const [sport, setSport] = useState<SportKey | null>(null);
   const [booking, setBooking] = useState<BookingState>({ phase: "idle" });
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -153,8 +153,7 @@ export default function App() {
 
   // Book
   const book = useCallback(async () => {
-    if (!email || !password) {
-      Alert.alert("Missing details", "Please enter your email and password.");
+    if (!email || !password || !sport) {
       return;
     }
 
@@ -213,6 +212,7 @@ export default function App() {
 
   const isLoading =
     booking.phase === "triggering" || booking.phase === "waiting";
+  const canBook = !!(email && password && sport) && !isLoading;
 
   if (!ready) {
     return (
@@ -317,9 +317,9 @@ export default function App() {
 
             {/* Book button */}
             <Pressable
-              style={[styles.bookBtn, isLoading && styles.bookBtnDisabled]}
+              style={[styles.bookBtn, !canBook && styles.bookBtnDisabled]}
               onPress={book}
-              disabled={isLoading}
+              disabled={!canBook}
               accessibilityRole="button"
               accessibilityLabel={isLoading ? "Booking in progress" : "Book training session"}
             >
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
   },
-  bookBtnDisabled: { opacity: 0.6 },
+  bookBtnDisabled: { backgroundColor: "#A0AEC0", shadowOpacity: 0, elevation: 0, opacity: 0.7 },
   bookBtnText: { color: "#fff", fontSize: 17, fontWeight: "700", letterSpacing: 0.3 },
   loadingRow: {
     flexDirection: "row",
