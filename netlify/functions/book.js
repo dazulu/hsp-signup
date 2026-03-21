@@ -92,7 +92,9 @@ function dispatch(token, sport, hspEmail, hspPassword) {
         },
       },
       (res) => {
-        if (res.statusCode === 204) return resolve();
+        if (res.statusCode === 204) {
+          return resolve();
+        }
         let body = "";
         res.on("data", (c) => (body += c));
         res.on("end", () =>
