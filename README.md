@@ -1,17 +1,17 @@
-# HSP Course Booking Automation
+# Hamburg GAA — HSP Booking
 
-This repository contains a Playwright script run as a manual Github action trigger to automate the process of booking sports courses at the Hochschulsport Hamburg website.
+The Hochschulsport (HSP) Hamburg website uses a clunky, multi-step signup process that requires navigating several pages, logging in through a non-standard form, and clicking through confirmations — all within a tight enrollment window. This app removes that friction.
 
-## How to use?
+## How it works
 
-This repository includes a GitHub Actions workflow that can be triggered manually. To use it:
+A simple Expo mobile app that triggers an automated booking with one tap:
 
-1. Go to the "Actions" tab in your GitHub repository
-2. Select the "Sign up to HSP training" workflow
-3. Choose either "hurling" or "football" from the dropdown menu
-4. Click "Run workflow"
+1. **You** enter your HSP credentials and pick a sport (Hurling or Gaelic Football)
+2. **The app** sends a request to a Netlify function, which triggers a GitHub Actions workflow
+3. **The workflow** runs a Playwright script that navigates the HSP website, logs in, and completes the booking on your behalf
+4. **You** get a confirmation email directly from Hochschulsport Hamburg
 
-Note: Make sure to set up the `HSP_EMAIL` and `HSP_PASSWORD` secrets in your GitHub repository settings before running the workflow.
+Credentials are stored locally on-device using Expo SecureStore and are never persisted anywhere else.
 
 ## License
 
