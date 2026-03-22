@@ -175,7 +175,6 @@ export const styles = StyleSheet.create({
   },
   dismissBtn: { marginTop: 12, alignSelf: "center" },
   dismissBtnText: { color: "#4A6CF7", fontFamily: "jakarta-600", fontSize: 14 },
-  progressFillFull: { width: "100%" },
   statusBoxError: { backgroundColor: "#fdecea" },
   statusBoxNeutral: { backgroundColor: "#f4f6fb" },
   statusTextError: { color: "#c62828" },

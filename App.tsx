@@ -41,12 +41,10 @@ export default function App() {
     book,
     dismiss,
     checkAgain,
-    secondsLeft,
     lastBooking,
     ready,
     doneAnim,
     progressAnim,
-    pulseAnim,
     debugOpen,
     handleCrestTap,
     debugFakeLoading,
@@ -117,8 +115,8 @@ export default function App() {
                 <View style={styles.card}>
                   <Text style={styles.title}>Book Training</Text>
                   <Text style={styles.subtitle}>
-                    Books the next available training session open for signup on
-                    the Hochschulsport website.
+                    Automatically books your next available Hamburg GAA training
+                    session.
                   </Text>
 
                   {/* Email */}
@@ -216,10 +214,10 @@ export default function App() {
                         <ActivityIndicator color="#fff" size="small" />
                         <Text style={styles.bookBtnText}>
                           {booking.phase === "triggering"
-                            ? "Sending…"
+                            ? "Starting…"
                             : booking.phase === "polling"
-                              ? "Checking result…"
-                              : `Booking in progress… ${secondsLeft}s`}
+                              ? "Checking…"
+                              : "Booking in progress…"}
                         </Text>
                       </View>
                     ) : (
@@ -228,30 +226,19 @@ export default function App() {
                   </Pressable>
 
                   {/* Progress bar */}
-                  {(booking.phase === "waiting" ||
-                    booking.phase === "polling") && (
+                  {booking.phase === "waiting" && (
                     <View style={styles.progressTrack}>
-                      {booking.phase === "waiting" ? (
-                        <Animated.View
-                          style={[
-                            styles.progressFill,
-                            {
-                              width: progressAnim.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: ["0%", "100%"],
-                              }),
-                            },
-                          ]}
-                        />
-                      ) : (
-                        <Animated.View
-                          style={[
-                            styles.progressFill,
-                            styles.progressFillFull,
-                            { opacity: pulseAnim },
-                          ]}
-                        />
-                      )}
+                      <Animated.View
+                        style={[
+                          styles.progressFill,
+                          {
+                            width: progressAnim.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: ["0%", "100%"],
+                            }),
+                          },
+                        ]}
+                      />
                     </View>
                   )}
 
@@ -261,9 +248,9 @@ export default function App() {
                       style={[styles.statusBox, { opacity: doneAnim }]}
                     >
                       <Text style={styles.statusText}>
-                        You should receive an email shortly from Hochschulsport
-                        Hamburg. If you have not received one within 10 minutes,
-                        try again.
+                        Booked! You'll get a confirmation email from
+                        Hochschulsport Hamburg. Nothing within 10 minutes? Try
+                        again.
                       </Text>
                       <Pressable
                         style={styles.dismissBtn}
@@ -286,8 +273,8 @@ export default function App() {
                       ]}
                     >
                       <Text style={[styles.statusText, styles.statusTextError]}>
-                        Booking unsuccessful. Ensure you have an active
-                        Hochschulsport Hamburg account with paid membership.
+                        Booking failed. Check your login details and that your
+                        Hochschulsport Hamburg membership is active.
                       </Text>
                       <Pressable
                         style={styles.dismissBtn}
@@ -312,8 +299,9 @@ export default function App() {
                       <Text
                         style={[styles.statusText, styles.statusTextNeutral]}
                       >
-                        Could not confirm success. If you don't receive a
-                        confirmation email within 10 minutes, try again.
+                        Couldn't confirm the result. Check your email — if
+                        nothing from Hochschulsport Hamburg arrives within 10
+                        minutes, try again.
                       </Text>
                       <View style={styles.statusBtnRow}>
                         <Pressable

@@ -46,7 +46,6 @@ export function useBooking() {
   } = useCredentials();
   const [sport, setSport] = useState<SportKey | null>(null);
   const [booking, setBooking] = useState<BookingState>({ phase: "idle" });
-  const [secondsLeft, setSecondsLeft] = useState(0);
   const [ready, setReady] = useState(false);
   const [lastBooking, setLastBooking] = useState<{
     sport: SportKey;
@@ -57,9 +56,9 @@ export function useBooking() {
   const debugTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const countdownRef = useRef(0);
   const doneAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
-  const pulseAnim = useRef(new Animated.Value(0)).current;
   const sportRef = useRef<SportKey | null>(null);
 
   const handleCrestTap = useCallback(() => {
@@ -105,7 +104,6 @@ export function useBooking() {
   // Start countdown after booking is triggered
   const startCountdown = useCallback(
     (correlationId: string, remaining: number = LOADING_DURATION) => {
-      setSecondsLeft(remaining);
       setBooking({ phase: "waiting", correlationId });
       progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
 
@@ -116,18 +114,16 @@ export function useBooking() {
         useNativeDriver: false,
       }).start();
 
+      countdownRef.current = remaining;
       timerRef.current = setInterval(() => {
-        setSecondsLeft((prev) => {
-          if (prev <= 1) {
-            if (timerRef.current) {
-              clearInterval(timerRef.current);
-            }
-            timerRef.current = null;
-            setBooking({ phase: "polling", correlationId });
-            return 0;
+        countdownRef.current -= 1;
+        if (countdownRef.current <= 0) {
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
           }
-          return prev - 1;
-        });
+          timerRef.current = null;
+          setBooking({ phase: "polling", correlationId });
+        }
       }, 1000);
     },
     [progressAnim],
@@ -214,32 +210,6 @@ export function useBooking() {
       }
     };
   }, [booking]);
-
-  // Pulse animation while polling
-  useEffect(() => {
-    if (booking.phase === "polling") {
-      pulseAnim.setValue(0.3);
-      const animation = Animated.loop(
-        Animated.sequence([
-          Animated.timing(pulseAnim, {
-            toValue: 1,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-          Animated.timing(pulseAnim, {
-            toValue: 0.3,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-        ]),
-      );
-      animation.start();
-      return () => {
-        animation.stop();
-        pulseAnim.setValue(0);
-      };
-    }
-  }, [booking.phase, pulseAnim]);
 
   // Load saved values on mount and resume countdown if active
   useEffect(() => {
@@ -329,17 +299,15 @@ export function useBooking() {
     }
     pollRef.current = null;
     setBooking({ phase: "idle" });
-    setSecondsLeft(0);
     setLastBooking(null);
     progressAnim.setValue(0);
     doneAnim.setValue(0);
-    pulseAnim.setValue(0);
     AsyncStorage.multiRemove([
       "hsp_triggered_at",
       "hsp_correlation_id",
       "hsp_last_booking",
     ]);
-  }, [progressAnim, doneAnim, pulseAnim]);
+  }, [progressAnim, doneAnim]);
 
   // Clean up timers on unmount
   useEffect(() => {
@@ -461,12 +429,10 @@ export function useBooking() {
     book,
     dismiss,
     checkAgain,
-    secondsLeft,
     lastBooking,
     ready,
     doneAnim,
     progressAnim,
-    pulseAnim,
     debugOpen,
     handleCrestTap,
     debugFakeLoading,
