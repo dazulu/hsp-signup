@@ -22,7 +22,8 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "./secureStore";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
+const API_URL =
+  Platform.OS === "web" ? "" : (process.env.EXPO_PUBLIC_API_URL ?? "");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
 const LOADING_DURATION = 50; // seconds — wait before polling begins
 const POLL_INTERVAL_MS = 10_000;
@@ -97,11 +98,13 @@ export default function App() {
       booking.phase === "failure" ||
       booking.phase === "timeout"
     ) {
-      Haptics.notificationAsync(
-        booking.phase === "success"
-          ? Haptics.NotificationFeedbackType.Success
-          : Haptics.NotificationFeedbackType.Error,
-      );
+      if (Platform.OS !== "web") {
+        Haptics.notificationAsync(
+          booking.phase === "success"
+            ? Haptics.NotificationFeedbackType.Success
+            : Haptics.NotificationFeedbackType.Error,
+        );
+      }
       Animated.timing(doneAnim, {
         toValue: 1,
         duration: 400,
@@ -450,7 +453,9 @@ export default function App() {
       }
 
       startCountdown(correlationId);
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      if (Platform.OS !== "web") {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      }
     } catch {
       await Promise.all([
         AsyncStorage.removeItem("hsp_triggered_at"),
@@ -508,7 +513,10 @@ export default function App() {
               contentContainerStyle={styles.scroll}
               keyboardShouldPersistTaps="handled"
             >
-              <Pressable onPress={Platform.OS !== "web" ? Keyboard.dismiss : undefined} accessible={false}>
+              <Pressable
+                onPress={Platform.OS !== "web" ? Keyboard.dismiss : undefined}
+                accessible={false}
+              >
                 <Pressable onPress={handleCrestTap}>
                   <Image
                     source={require("./assets/crest.png")}
