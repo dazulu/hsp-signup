@@ -46,12 +46,13 @@ export default function App() {
     doneAnim,
     progressAnim,
     debugOpen,
-    handleCrestTap,
+    handleDebugTap,
     debugFakeLoading,
     debugFakeSuccess,
     debugFakeFailure,
     debugFakeLastBooking,
     debugReset,
+    debugClose,
   } = useBooking();
 
   const isLoading =
@@ -93,14 +94,13 @@ export default function App() {
               <Pressable
                 onPress={Platform.OS !== "web" ? Keyboard.dismiss : undefined}
                 accessible={false}
+                style={Platform.OS === "web" ? { cursor: "auto" } : undefined}
               >
-                <Pressable onPress={handleCrestTap}>
-                  <Image
-                    source={require("./assets/crest.png")}
-                    style={styles.crest}
-                    resizeMode="contain"
-                  />
-                </Pressable>
+                <Image
+                  source={require("./assets/crest.png")}
+                  style={styles.crest}
+                  resizeMode="contain"
+                />
 
                 {__DEV__ && debugOpen && (
                   <DebugPanel
@@ -109,6 +109,7 @@ export default function App() {
                     onFakeFailure={debugFakeFailure}
                     onFakeLastBooking={debugFakeLastBooking}
                     onReset={debugReset}
+                    onClose={debugClose}
                   />
                 )}
 
@@ -347,7 +348,11 @@ export default function App() {
                   </View>
                 )}
 
-                <Text style={styles.disclaimer}>
+                <Text
+                  style={styles.disclaimer}
+                  onPress={handleDebugTap}
+                  suppressHighlighting
+                >
                   Your credentials are stored securely on this device and used
                   only to complete the booking.
                 </Text>

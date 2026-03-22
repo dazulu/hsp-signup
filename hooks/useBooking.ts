@@ -61,7 +61,7 @@ export function useBooking() {
   const progressAnim = useRef(new Animated.Value(0)).current;
   const sportRef = useRef<SportKey | null>(null);
 
-  const handleCrestTap = useCallback(() => {
+  const handleDebugTap = useCallback(() => {
     if (!__DEV__) {
       return;
     }
@@ -261,7 +261,6 @@ export function useBooking() {
 
   // Debug helpers (dev only)
   const debugFakeLoading = useCallback(() => {
-    setDebugOpen(false);
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
     progressAnim.setValue(0);
@@ -270,21 +269,18 @@ export function useBooking() {
   }, [startCountdown, doneAnim, progressAnim]);
 
   const debugFakeSuccess = useCallback(() => {
-    setDebugOpen(false);
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
     setBooking({ phase: "success" });
   }, [doneAnim]);
 
   const debugFakeFailure = useCallback(() => {
-    setDebugOpen(false);
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
     setBooking({ phase: "failure" });
   }, [doneAnim]);
 
   const debugFakeLastBooking = useCallback(() => {
-    setDebugOpen(false);
     setLastBooking({ sport: "hurling", bookedAt: Date.now() - 3600_000 });
   }, []);
 
@@ -308,7 +304,10 @@ export function useBooking() {
       "hsp_last_booking",
     ]);
   }, [progressAnim, doneAnim]);
-
+  const debugClose = useCallback(() => {
+    setDebugOpen(false);
+    debugReset();
+  }, [debugReset]);
   // Clean up timers on unmount
   useEffect(() => {
     return () => {
@@ -434,11 +433,12 @@ export function useBooking() {
     doneAnim,
     progressAnim,
     debugOpen,
-    handleCrestTap,
+    handleDebugTap,
     debugFakeLoading,
     debugFakeSuccess,
     debugFakeFailure,
     debugFakeLastBooking,
     debugReset,
+    debugClose,
   };
 }

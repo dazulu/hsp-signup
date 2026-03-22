@@ -209,14 +209,24 @@ export const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 12,
   },
+  debugHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   debugTitle: {
     color: "#ff6b6b",
     fontFamily: "jakarta-700",
     fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: 1,
-    marginBottom: 10,
-    textAlign: "center",
+  },
+  debugClose: {
+    color: "#ff6b6b",
+    fontSize: 16,
+    fontFamily: "jakarta-700",
+    paddingHorizontal: 4,
   },
   debugRow: {
     flexDirection: "row",

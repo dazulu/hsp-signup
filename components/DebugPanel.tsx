@@ -7,6 +7,7 @@ type Props = {
   onFakeFailure: () => void;
   onFakeLastBooking: () => void;
   onReset: () => void;
+  onClose: () => void;
 };
 
 export function DebugPanel({
@@ -15,10 +16,16 @@ export function DebugPanel({
   onFakeFailure,
   onFakeLastBooking,
   onReset,
+  onClose,
 }: Props) {
   return (
     <View style={styles.debugPanel}>
-      <Text style={styles.debugTitle}>Debug</Text>
+      <View style={styles.debugHeader}>
+        <Text style={styles.debugTitle}>Debug</Text>
+        <Pressable onPress={onClose} accessibilityLabel="Close debug panel">
+          <Text style={styles.debugClose}>✕</Text>
+        </Pressable>
+      </View>
       <View style={styles.debugRow}>
         <Pressable style={styles.debugBtn} onPress={onFakeLoading}>
           <Text style={styles.debugBtnText}>Fake Loading</Text>
