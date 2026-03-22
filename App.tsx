@@ -379,8 +379,11 @@ export default function App() {
                   onPress={handleDebugTap}
                   suppressHighlighting
                 >
-                  Your credentials are stored securely on this device and used
-                  only to complete the booking.
+                  {Platform.OS === "web"
+                    ? saveOnWeb
+                      ? "Your credentials are saved in this browser and used only to complete the booking."
+                      : "Your credentials are not saved and are used only to complete the booking."
+                    : "Your credentials are stored securely on this device and used only to complete the booking."}
                 </Text>
               </DismissWrapper>
             </ScrollView>
