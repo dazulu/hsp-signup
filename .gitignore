@@ -21,6 +21,7 @@ npm-debug.*
 .env
 # Local Netlify folder
 .netlify
+deno.lock
 
 android/
 ios/
