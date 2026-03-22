@@ -706,9 +706,9 @@ export default function App() {
                       style={[styles.statusBox, { opacity: doneAnim }]}
                     >
                       <Text style={styles.statusText}>
-                        You should receive a confirmation email shortly from
-                        Hochschulsport Hamburg. If you have not received one
-                        within 10 minutes, try again.
+                        You should receive an email shortly from Hochschulsport
+                        Hamburg. If you have not received one within 10 minutes,
+                        try again.
                       </Text>
                       <Pressable
                         style={styles.dismissBtn}
@@ -727,11 +727,12 @@ export default function App() {
                       style={[
                         styles.statusBox,
                         styles.statusBoxError,
-                        { opacity: doneAnim },
+                        { opacity: 1 },
                       ]}
                     >
                       <Text style={[styles.statusText, styles.statusTextError]}>
-                        Booking failed. Please try again.
+                        Booking unsuccessful. Ensure you have an active
+                        Hochschulsport Hamburg account with paid membership.
                       </Text>
                       <Pressable
                         style={styles.dismissBtn}
@@ -756,7 +757,8 @@ export default function App() {
                       <Text
                         style={[styles.statusText, styles.statusTextNeutral]}
                       >
-                        Could not confirm booking status.
+                        Could not confirm success. If you don't receive a
+                        confirmation email within 10 minutes, try again.
                       </Text>
                       <View style={styles.statusBtnRow}>
                         <Pressable
