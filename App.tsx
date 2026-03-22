@@ -327,23 +327,10 @@ export default function App() {
                 </View>
 
                 {lastBooking && booking.phase === "idle" && (
-                  <View
-                    style={[
-                      styles.lastBookingBox,
-                      isRecentBooking(lastBooking.bookedAt) &&
-                        styles.lastBookingRecent,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.lastBookingText,
-                        isRecentBooking(lastBooking.bookedAt) &&
-                          styles.lastBookingTextRecent,
-                      ]}
-                    >
-                      {"\u2713"}{" "}
-                      {SPORTS.find((s) => s.key === lastBooking.sport)?.label}{" "}
-                      {"\u00B7"} {formatTimeAgo(lastBooking.bookedAt)}
+                  <View style={styles.lastBookingBox}>
+                    <Text style={styles.lastBookingText}>
+                      <Text style={styles.lastBookingTick}>{"\u2713"}</Text>{" "}
+                      {SPORTS.find((s) => s.key === lastBooking.sport)?.label}{"\u00a0\u00b7\u00a0"}{formatTimeAgo(lastBooking.bookedAt)}
                     </Text>
                   </View>
                 )}
@@ -364,10 +351,6 @@ export default function App() {
       </LinearGradient>
     </SafeAreaProvider>
   );
-}
-
-function isRecentBooking(timestamp: number): boolean {
-  return Date.now() - timestamp < 86_400_000; // 24 hours
 }
 
 function formatTimeAgo(timestamp: number): string {

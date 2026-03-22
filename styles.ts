@@ -185,23 +185,26 @@ export const styles = StyleSheet.create({
     gap: 16,
   },
   lastBookingBox: {
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
     marginTop: 16,
     alignItems: "center",
-    backgroundColor: "#f4f6fb",
-  },
-  lastBookingRecent: {
-    backgroundColor: "#eef7ee",
+    shadowColor: "#8ba4e8",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 4,
   },
   lastBookingText: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#6b7a99",
     fontFamily: "jakarta-500",
   },
-  lastBookingTextRecent: {
+  lastBookingTick: {
     color: "#2e7d32",
+    fontFamily: "jakarta-700",
   },
   debugPanel: {
     backgroundColor: "#1a1f36",
