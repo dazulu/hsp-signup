@@ -9,3 +9,8 @@
   from = "/api/book"
   to = "/.netlify/functions/book"
   status = 200
+
+[[redirects]]
+  from = "/api/status"
+  to = "/.netlify/functions/status"
+  status = 200

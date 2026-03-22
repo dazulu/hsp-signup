@@ -24,7 +24,9 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
-const LOADING_DURATION = 60; // seconds
+const LOADING_DURATION = 50; // seconds — wait before polling begins
+const POLL_INTERVAL_MS = 10_000;
+const MAX_POLLS = 10;
 
 const SPORTS = [
   { key: "hurling", label: "Hurling & Camogie" },
@@ -35,8 +37,11 @@ type SportKey = (typeof SPORTS)[number]["key"];
 type BookingState =
   | { phase: "idle" }
   | { phase: "triggering" }
-  | { phase: "waiting" }
-  | { phase: "done" };
+  | { phase: "waiting"; correlationId: string }
+  | { phase: "polling"; correlationId: string }
+  | { phase: "success" }
+  | { phase: "failure" }
+  | { phase: "timeout"; correlationId: string };
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -61,8 +66,11 @@ export default function App() {
   const debugTaps = useRef(0);
   const debugTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const doneAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(0)).current;
+  const sportRef = useRef<SportKey | null>(null);
 
   const handleCrestTap = useCallback(() => {
     if (!__DEV__) {
@@ -82,10 +90,18 @@ export default function App() {
     }
   }, []);
 
-  // Animate done state when booking completes
+  // Animate and fire haptic when booking reaches a terminal state
   useEffect(() => {
-    if (booking.phase === "done") {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    if (
+      booking.phase === "success" ||
+      booking.phase === "failure" ||
+      booking.phase === "timeout"
+    ) {
+      Haptics.notificationAsync(
+        booking.phase === "success"
+          ? Haptics.NotificationFeedbackType.Success
+          : Haptics.NotificationFeedbackType.Error,
+      );
       Animated.timing(doneAnim, {
         toValue: 1,
         duration: 400,
@@ -96,9 +112,9 @@ export default function App() {
 
   // Start countdown after booking is triggered
   const startCountdown = useCallback(
-    (remaining: number = LOADING_DURATION) => {
+    (correlationId: string, remaining: number = LOADING_DURATION) => {
       setSecondsLeft(remaining);
-      setBooking({ phase: "waiting" });
+      setBooking({ phase: "waiting", correlationId });
       progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
 
       // Animate progress bar smoothly to 100%
@@ -115,7 +131,7 @@ export default function App() {
               clearInterval(timerRef.current);
             }
             timerRef.current = null;
-            setBooking({ phase: "done" });
+            setBooking({ phase: "polling", correlationId });
             return 0;
           }
           return prev - 1;
@@ -124,6 +140,114 @@ export default function App() {
     },
     [progressAnim],
   );
+
+  // Poll GitHub for workflow status when in polling phase
+  useEffect(() => {
+    if (booking.phase !== "polling") {
+      return;
+    }
+    const { correlationId } = booking;
+    let cancelled = false;
+    let attempt = 0;
+
+    const poll = () => {
+      const delay = attempt === 0 ? 0 : POLL_INTERVAL_MS;
+      pollRef.current = setTimeout(async () => {
+        if (cancelled) {
+          return;
+        }
+        try {
+          const res = await fetch(
+            `${API_URL}/api/status?correlationId=${correlationId}`,
+            { headers: { "x-api-key": API_KEY } },
+          );
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+          const data = await res.json();
+          if (cancelled) {
+            return;
+          }
+
+          if (data.status === "success") {
+            const currentSport = sportRef.current;
+            if (!cancelled && currentSport) {
+              const bookingRecord = {
+                sport: currentSport,
+                bookedAt: Date.now(),
+              };
+              await AsyncStorage.setItem(
+                "hsp_last_booking",
+                JSON.stringify(bookingRecord),
+              );
+              setLastBooking(bookingRecord);
+            }
+            if (!cancelled) {
+              setBooking({ phase: "success" });
+            }
+          } else if (data.status === "failure") {
+            if (!cancelled) {
+              setBooking({ phase: "failure" });
+            }
+          } else {
+            attempt += 1;
+            if (attempt >= MAX_POLLS) {
+              if (!cancelled) {
+                setBooking({ phase: "timeout", correlationId });
+              }
+            } else {
+              poll();
+            }
+          }
+        } catch {
+          attempt += 1;
+          if (attempt >= MAX_POLLS) {
+            if (!cancelled) {
+              setBooking({ phase: "timeout", correlationId });
+            }
+          } else {
+            poll();
+          }
+        }
+      }, delay);
+    };
+
+    poll();
+
+    return () => {
+      cancelled = true;
+      if (pollRef.current) {
+        clearTimeout(pollRef.current);
+        pollRef.current = null;
+      }
+    };
+  }, [booking]);
+
+  // Pulse animation while polling
+  useEffect(() => {
+    if (booking.phase === "polling") {
+      pulseAnim.setValue(0.3);
+      const animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 0.3,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+        ]),
+      );
+      animation.start();
+      return () => {
+        animation.stop();
+        pulseAnim.setValue(0);
+      };
+    }
+  }, [booking.phase, pulseAnim]);
 
   // Load saved values on mount and resume countdown if active
   useEffect(() => {
@@ -134,12 +258,14 @@ export default function App() {
         savedSport,
         savedTriggeredAt,
         savedLastBooking,
+        savedCorrelationId,
       ] = await Promise.all([
         SecureStore.getItemAsync("hsp_email"),
         SecureStore.getItemAsync("hsp_password"),
         AsyncStorage.getItem("hsp_sport"),
         AsyncStorage.getItem("hsp_triggered_at"),
         AsyncStorage.getItem("hsp_last_booking"),
+        AsyncStorage.getItem("hsp_correlation_id"),
       ]);
       if (savedEmail) {
         setEmail(savedEmail);
@@ -149,6 +275,7 @@ export default function App() {
       }
       if (savedSport === "hurling" || savedSport === "football") {
         setSport(savedSport);
+        sportRef.current = savedSport;
       }
       if (savedLastBooking) {
         try {
@@ -156,18 +283,24 @@ export default function App() {
         } catch {}
       }
 
-      // Resume countdown if booking was triggered recently
-      if (savedTriggeredAt) {
+      // Resume in-progress booking if still within time window
+      if (savedTriggeredAt && savedCorrelationId) {
         const elapsed = Math.floor(
           (Date.now() - Number(savedTriggeredAt)) / 1000,
         );
+        const totalDuration =
+          LOADING_DURATION + (POLL_INTERVAL_MS / 1000) * MAX_POLLS;
         if (elapsed < LOADING_DURATION) {
-          startCountdown(LOADING_DURATION - elapsed);
+          startCountdown(savedCorrelationId, LOADING_DURATION - elapsed);
+        } else if (elapsed < totalDuration) {
+          setBooking({ phase: "polling", correlationId: savedCorrelationId });
         } else {
-          // Timer expired while app was closed — show done state
-          setBooking({ phase: "done" });
+          setBooking({ phase: "timeout", correlationId: savedCorrelationId });
           doneAnim.setValue(1);
         }
+      } else if (savedTriggeredAt) {
+        // Stale state without correlationId — clear it
+        await AsyncStorage.removeItem("hsp_triggered_at");
       }
 
       setReady(true);
@@ -181,8 +314,22 @@ export default function App() {
     doneAnim.setValue(0);
     progressAnim.setValue(0);
     setBooking({ phase: "triggering" });
-    setTimeout(() => startCountdown(), 1500);
+    setTimeout(() => startCountdown(generateUUID()), 1500);
   }, [startCountdown, doneAnim, progressAnim]);
+
+  const debugFakeSuccess = useCallback(() => {
+    setDebugOpen(false);
+    doneAnim.stopAnimation();
+    doneAnim.setValue(0);
+    setBooking({ phase: "success" });
+  }, [doneAnim]);
+
+  const debugFakeFailure = useCallback(() => {
+    setDebugOpen(false);
+    doneAnim.stopAnimation();
+    doneAnim.setValue(0);
+    setBooking({ phase: "failure" });
+  }, [doneAnim]);
 
   const debugFakeLastBooking = useCallback(() => {
     setDebugOpen(false);
@@ -195,18 +342,31 @@ export default function App() {
       clearInterval(timerRef.current);
     }
     timerRef.current = null;
+    if (pollRef.current) {
+      clearTimeout(pollRef.current);
+    }
+    pollRef.current = null;
     setBooking({ phase: "idle" });
     setSecondsLeft(0);
     setLastBooking(null);
     progressAnim.setValue(0);
     doneAnim.setValue(0);
-  }, [progressAnim, doneAnim]);
+    pulseAnim.setValue(0);
+    AsyncStorage.multiRemove([
+      "hsp_triggered_at",
+      "hsp_correlation_id",
+      "hsp_last_booking",
+    ]);
+  }, [progressAnim, doneAnim, pulseAnim]);
 
-  // Clean up timer on unmount
+  // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
+      }
+      if (pollRef.current) {
+        clearTimeout(pollRef.current);
       }
     };
   }, []);
@@ -214,6 +374,7 @@ export default function App() {
   // Persist sport choice
   const pickSport = useCallback((s: SportKey) => {
     setSport(s);
+    sportRef.current = s;
     AsyncStorage.setItem("hsp_sport", s);
   }, []);
 
@@ -225,25 +386,45 @@ export default function App() {
     ]);
   }, [email, password]);
 
+  // Dismiss any terminal booking state
+  const dismiss = useCallback(async () => {
+    doneAnim.stopAnimation();
+    doneAnim.setValue(0);
+    progressAnim.setValue(0);
+    setBooking({ phase: "idle" });
+    await Promise.all([
+      AsyncStorage.removeItem("hsp_triggered_at"),
+      AsyncStorage.removeItem("hsp_correlation_id"),
+    ]);
+  }, [doneAnim, progressAnim]);
+
+  // Restart polling from the timeout state ("Check Again")
+  const checkAgain = useCallback(() => {
+    if (booking.phase !== "timeout") {
+      return;
+    }
+    doneAnim.stopAnimation();
+    doneAnim.setValue(0);
+    setBooking({ phase: "polling", correlationId: booking.correlationId });
+  }, [booking, doneAnim]);
+
   // Book
   const book = useCallback(async () => {
     if (!email || !password || !sport) {
       return;
     }
 
+    const correlationId = generateUUID();
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
     progressAnim.setValue(0);
     setBooking({ phase: "triggering" });
     await saveCredentials();
     const now = Date.now();
-    await AsyncStorage.setItem("hsp_triggered_at", String(now));
-    const bookingRecord = { sport, bookedAt: now };
-    await AsyncStorage.setItem(
-      "hsp_last_booking",
-      JSON.stringify(bookingRecord),
-    );
-    setLastBooking(bookingRecord);
+    await Promise.all([
+      AsyncStorage.setItem("hsp_triggered_at", String(now)),
+      AsyncStorage.setItem("hsp_correlation_id", correlationId),
+    ]);
 
     try {
       const res = await fetch(`${API_URL}/api/book`, {
@@ -252,11 +433,14 @@ export default function App() {
           "Content-Type": "application/json",
           "x-api-key": API_KEY,
         },
-        body: JSON.stringify({ email, password, sport }),
+        body: JSON.stringify({ email, password, sport, correlationId }),
       });
       const data = await res.json();
       if (!data.ok) {
-        await AsyncStorage.removeItem("hsp_triggered_at");
+        await Promise.all([
+          AsyncStorage.removeItem("hsp_triggered_at"),
+          AsyncStorage.removeItem("hsp_correlation_id"),
+        ]);
         setBooking({ phase: "idle" });
         Alert.alert(
           "Error",
@@ -265,10 +449,13 @@ export default function App() {
         return;
       }
 
-      startCountdown();
+      startCountdown(correlationId);
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch {
-      await AsyncStorage.removeItem("hsp_triggered_at");
+      await Promise.all([
+        AsyncStorage.removeItem("hsp_triggered_at"),
+        AsyncStorage.removeItem("hsp_correlation_id"),
+      ]);
       setBooking({ phase: "idle" });
       Alert.alert(
         "Error",
@@ -281,13 +468,14 @@ export default function App() {
     sport,
     saveCredentials,
     startCountdown,
-    doneAnim.setValue,
-    doneAnim.stopAnimation,
-    progressAnim.setValue,
+    doneAnim,
+    progressAnim,
   ]);
 
   const isLoading =
-    booking.phase === "triggering" || booking.phase === "waiting";
+    booking.phase === "triggering" ||
+    booking.phase === "waiting" ||
+    booking.phase === "polling";
   const canBook = !!(email && password && sport) && !isLoading;
 
   if (!ready || !fontsLoaded) {
@@ -352,6 +540,20 @@ export default function App() {
                         onPress={debugReset}
                       >
                         <Text style={styles.debugBtnText}>Reset</Text>
+                      </Pressable>
+                    </View>
+                    <View style={[styles.debugRow, { marginTop: 8 }]}>
+                      <Pressable
+                        style={styles.debugBtn}
+                        onPress={debugFakeSuccess}
+                      >
+                        <Text style={styles.debugBtnText}>Fake Success</Text>
+                      </Pressable>
+                      <Pressable
+                        style={[styles.debugBtn, styles.debugBtnReset]}
+                        onPress={debugFakeFailure}
+                      >
+                        <Text style={styles.debugBtnText}>Fake Failure</Text>
                       </Pressable>
                     </View>
                   </View>
@@ -460,7 +662,9 @@ export default function App() {
                         <Text style={styles.bookBtnText}>
                           {booking.phase === "triggering"
                             ? "Sending…"
-                            : `Booking in progress… ${secondsLeft}s`}
+                            : booking.phase === "polling"
+                              ? "Checking result…"
+                              : `Booking in progress… ${secondsLeft}s`}
                         </Text>
                       </View>
                     ) : (
@@ -469,24 +673,35 @@ export default function App() {
                   </Pressable>
 
                   {/* Progress bar */}
-                  {booking.phase === "waiting" && (
+                  {(booking.phase === "waiting" ||
+                    booking.phase === "polling") && (
                     <View style={styles.progressTrack}>
-                      <Animated.View
-                        style={[
-                          styles.progressFill,
-                          {
-                            width: progressAnim.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: ["0%", "100%"],
-                            }),
-                          },
-                        ]}
-                      />
+                      {booking.phase === "waiting" ? (
+                        <Animated.View
+                          style={[
+                            styles.progressFill,
+                            {
+                              width: progressAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: ["0%", "100%"],
+                              }),
+                            },
+                          ]}
+                        />
+                      ) : (
+                        <Animated.View
+                          style={[
+                            styles.progressFill,
+                            styles.progressFillFull,
+                            { opacity: pulseAnim },
+                          ]}
+                        />
+                      )}
                     </View>
                   )}
 
-                  {/* Status message */}
-                  {booking.phase === "done" && (
+                  {/* Success message */}
+                  {booking.phase === "success" && (
                     <Animated.View
                       style={[styles.statusBox, { opacity: doneAnim }]}
                     >
@@ -497,12 +712,70 @@ export default function App() {
                       </Text>
                       <Pressable
                         style={styles.dismissBtn}
-                        onPress={() => setBooking({ phase: "idle" })}
+                        onPress={dismiss}
                         accessibilityRole="button"
-                        accessibilityLabel="Dismiss message"
+                        accessibilityLabel="Dismiss success message"
                       >
                         <Text style={styles.dismissBtnText}>Dismiss</Text>
                       </Pressable>
+                    </Animated.View>
+                  )}
+
+                  {/* Failure message */}
+                  {booking.phase === "failure" && (
+                    <Animated.View
+                      style={[
+                        styles.statusBox,
+                        styles.statusBoxError,
+                        { opacity: doneAnim },
+                      ]}
+                    >
+                      <Text style={[styles.statusText, styles.statusTextError]}>
+                        Booking failed. Please try again.
+                      </Text>
+                      <Pressable
+                        style={styles.dismissBtn}
+                        onPress={dismiss}
+                        accessibilityRole="button"
+                        accessibilityLabel="Dismiss failure message"
+                      >
+                        <Text style={styles.dismissBtnText}>Dismiss</Text>
+                      </Pressable>
+                    </Animated.View>
+                  )}
+
+                  {/* Timeout message */}
+                  {booking.phase === "timeout" && (
+                    <Animated.View
+                      style={[
+                        styles.statusBox,
+                        styles.statusBoxNeutral,
+                        { opacity: doneAnim },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.statusText, styles.statusTextNeutral]}
+                      >
+                        Could not confirm booking status.
+                      </Text>
+                      <View style={styles.statusBtnRow}>
+                        <Pressable
+                          style={styles.dismissBtn}
+                          onPress={checkAgain}
+                          accessibilityRole="button"
+                          accessibilityLabel="Check again"
+                        >
+                          <Text style={styles.dismissBtnText}>Check Again</Text>
+                        </Pressable>
+                        <Pressable
+                          style={styles.dismissBtn}
+                          onPress={dismiss}
+                          accessibilityRole="button"
+                          accessibilityLabel="Dismiss message"
+                        >
+                          <Text style={styles.dismissBtnText}>Dismiss</Text>
+                        </Pressable>
+                      </View>
                     </Animated.View>
                   )}
                 </View>
@@ -541,6 +814,14 @@ export default function App() {
       </LinearGradient>
     </SafeAreaProvider>
   );
+}
+
+function generateUUID(): string {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 function isRecentBooking(timestamp: number): boolean {
@@ -742,6 +1023,16 @@ const styles = StyleSheet.create({
   },
   dismissBtn: { marginTop: 12, alignSelf: "center" },
   dismissBtnText: { color: "#4A6CF7", fontFamily: "jakarta-600", fontSize: 14 },
+  progressFillFull: { width: "100%" },
+  statusBoxError: { backgroundColor: "#fdecea" },
+  statusBoxNeutral: { backgroundColor: "#f4f6fb" },
+  statusTextError: { color: "#c62828" },
+  statusTextNeutral: { color: "#1a1f36" },
+  statusBtnRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 16,
+  },
   lastBookingBox: {
     borderRadius: 12,
     paddingVertical: 10,

@@ -21,9 +21,9 @@ exports.handler = async (event) => {
     };
   }
 
-  let email, password, sport;
+  let email, password, sport, correlationId;
   try {
-    ({ email, password, sport } = JSON.parse(event.body));
+    ({ email, password, sport, correlationId } = JSON.parse(event.body));
   } catch {
     return {
       statusCode: 400,
@@ -32,7 +32,13 @@ exports.handler = async (event) => {
     };
   }
 
-  if (!email || !password || !["hurling", "football"].includes(sport)) {
+  if (
+    !email ||
+    !password ||
+    !["hurling", "football"].includes(sport) ||
+    typeof correlationId !== "string" ||
+    !correlationId
+  ) {
     return {
       statusCode: 400,
       headers,
@@ -50,11 +56,11 @@ exports.handler = async (event) => {
   }
 
   try {
-    await dispatch(token, sport, email, password);
+    await dispatch(token, sport, email, password, correlationId);
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ ok: true, sport }),
+      body: JSON.stringify({ ok: true, sport, correlationId }),
     };
   } catch (err) {
     console.error("Trigger failed:", err.message);
@@ -66,7 +72,7 @@ exports.handler = async (event) => {
   }
 };
 
-function dispatch(token, sport, hspEmail, hspPassword) {
+function dispatch(token, sport, hspEmail, hspPassword, correlationId) {
   return new Promise((resolve, reject) => {
     const payload = JSON.stringify({
       event_type: "book-sport",
@@ -74,6 +80,7 @@ function dispatch(token, sport, hspEmail, hspPassword) {
         sport,
         hsp_email: hspEmail,
         hsp_password: hspPassword,
+        correlation_id: correlationId,
       },
     });
 

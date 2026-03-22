@@ -4,6 +4,8 @@ on:
   repository_dispatch:
     types: [book-sport]
 
+run-name: "book-sport-${{ github.event.client_payload.correlation_id }}"
+
 jobs:
   signup:
     runs-on: ubuntu-latest
