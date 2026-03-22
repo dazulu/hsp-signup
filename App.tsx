@@ -19,6 +19,19 @@ import { DebugPanel } from "./components/DebugPanel";
 import { SPORTS, useBooking } from "./hooks/useBooking";
 import { styles } from "./styles";
 
+const DismissWrapper =
+  Platform.OS === "web"
+    ? View
+    : ({ children }: { children: React.ReactNode }) => (
+        <Pressable
+          onPress={Keyboard.dismiss}
+          accessible={false}
+          focusable={false}
+        >
+          {children}
+        </Pressable>
+      );
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     "jakarta-400": require("@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf"),
@@ -91,11 +104,7 @@ export default function App() {
               contentContainerStyle={styles.scroll}
               keyboardShouldPersistTaps="handled"
             >
-              <Pressable
-                onPress={Platform.OS !== "web" ? Keyboard.dismiss : undefined}
-                accessible={false}
-                style={Platform.OS === "web" ? { cursor: "auto" } : undefined}
-              >
+              <DismissWrapper>
                 <Image
                   source={require("./assets/crest.png")}
                   style={styles.crest}
@@ -343,7 +352,7 @@ export default function App() {
                   Your credentials are stored securely on this device and used
                   only to complete the booking.
                 </Text>
-              </Pressable>
+              </DismissWrapper>
             </ScrollView>
             <StatusBar style="dark" />
           </KeyboardAvoidingView>
