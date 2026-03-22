@@ -14,7 +14,7 @@
 Expo App (React Native / Web)
   → Netlify Function (/api/book)
   |   → GitHub Actions (repository_dispatch)
-  |       → Playwright script (tests/signup.spec.ts)
+  |       → Playwright script (playwright/signup.spec.ts)
   |           → HSP website booking
   → Netlify Function (/api/status?correlationId=…)
       → GitHub Actions API (list workflow runs)
