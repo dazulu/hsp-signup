@@ -34,7 +34,9 @@
     "web": {
       "bundler": "metro",
       "output": "spa",
-      "favicon": "./assets/icon.png"
+      "favicon": "./assets/icon.png",
+      "title": "Hamburg GAA | HSP Booking",
+      "description": "Book your next Hamburg GAA Hochschulsport training session in one tap."
     }
   }
 }
