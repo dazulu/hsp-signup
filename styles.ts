@@ -253,4 +253,36 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     includeFontPadding: false,
   },
+  saveOnWebRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginTop: 14,
+  },
+  checkbox: {
+    width: 18,
+    height: 18,
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: "#c4cad8",
+    backgroundColor: "#f4f6fb",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxChecked: {
+    backgroundColor: "#4A6CF7",
+    borderColor: "#4A6CF7",
+  },
+  checkboxTick: {
+    color: "#fff",
+    fontSize: 11,
+    fontFamily: "jakarta-700",
+    lineHeight: 14,
+    includeFontPadding: false,
+  },
+  saveOnWebLabel: {
+    fontSize: 13,
+    fontFamily: "jakarta-400",
+    color: "#6b7a99",
+  },
 });

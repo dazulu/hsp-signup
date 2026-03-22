@@ -48,6 +48,8 @@ export default function App() {
     setPassword,
     showPassword,
     setShowPassword,
+    saveOnWeb,
+    setSaveOnWeb,
     sport,
     pickSport,
     booking,
@@ -177,6 +179,32 @@ export default function App() {
                       </Text>
                     </Pressable>
                   </View>
+
+                  {/* Save on web checkbox */}
+                  {Platform.OS === "web" && (
+                    <Pressable
+                      style={styles.saveOnWebRow}
+                      onPress={() => setSaveOnWeb(!saveOnWeb)}
+                      accessibilityRole="checkbox"
+                      accessibilityState={{ checked: saveOnWeb }}
+                      accessibilityLabel="Remember details in this browser"
+                      disabled={isLoading}
+                    >
+                      <View
+                        style={[
+                          styles.checkbox,
+                          saveOnWeb && styles.checkboxChecked,
+                        ]}
+                      >
+                        {saveOnWeb && (
+                          <Text style={styles.checkboxTick}>{"✓"}</Text>
+                        )}
+                      </View>
+                      <Text style={styles.saveOnWebLabel}>
+                        Remember login details in this browser
+                      </Text>
+                    </Pressable>
+                  )}
 
                   {/* Sport picker */}
                   <Text style={styles.label}>Sport</Text>
@@ -339,7 +367,9 @@ export default function App() {
                   <View style={styles.lastBookingBox}>
                     <Text style={styles.lastBookingText}>
                       <Text style={styles.lastBookingTick}>{"\u2713"}</Text>{" "}
-                      {SPORTS.find((s) => s.key === lastBooking.sport)?.label}{"\u00a0\u00b7\u00a0"}{formatTimeAgo(lastBooking.bookedAt)}
+                      {SPORTS.find((s) => s.key === lastBooking.sport)?.label}
+                      {"\u00a0\u00b7\u00a0"}
+                      {formatTimeAgo(lastBooking.bookedAt)}
                     </Text>
                   </View>
                 )}

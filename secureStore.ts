@@ -15,3 +15,11 @@ export async function setItemAsync(key: string, value: string): Promise<void> {
   }
   return SecureStore.setItemAsync(key, value);
 }
+
+export async function removeItemAsync(key: string): Promise<void> {
+  if (Platform.OS === "web") {
+    localStorage.removeItem(key);
+    return;
+  }
+  return SecureStore.deleteItemAsync(key);
+}

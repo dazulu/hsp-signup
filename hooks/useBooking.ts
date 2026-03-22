@@ -42,6 +42,8 @@ export function useBooking() {
     setPassword,
     showPassword,
     setShowPassword,
+    saveOnWeb,
+    setSaveOnWeb,
     saveCredentials,
   } = useCredentials();
   const [sport, setSport] = useState<SportKey | null>(null);
@@ -422,6 +424,8 @@ export function useBooking() {
     setPassword,
     showPassword,
     setShowPassword,
+    saveOnWeb,
+    setSaveOnWeb,
     sport,
     pickSport,
     booking,
