@@ -30,6 +30,11 @@
       "newArchEnabled": true
     },
     "owner": "shiftyapplications",
-    "plugins": ["expo-font"]
+    "plugins": ["expo-font", "expo-secure-store"],
+    "web": {
+      "bundler": "metro",
+      "output": "spa",
+      "favicon": "./assets/icon.png"
+    }
   }
 }

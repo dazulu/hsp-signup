@@ -1,6 +1,9 @@
 [build]
-  command = "mkdir -p dist"
+  command = "npx expo export --platform web"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [functions]
   directory = "netlify/functions"
@@ -13,4 +16,9 @@
 [[redirects]]
   from = "/api/status"
   to = "/.netlify/functions/status"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200

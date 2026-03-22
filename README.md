@@ -1,32 +1,42 @@
 # Hamburg GAA — HSP Booking
 
 > [!NOTE]
-> This app is distributed as an **Android APK sideload only**. It is not published on the Google Play Store or Apple App Store to avoid developer account fees.
+> The app is available as a **web app** at the Netlify deployment URL, and as an **Android APK sideload**. It is not published on the Google Play Store or Apple App Store to avoid developer account fees.
 
 The Hochschulsport (HSP) Hamburg website uses a clunky, multi-step signup process that requires navigating several pages, logging in through a non-standard form, and clicking through confirmations — all within a tight enrollment window. This app removes that friction.
 
 ## How it works
 
-A simple Expo mobile app that triggers an automated booking with one tap:
+A simple Expo app (React Native / web) that triggers an automated booking with one tap:
 
 1. **You** enter your HSP credentials and pick a sport (Hurling or Gaelic Football)
 2. **The app** sends a request to a Netlify function, which triggers a GitHub Actions workflow
 3. **The workflow** runs a Playwright script that navigates the HSP website, logs in, and completes the booking on your behalf
 4. **You** get a confirmation email directly from Hochschulsport Hamburg
 
-Credentials are stored locally on-device using Expo SecureStore and are never persisted anywhere else.
+Credentials are stored locally using Expo SecureStore (native) or `localStorage` (web) and are never persisted anywhere else.
 
 ## Architecture
 
 ```
-Expo App (React Native)
+Expo App (React Native / Web)
   → Netlify Function (/api/book)
     → GitHub Actions (repository_dispatch)
       → Playwright script (tests/signup.spec.ts)
         → HSP website booking
 ```
 
+The app is built with Expo and runs as both a native Android app and a web app served from the same Netlify site that hosts the serverless functions. The web bundle is produced by `expo export --platform web` at build time (Metro SPA output → `dist/`).
+
 The app doesn't talk to the HSP website directly. It calls a Netlify serverless function that triggers a GitHub Actions workflow via `repository_dispatch`. The workflow runs a Playwright browser automation script that handles the actual multi-page signup flow.
+
+## Running locally
+
+```bash
+npm start          # Expo dev server (choose web/Android/iOS)
+npm run web        # Web only (Metro dev server)
+npm run build:web  # Production web export → dist/
+```
 
 ## Environment variables
 

@@ -2,7 +2,6 @@ import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
-import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -21,6 +20,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import * as SecureStore from "./secureStore";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL ?? "";
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
@@ -508,7 +508,7 @@ export default function App() {
               contentContainerStyle={styles.scroll}
               keyboardShouldPersistTaps="handled"
             >
-              <Pressable onPress={Keyboard.dismiss} accessible={false}>
+              <Pressable onPress={Platform.OS !== "web" ? Keyboard.dismiss : undefined} accessible={false}>
                 <Pressable onPress={handleCrestTap}>
                   <Image
                     source={require("./assets/crest.png")}
@@ -862,6 +862,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 24,
     paddingVertical: 40,
+    maxWidth: 600,
+    width: "100%",
+    alignSelf: "center",
   },
   crest: {
     width: 96,

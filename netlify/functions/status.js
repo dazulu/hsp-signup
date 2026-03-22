@@ -4,7 +4,16 @@ const OWNER = "dazulu";
 const REPO = "hsp-signup";
 
 exports.handler = async (event) => {
-  const headers = { "Content-Type": "application/json" };
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+  };
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers, body: "" };
+  }
 
   if (event.httpMethod !== "GET") {
     return { statusCode: 405, headers, body: "Method not allowed" };
