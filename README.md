@@ -1,60 +1,21 @@
-# Hamburg GAA — HSP Booking
+# Hamburg GAA - HSP Booking
+
+Skip the multi-step signup. Book your Hochschulsport training session in one tap.
 
 > [!NOTE]
-> The app is available as a **web app** at the Netlify deployment URL, and as an **Android APK sideload**. It is not published on the Google Play Store or Apple App Store to avoid developer account fees.
+> The app is available as a **[web app](https://hsp-signup-api.netlify.app)** and as an **Android APK sideload**. It is not published on the Google Play Store or Apple App Store.
 
-The Hochschulsport (HSP) Hamburg website uses a clunky, multi-step signup process that requires navigating several pages, logging in through a non-standard form, and clicking through confirmations — all within a tight enrollment window. This app removes that friction.
+## What it does
 
-## How it works
+The HSP Hamburg website makes you navigate several pages, log in through a non-standard form, and click through confirmations, all within a tight enrollment window. This app removes that friction.
 
-A simple Expo app (React Native / web) that triggers an automated booking with one tap:
+Enter your HSP credentials and pick your sport (Hurling & Camogie or Gaelic Football). Tap the button. The app handles the rest and you get a confirmation email directly from Hochschulsport Hamburg.
 
-1. **You** enter your HSP credentials and pick a sport (Hurling or Gaelic Football)
-2. **The app** sends a request to a Netlify function, which triggers a GitHub Actions workflow
-3. **The workflow** runs a Playwright script that navigates the HSP website, logs in, and completes the booking on your behalf
-4. **You** get a confirmation email directly from Hochschulsport Hamburg
+## Your credentials are safe
 
-Credentials are stored locally using Expo SecureStore (native) or `localStorage` (web) and are never persisted anywhere else.
-
-## Architecture
-
-```
-Expo App (React Native / Web)
-  → Netlify Function (/api/book)
-    → GitHub Actions (repository_dispatch)
-      → Playwright script (tests/signup.spec.ts)
-        → HSP website booking
-```
-
-The app is built with Expo and runs as both a native Android app and a web app served from the same Netlify site that hosts the serverless functions. The web bundle is produced by `expo export --platform web` at build time (Metro SPA output → `dist/`).
-
-The app doesn't talk to the HSP website directly. It calls a Netlify serverless function that triggers a GitHub Actions workflow via `repository_dispatch`. The workflow runs a Playwright browser automation script that handles the actual multi-page signup flow.
-
-## Running locally
-
-```bash
-npm start          # Expo dev server (choose web/Android/iOS)
-npm run web        # Web only (Metro dev server)
-npm run build:web  # Production web export → dist/
-```
-
-## Environment variables
-
-| Where | Variable | Purpose |
-|-------|----------|---------|
-| `.env` (Expo) | `EXPO_PUBLIC_API_URL` | Base URL of the Netlify site |
-| `.env` (Expo) | `EXPO_PUBLIC_API_KEY` | Shared secret to authenticate app → Netlify |
-| Netlify | `API_KEY` | Same shared secret (server side) |
-| Netlify | `GITHUB_PAT` | GitHub personal access token to trigger workflows |
-
-HSP login credentials are entered by the user in the app and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server.
-
-## Design decisions
-
-**60-second loading timer instead of status polling.** GitHub Actions workflows can't be reliably associated with the user who triggered them via `repository_dispatch`. Rather than polling an ambiguous status endpoint, the app shows a fixed 60s countdown (the workflow typically completes in ~50s) and then tells the user to check their email. The timer state persists across app restarts via AsyncStorage.
-
-**2-minute cooldown.** After triggering a booking, a 120s cooldown prevents accidental double submissions.
+Your HSP username and password are stored only on your own device and never on any server. They are sent directly to the booking service when you tap the button and are not logged or retained anywhere.
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
