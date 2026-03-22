@@ -29,12 +29,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Cache Playwright browsers
+      - name: Restore Playwright browsers cache
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-chromium-
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
@@ -50,6 +52,13 @@ jobs:
           HSP_EMAIL: ${{ github.event.client_payload.hsp_email }}
           HSP_PASSWORD: ${{ github.event.client_payload.hsp_password }}
           SELECTED_SPORT: ${{ github.event.client_payload.sport }}
+
+      - name: Save Playwright browsers cache
+        if: always() && steps.playwright-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ steps.playwright-cache.outputs.cache-primary-key }}
 
       - uses: actions/upload-artifact@v4
         if: always()
