@@ -3,7 +3,7 @@
 Skip the multi-step signup. Book your Hochschulsport training session in one tap.
 
 > [!NOTE]
-> The app is available as a **[web app](https://hsp-signup-api.netlify.app)** and as an **Android APK sideload**. It is not published on the Google Play Store or Apple App Store.
+> The app is available as a **web app** and as an **Android APK sideload**. It is not published on the Google Play Store or Apple App Store.
 
 ## What it does
 
