@@ -13,7 +13,11 @@ Enter your HSP credentials and pick your sport (Hurling & Camogie or Gaelic Foot
 
 ## Your credentials are safe
 
-Your HSP username and password are stored only on your own device and never on any server. They are sent directly to the booking service when you tap the button and are not logged or retained anywhere.
+Your HSP username and password are never stored on any server and are not logged or retained anywhere outside your own device.
+
+On **Android**, credentials are saved in the device's secure keystore and loaded automatically each time you open the app.
+
+On **web**, credentials are not stored by default. If you want them remembered across browser sessions, check the "Remember details in this browser" option below the password field. Unchecking it immediately removes anything stored. If you leave it unchecked you will need to re-enter your details each visit.
 
 ## License
 
