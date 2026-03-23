@@ -76,6 +76,4 @@ Credentials are stored on-device using Expo SecureStore (native). On web, creden
 
 **Timer and correlation state persists across restarts.** `triggered_at` and `correlation_id` are stored in AsyncStorage. On app launch, if a booking was triggered recently and is still within the countdown/polling window, the app resumes the correct state rather than losing progress.
 
-**2-minute cooldown.** After a successful trigger, a 120-second cooldown prevents accidental double submissions.
-
 **Web uses relative API URLs.** On web the app is served from the same origin as the Netlify functions, so `fetch("/api/book")` works without setting `EXPO_PUBLIC_API_URL`. Native builds still need the full URL.
