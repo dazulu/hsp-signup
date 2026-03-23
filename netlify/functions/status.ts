@@ -1,9 +1,16 @@
-const https = require("node:https");
+import https from "node:https";
+import type { Handler } from "@netlify/functions";
 
 const OWNER = "dazulu";
 const REPO = "hsp-signup";
 
-exports.handler = async (event) => {
+interface WorkflowRun {
+  name: string | null;
+  status: string;
+  conclusion: string | null;
+}
+
+export const handler: Handler = async (event) => {
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -71,7 +78,7 @@ exports.handler = async (event) => {
     const status = match.conclusion === "success" ? "success" : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
   } catch (err) {
-    console.error("Status check failed:", err.message);
+    console.error("Status check failed:", (err as Error).message);
     return {
       statusCode: 502,
       headers,
@@ -80,7 +87,7 @@ exports.handler = async (event) => {
   }
 };
 
-function listRuns(token) {
+function listRuns(token: string): Promise<WorkflowRun[]> {
   return new Promise((resolve, reject) => {
     const req = https.request(
       {
@@ -96,7 +103,7 @@ function listRuns(token) {
       },
       (res) => {
         let body = "";
-        res.on("data", (c) => (body += c));
+        res.on("data", (c: string) => (body += c));
         res.on("end", () => {
           if (res.statusCode !== 200) {
             return reject(new Error(`GitHub ${res.statusCode}: ${body}`));

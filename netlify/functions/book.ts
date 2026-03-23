@@ -1,9 +1,10 @@
-const https = require("node:https");
+import https from "node:https";
+import type { Handler } from "@netlify/functions";
 
 const OWNER = "dazulu";
 const REPO = "hsp-signup";
 
-exports.handler = async (event) => {
+export const handler: Handler = async (event) => {
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -30,9 +31,12 @@ exports.handler = async (event) => {
     };
   }
 
-  let email, password, sport, correlationId;
+  let email: string;
+  let password: string;
+  let sport: string;
+  let correlationId: string;
   try {
-    ({ email, password, sport, correlationId } = JSON.parse(event.body));
+    ({ email, password, sport, correlationId } = JSON.parse(event.body!));
   } catch {
     return {
       statusCode: 400,
@@ -72,7 +76,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ ok: true, sport, correlationId }),
     };
   } catch (err) {
-    console.error("Trigger failed:", err.message);
+    console.error("Trigger failed:", (err as Error).message);
     return {
       statusCode: 502,
       headers,
@@ -81,7 +85,13 @@ exports.handler = async (event) => {
   }
 };
 
-function dispatch(token, sport, hspEmail, hspPassword, correlationId) {
+function dispatch(
+  token: string,
+  sport: string,
+  hspEmail: string,
+  hspPassword: string,
+  correlationId: string,
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const payload = JSON.stringify({
       event_type: "book-sport",
@@ -112,7 +122,7 @@ function dispatch(token, sport, hspEmail, hspPassword, correlationId) {
           return resolve();
         }
         let body = "";
-        res.on("data", (c) => (body += c));
+        res.on("data", (c: string) => (body += c));
         res.on("end", () =>
           reject(new Error(`GitHub ${res.statusCode}: ${body}`)),
         );

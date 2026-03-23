@@ -20,8 +20,8 @@ components/
 styles.ts                      All StyleSheet definitions
 secureStore.ts                 SecureStore/localStorage abstraction
 netlify/functions/
-  book.js                      Triggers GitHub Actions workflow_dispatch
-  status.js                    Queries workflow run result via correlationId
+  book.ts                      Triggers GitHub Actions workflow_dispatch
+  status.ts                    Queries workflow run result via correlationId
 playwright/
   signup.spec.ts               Browser automation script (runs in CI)
 ```
