@@ -16,9 +16,12 @@ jobs:
       contents: read
     steps:
       - name: Mask credentials
+        env:
+          HSP_EMAIL: ${{ github.event.client_payload.hsp_email }}
+          HSP_PASSWORD: ${{ github.event.client_payload.hsp_password }}
         run: |
-          echo "::add-mask::${{ github.event.client_payload.hsp_email }}"
-          echo "::add-mask::${{ github.event.client_payload.hsp_password }}"
+          echo "::add-mask::$HSP_EMAIL"
+          echo "::add-mask::$HSP_PASSWORD"
 
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
