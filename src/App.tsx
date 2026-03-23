@@ -52,6 +52,7 @@ export default function App() {
     saveOnWeb,
     setSaveOnWeb,
     sport,
+    saveCredentials,
     pickSport,
     booking,
     book,
@@ -145,6 +146,7 @@ export default function App() {
                     autoCorrect={false}
                     autoComplete="email"
                     editable={!isLoading}
+                    onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
                     accessibilityLabel="Email address"
                   />
 
@@ -164,6 +166,9 @@ export default function App() {
                       secureTextEntry={!showPassword}
                       autoComplete="password"
                       editable={!isLoading}
+                      onBlur={
+                        Platform.OS !== "web" ? saveCredentials : undefined
+                      }
                       accessibilityLabel="Password"
                     />
                     <Pressable

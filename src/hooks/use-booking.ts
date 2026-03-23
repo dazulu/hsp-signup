@@ -432,6 +432,7 @@ export function useBooking() {
     book,
     dismiss,
     checkAgain,
+    saveCredentials,
     lastBooking,
     ready,
     doneAnim,
