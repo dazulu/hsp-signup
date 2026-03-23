@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, Platform } from "react-native";
-import { useCredentials } from "./useCredentials";
+import { useCredentials } from "./use-credentials";
 
 const API_URL =
   Platform.OS === "web" ? "" : (process.env.EXPO_PUBLIC_API_URL ?? "");

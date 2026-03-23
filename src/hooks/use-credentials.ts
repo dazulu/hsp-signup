@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
-import * as SecureStore from "../secureStore";
+import * as SecureStore from "../secure-store";
 
 const SAVE_ON_WEB_KEY = "hsp_save_on_web";
 
