@@ -11,19 +11,21 @@
 ## Code structure
 
 ```
-App.tsx                        Root component (render only)
-hooks/
-  useBooking.ts                Booking state machine, effects, callbacks
-  useCredentials.ts            Email/password state, SecureStore hydration, save-on-web toggle
-components/
-  DebugPanel.tsx               Dev-only debug panel (hidden in production builds)
-styles.ts                      All StyleSheet definitions
-secureStore.ts                 SecureStore/localStorage abstraction
+src/
+  App.tsx                      Root component (render only)
+  styles.ts                    Central StyleSheet (legacy — new components colocate styles)
+  secure-store.ts              SecureStore/localStorage abstraction
+  utils.ts                     formatTimeAgo helper
+  hooks/
+    use-booking.ts             Booking state machine, effects, callbacks
+    use-credentials.ts         Email/password state, SecureStore hydration, save-on-web toggle
+  components/
+    debug-panel.tsx            Dev-only debug panel (hidden in production builds)
 netlify/functions/
-  book.ts                      Triggers GitHub Actions workflow_dispatch
+  book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
 playwright/
-  signup.spec.ts               Browser automation script (runs in CI)
+  signup.spec.ts               Browser automation script (runs in GitHub Actions only)
 ```
 
 ## Architecture
@@ -45,13 +47,19 @@ The app doesn't talk to the HSP website directly. It calls a Netlify serverless 
 ## Running locally
 
 ```bash
-npm start          # Expo dev server (choose web/Android/iOS)
-npm run web        # Web only (Metro dev server)
+npm start          # Expo dev server — opens in Expo Go on device/simulator
+npm run web        # Expo dev server, web only
 npm run build:web  # Production web export → dist/
 npx netlify dev    # Full local stack: web app + functions at localhost:8888
 ```
 
 For `netlify dev`, open `http://localhost:8888` (not the Metro port 8081). The Netlify proxy routes `/api/*` to the local functions and everything else to Metro.
+
+Android APK/AAB production builds use EAS Build:
+```bash
+eas build --profile preview     # APK (sideload)
+eas build --profile production  # AAB
+```
 
 ## Environment variables
 
@@ -62,7 +70,7 @@ For `netlify dev`, open `http://localhost:8888` (not the Metro port 8081). The N
 | Netlify | `API_KEY` | Same shared secret (server side) |
 | Netlify | `GITHUB_PAT` | GitHub personal access token to trigger and query workflows |
 
-HSP login credentials are entered by the user in the app and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server.
+HSP login credentials are not env vars — they are entered by the user at runtime and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server and are masked in workflow logs via `::add-mask::`.
 
 Credentials are stored on-device using Expo SecureStore (native). On web, credentials are **not** stored by default — a "Remember details in this browser" checkbox lets the user opt in to persisting them in `localStorage`. The `secureStore.ts` wrapper abstracts this difference: on native it delegates to `expo-secure-store`, on web it uses `localStorage`.
 
