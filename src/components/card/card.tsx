@@ -31,7 +31,6 @@ export const Card = ({
           paddingVertical: TRANSPARENT_PADDING[padding],
         }
       : { padding: PADDING[padding] },
-    ...(onPress ? [styles.cardPressable] : []),
   ];
 
   if (onPress) {
@@ -44,7 +43,7 @@ export const Card = ({
         {title ? <Text style={styles.title}>{title}</Text> : null}
         {children}
         <View style={styles.caret}>
-          <Ionicons name="chevron-forward" size={20} color="#4A6CF7" />
+          <Ionicons name="chevron-forward" size={20} color="#6b7a99" />
         </View>
       </Pressable>
     );

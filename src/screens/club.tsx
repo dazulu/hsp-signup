@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text } from "react-native";
 import { Card, CardGrid } from "../components/card";
+import { LastBookingCard } from "../components/card/implementations/last-booking";
 import { ScreenLayout } from "../components/screen-layout";
 
 export default function ClubScreen() {
@@ -12,7 +13,7 @@ export default function ClubScreen() {
           </Card>
           <Card span={1} title="Placeholder" />
           <Card span={1} title="Placeholder" />
-          <Card span={2} title="Last Booking" />
+          <LastBookingCard />
         </CardGrid>
       </ScrollView>
     </ScreenLayout>
