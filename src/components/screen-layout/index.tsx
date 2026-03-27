@@ -1,5 +1,9 @@
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { theme } from "../../theme";
+
+const { space } = theme;
+
 import { styles } from "./styles";
 import type { ScreenLayoutProps } from "./types";
 
@@ -12,7 +16,7 @@ export const ScreenLayout = ({
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
+      <View style={[styles.header, { paddingTop: insets.top + space[16] }]}>
         <Text style={styles.title}>{title}</Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>

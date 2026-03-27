@@ -1,5 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View, type ViewStyle } from "react-native";
+import { theme } from "../../theme";
+
+const { colors, space } = theme;
+
 import { styles } from "./styles";
 import type { CardProps } from "./types";
 
@@ -8,8 +12,11 @@ const SPAN_STYLES: Record<1 | 2, ViewStyle> = {
   2: { flexBasis: "100%" },
 };
 
-const PADDING: Record<"sm" | "md", number> = { sm: 16, md: 28 };
-const TRANSPARENT_PADDING: Record<"sm" | "md", number> = { sm: 8, md: 14 };
+const PADDING: Record<"sm" | "md", number> = { sm: space[16], md: space[28] };
+const TRANSPARENT_PADDING: Record<"sm" | "md", number> = {
+  sm: space[8],
+  md: space[14],
+};
 
 export const Card = ({
   children,
@@ -43,7 +50,7 @@ export const Card = ({
         {title ? <Text style={styles.title}>{title}</Text> : null}
         {children}
         <View style={styles.caret}>
-          <Ionicons name="chevron-forward" size={20} color="#6b7a99" />
+          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
         </View>
       </Pressable>
     );

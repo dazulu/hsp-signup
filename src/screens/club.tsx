@@ -2,6 +2,9 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import { Card, CardGrid } from "../components/card";
 import { LastBookingCard } from "../components/card/implementations/last-booking";
 import { ScreenLayout } from "../components/screen-layout";
+import { theme } from "../theme";
+
+const { space } = theme;
 
 export const ClubScreen = () => {
   return (
@@ -22,7 +25,7 @@ export const ClubScreen = () => {
 
 const styles = StyleSheet.create({
   scroll: {
-    padding: 16,
-    paddingBottom: 32,
+    padding: space[16],
+    paddingBottom: space[32],
   },
 });

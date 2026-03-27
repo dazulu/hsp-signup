@@ -1,10 +1,13 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../../../theme";
+
+const { colors, fontFamily, fontSize, space } = theme;
 
 export const styles = StyleSheet.create({
   bookingText: {
-    fontSize: 15,
-    fontFamily: "jakarta-500",
-    color: "#1a1f36",
-    marginTop: 4,
+    fontSize: fontSize.body,
+    fontFamily: fontFamily.medium,
+    color: colors.textPrimary,
+    marginTop: space[4],
   },
 });

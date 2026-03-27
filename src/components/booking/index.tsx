@@ -13,6 +13,10 @@ import {
 } from "react-native";
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
+import { theme } from "../../theme";
+
+const { colors } = theme;
+
 import { formatTimeAgo } from "../../utils";
 import { Card } from "../card";
 import { DebugPanel } from "../debug-panel";
@@ -77,7 +81,7 @@ export const BookingForm = () => {
   if (!ready) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4A6CF7" />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
@@ -133,7 +137,7 @@ export const BookingForm = () => {
               value={email}
               onChangeText={setEmail}
               placeholder="you@example.com"
-              placeholderTextColor="#b0b8c9"
+              placeholderTextColor={colors.textPlaceholder}
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -155,7 +159,7 @@ export const BookingForm = () => {
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Password"
-                placeholderTextColor="#b0b8c9"
+                placeholderTextColor={colors.textPlaceholder}
                 secureTextEntry={!showPassword}
                 autoComplete="password"
                 editable={!isLoading}
@@ -239,7 +243,10 @@ export const BookingForm = () => {
             >
               {isLoading ? (
                 <View style={styles.loadingRow}>
-                  <ActivityIndicator color="#fff" size="small" />
+                  <ActivityIndicator
+                    color={colors.textOnPrimary}
+                    size="small"
+                  />
                   <Text style={styles.bookBtnText}>
                     {booking.phase === "triggering"
                       ? "Starting…"

@@ -13,7 +13,8 @@
 ```
 src/
   App.tsx                      Root component (render only)
-  styles.ts                    Central StyleSheet (legacy — new components colocate styles)
+  styles.ts                    App-shell styles (flex, gradient) — not for component use
+  theme/index.ts               Design tokens: colours, radii, spacing, typography, shadows
   secure-store.ts              SecureStore/localStorage abstraction
   utils.ts                     formatTimeAgo helper
   hooks/

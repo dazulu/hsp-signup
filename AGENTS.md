@@ -33,12 +33,13 @@ Key files: see `ARCHITECTURE.md` for the full breakdown.
 - Functional components with hooks only. No class components.
 - **Component declaration:** Use `export const` arrow functions, not `export function`. This applies everywhere — components, hooks, screens, and app entry points. No default exports — always use named exports.
 - **Styles:** Always in a sibling `styles.ts` file (`StyleSheet.create`). The legacy central `src/styles.ts` exists but new components must colocate styles in their own `styles.ts`.
+- **Design tokens:** All colours, radii, spacing, typography, and shadows live in `src/theme/index.ts`. Consume via the `theme` object: `import { theme } from "../theme"; const { colors, space } = theme;`. Never use raw hex strings or magic numbers in style files.
 - **Types:** Always in a sibling `types.ts` file. Do not declare prop types inline in the component file.
 - **Domain card components:** When a card in a screen has its own data-fetching or business logic, extract it into a dedicated component under `src/components/card/implementations/<name>/` (e.g. `last-booking/`). The component owns its own data and renders a `<Card>` internally. The screen only mounts it — no domain logic in the screen file.
 - **Platform branching:** Prefer platform file extensions (`.native.tsx` / `.web.tsx`) over inline `Platform.OS` checks when the component tree diverges significantly. Use inline `Platform.OS` only for small one-line differences.
 - **Platform file extension gotcha:** When using `.native.tsx` / `.web.tsx`, the barrel `index.tsx` must import from the extensionless name (`./my-component`, not `./my-component.web`). Do not create a generic `.tsx` fallback that re-exports a platform-specific file — Metro resolves `.native.tsx` first on native and `.web.tsx` first on web, but a generic file that hard-codes `.web` will poison the chain on Android/iOS.
 - **Font family names:** `jakarta-400`, `jakarta-500`, `jakarta-600`, `jakarta-700`, `jakarta-800` (Plus Jakarta Sans loaded via `@expo-google-fonts`).
-- **Primary colour:** `#4A6CF7`. Card background: `#fff`. Text: `#1a1f36`. Muted text: `#6b7a99`.
+- **Primary colour:** `colors.primary` (`#4A6CF7`). See `src/theme/index.ts` for the full token set.
 - **Border radius:** 14–16 for inputs/buttons, 24 for cards and sheets.
 - **Valid sport keys:** `"hurling"` and `"football"` — the only accepted values throughout the app, Netlify functions, and Playwright script.
 

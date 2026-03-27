@@ -3,9 +3,9 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
-import { Card } from "../../";
 import { SPORTS } from "../../../../hooks/use-booking";
 import { formatTimeAgo } from "../../../../utils";
+import { Card } from "../../";
 import { styles } from "./styles";
 import type { LastBooking } from "./types";
 
