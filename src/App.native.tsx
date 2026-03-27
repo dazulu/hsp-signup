@@ -14,6 +14,7 @@ import { ErrorBoundary } from "./components/error-boundary";
 import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
 import { PhotosScreen } from "./screens/photos";
+import { UpcomingEventsScreen } from "./screens/upcoming-events";
 import { styles } from "./styles";
 
 const navTheme = {
@@ -100,6 +101,14 @@ function AppShell() {
           <Tab.Screen name="Club" component={ClubScreen} />
           <Tab.Screen name="Book" component={BookScreen} />
           <Tab.Screen name="Photos" component={PhotosScreen} />
+          <Tab.Screen
+            name="UpcomingEvents"
+            component={UpcomingEventsScreen}
+            options={{
+              tabBarButton: () => null,
+              tabBarItemStyle: { display: "none" },
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
       <View

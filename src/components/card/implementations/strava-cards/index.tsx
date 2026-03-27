@@ -37,7 +37,7 @@ export const StravaCards = () => {
       <Card span={1} title="Recent Distance" backgroundImage={stravaLogo}>
         <Text style={[cardStyles.bodyText, styles.value]}>{km}</Text>
       </Card>
-      <Card span={1} title="Recent Pace" backgroundImage={stravaLogo}>
+      <Card span={1} title="Average Pace" backgroundImage={stravaLogo}>
         <Text style={[cardStyles.bodyText, styles.value]}>{pace}</Text>
       </Card>
     </>

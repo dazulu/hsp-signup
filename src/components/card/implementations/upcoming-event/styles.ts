@@ -5,6 +5,7 @@ const { space } = theme;
 
 export const styles = StyleSheet.create({
   content: {
+    marginTop: space[4],
     gap: space[8],
   },
   row: {
