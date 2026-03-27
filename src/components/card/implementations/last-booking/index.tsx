@@ -32,13 +32,13 @@ export const LastBookingCard = () => {
   return (
     <Card
       span={2}
-      title="HSP Booking"
+      title="Last HSP Booking"
       onPress={() => navigation.navigate("Book")}
     >
       <Text style={styles.bookingText}>
         {lastBooking && sportLabel
           ? `${sportLabel} · ${formatTimeAgo(lastBooking.bookedAt)}`
-          : "We miss you"}
+          : "-"}
       </Text>
     </Card>
   );
