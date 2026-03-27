@@ -34,10 +34,10 @@ export const StravaCards = () => {
 
   return (
     <>
-      <Card span={1} title="Strava KM" backgroundImage={stravaLogo}>
+      <Card span={1} title="Recent Distance" backgroundImage={stravaLogo}>
         <Text style={[cardStyles.bodyText, styles.value]}>{km}</Text>
       </Card>
-      <Card span={1} title="Strava Pace" backgroundImage={stravaLogo}>
+      <Card span={1} title="Recent Pace" backgroundImage={stravaLogo}>
         <Text style={[cardStyles.bodyText, styles.value]}>{pace}</Text>
       </Card>
     </>

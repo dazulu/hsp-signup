@@ -61,6 +61,7 @@ export const fontSize = {
   body: 15,
   lg: 16,
   xl: 17,
+  "2xl": 20,
   h2: 24,
   h1: 36,
 } as const;
