@@ -12,7 +12,7 @@ export const UpcomingEventCard = () => {
       <View style={styles.row}>
         <Ionicons name="trophy" size={16} color={colors.textMuted} />
         <Text style={cardStyles.bodyText}>
-          Gaelic Football · Maastrict · March 21st
+          Gaelic Football · Frankfurt · April 18th, 2026
         </Text>
       </View>
     </Card>
