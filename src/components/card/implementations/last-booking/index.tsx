@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import { SPORTS } from "../../../../hooks/use-booking";
 import { formatTimeAgo } from "../../../../utils";
-import { Card } from "../../";
+import { Card, cardStyles } from "../../";
 import { styles } from "./styles";
 import type { LastBooking } from "./types";
 
@@ -35,7 +35,7 @@ export const LastBookingCard = () => {
       title="Last HSP Booking"
       onPress={() => navigation.navigate("Book")}
     >
-      <Text style={styles.bookingText}>
+      <Text style={[cardStyles.bodyText, styles.bookingText]}>
         {lastBooking && sportLabel
           ? `${sportLabel} · ${formatTimeAgo(lastBooking.bookedAt)}`
           : "-"}

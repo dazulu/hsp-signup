@@ -20,6 +20,11 @@ export const styles = StyleSheet.create({
     color: colors.textMuted,
     marginBottom: space[4],
   },
+  bodyText: {
+    fontSize: fontSize.md,
+    fontFamily: fontFamily.regular,
+    color: colors.textMuted,
+  },
   caret: {
     position: "absolute",
     bottom: space[16],
