@@ -14,6 +14,7 @@ import {
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
 import { formatTimeAgo } from "../../utils";
+import { Card } from "../card";
 import { DebugPanel } from "../debug-panel";
 import { styles } from "./styles";
 
@@ -112,7 +113,7 @@ export function BookingForm() {
             />
           )}
 
-          <View style={styles.card}>
+          <Card>
             {/* Web keeps the card title/subtitle; native surfaces the title
                 via ScreenLayout above the card. */}
             {Platform.OS === "web" && (
@@ -335,7 +336,7 @@ export function BookingForm() {
                 </View>
               </Animated.View>
             )}
-          </View>
+          </Card>
 
           {lastBooking && booking.phase === "idle" && (
             <View style={styles.lastBookingBox}>

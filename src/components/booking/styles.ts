@@ -18,16 +18,6 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 16,
   },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 24,
-    padding: 28,
-    shadowColor: "#8ba4e8",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 24,
-    elevation: 8,
-  },
   title: {
     fontSize: 24,
     fontFamily: "jakarta-800",
