@@ -55,11 +55,28 @@ export const Card = ({
             resizeMode="contain"
           />
         ) : null}
-        {title ? <Text style={styles.title}>{title}</Text> : null}
+        {title ? (
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{title}</Text>
+            {transparent ? (
+              <Ionicons
+                name="chevron-forward"
+                size={14}
+                color={colors.textMuted}
+              />
+            ) : null}
+          </View>
+        ) : null}
         {children}
-        <View style={styles.caret}>
-          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
-        </View>
+        {!transparent ? (
+          <View style={styles.caret}>
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color={colors.textMuted}
+            />
+          </View>
+        ) : null}
       </Pressable>
     );
   }

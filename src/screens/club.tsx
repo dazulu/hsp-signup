@@ -1,6 +1,8 @@
-import { ScrollView, StyleSheet, Text } from "react-native";
-import { Card, CardGrid } from "../components/card";
+import { ScrollView, StyleSheet } from "react-native";
+import { CardGrid } from "../components/card";
 import { LastBookingCard } from "../components/card/implementations/last-booking";
+import { StravaCards } from "../components/card/implementations/strava-cards";
+import { UpcomingEventCard } from "../components/card/implementations/upcoming-event";
 import { ScreenLayout } from "../components/screen-layout";
 import { theme } from "../theme";
 
@@ -11,11 +13,8 @@ export const ClubScreen = () => {
     <ScreenLayout title="Club">
       <ScrollView contentContainerStyle={styles.scroll}>
         <CardGrid>
-          <Card span={2} title="Upcoming" transparent>
-            <Text>content </Text>
-          </Card>
-          <Card span={1} title="Placeholder" />
-          <Card span={1} title="Placeholder" />
+          <UpcomingEventCard />
+          <StravaCards />
           <LastBookingCard />
         </CardGrid>
       </ScrollView>

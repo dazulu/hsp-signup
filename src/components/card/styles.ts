@@ -21,6 +21,12 @@ export const styles = StyleSheet.create({
     color: colors.textMuted,
     marginBottom: space[4],
   },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space[4],
+    marginBottom: space[4],
+  },
   bodyText: {
     fontSize: fontSize.md,
     fontFamily: fontFamily.regular,
