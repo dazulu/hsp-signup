@@ -13,12 +13,12 @@ import {
 } from "react-native";
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
+import { useLastBookingLabel } from "../../hooks/use-last-booking-label";
 import { theme } from "../../theme";
+import { Card } from "../card";
 
 const { colors } = theme;
 
-import { formatTimeAgo } from "../../utils";
-import { Card } from "../card";
 import { DebugPanel } from "../debug-panel";
 import { styles } from "./styles";
 
@@ -67,6 +67,7 @@ export const BookingForm = () => {
     debugReset,
     debugClose,
   } = useBooking();
+  const lastBookingLabel = useLastBookingLabel(lastBooking);
 
   const isLoading =
     booking.phase === "triggering" ||
@@ -345,13 +346,11 @@ export const BookingForm = () => {
             )}
           </Card>
 
-          {lastBooking && booking.phase === "idle" && (
+          {lastBookingLabel && booking.phase === "idle" && (
             <View style={styles.lastBookingBox}>
               <Text style={styles.lastBookingText}>
-                <Text style={styles.lastBookingTick}>{"\u2713"}</Text>{" "}
-                {SPORTS.find((s) => s.key === lastBooking.sport)?.label}
-                {"\u00a0\u00b7\u00a0"}
-                {formatTimeAgo(lastBooking.bookedAt)}
+                <Text style={styles.lastBookingTick}>{"\u2713"}</Text>
+                {`  ${lastBookingLabel}`}
               </Text>
             </View>
           )}
