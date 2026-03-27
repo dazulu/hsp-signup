@@ -9,14 +9,14 @@ type Props = {
   onClose: () => void;
 };
 
-export function DebugPanel({
+export const DebugPanel = ({
   onFakeLoading,
   onFakeSuccess,
   onFakeFailure,
   onFakeLastBooking,
   onReset,
   onClose,
-}: Props) {
+}: Props) => {
   return (
     <View style={styles.debugPanel}>
       <View style={styles.debugHeader}>
@@ -52,7 +52,7 @@ export function DebugPanel({
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   debugPanel: {

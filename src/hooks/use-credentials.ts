@@ -4,7 +4,7 @@ import * as SecureStore from "../secure-store";
 
 const SAVE_ON_WEB_KEY = "hsp_save_on_web";
 
-export function useCredentials() {
+export const useCredentials = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -74,4 +74,4 @@ export function useCredentials() {
     setSaveOnWeb,
     saveCredentials,
   };
-}
+};

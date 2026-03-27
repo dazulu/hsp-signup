@@ -1,15 +1,13 @@
-import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { styles } from "./styles";
+import type { ScreenLayoutProps } from "./types";
 
-interface ScreenLayoutProps {
-  title: string;
-  subtitle?: string;
-  children?: ReactNode;
-}
-
-export function ScreenLayout({ title, subtitle, children }: ScreenLayoutProps) {
+export const ScreenLayout = ({
+  title,
+  subtitle,
+  children,
+}: ScreenLayoutProps) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -21,4 +19,4 @@ export function ScreenLayout({ title, subtitle, children }: ScreenLayoutProps) {
       {children}
     </View>
   );
-}
+};

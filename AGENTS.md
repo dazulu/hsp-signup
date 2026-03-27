@@ -31,7 +31,9 @@ Key files: see `ARCHITECTURE.md` for the full breakdown.
 ## Component Patterns
 
 - Functional components with hooks only. No class components.
-- **Styles:** Per-component `StyleSheet.create` in the same file is fine. The legacy central `src/styles.ts` exists but new components should colocate styles.
+- **Component declaration:** Use `export const` arrow functions, not `export function`.
+- **Styles:** Always in a sibling `styles.ts` file (`StyleSheet.create`). The legacy central `src/styles.ts` exists but new components must colocate styles in their own `styles.ts`.
+- **Types:** Always in a sibling `types.ts` file. Do not declare prop types inline in the component file.
 - **Platform branching:** Prefer platform file extensions (`.native.tsx` / `.web.tsx`) over inline `Platform.OS` checks when the component tree diverges significantly. Use inline `Platform.OS` only for small one-line differences.
 - **Platform file extension gotcha:** When using `.native.tsx` / `.web.tsx`, the barrel `index.tsx` must import from the extensionless name (`./my-component`, not `./my-component.web`). Do not create a generic `.tsx` fallback that re-exports a platform-specific file — Metro resolves `.native.tsx` first on native and `.web.tsx` first on web, but a generic file that hard-codes `.web` will poison the chain on Android/iOS.
 - **Font family names:** `jakarta-400`, `jakarta-500`, `jakarta-600`, `jakarta-700`, `jakarta-800` (Plus Jakarta Sans loaded via `@expo-google-fonts`).

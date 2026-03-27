@@ -33,7 +33,7 @@ const DismissWrapper =
         </Pressable>
       );
 
-export function BookingForm() {
+export const BookingForm = () => {
   const {
     email,
     setEmail,
@@ -364,4 +364,4 @@ export function BookingForm() {
       </ScrollView>
     </KeyboardAvoidingView>
   );
-}
+};

@@ -8,7 +8,7 @@ const SPAN_STYLES: Record<1 | 2, ViewStyle> = {
   2: { flexBasis: "100%" },
 };
 
-export function Card({ children, padding = 28, onPress, span }: CardProps) {
+export const Card = ({ children, padding = 28, onPress, span }: CardProps) => {
   const spanStyle = span != null ? SPAN_STYLES[span] : undefined;
 
   const cardStyle: ViewStyle[] = [
@@ -34,4 +34,4 @@ export function Card({ children, padding = 28, onPress, span }: CardProps) {
   }
 
   return <View style={cardStyle}>{children}</View>;
-}
+};

@@ -27,7 +27,7 @@ export type BookingState =
   | { phase: "failure" }
   | { phase: "timeout"; correlationId: string };
 
-export function useBooking() {
+export const useBooking = () => {
   const {
     email,
     setEmail,
@@ -436,4 +436,4 @@ export function useBooking() {
     debugReset,
     debugClose,
   };
-}
+};
