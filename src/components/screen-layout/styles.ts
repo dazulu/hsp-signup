@@ -15,7 +15,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "jakarta-400",
     color: "#505f94",
-    marginTop: 2,
+    lineHeight: 22,
+    marginTop: 8,
     maxWidth: "70%",
   },
 });
