@@ -2,24 +2,9 @@
 
 ## Overview
 
-Expo SDK 55 React Native app that books Hochschulsport Hamburg training sessions. Single-screen app today, may add navigation later. Runs on Android (sideloaded APK), web (Netlify SPA), and has iOS config but no distribution yet.
+Expo SDK 55 React Native app that books Hochschulsport Hamburg training sessions. Runs on Android (sideloaded APK), web (Netlify SPA), and has iOS config but no distribution yet.
 
-## Architecture
-
-```
-Expo App (React Native + Web)
-  → Netlify Function /api/book     → GitHub Actions repository_dispatch
-                                       → Playwright browser automation → HSP website
-  → Netlify Function /api/status   → GitHub Actions API (poll by correlationId)
-```
-
-- App sends credentials + sport to `/api/book` Netlify function
-- Function triggers a GitHub Actions workflow via `repository_dispatch`
-- Workflow runs `playwright/signup.spec.ts` to automate the HSP booking
-- App polls `/api/status` with a `correlationId` UUID to check the result
-- Credentials pass through `client_payload` and are never stored server-side
-
-Key files: see `ARCHITECTURE.md` for the full breakdown.
+See `ARCHITECTURE.md` for system overview, file structure, build commands, env vars, and design decisions.
 
 ## Code Style
 
@@ -63,32 +48,9 @@ Key files: see `ARCHITECTURE.md` for the full breakdown.
 - **Playwright e2e only** — no unit test framework is set up. The Playwright spec in `playwright/signup.spec.ts` runs in GitHub Actions, not locally.
 - The Playwright test is triggered by `repository_dispatch` with credentials passed via `client_payload` and masked in workflow logs.
 
-## Environment Variables
+## Security
 
-| Where | Variable | Purpose |
-|-------|----------|---------|
-| `.env` | `EXPO_PUBLIC_API_URL` | Base URL for native builds (web uses relative URLs) |
-| `.env` | `EXPO_PUBLIC_API_KEY` | Shared secret for app → Netlify auth |
-| Netlify | `API_KEY` | Same shared secret (server side) |
-| Netlify | `GITHUB_PAT` | GitHub PAT for triggering/querying workflows |
-
-HSP login credentials are not env vars — they are entered by the user at runtime and passed through the Netlify function to GitHub Actions via `client_payload`. They are never stored on any server and are masked in workflow logs.
-
-Never log, hard-code, or commit secrets. Credentials exist only in transit.
-
-## Build & Run
-
-```bash
-npm start              # Expo dev server — opens in Expo Go on device/simulator
-npm run web            # Expo dev server, web only
-npm run build:web      # Production web export → dist/
-npx netlify dev        # Full local stack (app + functions) at localhost:8888
-npm run lint           # Biome lint
-npm run format         # Biome format
-npm run check          # Biome check (lint + format)
-```
-
-For `npx netlify dev`, open `http://localhost:8888` (not Metro's port 8081). The Netlify proxy routes `/api/*` to local functions and everything else to Metro.
+Never log, hard-code, or commit secrets. HSP credentials exist only in transit — entered at runtime, passed via `client_payload`, never stored server-side.
 
 ## Dependencies
 
