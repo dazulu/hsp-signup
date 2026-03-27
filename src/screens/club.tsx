@@ -3,7 +3,7 @@ import { Card, CardGrid } from "../components/card";
 import { LastBookingCard } from "../components/card/implementations/last-booking";
 import { ScreenLayout } from "../components/screen-layout";
 
-export default function ClubScreen() {
+export const ClubScreen = () => {
   return (
     <ScreenLayout title="Club">
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -18,7 +18,7 @@ export default function ClubScreen() {
       </ScrollView>
     </ScreenLayout>
   );
-}
+};
 
 const styles = StyleSheet.create({
   scroll: {

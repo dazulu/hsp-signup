@@ -31,7 +31,7 @@ Key files: see `ARCHITECTURE.md` for the full breakdown.
 ## Component Patterns
 
 - Functional components with hooks only. No class components.
-- **Component declaration:** Use `export const` arrow functions, not `export function`.
+- **Component declaration:** Use `export const` arrow functions, not `export function`. This applies everywhere — components, hooks, screens, and app entry points. No default exports — always use named exports.
 - **Styles:** Always in a sibling `styles.ts` file (`StyleSheet.create`). The legacy central `src/styles.ts` exists but new components must colocate styles in their own `styles.ts`.
 - **Types:** Always in a sibling `types.ts` file. Do not declare prop types inline in the component file.
 - **Domain card components:** When a card in a screen has its own data-fetching or business logic, extract it into a dedicated component under `src/components/card/implementations/<name>/` (e.g. `last-booking/`). The component owns its own data and renders a `<Card>` internally. The screen only mounts it — no domain logic in the screen file.

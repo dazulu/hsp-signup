@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { ScreenLayout } from "../components/screen-layout";
 
-export default function PhotosScreen() {
+export const PhotosScreen = () => {
   return (
     <ScreenLayout title="Photos">
       <View style={styles.content}>
@@ -9,7 +9,7 @@ export default function PhotosScreen() {
       </View>
     </ScreenLayout>
   );
-}
+};
 
 const styles = StyleSheet.create({
   content: {

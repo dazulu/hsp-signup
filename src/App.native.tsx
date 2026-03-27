@@ -11,9 +11,9 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { ErrorBoundary } from "./components/error-boundary";
-import BookScreen from "./screens/book";
-import ClubScreen from "./screens/club";
-import PhotosScreen from "./screens/photos";
+import { BookScreen } from "./screens/book";
+import { ClubScreen } from "./screens/club";
+import { PhotosScreen } from "./screens/photos";
 import { styles } from "./styles";
 
 const navTheme = {
@@ -116,7 +116,7 @@ function AppShell() {
   );
 }
 
-export default function App() {
+export const App = () => {
   const [fontsLoaded] = useFonts({
     "jakarta-400": require("@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf"),
     "jakarta-500": require("@expo-google-fonts/plus-jakarta-sans/500Medium/PlusJakartaSans_500Medium.ttf"),
@@ -154,7 +154,7 @@ export default function App() {
       </GestureHandlerRootView>
     </ErrorBoundary>
   );
-}
+};
 
 const shellStyles = StyleSheet.create({
   root: { flex: 1 },

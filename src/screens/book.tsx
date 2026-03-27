@@ -1,7 +1,7 @@
 import { BookingForm } from "../components/booking";
 import { ScreenLayout } from "../components/screen-layout";
 
-export default function BookScreen() {
+export const BookScreen = () => {
   return (
     <ScreenLayout
       title="Book"
@@ -10,4 +10,4 @@ export default function BookScreen() {
       <BookingForm />
     </ScreenLayout>
   );
-}
+};

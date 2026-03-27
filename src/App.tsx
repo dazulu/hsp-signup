@@ -7,7 +7,7 @@ import { BookingForm } from "./components/booking";
 import { ErrorBoundary } from "./components/error-boundary";
 import { styles } from "./styles";
 
-export default function App() {
+export const App = () => {
   const [fontsLoaded] = useFonts({
     "jakarta-400": require("@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf"),
     "jakarta-500": require("@expo-google-fonts/plus-jakarta-sans/500Medium/PlusJakartaSans_500Medium.ttf"),
@@ -46,4 +46,4 @@ export default function App() {
       </SafeAreaProvider>
     </ErrorBoundary>
   );
-}
+};
