@@ -1,0 +1,135 @@
+import https from "node:https";
+import type { Handler } from "@netlify/functions";
+
+export const handler: Handler = async (event) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+  };
+
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers, body: "" };
+  }
+
+  if (event.httpMethod !== "GET") {
+    return { statusCode: 405, headers, body: "Method not allowed" };
+  }
+
+  const apiKey = process.env.API_KEY;
+  const provided = event.headers["x-api-key"];
+  if (!apiKey || !provided || provided !== apiKey) {
+    return {
+      statusCode: 401,
+      headers,
+      body: JSON.stringify({ error: "Unauthorized" }),
+    };
+  }
+
+  const clientId = process.env.STRAVA_CLIENT_ID;
+  const clientSecret = process.env.STRAVA_CLIENT_SECRET;
+  const refreshToken = process.env.STRAVA_REFRESH_TOKEN;
+  const clubId = process.env.STRAVA_CLUB_ID;
+
+  if (!clientId || !clientSecret || !refreshToken || !clubId) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: "Server misconfigured" }),
+    };
+  }
+
+  try {
+    const tokenPayload = JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: refreshToken,
+      grant_type: "refresh_token",
+    });
+
+    const tokenData = await httpsRequest<{ access_token: string }>(
+      "www.strava.com",
+      "/oauth/token",
+      "POST",
+      {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(tokenPayload),
+      },
+      tokenPayload,
+    );
+
+    const activities = await httpsRequest<
+      Array<{ type: string; distance: number; moving_time: number }>
+    >(
+      "www.strava.com",
+      `/api/v3/clubs/${clubId}/activities?page=1&per_page=200`,
+      "GET",
+      { Authorization: `Bearer ${tokenData.access_token}` },
+    );
+
+    const runs = activities.filter((a) => a.type === "Run");
+
+    const totalDistanceKm = runs.reduce((acc, a) => acc + a.distance, 0) / 1000;
+
+    let totalAveragePace = "0:00";
+    if (runs.length > 0) {
+      const totalPaceSeconds = runs.reduce(
+        (acc, a) => acc + a.moving_time / (a.distance / 1000),
+        0,
+      );
+      const avgPaceSeconds = Math.floor(totalPaceSeconds / runs.length);
+      const minutes = Math.floor(avgPaceSeconds / 60);
+      const seconds = avgPaceSeconds % 60;
+      totalAveragePace = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ totalDistanceKm, totalAveragePace }),
+    };
+  } catch (err) {
+    console.error("Strava fetch failed:", (err as Error).message);
+    return {
+      statusCode: 502,
+      headers,
+      body: JSON.stringify({ error: "Failed to fetch Strava data" }),
+    };
+  }
+};
+
+function httpsRequest<T>(
+  hostname: string,
+  path: string,
+  method: string,
+  reqHeaders: Record<string, string | number>,
+  body?: string,
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      { hostname, path, method, headers: reqHeaders },
+      (res) => {
+        let data = "";
+        res.on("data", (c: string) => (data += c));
+        res.on("end", () => {
+          try {
+            const parsed = JSON.parse(data) as T;
+            if ((res.statusCode ?? 0) >= 400) {
+              reject(new Error(`Strava ${res.statusCode}: ${data}`));
+            } else {
+              resolve(parsed);
+            }
+          } catch {
+            reject(new Error(`JSON parse error: ${data}`));
+          }
+        });
+      },
+    );
+    req.on("error", reject);
+    if (body) {
+      req.write(body);
+    }
+    req.end();
+  });
+}

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, Text, View, type ViewStyle } from "react-native";
+import { Image, Pressable, Text, View, type ViewStyle } from "react-native";
 import { theme } from "../../theme";
 
 const { colors, space } = theme;
@@ -19,6 +19,7 @@ const TRANSPARENT_PADDING: Record<"sm" | "md", number> = {
 };
 
 export const Card = ({
+  backgroundImage,
   children,
   title,
   padding = "sm",
@@ -47,6 +48,13 @@ export const Card = ({
         onPress={onPress}
         accessibilityRole="button"
       >
+        {backgroundImage ? (
+          <Image
+            source={backgroundImage}
+            style={styles.backgroundImage}
+            resizeMode="contain"
+          />
+        ) : null}
         {title ? <Text style={styles.title}>{title}</Text> : null}
         {children}
         <View style={styles.caret}>
@@ -58,6 +66,13 @@ export const Card = ({
 
   return (
     <View style={cardStyle}>
+      {backgroundImage ? (
+        <Image
+          source={backgroundImage}
+          style={styles.backgroundImage}
+          resizeMode="contain"
+        />
+      ) : null}
       {title ? <Text style={styles.title}>{title}</Text> : null}
       {children}
     </View>

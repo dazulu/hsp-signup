@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderRadius: radii.xl,
+    overflow: "hidden",
     ...shadows.card,
   },
   cardTransparent: {
@@ -29,6 +30,15 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: space[16],
     right: space[16],
+  },
+  backgroundImage: {
+    position: "absolute",
+    bottom: -5,
+    right: -5,
+    width: 64,
+    height: 64,
+    opacity: 0.15,
+    transform: [{ rotateZ: "15deg" }],
   },
   cardGrid: {
     flexDirection: "row",

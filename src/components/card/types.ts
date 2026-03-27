@@ -1,6 +1,9 @@
+import type { ImageSourcePropType } from "react-native";
+
 export type CardPadding = "sm" | "md";
 
 export type CardProps = {
+  backgroundImage?: ImageSourcePropType;
   children?: React.ReactNode;
   padding?: CardPadding;
   onPress?: () => void;
