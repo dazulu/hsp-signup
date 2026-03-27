@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { BookingForm } from "./components/booking";
+import { ErrorBoundary } from "./components/error-boundary";
 import { styles } from "./styles";
 
 export default function App() {
@@ -31,16 +32,18 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <LinearGradient
-        colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
-        style={styles.gradient}
-      >
-        <SafeAreaView style={styles.flex}>
-          <BookingForm />
-        </SafeAreaView>
-      </LinearGradient>
-      <StatusBar style="dark" />
-    </SafeAreaProvider>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <LinearGradient
+          colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
+          style={styles.gradient}
+        >
+          <SafeAreaView style={styles.flex}>
+            <BookingForm />
+          </SafeAreaView>
+        </LinearGradient>
+        <StatusBar style="dark" />
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

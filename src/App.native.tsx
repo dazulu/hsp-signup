@@ -10,6 +10,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { ErrorBoundary } from "./components/error-boundary";
 import BookScreen from "./screens/book";
 import ClubScreen from "./screens/club";
 import PhotosScreen from "./screens/photos";
@@ -51,11 +52,15 @@ function AppShell() {
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
               borderTopWidth: 0,
+              height: 88,
               elevation: 8,
               shadowColor: "#000",
               shadowOpacity: 0.12,
               shadowRadius: 12,
               shadowOffset: { width: 0, height: -2 },
+            },
+            tabBarItemStyle: {
+              paddingTop: 10,
             },
             tabBarLabelStyle: {
               fontFamily: "jakarta-600",
@@ -122,28 +127,32 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider>
-          <LinearGradient
-            colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
-            style={styles.gradient}
-          >
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#4A6CF7" />
-            </View>
-          </LinearGradient>
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
+      <ErrorBoundary>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SafeAreaProvider>
+            <LinearGradient
+              colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
+              style={styles.gradient}
+            >
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#4A6CF7" />
+              </View>
+            </LinearGradient>
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <AppShell />
-        <StatusBar style="dark" />
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <AppShell />
+          <StatusBar style="dark" />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
 

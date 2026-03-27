@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, Platform } from "react-native";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 import { useCredentials } from "./use-credentials";
 
 const API_URL =
@@ -25,14 +26,6 @@ export type BookingState =
   | { phase: "success" }
   | { phase: "failure" }
   | { phase: "timeout"; correlationId: string };
-
-function generateUUID(): string {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
 
 export function useBooking() {
   const {
@@ -60,7 +53,7 @@ export function useBooking() {
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownRef = useRef(0);
   const doneAnim = useRef(new Animated.Value(0)).current;
-  const progressAnim = useRef(new Animated.Value(0)).current;
+  const progressAnim = useSharedValue(0);
   const sportRef = useRef<SportKey | null>(null);
 
   const handleDebugTap = useCallback(() => {
@@ -104,17 +97,14 @@ export function useBooking() {
   }, [booking.phase, doneAnim]);
 
   // Start countdown after booking is triggered
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dont need to track on progressAnim
   const startCountdown = useCallback(
     (correlationId: string, remaining: number = LOADING_DURATION) => {
       setBooking({ phase: "waiting", correlationId });
-      progressAnim.setValue((LOADING_DURATION - remaining) / LOADING_DURATION);
+      progressAnim.value = (LOADING_DURATION - remaining) / LOADING_DURATION;
 
-      // Animate progress bar smoothly to 100%
-      Animated.timing(progressAnim, {
-        toValue: 1,
-        duration: remaining * 1000,
-        useNativeDriver: false,
-      }).start();
+      // Animate progress bar smoothly to 100% on the UI thread
+      progressAnim.value = withTiming(1, { duration: remaining * 1000 });
 
       countdownRef.current = remaining;
       timerRef.current = setInterval(() => {
@@ -128,7 +118,7 @@ export function useBooking() {
         }
       }, 1000);
     },
-    [progressAnim],
+    [],
   );
 
   // Poll GitHub for workflow status when in polling phase
@@ -265,9 +255,9 @@ export function useBooking() {
   const debugFakeLoading = useCallback(() => {
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
-    progressAnim.setValue(0);
+    progressAnim.value = 0;
     setBooking({ phase: "triggering" });
-    setTimeout(() => startCountdown(generateUUID()), 1500);
+    setTimeout(() => startCountdown(crypto.randomUUID()), 1500);
   }, [startCountdown, doneAnim, progressAnim]);
 
   const debugFakeSuccess = useCallback(() => {
@@ -298,14 +288,14 @@ export function useBooking() {
     pollRef.current = null;
     setBooking({ phase: "idle" });
     setLastBooking(null);
-    progressAnim.setValue(0);
+    progressAnim.value = 0;
     doneAnim.setValue(0);
     AsyncStorage.multiRemove([
       "hsp_triggered_at",
       "hsp_correlation_id",
       "hsp_last_booking",
     ]);
-  }, [progressAnim, doneAnim]);
+  }, [doneAnim, progressAnim]);
   const debugClose = useCallback(() => {
     setDebugOpen(false);
     debugReset();
@@ -333,7 +323,7 @@ export function useBooking() {
   const dismiss = useCallback(async () => {
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
-    progressAnim.setValue(0);
+    progressAnim.value = 0;
     setBooking({ phase: "idle" });
     await Promise.all([
       AsyncStorage.removeItem("hsp_triggered_at"),
@@ -351,16 +341,16 @@ export function useBooking() {
     setBooking({ phase: "polling", correlationId: booking.correlationId });
   }, [booking, doneAnim]);
 
-  // Book
+  // biome-ignore lint/correctness/useExhaustiveDependencies: progressAnim is a stable shared value — same ref across renders, like useRef
   const book = useCallback(async () => {
     if (!email || !password || !sport) {
       return;
     }
 
-    const correlationId = generateUUID();
+    const correlationId = crypto.randomUUID();
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
-    progressAnim.setValue(0);
+    progressAnim.value = 0;
     setBooking({ phase: "triggering" });
     await saveCredentials();
     const now = Date.now();
@@ -414,7 +404,7 @@ export function useBooking() {
     saveCredentials,
     startCountdown,
     doneAnim,
-    progressAnim,
+    // TODO: migrate doneAnim from legacy Animated.Value to Reanimated shared value
   ]);
 
   return {

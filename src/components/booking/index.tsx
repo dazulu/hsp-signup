@@ -11,10 +11,11 @@ import {
   TextInput,
   View,
 } from "react-native";
+import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
-import { styles } from "../../styles";
 import { formatTimeAgo } from "../../utils";
 import { DebugPanel } from "../debug-panel";
+import { styles } from "./styles";
 
 // On native, tapping outside inputs dismisses the keyboard. On web the
 // keyboard is managed by the browser so a plain View is sufficient.
@@ -67,6 +68,10 @@ export function BookingForm() {
     booking.phase === "waiting" ||
     booking.phase === "polling";
   const canBook = !!(email && password && sport) && !isLoading;
+
+  const progressStyle = useAnimatedStyle(() => ({
+    width: `${progressAnim.value * 100}%`,
+  }));
 
   if (!ready) {
     return (
@@ -250,17 +255,7 @@ export function BookingForm() {
             {/* Progress bar */}
             {booking.phase === "waiting" && (
               <View style={styles.progressTrack}>
-                <Animated.View
-                  style={[
-                    styles.progressFill,
-                    {
-                      width: progressAnim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ["0%", "100%"],
-                      }),
-                    },
-                  ]}
-                />
+                <Reanimated.View style={[styles.progressFill, progressStyle]} />
               </View>
             )}
 

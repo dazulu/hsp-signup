@@ -1,5 +1,4 @@
-import { Pressable, Text, View } from "react-native";
-import { styles } from "../styles";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
   onFakeLoading: () => void;
@@ -54,3 +53,50 @@ export function DebugPanel({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  debugPanel: {
+    backgroundColor: "#1a1f36",
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 12,
+  },
+  debugHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  debugTitle: {
+    color: "#ff6b6b",
+    fontFamily: "jakarta-700",
+    fontSize: 12,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  debugClose: {
+    color: "#ff6b6b",
+    fontSize: 16,
+    fontFamily: "jakarta-700",
+    paddingHorizontal: 4,
+  },
+  debugRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  debugBtn: {
+    flex: 1,
+    backgroundColor: "#2d3352",
+    borderRadius: 10,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  debugBtnReset: {
+    backgroundColor: "#4a2030",
+  },
+  debugBtnText: {
+    color: "#fff",
+    fontSize: 12,
+    fontFamily: "jakarta-600",
+  },
+});
