@@ -10,8 +10,19 @@ export const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 8,
   },
+  cardTransparent: {
+    backgroundColor: "transparent",
+    shadowOpacity: 0,
+    elevation: 0,
+  },
   cardPressable: {
     paddingBottom: 40,
+  },
+  title: {
+    fontSize: 13,
+    fontFamily: "jakarta-600",
+    color: "#6b7a99",
+    marginBottom: 4,
   },
   caret: {
     position: "absolute",

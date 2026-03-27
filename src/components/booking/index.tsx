@@ -113,7 +113,7 @@ export const BookingForm = () => {
             />
           )}
 
-          <Card>
+          <Card padding="md">
             {/* Web keeps the card title/subtitle; native surfaces the title
                 via ScreenLayout above the card. */}
             {Platform.OS === "web" && (

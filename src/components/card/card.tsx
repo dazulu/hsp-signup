@@ -1,20 +1,36 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, View, type ViewStyle } from "react-native";
+import { Pressable, Text, View, type ViewStyle } from "react-native";
 import { styles } from "./styles";
 import type { CardProps } from "./types";
 
 const SPAN_STYLES: Record<1 | 2, ViewStyle> = {
-  1: { flexBasis: "48%", flexGrow: 1, flexShrink: 0 },
+  1: { flex: 1 },
   2: { flexBasis: "100%" },
 };
 
-export const Card = ({ children, padding = 28, onPress, span }: CardProps) => {
+const PADDING: Record<"sm" | "md", number> = { sm: 16, md: 28 };
+const TRANSPARENT_PADDING: Record<"sm" | "md", number> = { sm: 8, md: 14 };
+
+export const Card = ({
+  children,
+  title,
+  padding = "sm",
+  onPress,
+  span,
+  transparent = false,
+}: CardProps) => {
   const spanStyle = span != null ? SPAN_STYLES[span] : undefined;
 
   const cardStyle: ViewStyle[] = [
     styles.card,
+    ...(transparent ? [styles.cardTransparent] : []),
     ...(spanStyle ? [spanStyle] : []),
-    { padding },
+    transparent
+      ? {
+          paddingHorizontal: PADDING[padding],
+          paddingVertical: TRANSPARENT_PADDING[padding],
+        }
+      : { padding: PADDING[padding] },
     ...(onPress ? [styles.cardPressable] : []),
   ];
 
@@ -25,6 +41,7 @@ export const Card = ({ children, padding = 28, onPress, span }: CardProps) => {
         onPress={onPress}
         accessibilityRole="button"
       >
+        {title ? <Text style={styles.title}>{title}</Text> : null}
         {children}
         <View style={styles.caret}>
           <Ionicons name="chevron-forward" size={20} color="#4A6CF7" />
@@ -33,5 +50,10 @@ export const Card = ({ children, padding = 28, onPress, span }: CardProps) => {
     );
   }
 
-  return <View style={cardStyle}>{children}</View>;
+  return (
+    <View style={cardStyle}>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      {children}
+    </View>
+  );
 };
