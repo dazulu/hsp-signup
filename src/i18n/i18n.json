@@ -1,0 +1,207 @@
+{
+  "settings.title": {
+    "en": "Settings",
+    "ga": "Socruithe",
+    "de": "Einstellungen"
+  },
+  "settings.language": { "en": "Language", "ga": "Teanga", "de": "Sprache" },
+
+  "tab.club": { "en": "Club", "ga": "Club", "de": "Club" },
+  "tab.book": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "tab.photos": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
+  "tab.settings": {
+    "en": "Settings",
+    "ga": "Socruithe",
+    "de": "Einstellungen"
+  },
+
+  "book.title": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "book.subtitle": {
+    "en": "Automatically book the next available training session at Hochschulsport.",
+    "ga": "Cuir an chéad seisiún traenála eile in áirithe go huathoibríoch ag Hochschulsport.",
+    "de": "Buche automatisch die nächste verfügbare Trainingseinheit beim Hochschulsport."
+  },
+
+  "photos.title": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
+  "photos.comingSoon": {
+    "en": "Coming soon",
+    "ga": "Ag teacht go luath",
+    "de": "Demnächst"
+  },
+
+  "upcoming.title": { "en": "Upcoming", "ga": "Le teacht", "de": "Termine" },
+  "upcoming.subtitle": {
+    "en": "The next events in our calendar that you won't want to miss.",
+    "ga": "Na himeachtaí atá le teacht inár bhféilire nach mbeidh tú ag iarraidh iad a chailleadh.",
+    "de": "Die nächsten Termine in unserem Kalender, die du nicht verpassen solltest."
+  },
+  "upcoming.hurling": {
+    "en": "Hurling / Camogie",
+    "ga": "Iomáint / Camógaíocht",
+    "de": "Hurling / Camogie"
+  },
+  "upcoming.football": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic Football"
+  },
+  "upcoming.tbc": {
+    "en": "Place & Date tbc",
+    "ga": "Áit & Dáta le deimhniú",
+    "de": "Ort & Datum folgt"
+  },
+
+  "booking.formTitle": {
+    "en": "Book Training",
+    "ga": "Cuir Traenáil in Áirithe",
+    "de": "Training buchen"
+  },
+  "booking.formSubtitle": {
+    "en": "Automatically books your next available Hamburg GAA training session.",
+    "ga": "Cuirtear do chéad seisiún traenála Hamburg GAA eile in áirithe go huathoibríoch.",
+    "de": "Bucht automatisch deine nächste verfügbare Hamburg GAA Trainingseinheit."
+  },
+  "booking.emailLabel": {
+    "en": "Hochschulsport Email",
+    "ga": "Ríomhphost Hochschulsport",
+    "de": "Hochschulsport E-Mail"
+  },
+  "booking.emailPlaceholder": {
+    "en": "you@example.com",
+    "ga": "you@example.com",
+    "de": "you@example.com"
+  },
+  "booking.passwordLabel": {
+    "en": "Hochschulsport Password",
+    "ga": "Pasfhocal Hochschulsport",
+    "de": "Hochschulsport Passwort"
+  },
+  "booking.passwordPlaceholder": {
+    "en": "Password",
+    "ga": "Pasfhocal",
+    "de": "Passwort"
+  },
+  "booking.showPassword": { "en": "Show", "ga": "Taispeáin", "de": "Zeigen" },
+  "booking.hidePassword": { "en": "Hide", "ga": "Folaigh", "de": "Verbergen" },
+  "booking.rememberMe": {
+    "en": "Remember login details on this device",
+    "ga": "Cuimhnigh ar shonraí logála isteach ar an ngléas seo",
+    "de": "Anmeldedaten auf diesem Gerät merken"
+  },
+  "booking.sportLabel": { "en": "Sport", "ga": "Spórt", "de": "Sport" },
+  "booking.sport.hurling": {
+    "en": "Hurling & Camogie",
+    "ga": "Iomáint & Camógaíocht",
+    "de": "Hurling & Camogie"
+  },
+  "booking.sport.football": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic Football"
+  },
+  "booking.cta": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "booking.status.starting": {
+    "en": "Starting…",
+    "ga": "Ag tosú…",
+    "de": "Wird gestartet…"
+  },
+  "booking.status.checking": {
+    "en": "Checking…",
+    "ga": "Ag seiceáil…",
+    "de": "Wird geprüft…"
+  },
+  "booking.status.inProgress": {
+    "en": "Booking in progress…",
+    "ga": "Áirithint ar siúl…",
+    "de": "Buchung läuft…"
+  },
+  "booking.result.success": {
+    "en": "Booked! You'll get a confirmation email from Hochschulsport Hamburg. Nothing within 10 minutes? Try again.",
+    "ga": "Curtha in áirithe! Gheobhaidh tú ríomhphost deimhnithe ó Hochschulsport Hamburg. Faic laistigh de 10 nóiméad? Bain triail eile as.",
+    "de": "Gebucht! Du erhältst eine Bestätigungs-E-Mail vom Hochschulsport Hamburg. Nichts innerhalb von 10 Minuten? Versuch es erneut."
+  },
+  "booking.result.failure": {
+    "en": "Booking failed. Check your login details and that your Hochschulsport Hamburg membership is active.",
+    "ga": "Theip ar an áirithint. Seiceáil do shonraí logála isteach agus go bhfuil do bhallraíocht Hochschulsport Hamburg gníomhach.",
+    "de": "Buchung fehlgeschlagen. Überprüfe deine Anmeldedaten und ob deine Hochschulsport Hamburg Mitgliedschaft aktiv ist."
+  },
+  "booking.result.timeout": {
+    "en": "Couldn't confirm the result. Check your email — if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
+    "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost — mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
+    "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails — falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch es erneut."
+  },
+  "booking.dismiss": { "en": "Dismiss", "ga": "Dún", "de": "Schließen" },
+  "booking.disclaimer.noSave": {
+    "en": "Your credentials are not saved and are used only to complete the booking.",
+    "ga": "Ní shábháiltear do shonraí logála agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
+    "de": "Deine Zugangsdaten werden nicht gespeichert und nur zur Buchung verwendet."
+  },
+  "booking.disclaimer.saved": {
+    "en": "Your credentials are stored securely on this device and used only to complete the booking.",
+    "ga": "Stóráiltear do shonraí logála go slán ar an ngléas seo agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
+    "de": "Deine Zugangsdaten werden sicher auf diesem Gerät gespeichert und nur zur Buchung verwendet."
+  },
+  "booking.error.startFailed": {
+    "en": "Could not start the booking. Please try again later.",
+    "ga": "Níorbh fhéidir an áirithint a thosú. Bain triail eile as ar ball.",
+    "de": "Die Buchung konnte nicht gestartet werden. Bitte versuche es später erneut."
+  },
+  "booking.error.noInternet": {
+    "en": "Couldn't connect. Check your internet and try again.",
+    "ga": "Níorbh fhéidir ceangal. Seiceáil do idirlíon agus bain triail eile as.",
+    "de": "Keine Verbindung möglich. Überprüfe deine Internetverbindung und versuche es erneut."
+  },
+  "booking.error.title": { "en": "Error", "ga": "Earráid", "de": "Fehler" },
+
+  "card.lastBooking.title": {
+    "en": "Hochschulsport Booking",
+    "ga": "Áirithint Hochschulsport",
+    "de": "Hochschulsport Buchung"
+  },
+  "card.links.title": { "en": "Links", "ga": "Naisc", "de": "Links" },
+  "card.strava.distance": {
+    "en": "Recent Distance",
+    "ga": "Fad le déanaí",
+    "de": "Letzte Distanz"
+  },
+  "card.strava.pace": {
+    "en": "Average Pace",
+    "ga": "Meánluas",
+    "de": "Durchschnittstempo"
+  },
+  "card.upcoming.title": {
+    "en": "Upcoming",
+    "ga": "Le teacht",
+    "de": "Termine"
+  },
+
+  "error.title": {
+    "en": "Something went wrong",
+    "ga": "Chuaigh rud éigin mícheart",
+    "de": "Etwas ist schiefgelaufen"
+  },
+  "error.body": {
+    "en": "Reload the app to try again. If the problem persists, touch grass.",
+    "ga": "Athlódáil an aip chun iarracht eile a dhéanamh. Má leanann an fhadhb, téigh amach faoin aer.",
+    "de": "Lade die App neu, um es erneut zu versuchen. Wenn das Problem weiterhin besteht, geh mal raus."
+  },
+  "error.reload": { "en": "Reload", "ga": "Athlódáil", "de": "Neu laden" },
+
+  "time.justNow": {
+    "en": "just now",
+    "ga": "díreach anois",
+    "de": "gerade eben"
+  },
+  "time.minutesAgo": {
+    "en": "${n}m ago",
+    "ga": "${n}n ó shin",
+    "de": "vor ${n}m"
+  },
+  "time.hoursAgo": {
+    "en": "${n}h ago",
+    "ga": "${n}u ó shin",
+    "de": "vor ${n}h"
+  },
+  "time.yesterday": { "en": "yesterday", "ga": "inné", "de": "gestern" },
+  "time.daysAgo": { "en": "${n}d ago", "ga": "${n}l ó shin", "de": "vor ${n}T" }
+}

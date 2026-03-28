@@ -13,15 +13,24 @@
 ```
 src/
   App.tsx                      Root component (render only)
+  App.native.tsx               Native root with bottom tab navigator
   styles.ts                    App-shell styles (flex, gradient) — not for component use
   theme/index.ts               Design tokens: colours, radii, spacing, typography, shadows
   secure-store.ts              SecureStore/localStorage abstraction
-  utils.ts                     formatTimeAgo helper
+  utils.ts                     formatTimeAgo helper (locale-aware)
+  i18n/
+    i18n.json                  All translatable strings: { key: { en, ga, de } }
+    index.tsx                  LocaleContext, LocaleProvider, useLocale() hook
+    types.ts                   Locale union type, TranslationKey, LOCALE_LABELS
   hooks/
     use-booking.ts             Booking state machine, effects, callbacks
     use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
+    use-welcome-text/          Locale-aware greeting pool
   components/
+    language-switcher/         Bottom-sheet language picker (native only)
     debug-panel.tsx            Dev-only debug panel (hidden in production builds)
+  screens/
+    settings.tsx               Settings screen with language switcher
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
@@ -86,3 +95,5 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 **Timer and correlation state persists across restarts.** `triggered_at` and `correlation_id` are stored in AsyncStorage. On app launch, if a booking was triggered recently and is still within the countdown/polling window, the app resumes the correct state rather than losing progress.
 
 **Web uses relative API URLs.** On web the app is served from the same origin as the Netlify functions, so `fetch("/api/book")` works without setting `EXPO_PUBLIC_API_URL`. Native builds still need the full URL.
+
+**i18n uses custom React Context (no external library).** Translations live in `src/i18n/i18n.json` — flat key map with `{ en, ga, de }` per key. `LocaleProvider` reads/writes `hsp_locale` from AsyncStorage on native; web is locked to English. `useLocale()` returns `{ locale, setLocale, t }` where `t(key)` does a simple lookup. `TranslationKey` is derived from the JSON keys for compile-time safety. The Settings tab (native only) has a `LanguageSwitcher` — a bottom-sheet modal listing all three languages.

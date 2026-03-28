@@ -35,8 +35,19 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - No external state library. React hooks + `useCallback`/`useEffect`/`useRef`.
 - `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/timeout).
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
-- `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking).
+- `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
+
+## i18n
+
+- Custom React Context in `src/i18n/` — no external i18n library.
+- Translations in `src/i18n/i18n.json`: flat key map, each key has `{ en, ga, de }`.
+- `useLocale()` returns `{ locale, setLocale, t }`. Use `t("key")` for all user-facing strings.
+- `TranslationKey` (derived from JSON keys) provides compile-time safety — typos are type errors.
+- Web is locked to English (`locale = "en"` always). Native reads/writes `hsp_locale` in AsyncStorage.
+- Language switcher lives in the Settings tab (native only) — a bottom-sheet modal.
+- `formatTimeAgo` in `utils.ts` takes an optional `locale` param, defaults to `"en"`.
+- Error boundary strings stay in English (class component, renders outside `LocaleProvider`).
 
 ## Serverless Functions
 

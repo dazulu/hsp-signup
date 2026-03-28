@@ -11,11 +11,16 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { ErrorBoundary } from "./components/error-boundary";
+import { LocaleProvider, useLocale } from "./i18n";
 import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
 import { PhotosScreen } from "./screens/photos";
+import { SettingsScreen } from "./screens/settings";
 import { UpcomingEventsScreen } from "./screens/upcoming-events";
 import { styles } from "./styles";
+import { theme } from "./theme";
+
+const { colors, radii, space, fontFamily, fontSize, shadows } = theme;
 
 const navTheme = {
   ...DefaultTheme,
@@ -24,14 +29,26 @@ const navTheme = {
 
 const Tab = createBottomTabNavigator();
 
+const TAB_LABEL_KEYS: Record<
+  string,
+  "tab.club" | "tab.book" | "tab.photos" | "tab.settings"
+> = {
+  Club: "tab.club",
+  Book: "tab.book",
+  Photos: "tab.photos",
+  Settings: "tab.settings",
+};
+
 const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
   Club: { active: "shield", inactive: "shield-outline" },
   Book: { active: "calendar", inactive: "calendar-outline" },
   Photos: { active: "images", inactive: "images-outline" },
+  Settings: { active: "settings", inactive: "settings-outline" },
 };
 
 function AppShell() {
   const insets = useSafeAreaInsets();
+  const { t } = useLocale();
 
   return (
     <View style={shellStyles.root}>
@@ -46,26 +63,25 @@ function AppShell() {
             animation: "shift",
             headerShown: false,
             tabBarShowLabel: true,
-            tabBarActiveTintColor: "#4A6CF7",
-            tabBarInactiveTintColor: "#6b7a99",
+            tabBarActiveTintColor: colors.primary,
+            tabBarInactiveTintColor: colors.textMuted,
+            tabBarLabel: TAB_LABEL_KEYS[route.name]
+              ? t(TAB_LABEL_KEYS[route.name])
+              : route.name,
             tabBarStyle: {
-              backgroundColor: "#fff",
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
+              backgroundColor: colors.surface,
+              borderTopLeftRadius: radii.xl,
+              borderTopRightRadius: radii.xl,
               borderTopWidth: 0,
               height: 88,
-              elevation: 8,
-              shadowColor: "#000",
-              shadowOpacity: 0.12,
-              shadowRadius: 12,
-              shadowOffset: { width: 0, height: -2 },
+              ...shadows.card,
             },
             tabBarItemStyle: {
-              paddingTop: 10,
+              paddingTop: space[10],
             },
             tabBarLabelStyle: {
-              fontFamily: "jakarta-600",
-              fontSize: 14,
+              fontFamily: fontFamily.semibold,
+              fontSize: fontSize.md,
             },
             tabBarIcon: ({ focused, color, size }) => {
               const icon = TAB_ICONS[route.name];
@@ -77,7 +93,9 @@ function AppShell() {
                     width: pillW,
                     height: pillH,
                     borderRadius: pillH / 2,
-                    backgroundColor: focused ? "#e4ecfd" : "transparent",
+                    backgroundColor: focused
+                      ? colors.surfaceInput
+                      : "transparent",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
@@ -101,6 +119,7 @@ function AppShell() {
           <Tab.Screen name="Club" component={ClubScreen} />
           <Tab.Screen name="Book" component={BookScreen} />
           <Tab.Screen name="Photos" component={PhotosScreen} />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
           <Tab.Screen
             name="UpcomingEvents"
             component={UpcomingEventsScreen}
@@ -160,7 +179,9 @@ export const App = () => {
     <ErrorBoundary>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
-          <AppShell />
+          <LocaleProvider>
+            <AppShell />
+          </LocaleProvider>
           <StatusBar style="dark" />
         </SafeAreaProvider>
       </GestureHandlerRootView>

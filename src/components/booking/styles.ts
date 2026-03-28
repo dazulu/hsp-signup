@@ -109,6 +109,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.border,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.surfaceInput,
   },
   sportBtnActive: {
@@ -123,6 +124,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.semibold,
     color: colors.textMuted,
     includeFontPadding: false,
+    textAlign: "center",
   },
   sportBtnTextActive: { color: colors.textOnPrimary },
   bookBtn: {
@@ -177,7 +179,7 @@ export const styles = StyleSheet.create({
   },
   dismissBtn: { marginTop: space[12], alignSelf: "center" },
   dismissBtnText: {
-    color: colors.primary,
+    color: colors.textMuted,
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.md,
   },
@@ -185,11 +187,6 @@ export const styles = StyleSheet.create({
   statusBoxNeutral: { backgroundColor: colors.surfaceInput },
   statusTextError: { color: colors.errorText },
   statusTextNeutral: { color: colors.textPrimary },
-  statusBtnRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: space[16],
-  },
   lastBookingBox: {
     backgroundColor: colors.surface,
     borderRadius: radii.lg,
@@ -245,6 +242,7 @@ export const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   saveOnDeviceLabel: {
+    flex: 1,
     fontSize: fontSize.sm,
     fontFamily: fontFamily.regular,
     color: colors.textMuted,

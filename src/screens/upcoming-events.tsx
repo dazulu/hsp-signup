@@ -1,6 +1,7 @@
 import { ScrollView, Text, View } from "react-native";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout } from "../components/screen-layout";
+import { useLocale } from "../i18n";
 import { styles } from "./upcoming-events.styles";
 
 type SportEvent = { location: string; date: string };
@@ -17,18 +18,21 @@ const FOOTBALL_EVENTS: SportEvent[] = [
   { location: "Luxembourg", date: "May 30th" },
   { location: "Eindhoven", date: "September 26th" },
   { location: "Lyon (Pan Euros)", date: "October 17th" },
-  { location: "German Cup", date: "Place & Date tbc" },
 ];
 
 export const UpcomingEventsScreen = () => {
+  const { t } = useLocale();
+
+  const footballEvents: SportEvent[] = [
+    ...FOOTBALL_EVENTS,
+    { location: "German Cup", date: t("upcoming.tbc") },
+  ];
+
   return (
-    <ScreenLayout
-      title="Upcoming"
-      subtitle="The next events in our calendar that you won't want to miss."
-    >
+    <ScreenLayout title={t("upcoming.title")} subtitle={t("upcoming.subtitle")}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <CardGrid>
-          <Card span={2} title="Hurling / Camogie">
+          <Card span={2} title={t("upcoming.hurling")}>
             <View style={styles.cardContent}>
               {HURLING_EVENTS.map((event, i) => (
                 <View key={event.location}>
@@ -41,9 +45,9 @@ export const UpcomingEventsScreen = () => {
               ))}
             </View>
           </Card>
-          <Card span={2} title="Gaelic Football">
+          <Card span={2} title={t("upcoming.football")}>
             <View style={styles.cardContent}>
-              {FOOTBALL_EVENTS.map((event, i) => (
+              {footballEvents.map((event, i) => (
                 <View key={event.location}>
                   {i > 0 && <View style={styles.divider} />}
                   <View style={styles.eventRow}>

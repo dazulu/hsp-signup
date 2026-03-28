@@ -3,4 +3,5 @@ export type TabParamList = {
   Book: undefined;
   Photos: undefined;
   UpcomingEvents: undefined;
+  Settings: undefined;
 };

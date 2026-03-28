@@ -12,15 +12,23 @@ import {
   View,
 } from "react-native";
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
+import type { SportKey } from "../../hooks/use-booking";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
 import { useLastBookingLabel } from "../../hooks/use-last-booking-label";
+import { useLocale } from "../../i18n";
+import type { TranslationKey } from "../../i18n/types";
 import { theme } from "../../theme";
 import { Card } from "../card";
 
-const { colors } = theme;
-
 import { DebugPanel } from "../debug-panel";
 import { styles } from "./styles";
+
+const { colors } = theme;
+
+const SPORT_LABEL_KEYS: Record<SportKey, TranslationKey> = {
+  hurling: "booking.sport.hurling",
+  football: "booking.sport.football",
+};
 
 // On native, tapping outside inputs dismisses the keyboard. On web the
 // keyboard is managed by the browser so a plain View is sufficient.
@@ -38,6 +46,7 @@ const DismissWrapper =
       );
 
 export const BookingForm = () => {
+  const { t } = useLocale();
   const {
     email,
     setEmail,
@@ -53,7 +62,6 @@ export const BookingForm = () => {
     booking,
     book,
     dismiss,
-    checkAgain,
     lastBooking,
     ready,
     doneAnim,
@@ -124,25 +132,22 @@ export const BookingForm = () => {
             {Platform.OS === "web" && (
               <>
                 <View style={styles.titleRow}>
-                  <Text style={styles.title}>Book Training</Text>
+                  <Text style={styles.title}>{t("booking.formTitle")}</Text>
                   <View style={styles.betaBadge}>
                     <Text style={styles.betaText}>BETA</Text>
                   </View>
                 </View>
-                <Text style={styles.subtitle}>
-                  Automatically books your next available Hamburg GAA training
-                  session.
-                </Text>
+                <Text style={styles.subtitle}>{t("booking.formSubtitle")}</Text>
               </>
             )}
 
             {/* Email */}
-            <Text style={styles.label}>Hochschulsport Email</Text>
+            <Text style={styles.label}>{t("booking.emailLabel")}</Text>
             <TextInput
               style={[styles.input, isLoading && styles.inputDisabled]}
               value={email}
               onChangeText={setEmail}
-              placeholder="you@example.com"
+              placeholder={t("booking.emailPlaceholder")}
               placeholderTextColor={colors.textPlaceholder}
               keyboardType="email-address"
               autoCapitalize="none"
@@ -150,11 +155,11 @@ export const BookingForm = () => {
               autoComplete="email"
               editable={!isLoading}
               onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
-              accessibilityLabel="Email address"
+              accessibilityLabel={t("booking.emailLabel")}
             />
 
             {/* Password */}
-            <Text style={styles.label}>Hochschulsport Password</Text>
+            <Text style={styles.label}>{t("booking.passwordLabel")}</Text>
             <View style={styles.passwordRow}>
               <TextInput
                 style={[
@@ -164,13 +169,13 @@ export const BookingForm = () => {
                 ]}
                 value={password}
                 onChangeText={setPassword}
-                placeholder="Password"
+                placeholder={t("booking.passwordPlaceholder")}
                 placeholderTextColor={colors.textPlaceholder}
                 secureTextEntry={!showPassword}
                 autoComplete="password"
                 editable={!isLoading}
                 onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
-                accessibilityLabel="Password"
+                accessibilityLabel={t("booking.passwordLabel")}
               />
               <Pressable
                 style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
@@ -178,11 +183,15 @@ export const BookingForm = () => {
                 disabled={isLoading}
                 accessibilityRole="button"
                 accessibilityLabel={
-                  showPassword ? "Hide password" : "Show password"
+                  showPassword
+                    ? t("booking.hidePassword")
+                    : t("booking.showPassword")
                 }
               >
                 <Text style={styles.eyeText}>
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword
+                    ? t("booking.hidePassword")
+                    : t("booking.showPassword")}
                 </Text>
               </Pressable>
             </View>
@@ -194,7 +203,7 @@ export const BookingForm = () => {
                 onPress={() => setSaveOnDevice(!saveOnDevice)}
                 accessibilityRole="checkbox"
                 accessibilityState={{ checked: saveOnDevice }}
-                accessibilityLabel="Remember login details on this device"
+                accessibilityLabel={t("booking.rememberMe")}
                 disabled={isLoading}
               >
                 <View
@@ -208,13 +217,13 @@ export const BookingForm = () => {
                   )}
                 </View>
                 <Text style={styles.saveOnDeviceLabel}>
-                  Remember login details on this device
+                  {t("booking.rememberMe")}
                 </Text>
               </Pressable>
             )}
 
             {/* Sport picker */}
-            <Text style={styles.label}>Sport</Text>
+            <Text style={styles.label}>{t("booking.sportLabel")}</Text>
             <View style={styles.sportRow}>
               {SPORTS.map((s) => (
                 <Pressable
@@ -228,7 +237,7 @@ export const BookingForm = () => {
                   disabled={isLoading}
                   accessibilityRole="button"
                   accessibilityState={{ selected: sport === s.key }}
-                  accessibilityLabel={`Select ${s.label}`}
+                  accessibilityLabel={t(SPORT_LABEL_KEYS[s.key])}
                 >
                   <Text
                     style={[
@@ -236,7 +245,7 @@ export const BookingForm = () => {
                       sport === s.key && styles.sportBtnTextActive,
                     ]}
                   >
-                    {s.label}
+                    {t(SPORT_LABEL_KEYS[s.key])}
                   </Text>
                 </Pressable>
               ))}
@@ -249,7 +258,7 @@ export const BookingForm = () => {
               disabled={!canBook}
               accessibilityRole="button"
               accessibilityLabel={
-                isLoading ? "Booking in progress" : "Book training session"
+                isLoading ? t("booking.status.inProgress") : t("booking.cta")
               }
             >
               {isLoading ? (
@@ -260,14 +269,14 @@ export const BookingForm = () => {
                   />
                   <Text style={styles.bookBtnText}>
                     {booking.phase === "triggering"
-                      ? "Starting…"
+                      ? t("booking.status.starting")
                       : booking.phase === "polling"
-                        ? "Checking…"
-                        : "Booking in progress…"}
+                        ? t("booking.status.checking")
+                        : t("booking.status.inProgress")}
                   </Text>
                 </View>
               ) : (
-                <Text style={styles.bookBtnText}>Book</Text>
+                <Text style={styles.bookBtnText}>{t("booking.cta")}</Text>
               )}
             </Pressable>
 
@@ -282,16 +291,17 @@ export const BookingForm = () => {
             {booking.phase === "success" && (
               <Animated.View style={[styles.statusBox, { opacity: doneAnim }]}>
                 <Text style={styles.statusText}>
-                  Booked! You'll get a confirmation email from Hochschulsport
-                  Hamburg. Nothing within 10 minutes? Try again.
+                  {t("booking.result.success")}
                 </Text>
                 <Pressable
                   style={styles.dismissBtn}
                   onPress={dismiss}
                   accessibilityRole="button"
-                  accessibilityLabel="Dismiss success message"
+                  accessibilityLabel={t("booking.dismiss")}
                 >
-                  <Text style={styles.dismissBtnText}>Dismiss</Text>
+                  <Text style={styles.dismissBtnText}>
+                    {t("booking.dismiss")}
+                  </Text>
                 </Pressable>
               </Animated.View>
             )}
@@ -306,16 +316,17 @@ export const BookingForm = () => {
                 ]}
               >
                 <Text style={[styles.statusText, styles.statusTextError]}>
-                  Booking failed. Check your login details and that your
-                  Hochschulsport Hamburg membership is active.
+                  {t("booking.result.failure")}
                 </Text>
                 <Pressable
                   style={styles.dismissBtn}
                   onPress={dismiss}
                   accessibilityRole="button"
-                  accessibilityLabel="Dismiss failure message"
+                  accessibilityLabel={t("booking.dismiss")}
                 >
-                  <Text style={styles.dismissBtnText}>Dismiss</Text>
+                  <Text style={styles.dismissBtnText}>
+                    {t("booking.dismiss")}
+                  </Text>
                 </Pressable>
               </Animated.View>
             )}
@@ -330,28 +341,18 @@ export const BookingForm = () => {
                 ]}
               >
                 <Text style={[styles.statusText, styles.statusTextNeutral]}>
-                  Couldn't confirm the result. Check your email — if nothing
-                  from Hochschulsport Hamburg arrives within 10 minutes, try
-                  again.
+                  {t("booking.result.timeout")}
                 </Text>
-                <View style={styles.statusBtnRow}>
-                  <Pressable
-                    style={styles.dismissBtn}
-                    onPress={checkAgain}
-                    accessibilityRole="button"
-                    accessibilityLabel="Check again"
-                  >
-                    <Text style={styles.dismissBtnText}>Check Again</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.dismissBtn}
-                    onPress={dismiss}
-                    accessibilityRole="button"
-                    accessibilityLabel="Dismiss message"
-                  >
-                    <Text style={styles.dismissBtnText}>Dismiss</Text>
-                  </Pressable>
-                </View>
+                <Pressable
+                  style={styles.dismissBtn}
+                  onPress={dismiss}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("booking.dismiss")}
+                >
+                  <Text style={styles.dismissBtnText}>
+                    {t("booking.dismiss")}
+                  </Text>
+                </Pressable>
               </Animated.View>
             )}
           </Card>
@@ -371,10 +372,10 @@ export const BookingForm = () => {
             suppressHighlighting
           >
             {Platform.OS === "web"
-              ? "Your credentials are not saved and are used only to complete the booking."
+              ? t("booking.disclaimer.noSave")
               : saveOnDevice
-                ? "Your credentials are stored securely on this device and used only to complete the booking."
-                : "Your credentials are not saved and are used only to complete the booking."}
+                ? t("booking.disclaimer.saved")
+                : t("booking.disclaimer.noSave")}
           </Text>
         </DismissWrapper>
       </ScrollView>

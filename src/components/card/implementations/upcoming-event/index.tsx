@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View } from "react-native";
+import { useLocale } from "../../../../i18n";
 import type { TabParamList } from "../../../../navigation/types";
 import { theme } from "../../../../theme";
 import { Card, cardStyles } from "../../";
@@ -10,12 +11,13 @@ import { styles } from "./styles";
 const { colors } = theme;
 
 export const UpcomingEventCard = () => {
+  const { t } = useLocale();
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   return (
     <Card
       span={2}
-      title="Upcoming"
+      title={t("card.upcoming.title")}
       onPress={() => navigation.navigate("UpcomingEvents")}
     >
       <View style={styles.content}>

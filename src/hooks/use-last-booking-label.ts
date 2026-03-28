@@ -1,12 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import type { LastBooking } from "../components/card/implementations/last-booking/types";
+import { useLocale } from "../i18n";
+import type { TranslationKey } from "../i18n/types";
 import { formatTimeAgo } from "../utils";
 import { SPORTS } from "./use-booking";
 
 export const useLastBookingLabel = (
   bookingOverride?: LastBooking | null,
 ): string | null => {
+  const { locale, t } = useLocale();
   const useAsyncStorage = bookingOverride === undefined;
   const [asyncBooking, setAsyncBooking] = useState<LastBooking | null>(null);
   const [, setTick] = useState(0);
@@ -30,8 +33,10 @@ export const useLastBookingLabel = (
     return null;
   }
 
-  const sportLabel = SPORTS.find((s) => s.key === booking.sport)?.label;
-  return sportLabel
-    ? `${sportLabel} · ${formatTimeAgo(booking.bookedAt)}`
-    : null;
+  const match = SPORTS.find((s) => s.key === booking.sport);
+  if (!match) {
+    return null;
+  }
+  const sportLabel = t(match.translationKey as TranslationKey);
+  return `${sportLabel} · ${formatTimeAgo(booking.bookedAt, locale)}`;
 };

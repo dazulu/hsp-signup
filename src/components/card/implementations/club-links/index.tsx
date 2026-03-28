@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Linking, Pressable, Text, View } from "react-native";
+import { useLocale } from "../../../../i18n";
 import { theme } from "../../../../theme";
 import { Card } from "../../";
 import { styles } from "./styles";
@@ -31,8 +32,10 @@ const LINKS: ClubLink[] = [
 ];
 
 export const ClubLinksCard = () => {
+  const { t } = useLocale();
+
   return (
-    <Card span={2} title="Links">
+    <Card span={2} title={t("card.links.title")}>
       <View style={styles.list}>
         {LINKS.map((link) => (
           <Pressable

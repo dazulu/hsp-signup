@@ -3,6 +3,7 @@ import * as Haptics from "expo-haptics";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, Platform } from "react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
+import { useLocale } from "../i18n";
 import { useCredentials } from "./use-credentials";
 
 const uuid = (): string =>
@@ -19,8 +20,16 @@ const POLL_INTERVAL_MS = 10_000;
 const MAX_POLLS = 10;
 
 export const SPORTS = [
-  { key: "hurling", label: "Hurling & Camogie" },
-  { key: "football", label: "Gaelic Football" },
+  {
+    key: "hurling",
+    label: "Hurling & Camogie",
+    translationKey: "booking.sport.hurling" as const,
+  },
+  {
+    key: "football",
+    label: "Gaelic Football",
+    translationKey: "booking.sport.football" as const,
+  },
 ] as const;
 
 export type SportKey = (typeof SPORTS)[number]["key"];
@@ -34,6 +43,7 @@ export type BookingState =
   | { phase: "timeout"; correlationId: string };
 
 export const useBooking = () => {
+  const { t } = useLocale();
   const {
     email,
     setEmail,
@@ -381,10 +391,7 @@ export const useBooking = () => {
           AsyncStorage.removeItem("hsp_correlation_id"),
         ]);
         setBooking({ phase: "idle" });
-        Alert.alert(
-          "Error",
-          "Could not start the booking. Please try again later.",
-        );
+        Alert.alert(t("booking.error.title"), t("booking.error.startFailed"));
         return;
       }
 
@@ -398,10 +405,7 @@ export const useBooking = () => {
         AsyncStorage.removeItem("hsp_correlation_id"),
       ]);
       setBooking({ phase: "idle" });
-      Alert.alert(
-        "Error",
-        "Couldn't connect. Check your internet and try again.",
-      );
+      Alert.alert(t("booking.error.title"), t("booking.error.noInternet"));
     }
   }, [
     email,
@@ -410,6 +414,7 @@ export const useBooking = () => {
     saveCredentials,
     startCountdown,
     doneAnim,
+    t,
     // TODO: migrate doneAnim from legacy Animated.Value to Reanimated shared value
   ]);
 

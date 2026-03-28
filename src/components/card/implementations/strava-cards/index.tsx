@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Platform, Text } from "react-native";
+import { useLocale } from "../../../../i18n";
 import { Card, cardStyles } from "../../";
 import { styles } from "./styles";
 import type { StravaData } from "./types";
@@ -15,6 +16,7 @@ const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 const stravaLogo = require("../../../../../assets/strava.png");
 
 export const StravaCards = () => {
+  const { t } = useLocale();
   const [data, setData] = useState<StravaData | null>(null);
 
   useEffect(() => {
@@ -62,10 +64,14 @@ export const StravaCards = () => {
 
   return (
     <>
-      <Card span={1} title="Recent Distance" backgroundImage={stravaLogo}>
+      <Card
+        span={1}
+        title={t("card.strava.distance")}
+        backgroundImage={stravaLogo}
+      >
         <Text style={[cardStyles.bodyText, styles.value]}>{km}</Text>
       </Card>
-      <Card span={1} title="Average Pace" backgroundImage={stravaLogo}>
+      <Card span={1} title={t("card.strava.pace")} backgroundImage={stravaLogo}>
         <Text style={[cardStyles.bodyText, styles.value]}>{pace}</Text>
       </Card>
     </>
