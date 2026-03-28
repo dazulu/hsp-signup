@@ -1,16 +1,11 @@
 {
   "expo": {
-    "name": "HSP Signup",
-    "slug": "easy-hsp-signup",
+    "name": "Hamburg GAA",
+    "slug": "hamburg-gaa",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "extra": {
-      "eas": {
-        "projectId": "ead7a4b6-47bd-465a-8f24-52ba020eaf92"
-      }
-    },
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -18,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dazulu.hspsignup",
+      "bundleIdentifier": "com.dazulu.hamburggaa",
       "newArchEnabled": true
     },
     "android": {
@@ -26,17 +21,25 @@
         "backgroundColor": "#11364E",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "package": "com.dazulu.hspsignup",
+      "package": "com.dazulu.hamburggaa",
       "newArchEnabled": true
     },
     "owner": "shiftyapplications",
-    "plugins": ["expo-font", "expo-secure-store"],
+    "plugins": [
+      "expo-font",
+      "expo-secure-store"
+    ],
     "web": {
       "bundler": "metro",
       "output": "spa",
       "favicon": "./assets/icon.png",
-      "title": "Hamburg GAA | HSP Booking",
-      "description": "Book your next Hamburg GAA Hochschulsport training session in one tap."
+      "title": "Hamburg GAA",
+      "description": "The official app of the Hamburg GAA, the Gaelic Athletic Association club in Hamburg. Stay up to date with the latest news, events, and training sessions of our club."
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e3cf3c92-c4fb-4747-8d95-6687f096f3b4"
+      }
     }
   }
 }
