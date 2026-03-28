@@ -30,7 +30,7 @@ src/
     language-switcher/         Bottom-sheet language picker (native only)
     debug-panel.tsx            Dev-only debug panel (hidden in production builds)
   screens/
-    settings.tsx               Settings screen with language switcher
+    settings.tsx               Settings screen — language switcher + version card (long-press copies debug info)
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId

@@ -1,4 +1,17 @@
-import { ScrollView, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Clipboard from "expo-clipboard";
+import Constants from "expo-constants";
+import * as Device from "expo-device";
+import * as Haptics from "expo-haptics";
+import { useCallback } from "react";
+import {
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LanguageSwitcher } from "../components/language-switcher";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
@@ -8,10 +21,48 @@ import { styles } from "./settings.styles";
 
 const { space } = theme;
 
+const appVersion = Constants.expoConfig?.version ?? "—";
+
+const STORAGE_KEYS = [
+  "hsp_save_on_device",
+  "hsp_sport",
+  "hsp_triggered_at",
+  "hsp_correlation_id",
+  "hsp_last_booking",
+  "hsp_strava_cache",
+  "hsp_has_opened_app_before",
+  "hsp_locale",
+];
+
 const SettingsScrollContent = () => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
+
+  const copyDebugInfo = useCallback(async () => {
+    if (Platform.OS !== "web") {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    const pairs = await AsyncStorage.multiGet(STORAGE_KEYS);
+    const storageLines = pairs
+      .filter(([, v]) => v != null)
+      .map(([k, v]) => `  ${k}: ${v}`)
+      .join("\n");
+
+    const brand = Device.brand ?? "";
+    const model = Device.modelName ?? "unknown";
+    const deviceLabel = brand ? `${brand} ${model}` : model;
+
+    const lines = [
+      `Device: ${deviceLabel}`,
+      `OS: ${Platform.OS} ${Device.osVersion ?? Platform.Version}`,
+      `App Version: ${appVersion}`,
+      storageLines ? `Storage:\n${storageLines}` : "Storage: (empty)",
+    ];
+
+    await Clipboard.setStringAsync(lines.join("\n"));
+    Alert.alert(t("settings.version"), t("settings.debugCopied"));
+  }, [t]);
 
   return (
     <ScrollView
@@ -27,6 +78,19 @@ const SettingsScrollContent = () => {
           <LanguageSwitcher />
         </View>
       </View>
+
+      <Pressable
+        style={styles.section}
+        onLongPress={copyDebugInfo}
+        delayLongPress={500}
+        accessibilityRole="button"
+        accessibilityLabel={t("settings.version")}
+      >
+        <View style={styles.row}>
+          <Text style={styles.rowLabel}>{t("settings.version")}</Text>
+          <Text style={styles.rowValue}>{appVersion}</Text>
+        </View>
+      </Pressable>
     </ScrollView>
   );
 };

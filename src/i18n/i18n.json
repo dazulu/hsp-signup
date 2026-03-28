@@ -5,6 +5,12 @@
     "de": "Einstellungen"
   },
   "settings.language": { "en": "Language", "ga": "Teanga", "de": "Sprache" },
+  "settings.version": { "en": "Version", "ga": "Leagan", "de": "Version" },
+  "settings.debugCopied": {
+    "en": "Debug info copied to clipboard",
+    "ga": "Eolas dífhabhtaithe cóipeáilte",
+    "de": "Debug-Info in Zwischenablage kopiert"
+  },
   "settings.subtitle": {
     "en": "Personalise your app experience.",
     "ga": "Saincheap d'eispéireas aipe.",

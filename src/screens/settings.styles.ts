@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   scroll: {
     padding: space[16],
     paddingTop: space[16] + 20,
+    gap: space[16],
   },
   section: {
     backgroundColor: colors.surface,
@@ -23,5 +24,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.body,
     color: colors.textMuted,
+    includeFontPadding: false,
+  },
+  rowValue: {
+    fontFamily: fontFamily.medium,
+    fontSize: fontSize.body,
+    color: colors.textPrimary,
+    includeFontPadding: false,
   },
 });
