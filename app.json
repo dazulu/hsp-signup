@@ -25,10 +25,7 @@
       "newArchEnabled": true
     },
     "owner": "shiftyapplications",
-    "plugins": [
-      "expo-font",
-      "expo-secure-store"
-    ],
+    "plugins": ["expo-font", "expo-secure-store"],
     "web": {
       "bundler": "metro",
       "output": "spa",

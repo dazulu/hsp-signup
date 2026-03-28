@@ -197,4 +197,36 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     includeFontPadding: false,
   },
+  saveOnDeviceRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space[10],
+    marginTop: space[14],
+  },
+  checkbox: {
+    width: 18,
+    height: 18,
+    borderRadius: radii.sm,
+    borderWidth: 1.5,
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.surfaceInput,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxChecked: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  checkboxTick: {
+    color: colors.textOnPrimary,
+    fontSize: fontSize.xs,
+    fontFamily: fontFamily.bold,
+    lineHeight: 14,
+    includeFontPadding: false,
+  },
+  saveOnDeviceLabel: {
+    fontSize: fontSize.sm,
+    fontFamily: fontFamily.regular,
+    color: colors.textMuted,
+  },
 });

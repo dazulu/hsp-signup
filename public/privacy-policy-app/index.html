@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Hamburg GAA App</title>
+  <style>
+    :root { --bg: #11364E; --surface: #ffffff; --text: #1a1f36; --muted: #6b7a99; --accent: #4A6CF7; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 720px; margin: 40px auto; background: var(--surface); border-radius: 24px; padding: 48px 40px; }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    .updated { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; }
+    h2 { font-size: 1.15rem; margin-top: 28px; margin-bottom: 8px; color: var(--accent); }
+    p, li { font-size: 0.95rem; color: var(--text); margin-bottom: 8px; }
+    ul { padding-left: 20px; }
+    a { color: var(--accent); }
+    @media (max-width: 800px) { .container { margin: 16px; padding: 28px 20px; border-radius: 16px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 28 March 2026</p>
+
+    <p>Hamburg GAA ("we", "us", "the club") operates the <strong>Hamburg GAA</strong> mobile application and companion website (together, "the App"). This policy explains what data the App processes, why, and on what legal basis under the EU General Data Protection Regulation (GDPR).</p>
+
+    <h2>1. Data controller</h2>
+    <p>Hamburg GAA Club e.V.<br />
+    ℅ The Irish Rover, Großneumarkt 8, 20459 Hamburg, Germany<br />
+    Registergericht: Amtsgericht Hamburg, VR 22833<br />
+    Contact: <a href="mailto:info@hamburggaa.de">info@hamburggaa.de</a></p>
+
+    <h2>2. What data we process</h2>
+    <table style="width:100%;border-collapse:collapse;margin:8px 0 12px;">
+      <thead> 
+        <tr style="text-align:left;border-bottom:1px solid #e0e0e0;">
+          <th style="padding:6px 8px;">Data</th>
+          <th style="padding:6px 8px;">Purpose</th>
+          <th style="padding:6px 8px;">Storage</th>
+        </tr>
+      </thead>
+      <tbody style="font-size:0.9rem;">
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:6px 8px;">HSP email &amp; password</td>
+          <td style="padding:6px 8px;">Passed to the Hochschulsport Hamburg booking system to complete your session booking</td>
+          <td style="padding:6px 8px;"><strong>Native app:</strong> optionally saved on-device in encrypted storage if you enable "Remember login details" — otherwise kept in memory only. <strong>Web:</strong> kept in memory only for the duration of the session — never saved.</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:6px 8px;">Sport choice, last booking timestamp</td>
+          <td style="padding:6px 8px;">Remember your preferences and show your last booking</td>
+          <td style="padding:6px 8px;">On-device only (AsyncStorage / localStorage)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. How the booking works</h2>
+    <p>When you tap <em>Book</em>, the App sends your HSP email, password, and chosen sport to a serverless function hosted on Netlify, which triggers a GitHub Actions workflow. That workflow runs a browser automation script that logs in to the Hochschulsport Hamburg website on your behalf and completes the booking. Your credentials exist in transit during this process and are not stored on any server.</p>
+
+    <h2>4. Legal basis (GDPR Art. 6)</h2>
+    <ul>
+      <li><strong>Art. 6(1)(f) — Legitimate interest:</strong> You actively request a booking by entering your credentials and tapping Book. Processing is strictly limited to fulfilling that request. You can object at any time (see Section 7).</li>
+    </ul>
+
+    <h2>5. On-device storage (§ 25 TDDDG)</h2>
+    <p>The App stores the following data on your device:</p>
+    <ul>
+      <li><strong>Native app:</strong> HSP credentials optionally saved in encrypted device storage (Android Keystore-backed) — only if you enable "Remember login details" in the app. Sport choice and last booking timestamp in AsyncStorage.</li>
+      <li><strong>Web:</strong> Sport choice and last booking timestamp in localStorage. Credentials are held in browser memory only and are never written to storage.</li>
+    </ul>
+    <p>This storage is necessary to provide the functionality you request (§ 25(2) No. 2 TDDDG).</p>
+
+    <h2>6. Data sharing &amp; international transfers</h2>
+    <p>Your credentials are transmitted to:</p>
+    <ul>
+      <li><strong>Netlify</strong> (serverless function host, US — EU-US Data Privacy Framework &amp; Standard Contractual Clauses)</li>
+      <li><strong>GitHub Actions</strong> (workflow runner, US — EU-US Data Privacy Framework &amp; Standard Contractual Clauses)</li>
+      <li><strong>Hochschulsport Hamburg</strong> (the booking target)</li>
+    </ul>
+    <p>We do not sell, rent, or share your data with any other third party.</p>
+
+    <h2>7. Data retention</h2>
+    <ul>
+      <li><strong>Credentials on the native app:</strong> stored until you uninstall the app or clear its data.</li>
+      <li><strong>Credentials on the web:</strong> exist only in browser memory and are discarded when the page is closed.</li>
+      <li><strong>Credentials in transit:</strong> not persisted on any server. Workflow logs do not contain your password.</li>
+    </ul>
+
+    <h2>8. Your rights</h2>
+    <p>Under the GDPR you have the right to:</p>
+    <ul>
+      <li>Access your personal data (Art. 15)</li>
+      <li>Rectify inaccurate data (Art. 16)</li>
+      <li>Erase your data (Art. 17)</li>
+      <li>Restrict processing (Art. 18)</li>
+      <li>Data portability (Art. 20)</li>
+      <li><strong>Object to processing</strong> based on legitimate interest at any time (Art. 21)</li>
+    </ul>
+    <p>Since no personal data is stored on our servers, exercising these rights primarily means clearing or uninstalling the App on your device. To make a request, email <a href="mailto:info@hamburggaa.de">info@hamburggaa.de</a>.</p>
+    <p>You also have the right to lodge a complaint with the Hamburg data protection authority (<em>Hamburgischer Beauftragter für Datenschutz und Informationsfreiheit</em>).</p>
+
+    <h2>9. Analytics &amp; tracking</h2>
+    <p>The App does not use any analytics, tracking, advertising SDKs, or cookies.</p>
+
+    <h2>10. Children</h2>
+    <p>The App is not directed at children under 16.</p>
+
+    <h2>11. Changes to this policy</h2>
+    <p>We may update this policy from time to time. The "Last updated" date at the top will reflect the latest revision.</p>
+
+    <h2>12. Contact</h2>
+    <p>For any questions about this policy, email <a href="mailto:info@hamburggaa.de">info@hamburggaa.de</a>.</p>
+  </div>
+</body>
+</html>

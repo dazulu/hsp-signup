@@ -19,7 +19,7 @@ src/
   utils.ts                     formatTimeAgo helper
   hooks/
     use-booking.ts             Booking state machine, effects, callbacks
-    use-credentials.ts         Email/password state, SecureStore hydration, save-on-web toggle
+    use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
   components/
     debug-panel.tsx            Dev-only debug panel (hidden in production builds)
 netlify/functions/
@@ -73,11 +73,11 @@ eas build --profile production  # AAB
 
 HSP login credentials are not env vars — they are entered by the user at runtime and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server and are masked in workflow logs via `::add-mask::`.
 
-Credentials are stored on-device using Expo SecureStore (native). On web, credentials are **not** stored by default — a "Remember details in this browser" checkbox lets the user opt in to persisting them in `localStorage`. The `secureStore.ts` wrapper abstracts this difference: on native it delegates to `expo-secure-store`, on web it uses `localStorage`.
+Credentials are stored on-device using Expo SecureStore (native) only when the user enables "Remember login details on this device". On web, credentials are **never** stored — they live in React state for the duration of the session only. The `secure-store.ts` wrapper abstracts the platform difference.
 
 ## Design decisions
 
-**Web credential storage is opt-in.** On web, credentials are never written to `localStorage` unless the user explicitly checks "Remember details in this browser". Unchecking the box immediately removes any stored credentials. On native, credentials are always persisted to Expo SecureStore.
+**Native credential storage is opt-in.** On native, credentials are only written to Expo SecureStore if the user explicitly checks "Remember login details on this device". Unchecking the box immediately removes any stored credentials. On web, credentials are never persisted — memory only.
 
 **50-second countdown then status polling.** After triggering a booking, the app shows a 50-second progress bar (the time the workflow typically takes to complete). Once the countdown finishes it switches to a polling phase: it calls `/api/status` every 10 seconds (up to 10 attempts) to check the GitHub Actions workflow result via the `correlationId`. On success or failure it shows the result; if all polls are exhausted it shows a timeout state with a "Check Again" button to resume polling.
 

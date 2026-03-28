@@ -45,6 +45,8 @@ export const BookingForm = () => {
     setPassword,
     showPassword,
     setShowPassword,
+    saveOnDevice,
+    setSaveOnDevice,
     sport,
     saveCredentials,
     pickSport,
@@ -179,6 +181,32 @@ export const BookingForm = () => {
                 </Text>
               </Pressable>
             </View>
+
+            {/* Remember credentials checkbox — native only */}
+            {Platform.OS !== "web" && (
+              <Pressable
+                style={styles.saveOnDeviceRow}
+                onPress={() => setSaveOnDevice(!saveOnDevice)}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: saveOnDevice }}
+                accessibilityLabel="Remember login details on this device"
+                disabled={isLoading}
+              >
+                <View
+                  style={[
+                    styles.checkbox,
+                    saveOnDevice && styles.checkboxChecked,
+                  ]}
+                >
+                  {saveOnDevice && (
+                    <Text style={styles.checkboxTick}>{"\u2713"}</Text>
+                  )}
+                </View>
+                <Text style={styles.saveOnDeviceLabel}>
+                  Remember login details on this device
+                </Text>
+              </Pressable>
+            )}
 
             {/* Sport picker */}
             <Text style={styles.label}>Sport</Text>
@@ -339,7 +367,9 @@ export const BookingForm = () => {
           >
             {Platform.OS === "web"
               ? "Your credentials are not saved and are used only to complete the booking."
-              : "Your credentials are stored securely on this device and used only to complete the booking."}
+              : saveOnDevice
+                ? "Your credentials are stored securely on this device and used only to complete the booking."
+                : "Your credentials are not saved and are used only to complete the booking."}
           </Text>
         </DismissWrapper>
       </ScrollView>

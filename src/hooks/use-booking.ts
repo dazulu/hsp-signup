@@ -36,6 +36,8 @@ export const useBooking = () => {
     showPassword,
     setShowPassword,
     saveCredentials,
+    saveOnDevice,
+    setSaveOnDevice,
   } = useCredentials();
   const [sport, setSport] = useState<SportKey | null>(null);
   const [booking, setBooking] = useState<BookingState>({ phase: "idle" });
@@ -419,6 +421,8 @@ export const useBooking = () => {
     dismiss,
     checkAgain,
     saveCredentials,
+    saveOnDevice,
+    setSaveOnDevice,
     lastBooking,
     ready,
     doneAnim,

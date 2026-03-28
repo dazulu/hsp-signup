@@ -6,6 +6,8 @@ Expo SDK 55 React Native app that books Hochschulsport Hamburg training sessions
 
 See `ARCHITECTURE.md` for system overview, file structure, build commands, env vars, and design decisions.
 
+> **Keep these docs current.** When making changes, update `AGENTS.md` and `ARCHITECTURE.md` to reflect them — briefly, no walls of text.
+
 ## Code Style
 
 - **Formatter/Linter:** Biome — double quotes, 2-space indent, 80 char line width, trailing commas. Run `npm run check` before committing.
@@ -32,7 +34,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 
 - No external state library. React hooks + `useCallback`/`useEffect`/`useRef`.
 - `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/timeout).
-- `useCredentials` — credential persistence (SecureStore on native, opt-in localStorage on web).
+- `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 
