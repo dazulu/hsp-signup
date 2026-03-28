@@ -37,7 +37,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
-- **AsyncStorage keys:** `hsp_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `hsp_strava_cache`, `hsp_has_opened_app_before`, `hsp_locale`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.
+- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache`, `app_has_opened_before`, `app_locale`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.
 
 ## i18n
 
@@ -45,7 +45,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - Translations in `src/i18n/i18n.json`: flat key map, each key has `{ en, ga, de }`.
 - `useLocale()` returns `{ locale, setLocale, t }`. Use `t("key")` for all user-facing strings.
 - `TranslationKey` (derived from JSON keys) provides compile-time safety — typos are type errors.
-- Web is locked to English (`locale = "en"` always). Native reads/writes `hsp_locale` in AsyncStorage.
+- Web is locked to English (`locale = "en"` always). Native reads/writes `app_locale` in AsyncStorage.
 - Language switcher lives in the Settings tab (native only) — a bottom-sheet modal.
 - `formatTimeAgo` in `utils.ts` takes an optional `locale` param, defaults to `"en"`.
 - Error boundary strings stay in English (class component, renders outside `LocaleProvider`).

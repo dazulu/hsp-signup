@@ -10,7 +10,7 @@ const BASE_URL =
   Platform.OS === "web" ? "" : (process.env.EXPO_PUBLIC_API_URL ?? "");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
 
-const CACHE_KEY = "hsp_strava_cache";
+const CACHE_KEY = "app_strava_cache";
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
 const stravaLogo = require("../../../../../assets/strava.png");

@@ -11,7 +11,7 @@ import { Platform } from "react-native";
 import translations from "./i18n.json";
 import type { Locale, TranslationKey } from "./types";
 
-const STORAGE_KEY = "hsp_locale";
+const STORAGE_KEY = "app_locale";
 const DEFAULT_LOCALE: Locale = "en";
 
 type LocaleContextValue = {

@@ -24,14 +24,14 @@ const { space } = theme;
 const appVersion = Constants.expoConfig?.version ?? "—";
 
 const STORAGE_KEYS = [
-  "hsp_save_on_device",
+  "app_save_on_device",
   "hsp_sport",
   "hsp_triggered_at",
   "hsp_correlation_id",
   "hsp_last_booking",
-  "hsp_strava_cache",
-  "hsp_has_opened_app_before",
-  "hsp_locale",
+  "app_strava_cache",
+  "app_has_opened_before",
+  "app_locale",
 ];
 
 const SettingsScrollContent = () => {

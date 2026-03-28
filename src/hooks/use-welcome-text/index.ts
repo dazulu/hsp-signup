@@ -4,7 +4,7 @@ import { useLocale } from "../../i18n";
 import type { Locale } from "../../i18n/types";
 import type { WelcomeText } from "./types";
 
-const STORAGE_KEY = "hsp_has_opened_app_before";
+const STORAGE_KEY = "app_has_opened_before";
 
 const titles: Record<Locale, string[]> = {
   en: ["Moin", "Hello", "Dia dhuit"],

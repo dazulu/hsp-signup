@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 import * as SecureStore from "../secure-store";
 
-const SAVE_ON_DEVICE_KEY = "hsp_save_on_device";
+const SAVE_ON_DEVICE_KEY = "app_save_on_device";
 
 export const useCredentials = () => {
   const [email, setEmail] = useState("");
