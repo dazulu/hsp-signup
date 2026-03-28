@@ -35,7 +35,7 @@ export const SettingsScreen = () => {
   const { t } = useLocale();
 
   return (
-    <ScreenLayout title={t("settings.title")}>
+    <ScreenLayout title={t("settings.title")} subtitle={t("settings.subtitle")}>
       <SettingsScrollContent />
     </ScreenLayout>
   );

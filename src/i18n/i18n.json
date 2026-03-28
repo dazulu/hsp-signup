@@ -5,6 +5,11 @@
     "de": "Einstellungen"
   },
   "settings.language": { "en": "Language", "ga": "Teanga", "de": "Sprache" },
+  "settings.subtitle": {
+    "en": "Personalise your app experience.",
+    "ga": "Saincheap d'eispéireas aipe.",
+    "de": "Passe dein App-Erlebnis an."
+  },
 
   "tab.club": { "en": "Club", "ga": "Club", "de": "Club" },
   "tab.book": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },

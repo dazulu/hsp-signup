@@ -16,6 +16,8 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.medium,
     fontSize: fontSize.body,
     color: colors.textPrimary,
+    includeFontPadding: false,
+    textAlignVertical: "center",
   },
   chevron: {
     marginLeft: space[6],

@@ -22,6 +22,6 @@ export const styles = StyleSheet.create({
   rowLabel: {
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.body,
-    color: colors.textPrimary,
+    color: colors.textMuted,
   },
 });
