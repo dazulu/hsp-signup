@@ -11,24 +11,23 @@
       "resizeMode": "contain",
       "backgroundColor": "#11364E"
     },
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dazulu.hamburggaa",
-      "newArchEnabled": true
+      "bundleIdentifier": "com.dazulu.hamburggaa"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#11364E",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "package": "com.dazulu.hamburggaa",
-      "newArchEnabled": true
+      "package": "com.dazulu.hamburggaa"
     },
     "owner": "shiftyapplications",
     "plugins": ["expo-font", "expo-secure-store"],
     "web": {
       "bundler": "metro",
-      "output": "spa",
+      "output": "single",
       "favicon": "./assets/icon.png",
       "title": "Hamburg GAA",
       "description": "The official app of the Hamburg GAA, the Gaelic Athletic Association club in Hamburg. Stay up to date with the latest news, events, and training sessions of our club."
