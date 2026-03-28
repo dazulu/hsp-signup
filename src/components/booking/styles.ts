@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     marginBottom: space[16],
   },
   title: {
-    fontSize: fontSize.h2,
+    fontSize: fontSize["2xl"],
     fontFamily: fontFamily.extrabold,
     color: colors.textPrimary,
     textAlign: "center",
