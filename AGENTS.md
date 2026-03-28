@@ -6,7 +6,7 @@ Expo SDK 55 React Native app that books Hochschulsport Hamburg training sessions
 
 See `ARCHITECTURE.md` for system overview, file structure, build commands, env vars, and design decisions.
 
-> **Keep these docs current.** When making changes, update `AGENTS.md` and `ARCHITECTURE.md` to reflect them — briefly, no walls of text.
+> **Keep these docs current.** When making changes, update `AGENTS.md` and `ARCHITECTURE.md` to reflect them — briefly, no walls of text. Also keep `README.md` up to date — it's the user-facing introduction to the repo, so keep it high-level and light.
 
 ## Code Style
 

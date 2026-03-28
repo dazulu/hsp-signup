@@ -73,31 +73,6 @@ The app is built with Expo and runs as both a native Android app and a web app s
 
 The app doesn't talk to the HSP website directly. It calls a Netlify serverless function that triggers a GitHub Actions workflow via `repository_dispatch`. The workflow runs a Playwright browser automation script that handles the actual multi-page signup flow.
 
-## Running locally
-
-```bash
-npm start          # Expo dev server — opens in Expo Go on device/simulator
-npm run web        # Expo dev server, web only
-npm run build:web  # Production web export → dist/
-npx netlify dev    # Full local stack: web app + functions at localhost:8888
-```
-
-For `netlify dev`, open `http://localhost:8888` (not the Metro port 8081). The Netlify proxy routes `/api/*` to the local functions and everything else to Metro.
-
-Android APK/AAB production builds use EAS Build:
-```bash
-npm run release:preview      # APK (sideload)
-npm run release:production   # AAB
-```
-
-OTA updates (JS/asset-only changes, no new native build needed):
-```bash
-npm run ota:preview          # Push update to preview channel
-npm run ota:production       # Push update to production channel
-```
-
-EAS Update uses the `fingerprint` runtime version policy — the fingerprint is derived from your native project, so updates are only delivered to builds with a matching native layer. Any native dependency change (new plugin, SDK upgrade) requires a full rebuild.
-
 ## Environment variables
 
 | Where | Variable | Purpose |

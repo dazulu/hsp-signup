@@ -19,7 +19,7 @@
     "check": "biome check --write ."
   },
   "author": "dazulu",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "@expo-google-fonts/plus-jakarta-sans": "^0.4.2",
     "@expo/metro-runtime": "~55.0.7",
