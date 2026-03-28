@@ -60,10 +60,9 @@ export const fontSize = {
   md: 14,
   body: 15,
   lg: 16,
-  xl: 17,
-  "2xl": 20,
-  h2: 24,
-  h1: 36,
+  xl: 20,
+  "2xl": 22,
+  "3xl": 36,
 } as const;
 
 export const shadows = {

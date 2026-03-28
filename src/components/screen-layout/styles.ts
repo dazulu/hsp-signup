@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingBottom: space[8],
   },
   title: {
-    fontSize: fontSize.h1,
+    fontSize: fontSize["3xl"],
     fontFamily: fontFamily.extrabold,
     color: colors.textBrand,
   },
@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.lg,
     fontFamily: fontFamily.regular,
     color: colors.textBrand,
-    lineHeight: 22,
+    lineHeight: 26,
     marginTop: space[8],
-    maxWidth: "70%",
+    maxWidth: "77%",
   },
 });
