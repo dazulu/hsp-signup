@@ -101,7 +101,7 @@ export const BookingForm = () => {
               absolute-positioned crest rendered at the navigator level. */}
           {Platform.OS === "web" && (
             <Image
-              source={require("../../../assets/crest.png")}
+              source={require("../../../assets/crest-web.png")}
               style={styles.crest}
               resizeMode="contain"
             />
@@ -123,7 +123,12 @@ export const BookingForm = () => {
                 via ScreenLayout above the card. */}
             {Platform.OS === "web" && (
               <>
-                <Text style={styles.title}>Book Training</Text>
+                <View style={styles.titleRow}>
+                  <Text style={styles.title}>Book Training</Text>
+                  <View style={styles.betaBadge}>
+                    <Text style={styles.betaText}>BETA</Text>
+                  </View>
+                </View>
                 <Text style={styles.subtitle}>
                   Automatically books your next available Hamburg GAA training
                   session.

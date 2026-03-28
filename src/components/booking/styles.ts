@@ -29,6 +29,26 @@ export const styles = StyleSheet.create({
     marginBottom: space[8],
     lineHeight: 32,
   },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: space[8],
+    marginBottom: space[8],
+  },
+  betaBadge: {
+    backgroundColor: "#b0c8ee",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    marginTop: -2,
+  },
+  betaText: {
+    color: "#fff",
+    fontSize: fontSize.xs,
+    fontFamily: fontFamily.bold,
+    letterSpacing: 1,
+  },
   subtitle: {
     fontSize: fontSize.md,
     fontFamily: fontFamily.regular,

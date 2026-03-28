@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   SafeAreaProvider,
@@ -120,6 +120,9 @@ function AppShell() {
           style={shellStyles.crest}
           resizeMode="contain"
         />
+        <View style={shellStyles.betaBadge}>
+          <Text style={shellStyles.betaText}>BETA</Text>
+        </View>
       </View>
     </View>
   );
@@ -176,5 +179,20 @@ const shellStyles = StyleSheet.create({
   crest: {
     width: 58,
     height: 58,
+  },
+  betaBadge: {
+    alignSelf: "center",
+    marginTop: 4,
+    backgroundColor: "#b0c8ee",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 9999,
+  },
+  betaText: {
+    color: "#fff",
+    fontSize: 9,
+    fontFamily: "jakarta-700",
+    letterSpacing: 1,
+    includeFontPadding: false,
   },
 });
