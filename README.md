@@ -8,21 +8,12 @@
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
 
-Skip the multi-step signup. Book your Hochschulsport training session in one tap.
 
-## What it does
+## What is this
 
-The HSP Hamburg website makes you navigate several pages, log in through a non-standard form, and click through confirmations, all within a tight enrollment window. This app removes that friction.
+The companion app for Hamburg GAA. Book Hochschulsport training sessions, check upcoming events, and stay connected with the club.
 
-Enter your HSP credentials and pick your sport (Hurling & Camogie or Gaelic Football). Tap the button. The app handles the rest and you get a confirmation email directly from Hochschulsport Hamburg.
 
-## Your credentials are safe
-
-Your HSP username and password are never stored on any server and are not logged or retained anywhere outside your own device.
-
-On **Android**, credentials are saved in the device's secure keystore and loaded automatically each time you open the app.
-
-On **web**, credentials are not stored by default. If you want them remembered across browser sessions, check the "Remember details in this browser" option below the password field. Unchecking it immediately removes anything stored. If you leave it unchecked you will need to re-enter your details each visit.
 
 ## Commands
 
