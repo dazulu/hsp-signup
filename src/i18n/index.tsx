@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getLocales } from "expo-localization";
 import type { ReactNode } from "react";
 import {
   createContext,
@@ -40,6 +41,12 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     AsyncStorage.getItem(STORAGE_KEY).then((val) => {
       if (val === "en" || val === "ga" || val === "de") {
         setLocaleState(val);
+      } else {
+        const deviceLang = getLocales()[0]?.languageCode ?? "en";
+        const detected: Locale =
+          deviceLang === "ga" || deviceLang === "de" ? deviceLang : "en";
+        setLocaleState(detected);
+        AsyncStorage.setItem(STORAGE_KEY, detected);
       }
       setReady(true);
     });

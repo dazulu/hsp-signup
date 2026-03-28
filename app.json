@@ -30,7 +30,12 @@
     "runtimeVersion": {
       "policy": "fingerprint"
     },
-    "plugins": ["expo-font", "expo-secure-store", "expo-updates"],
+    "plugins": [
+      "expo-font",
+      "expo-secure-store",
+      "expo-updates",
+      "expo-localization"
+    ],
     "web": {
       "bundler": "metro",
       "output": "single",

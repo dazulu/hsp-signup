@@ -8,8 +8,8 @@
   "settings.version": { "en": "Version", "ga": "Leagan", "de": "Version" },
   "settings.debugCopied": {
     "en": "Debug info copied to clipboard",
-    "ga": "Eolas dífhabhtaithe cóipeáilte",
-    "de": "Debug-Info in Zwischenablage kopiert"
+    "ga": "Cóipeáladh an t-eolas dífhabhtaithe ar an ngearrthaisce",
+    "de": "Debug-Informationen in die Zwischenablage kopiert"
   },
   "settings.subtitle": {
     "en": "Personalise your app experience.",
@@ -40,7 +40,11 @@
     "de": "Demnächst"
   },
 
-  "upcoming.title": { "en": "Upcoming", "ga": "Le teacht", "de": "Termine" },
+  "upcoming.title": {
+    "en": "Upcoming",
+    "ga": "Le teacht",
+    "de": "Bevorstehend"
+  },
   "upcoming.subtitle": {
     "en": "The next events in our calendar that you won't want to miss.",
     "ga": "Na himeachtaí atá le teacht inár bhféilire nach mbeidh tú ag iarraidh iad a chailleadh.",
@@ -123,13 +127,13 @@
   },
   "booking.status.inProgress": {
     "en": "Booking in progress…",
-    "ga": "Áirithint ar siúl…",
+    "ga": "Áirithint á dhéanamh…",
     "de": "Buchung läuft…"
   },
   "booking.result.success": {
     "en": "Booked! You'll get a confirmation email from Hochschulsport Hamburg. Nothing within 10 minutes? Try again.",
-    "ga": "Curtha in áirithe! Gheobhaidh tú ríomhphost deimhnithe ó Hochschulsport Hamburg. Faic laistigh de 10 nóiméad? Bain triail eile as.",
-    "de": "Gebucht! Du erhältst eine Bestätigungs-E-Mail vom Hochschulsport Hamburg. Nichts innerhalb von 10 Minuten? Versuch es erneut."
+    "ga": "Curtha in áirithe! Gheobhaidh tú ríomhphost deimhnithe ó Hochschulsport Hamburg. Faic i gceann 10 nóiméad? Bain triail eile as.",
+    "de": "Gebucht! Du erhältst eine Bestätigungs-E-Mail vom Hochschulsport Hamburg. Nichts innerhalb von 10 Minuten? Versuch's erneut."
   },
   "booking.result.failure": {
     "en": "Booking failed. Check your login details and that your Hochschulsport Hamburg membership is active.",
@@ -139,9 +143,9 @@
   "booking.result.timeout": {
     "en": "Couldn't confirm the result. Check your email — if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
     "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost — mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
-    "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails — falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch es erneut."
+    "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails — falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch's erneut."
   },
-  "booking.dismiss": { "en": "Dismiss", "ga": "Dún", "de": "Schließen" },
+  "booking.dismiss": { "en": "Dismiss", "ga": "Cealaigh", "de": "Schließen" },
   "booking.disclaimer.noSave": {
     "en": "Your credentials are not saved and are used only to complete the booking.",
     "ga": "Ní shábháiltear do shonraí logála agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
@@ -160,7 +164,7 @@
   "booking.error.noInternet": {
     "en": "Couldn't connect. Check your internet and try again.",
     "ga": "Níorbh fhéidir ceangal. Seiceáil do idirlíon agus bain triail eile as.",
-    "de": "Keine Verbindung möglich. Überprüfe deine Internetverbindung und versuche es erneut."
+    "de": "Verbindung fehlgeschlagen. Überprüfe deine Internetverbindung und versuche es erneut."
   },
   "booking.error.title": { "en": "Error", "ga": "Earráid", "de": "Fehler" },
 
@@ -183,7 +187,7 @@
   "card.upcoming.title": {
     "en": "Upcoming",
     "ga": "Le teacht",
-    "de": "Termine"
+    "de": "Bevorstehend"
   },
 
   "error.title": {
