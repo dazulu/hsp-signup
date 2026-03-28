@@ -45,8 +45,6 @@ export const BookingForm = () => {
     setPassword,
     showPassword,
     setShowPassword,
-    saveOnWeb,
-    setSaveOnWeb,
     sport,
     saveCredentials,
     pickSport,
@@ -181,27 +179,6 @@ export const BookingForm = () => {
                 </Text>
               </Pressable>
             </View>
-
-            {/* Save-on-web checkbox — native has SecureStore, no opt-in needed */}
-            {Platform.OS === "web" && (
-              <Pressable
-                style={styles.saveOnWebRow}
-                onPress={() => setSaveOnWeb(!saveOnWeb)}
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: saveOnWeb }}
-                accessibilityLabel="Remember details in this browser"
-                disabled={isLoading}
-              >
-                <View
-                  style={[styles.checkbox, saveOnWeb && styles.checkboxChecked]}
-                >
-                  {saveOnWeb && <Text style={styles.checkboxTick}>{"✓"}</Text>}
-                </View>
-                <Text style={styles.saveOnWebLabel}>
-                  Remember login details in this browser
-                </Text>
-              </Pressable>
-            )}
 
             {/* Sport picker */}
             <Text style={styles.label}>Sport</Text>
@@ -361,9 +338,7 @@ export const BookingForm = () => {
             suppressHighlighting
           >
             {Platform.OS === "web"
-              ? saveOnWeb
-                ? "Your credentials are saved in this browser and used only to complete the booking."
-                : "Your credentials are not saved and are used only to complete the booking."
+              ? "Your credentials are not saved and are used only to complete the booking."
               : "Your credentials are stored securely on this device and used only to complete the booking."}
           </Text>
         </DismissWrapper>

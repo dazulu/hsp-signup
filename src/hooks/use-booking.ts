@@ -35,8 +35,6 @@ export const useBooking = () => {
     setPassword,
     showPassword,
     setShowPassword,
-    saveOnWeb,
-    setSaveOnWeb,
     saveCredentials,
   } = useCredentials();
   const [sport, setSport] = useState<SportKey | null>(null);
@@ -414,8 +412,6 @@ export const useBooking = () => {
     setPassword,
     showPassword,
     setShowPassword,
-    saveOnWeb,
-    setSaveOnWeb,
     sport,
     pickSport,
     booking,
