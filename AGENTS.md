@@ -70,5 +70,6 @@ Never log, hard-code, or commit secrets. HSP credentials exist only in transit â
 
 - Stick to Expo-compatible packages. Use `npx expo install` for SDK-aligned native deps.
 - Development uses Expo Go (`npm start`). Native modules not bundled in Expo Go require a full native rebuild (`npx expo prebuild` + `npx expo run:android`).
-- Android APK/AAB production builds use EAS Build (`eas build --profile preview` for APK, `eas build --profile production` for AAB).
+- Android APK/AAB production builds use EAS Build (`npm run release:preview` for APK, `npm run release:production` for AAB).
+- OTA updates via EAS Update: `npm run ota:preview` / `npm run ota:production`. Uses `fingerprint` runtime version policy â€” JS-only changes don't need a rebuild.
 - New Arch is enabled (`newArchEnabled: true`) for both iOS and Android.

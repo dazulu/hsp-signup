@@ -24,7 +24,13 @@
       "package": "com.dazulu.hamburggaa"
     },
     "owner": "shiftyapplications",
-    "plugins": ["expo-font", "expo-secure-store"],
+    "updates": {
+      "url": "https://u.expo.dev/e3cf3c92-c4fb-4747-8d95-6687f096f3b4"
+    },
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "plugins": ["expo-font", "expo-secure-store", "expo-updates"],
     "web": {
       "bundler": "metro",
       "output": "single",

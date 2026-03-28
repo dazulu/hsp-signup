@@ -12,7 +12,7 @@
 
 ```
 src/
-  App.tsx                      Root component (render only)
+  App.tsx                      Root component (web)
   App.native.tsx               Native root with bottom tab navigator
   styles.ts                    App-shell styles (flex, gradient) — not for component use
   theme/index.ts               Design tokens: colours, radii, spacing, typography, shadows
@@ -25,15 +25,34 @@ src/
   hooks/
     use-booking.ts             Booking state machine, effects, callbacks
     use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
+    use-last-booking-label.ts  Formatted label for last successful booking
     use-welcome-text/          Locale-aware greeting pool
+  navigation/
+    types.ts                   Navigation param list types
   components/
+    booking/                   Booking flow UI (form, progress, result)
+    card/
+      card.tsx                 Generic Card shell
+      card-grid.tsx            Responsive card grid layout
+      implementations/
+        club-links/            External link cards (website, socials)
+        last-booking/          Last booking info card (self-fetching)
+        strava-cards/          Strava activity cards (self-fetching)
+        upcoming-event/        Next training session card
+    error-boundary.tsx         Top-level error boundary
     language-switcher/         Bottom-sheet language picker (native only)
+    screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
     debug-panel.tsx            Dev-only debug panel (hidden in production builds)
   screens/
-    settings.tsx               Settings screen — language switcher + version card (long-press copies debug info)
+    book.tsx                   Book a training session
+    club.tsx                   Club info & links
+    photos.tsx                 Photo gallery
+    settings.tsx               Settings — language switcher + version card
+    upcoming-events.tsx        Upcoming training sessions list
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
+  strava.ts                    Strava activity proxy
 playwright/
   signup.spec.ts               Browser automation script (runs in GitHub Actions only)
 ```
@@ -67,9 +86,17 @@ For `netlify dev`, open `http://localhost:8888` (not the Metro port 8081). The N
 
 Android APK/AAB production builds use EAS Build:
 ```bash
-eas build --profile preview     # APK (sideload)
-eas build --profile production  # AAB
+npm run release:preview      # APK (sideload)
+npm run release:production   # AAB
 ```
+
+OTA updates (JS/asset-only changes, no new native build needed):
+```bash
+npm run ota:preview          # Push update to preview channel
+npm run ota:production       # Push update to production channel
+```
+
+EAS Update uses the `fingerprint` runtime version policy — the fingerprint is derived from your native project, so updates are only delivered to builds with a matching native layer. Any native dependency change (new plugin, SDK upgrade) requires a full rebuild.
 
 ## Environment variables
 
