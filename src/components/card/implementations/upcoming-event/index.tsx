@@ -21,13 +21,13 @@ export const UpcomingEventCard = () => {
       <View style={styles.content}>
         <View style={styles.row}>
           <Ionicons name="trophy" size={16} color={colors.textMuted} />
-          <Text style={[cardStyles.bodyText]}>
+          <Text style={cardStyles.bodyText}>
             Gaelic Football · Frankfurt · April 18th, 2026
           </Text>
         </View>
         <View style={styles.row}>
           <Ionicons name="trophy" size={16} color={colors.textMuted} />
-          <Text style={[cardStyles.bodyText]}>
+          <Text style={cardStyles.bodyText}>
             Hurling/Camogie · Eindhoven · May 2nd, 2026
           </Text>
         </View>
