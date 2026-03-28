@@ -5,6 +5,12 @@ import { Alert, Animated, Platform } from "react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import { useCredentials } from "./use-credentials";
 
+const uuid = (): string =>
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+
 const API_URL =
   Platform.OS === "web" ? "" : (process.env.EXPO_PUBLIC_API_URL ?? "");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
@@ -257,7 +263,7 @@ export const useBooking = () => {
     doneAnim.setValue(0);
     progressAnim.value = 0;
     setBooking({ phase: "triggering" });
-    setTimeout(() => startCountdown(crypto.randomUUID()), 1500);
+    setTimeout(() => startCountdown(uuid()), 1500);
   }, [startCountdown, doneAnim, progressAnim]);
 
   const debugFakeSuccess = useCallback(() => {
@@ -347,7 +353,7 @@ export const useBooking = () => {
       return;
     }
 
-    const correlationId = crypto.randomUUID();
+    const correlationId = uuid();
     doneAnim.stopAnimation();
     doneAnim.setValue(0);
     progressAnim.value = 0;
