@@ -5,7 +5,7 @@ export const BookScreen = () => {
   return (
     <ScreenLayout
       title="Book"
-      subtitle="Automatically book the next available Hamburg GAA training session at Hochschulsport."
+      subtitle="Automatically book the next available training session at Hochschulsport."
     >
       <BookingForm />
     </ScreenLayout>

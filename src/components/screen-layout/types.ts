@@ -5,3 +5,5 @@ export type ScreenLayoutProps = {
   subtitle?: string;
   children?: ReactNode;
 };
+
+export type ScreenLayoutContextValue = { headerHeight: number };

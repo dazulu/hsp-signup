@@ -18,7 +18,7 @@ export const LastBookingCard = () => {
   return (
     <Card
       span={2}
-      title="Last HSP Booking"
+      title="Hochschulsport Booking"
       onPress={() => navigation.navigate("Book")}
     >
       <View style={styles.row}>
