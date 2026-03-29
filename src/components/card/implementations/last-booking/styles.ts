@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../../../theme";
 
-const { space } = theme;
+const { colors, space, fontFamily } = theme;
 
 export const styles = StyleSheet.create({
   row: {
@@ -9,5 +9,10 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
     gap: space[6],
     marginTop: space[4],
+  },
+  tick: {
+    color: colors.successText,
+    fontFamily: fontFamily.bold,
+    fontSize: 14,
   },
 });
