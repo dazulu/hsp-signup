@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { LastBooking } from "../components/card/implementations/last-booking/types";
 import { useLocale } from "../i18n";
 import type { TranslationKey } from "../i18n/types";
@@ -21,19 +21,27 @@ export const useLastBookingLabel = (
   const [asyncBooking, setAsyncBooking] = useState<LastBooking | null>(null);
   const [, setTick] = useState(0);
 
-  useEffect(() => {
-    if (useAsyncStorage) {
-      AsyncStorage.getItem("hsp_last_booking").then((raw) => {
-        if (raw) {
-          try {
-            setAsyncBooking(JSON.parse(raw));
-          } catch {}
-        }
-      });
+  const readStorage = useCallback(() => {
+    if (!useAsyncStorage) {
+      return;
     }
-    const interval = setInterval(() => setTick((t) => t + 1), 60_000);
-    return () => clearInterval(interval);
+    AsyncStorage.getItem("hsp_last_booking").then((raw) => {
+      if (raw) {
+        try {
+          setAsyncBooking(JSON.parse(raw));
+        } catch {}
+      }
+    });
   }, [useAsyncStorage]);
+
+  useEffect(() => {
+    readStorage();
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+      readStorage();
+    }, 60_000);
+    return () => clearInterval(interval);
+  }, [readStorage]);
 
   const booking = useAsyncStorage ? asyncBooking : (bookingOverride ?? null);
   if (!booking) {
