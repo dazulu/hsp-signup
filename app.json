@@ -11,7 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#11364E"
     },
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dazulu.hamburggaa"
