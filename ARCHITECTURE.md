@@ -49,6 +49,8 @@ src/
     photos.tsx                 Photo gallery
     settings.tsx               Settings — language switcher + version card
     upcoming-events.tsx        Upcoming training sessions list
+  services/
+    contentful/                Generic Contentful CDA client (types + fetcher)
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
@@ -81,6 +83,8 @@ The app doesn't talk to the HSP website directly. It calls a Netlify serverless 
 | `.env` (Expo) | `EXPO_PUBLIC_API_KEY` | Shared secret to authenticate app requests to Netlify |
 | Netlify | `API_KEY` | Same shared secret (server side) |
 | Netlify | `GITHUB_PAT` | GitHub personal access token to trigger and query workflows |
+| `.env` (Expo) | `EXPO_PUBLIC_CONTENTFUL_SPACE_ID` | Contentful space ID for CDA requests (public/read-only) |
+| `.env` (Expo) | `EXPO_PUBLIC_CONTENTFUL_ACCESS_TOKEN` | Contentful CDA access token (public/read-only) |
 
 HSP login credentials are not env vars — they are entered by the user at runtime and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server and are masked in workflow logs via `::add-mask::`.
 
@@ -101,3 +105,5 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 **Web uses relative API URLs.** On web the app is served from the same origin as the Netlify functions, so `fetch("/api/book")` works without setting `EXPO_PUBLIC_API_URL`. Native builds still need the full URL.
 
 **i18n uses custom React Context (no external library).** Translations live in `src/i18n/i18n.json` — flat key map with `{ en, ga, de }` per key. `LocaleProvider` reads/writes `app_locale` from AsyncStorage on native; web is locked to English. `useLocale()` returns `{ locale, setLocale, t }` where `t(key)` does a simple lookup. `TranslationKey` is derived from the JSON keys for compile-time safety. The Settings tab (native only) has a `LanguageSwitcher` — a bottom-sheet modal listing all three languages.
+
+**Contentful fetches happen client-side.** Unlike Strava (which proxies through a Netlify function because the tokens are secret), Contentful CDA tokens are public/read-only by design. The app calls `cdn.contentful.com` directly via a generic typed fetcher in `src/services/contentful/`. Event data is cached in AsyncStorage (`app_contentful_events`) for 1 hour with stale-on-error fallback. The `UpcomingEventCard` fetches on mount and passes data to the `UpcomingEventsScreen` via nav params to avoid a redundant request.

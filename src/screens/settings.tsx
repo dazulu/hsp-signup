@@ -30,6 +30,7 @@ const STORAGE_KEYS = [
   "hsp_correlation_id",
   "hsp_last_booking",
   "app_strava_cache",
+  "app_contentful_events",
   "app_has_opened_before",
   "app_locale",
 ];
