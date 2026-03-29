@@ -19,6 +19,10 @@ const LOADING_DURATION = 50; // seconds — wait before polling begins
 const POLL_INTERVAL_MS = 10_000;
 const MAX_POLLS = 10;
 
+// Demo credentials for reviewers
+const DEMO_EMAIL = "gaa@mumblebox.com";
+const DEMO_PASSWORD = "10a72n_gtc483@viu1q6j#4nb";
+
 export const SPORTS = [
   {
     key: "hurling",
@@ -71,6 +75,7 @@ export const useBooking = () => {
   const doneAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useSharedValue(0);
   const sportRef = useRef<SportKey | null>(null);
+  const isDemoRef = useRef(false);
 
   const handleDebugTap = useCallback(() => {
     if (!__DEV__) {
@@ -115,9 +120,13 @@ export const useBooking = () => {
   // Start countdown after booking is triggered
   // biome-ignore lint/correctness/useExhaustiveDependencies: dont need to track on progressAnim
   const startCountdown = useCallback(
-    (correlationId: string, remaining: number = LOADING_DURATION) => {
+    (
+      correlationId: string,
+      remaining: number = LOADING_DURATION,
+      total: number = LOADING_DURATION,
+    ) => {
       setBooking({ phase: "waiting", correlationId });
-      progressAnim.value = (LOADING_DURATION - remaining) / LOADING_DURATION;
+      progressAnim.value = (total - remaining) / total;
 
       // Animate progress bar smoothly to 100% on the UI thread
       progressAnim.value = withTiming(1, { duration: remaining * 1000 });
@@ -143,6 +152,20 @@ export const useBooking = () => {
       return;
     }
     const { correlationId } = booking;
+
+    // Demo mode: simulate success locally without hitting the real API
+    if (isDemoRef.current) {
+      isDemoRef.current = false;
+      const currentSport = sportRef.current;
+      if (currentSport) {
+        const bookingRecord = { sport: currentSport, bookedAt: Date.now() };
+        AsyncStorage.setItem("hsp_last_booking", JSON.stringify(bookingRecord));
+        setLastBooking(bookingRecord);
+      }
+      setBooking({ phase: "success" });
+      return;
+    }
+
     let cancelled = false;
     let attempt = 0;
 
@@ -376,6 +399,16 @@ export const useBooking = () => {
     ]);
 
     try {
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        isDemoRef.current = true;
+        const demoDuration = 3 + Math.floor(Math.random() * 3); // 3–5 seconds
+        startCountdown(correlationId, demoDuration, demoDuration);
+        if (Platform.OS !== "web") {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        }
+        return;
+      }
+
       const res = await fetch(`${API_URL}/api/book`, {
         method: "POST",
         headers: {

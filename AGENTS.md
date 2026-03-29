@@ -66,6 +66,8 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 
 Never log, hard-code, or commit secrets. HSP credentials exist only in transit — entered at runtime, passed via `client_payload`, never stored server-side.
 
+**Exception:** Demo credentials (`DEMO_EMAIL` / `DEMO_PASSWORD` in `use-booking.ts`) are intentionally hardcoded for app store review. They do not grant access to any real HSP account — they trigger a fake local-only booking flow that never contacts the backend.
+
 ## Dependencies
 
 - Stick to Expo-compatible packages. Use `npx expo install` for SDK-aligned native deps.

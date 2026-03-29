@@ -96,6 +96,8 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 
 **Timer and correlation state persists across restarts.** `triggered_at` and `correlation_id` are stored in AsyncStorage. On app launch, if a booking was triggered recently and is still within the countdown/polling window, the app resumes the correct state rather than losing progress.
 
+**Demo mode for Google Play review.** Hardcoded demo credentials in `use-booking.ts` (`DEMO_EMAIL` / `DEMO_PASSWORD`) bypass the real Netlify/GitHub backend and simulate a full booking success locally. When detected, the app skips the API call, runs a short randomised countdown (3–5 seconds), then transitions straight to the success state with a fake last-booking record. This lets Play Store reviewers exercise the entire booking UI without needing a real HSP membership or triggering actual bookings. The same credentials are provided in app store testing declarations.
+
 **Web uses relative API URLs.** On web the app is served from the same origin as the Netlify functions, so `fetch("/api/book")` works without setting `EXPO_PUBLIC_API_URL`. Native builds still need the full URL.
 
 **i18n uses custom React Context (no external library).** Translations live in `src/i18n/i18n.json` — flat key map with `{ en, ga, de }` per key. `LocaleProvider` reads/writes `app_locale` from AsyncStorage on native; web is locked to English. `useLocale()` returns `{ locale, setLocale, t }` where `t(key)` does a simple lookup. `TranslationKey` is derived from the JSON keys for compile-time safety. The Settings tab (native only) has a `LanguageSwitcher` — a bottom-sheet modal listing all three languages.
