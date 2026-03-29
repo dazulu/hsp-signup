@@ -8,8 +8,8 @@ const STORAGE_KEY = "app_has_opened_before";
 
 const titles: Record<Locale, string[]> = {
   en: ["Moin", "Hello", "Dia dhuit"],
-  ga: ["Dia dhuit", "Haigh", "Conas atá tú"],
-  de: ["Moin", "Hallo", "Servus"],
+  ga: ["Dia dhuit", "Conas atá tú"],
+  de: ["Moin", "Hallo"],
 };
 
 const genericSubtitles: Record<Locale, string[]> = {
