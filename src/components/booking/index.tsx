@@ -25,7 +25,6 @@ import { theme } from "../../theme";
 import { Card, CardGrid } from "../card";
 import { TrainingNoticeCard } from "../card/implementations/training-notice";
 
-import { DebugPanel } from "../debug-panel";
 import { styles } from "./styles";
 
 const { colors } = theme;
@@ -75,14 +74,6 @@ export const BookingForm = ({
     ready,
     doneAnim,
     progressAnim,
-    debugOpen,
-    handleDebugTap,
-    debugFakeLoading,
-    debugFakeSuccess,
-    debugFakeFailure,
-    debugFakeLastBooking,
-    debugReset,
-    debugClose,
   } = useBooking();
   const { label: lastBookingLabel, isStale: lastBookingIsStale } =
     useLastBookingLabel(lastBooking);
@@ -149,16 +140,6 @@ export const BookingForm = ({
             />
           )}
 
-          {__DEV__ && debugOpen && (
-            <DebugPanel
-              onFakeLoading={debugFakeLoading}
-              onFakeSuccess={debugFakeSuccess}
-              onFakeFailure={debugFakeFailure}
-              onFakeLastBooking={debugFakeLastBooking}
-              onReset={debugReset}
-              onClose={debugClose}
-            />
-          )}
           <CardGrid>
             <TrainingNoticeCard />
 
@@ -426,11 +407,7 @@ export const BookingForm = ({
             </View>
           )}
 
-          <Text
-            style={styles.disclaimer}
-            onPress={handleDebugTap}
-            suppressHighlighting
-          >
+          <Text style={styles.disclaimer}>
             {Platform.OS === "web"
               ? t("booking.disclaimer.noSave")
               : saveOnDevice

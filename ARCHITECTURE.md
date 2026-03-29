@@ -46,7 +46,6 @@ src/
     error-boundary.tsx         Top-level error boundary
     language-switcher/         Bottom-sheet language picker (native only)
     screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
-    debug-panel.tsx            Dev-only debug panel (hidden in production builds)
   screens/
     book.tsx                   Book a training session
     club.tsx                   Club info & links

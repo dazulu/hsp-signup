@@ -66,9 +66,6 @@ export const useBooking = () => {
     sport: SportKey;
     bookedAt: number;
   } | null>(null);
-  const [debugOpen, setDebugOpen] = useState(false);
-  const debugTaps = useRef(0);
-  const debugTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownRef = useRef(0);
@@ -76,24 +73,6 @@ export const useBooking = () => {
   const progressAnim = useSharedValue(0);
   const sportRef = useRef<SportKey | null>(null);
   const isDemoRef = useRef(false);
-
-  const handleDebugTap = useCallback(() => {
-    if (!__DEV__) {
-      return;
-    }
-    debugTaps.current += 1;
-    if (debugTimer.current) {
-      clearTimeout(debugTimer.current);
-    }
-    if (debugTaps.current >= 15) {
-      debugTaps.current = 0;
-      setDebugOpen((v) => !v);
-    } else {
-      debugTimer.current = setTimeout(() => {
-        debugTaps.current = 0;
-      }, 500);
-    }
-  }, []);
 
   // Animate and fire haptic when booking reaches a terminal state
   useEffect(() => {
@@ -290,67 +269,6 @@ export const useBooking = () => {
     })();
   }, [startCountdown, doneAnim.setValue]);
 
-  // Debug helpers (dev only)
-  const debugFakeLoading = useCallback(() => {
-    doneAnim.stopAnimation();
-    doneAnim.setValue(0);
-    progressAnim.value = 0;
-    setBooking({ phase: "triggering" });
-    setTimeout(() => startCountdown(uuid()), 1500);
-  }, [startCountdown, doneAnim, progressAnim]);
-
-  const debugFakeSuccess = useCallback(() => {
-    doneAnim.stopAnimation();
-    doneAnim.setValue(0);
-    setBooking({ phase: "success" });
-  }, [doneAnim]);
-
-  const debugFakeFailure = useCallback(() => {
-    doneAnim.stopAnimation();
-    doneAnim.setValue(0);
-    setBooking({ phase: "failure" });
-  }, [doneAnim]);
-
-  const debugFakeLastBooking = useCallback(() => {
-    setLastBooking({ sport: "hurling", bookedAt: Date.now() - 3600_000 });
-  }, []);
-
-  const debugReset = useCallback(() => {
-    setDebugOpen(false);
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    timerRef.current = null;
-    if (pollRef.current) {
-      clearTimeout(pollRef.current);
-    }
-    pollRef.current = null;
-    setBooking({ phase: "idle" });
-    setLastBooking(null);
-    progressAnim.value = 0;
-    doneAnim.setValue(0);
-    AsyncStorage.multiRemove([
-      "hsp_triggered_at",
-      "hsp_correlation_id",
-      "hsp_last_booking",
-    ]);
-  }, [doneAnim, progressAnim]);
-  const debugClose = useCallback(() => {
-    setDebugOpen(false);
-    debugReset();
-  }, [debugReset]);
-  // Clean up timers on unmount
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-      if (pollRef.current) {
-        clearTimeout(pollRef.current);
-      }
-    };
-  }, []);
-
   // Persist sport choice
   const pickSport = useCallback((s: SportKey) => {
     setSport(s);
@@ -471,13 +389,5 @@ export const useBooking = () => {
     ready,
     doneAnim,
     progressAnim,
-    debugOpen,
-    handleDebugTap,
-    debugFakeLoading,
-    debugFakeSuccess,
-    debugFakeFailure,
-    debugFakeLastBooking,
-    debugReset,
-    debugClose,
   };
 };
