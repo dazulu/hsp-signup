@@ -41,3 +41,28 @@ npm run ota:production       # Push update to production channel
 
 EAS Update uses the `fingerprint` runtime version policy — updates are only delivered to builds with a matching native layer. Any native dependency change (new plugin, SDK upgrade) requires a full rebuild.
 
+## Releasing
+
+### Preview (sideloaded APK)
+
+1. Bump `version` in `app.json` **and** `package.json`.
+2. Commit and push: `git commit -am "chore: bump version to x.y.z" && git push`
+3. Build: `npm run release:preview`
+4. Once the build completes, download the APK from the EAS dashboard and distribute it.
+
+### Production (e.g. Play Store AAB)
+
+1. If not bumped from preview, bump `version` in `app.json` **and** `package.json`.
+2. Commit and push: `git commit -am "chore: bump version to x.y.z" && git push`
+3. Build: `npm run release:production`
+4. The `versionCode` auto-increments (configured via `autoIncrement` + `appVersionSource: "remote"` in `eas.json`).
+5. Upload the AAB from the EAS dashboard to the Google Play Console.
+
+### OTA update (no new build)
+
+If the change is JS/assets only and no native dependencies changed:
+
+1. `npm run ota:preview` or `npm run ota:production`
+
+> **Important:** Always bump `version` in both `app.json` and `package.json` before building. The version is baked into the native binary and cannot be changed with an OTA update.
+
