@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
+import type { ScrollView as ScrollViewType } from "react-native";
 import {
   ActivityIndicator,
   Animated,
@@ -49,7 +50,11 @@ const DismissWrapper =
         </Pressable>
       );
 
-export const BookingForm = () => {
+export const BookingForm = ({
+  scrollRef,
+}: {
+  scrollRef?: React.RefObject<ScrollViewType | null>;
+}) => {
   const { t } = useLocale();
   const {
     email,
@@ -129,6 +134,7 @@ export const BookingForm = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
       >

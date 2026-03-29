@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CardGrid } from "../components/card";
@@ -19,11 +19,20 @@ const ClubScrollContent = () => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { refresh } = useMobileAppData();
+  const scrollRef = useRef<ScrollView>(null);
 
-  useFocusEffect(useCallback(refresh, [refresh]));
+  useFocusEffect(
+    useCallback(() => {
+      refresh();
+      return () => {
+        scrollRef.current?.scrollTo({ y: 0, animated: false });
+      };
+    }, [refresh]),
+  );
 
   return (
     <ScrollView
+      ref={scrollRef}
       contentContainerStyle={[
         styles.scroll,
         {
