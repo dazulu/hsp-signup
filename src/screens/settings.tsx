@@ -3,6 +3,7 @@ import * as Clipboard from "expo-clipboard";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Haptics from "expo-haptics";
+import * as Updates from "expo-updates";
 import { useCallback } from "react";
 import {
   Alert,
@@ -58,8 +59,12 @@ const SettingsScrollContent = () => {
       `Device: ${deviceLabel}`,
       `OS: ${Platform.OS} ${Device.osVersion ?? Platform.Version}`,
       `App Version: ${appVersion}`,
+      `OTA Update: ${Updates.updateId ?? "embedded"}`,
+      Updates.createdAt ? `OTA Date: ${Updates.createdAt.toISOString()}` : "",
+      `Runtime Version: ${Updates.runtimeVersion ?? "—"}`,
+      `Channel: ${Updates.channel ?? "—"}`,
       storageLines ? `Storage:\n${storageLines}` : "Storage: (empty)",
-    ];
+    ].filter(Boolean);
 
     await Clipboard.setStringAsync(lines.join("\n"));
     Alert.alert(t("settings.version"), t("settings.debugCopied"));
