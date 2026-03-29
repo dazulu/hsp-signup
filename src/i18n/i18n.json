@@ -169,9 +169,9 @@
   "booking.error.title": { "en": "Error", "ga": "Earráid", "de": "Fehler" },
 
   "card.lastBooking.title": {
-    "en": "Hochschulsport Booking",
-    "ga": "Áirithint Hochschulsport",
-    "de": "Hochschulsport Buchung"
+    "en": "Your Hochschulsport Booking",
+    "ga": "D'Áirithint Hochschulsport",
+    "de": "Deine Hochschulsport Buchung"
   },
   "card.links.title": { "en": "Links", "ga": "Naisc", "de": "Links" },
   "card.strava.distance": {
