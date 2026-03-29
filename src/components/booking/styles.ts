@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
     padding: space[24],
-    paddingVertical: space[40],
+    paddingVertical: space[20],
     maxWidth: 600,
     width: "100%",
     alignSelf: "center",

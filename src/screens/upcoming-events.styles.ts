@@ -5,7 +5,6 @@ const { colors, fontFamily, fontSize, space } = theme;
 
 export const styles = StyleSheet.create({
   scroll: {
-    marginTop: space[40],
     padding: space[16],
     paddingBottom: space[32],
   },

@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingHorizontal: space[24],
-    paddingBottom: 28,
+    paddingBottom: 48,
     zIndex: 10,
   },
   title: {

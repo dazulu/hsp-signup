@@ -35,6 +35,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - No external state library. React hooks + `useCallback`/`useEffect`/`useRef`.
 - `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/timeout).
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
+- `MobileAppDataContext` (`src/context/mobile-app-data.tsx`) — global context providing `{ data, loading, refresh }` for the Contentful `MOBILE_APP_DATA` entry. Fetches on mount; screens call `refresh()` via `useFocusEffect` to get fresh data on focus. No AsyncStorage cache.
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 - **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache`, `app_contentful_events`, `app_has_opened_before`, `app_locale`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.

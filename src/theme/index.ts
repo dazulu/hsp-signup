@@ -22,6 +22,8 @@
 
   warningBackground: "#fff7ed",
   warningText: "#d97706",
+
+  noticeBackground: "#3b82f6",
 } as const;
 
 export const radii = {

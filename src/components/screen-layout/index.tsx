@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { theme } from "../../theme";
 
 const { space } = theme;
+const HEADER_CONTENT_GAP = 20;
 
 import { styles } from "./styles";
 import type { ScreenLayoutContextValue, ScreenLayoutProps } from "./types";
@@ -33,7 +34,10 @@ export const ScreenLayout = ({
         <View
           style={[
             styles.content,
-            { paddingTop: insets.top + space[16] + headerHeight },
+            {
+              paddingTop:
+                insets.top + space[16] + headerHeight + HEADER_CONTENT_GAP,
+            },
           ]}
         >
           {children}

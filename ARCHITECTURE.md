@@ -27,6 +27,8 @@ src/
     use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
     use-last-booking-label.ts  Formatted label for last successful booking
     use-welcome-text/          Locale-aware greeting pool
+  context/
+    mobile-app-data.tsx        MobileAppDataContext — global app config from Contentful (notices, sport disables)
   navigation/
     types.ts                   Navigation param list types
   components/
@@ -37,7 +39,9 @@ src/
       implementations/
         club-links/            External link cards (website, socials)
         last-booking/          Last booking info card (self-fetching)
+        notice/                General notice card (reads data.notice from MobileAppDataContext)
         strava-cards/          Strava activity cards (self-fetching)
+        training-notice/       Booking notice card (reads data.booking.notice from MobileAppDataContext)
         upcoming-event/        Next training session card
     error-boundary.tsx         Top-level error boundary
     language-switcher/         Bottom-sheet language picker (native only)
@@ -107,3 +111,5 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 **i18n uses custom React Context (no external library).** Translations live in `src/i18n/i18n.json` — flat key map with `{ en, ga, de }` per key. `LocaleProvider` reads/writes `app_locale` from AsyncStorage on native; web is locked to English. `useLocale()` returns `{ locale, setLocale, t }` where `t(key)` does a simple lookup. `TranslationKey` is derived from the JSON keys for compile-time safety. The Settings tab (native only) has a `LanguageSwitcher` — a bottom-sheet modal listing all three languages.
 
 **Contentful fetches happen client-side.** Unlike Strava (which proxies through a Netlify function because the tokens are secret), Contentful CDA tokens are public/read-only by design. The app calls `cdn.contentful.com` directly via a generic typed fetcher in `src/services/contentful/`. Event data is cached in AsyncStorage (`app_contentful_events`) for 1 hour with stale-on-error fallback. The `UpcomingEventCard` fetches on mount and passes data to the `UpcomingEventsScreen` via nav params to avoid a redundant request.
+
+**`MobileAppDataContext` for dynamic app config.** A single Contentful entry (`mobileAppData` / `MOBILE_APP_DATA`) contains a `jsonData` JSON field powering two features: a free-text `notice` string shown as a notice card at the top of the Club screen, and a `booking` object with `notice` (shown above the booking form), `hurlingDisabledUntil`, and `gaelicDisabledUntil` ISO timestamps. When a timestamp is set and in the future, the corresponding sport button is disabled and the Book button is blocked. The context fetches on mount with no AsyncStorage cache; club and book screens call `refresh()` via `useFocusEffect` so data is always current when the screen is viewed. `NoticeCard` and `TrainingNoticeCard` are self-contained display components that read from the context directly — no props needed. The `Card` component accepts a `variant="notice"` prop that applies blue notice styling (`noticeBackground` theme token).

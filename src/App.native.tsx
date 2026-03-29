@@ -11,6 +11,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { ErrorBoundary } from "./components/error-boundary";
+import { MobileAppDataProvider } from "./context/mobile-app-data";
 import { LocaleProvider, useLocale } from "./i18n";
 import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
@@ -180,7 +181,9 @@ export const App = () => {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <LocaleProvider>
-            <AppShell />
+            <MobileAppDataProvider>
+              <AppShell />
+            </MobileAppDataProvider>
           </LocaleProvider>
           <StatusBar style="dark" />
         </SafeAreaProvider>

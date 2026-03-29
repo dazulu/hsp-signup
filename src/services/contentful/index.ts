@@ -3,6 +3,8 @@ import type {
   ContentfulCollection,
   ContentfulItem,
   ContentfulQueryParams,
+  MobileAppData,
+  MobileAppDataFields,
   RepeatingItemsFields,
 } from "./types";
 
@@ -45,6 +47,19 @@ const fetchRepeatingItems = async (
     limit: 1,
   });
   return (data.items[0]?.fields.items as ContentfulItem[]) ?? null;
+};
+
+export const fetchMobileAppData = async (): Promise<MobileAppData | null> => {
+  try {
+    const data = await fetchContentful<MobileAppDataFields>({
+      content_type: "mobileAppData",
+      "fields.staticId": "MOBILE_APP_DATA",
+      limit: 1,
+    });
+    return data.items[0]?.fields.jsonData ?? null;
+  } catch {
+    return null;
+  }
 };
 
 export const fetchEvents = async (): Promise<EventsData | null> => {

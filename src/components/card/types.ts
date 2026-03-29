@@ -10,6 +10,7 @@ export type CardProps = {
   span?: 1 | 2;
   title?: string;
   transparent?: boolean;
+  variant?: "notice";
 };
 
 export type CardGridProps = {

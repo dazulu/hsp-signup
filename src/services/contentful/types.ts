@@ -30,3 +30,19 @@ export type ContentfulItem = {
   key: string;
   value: string;
 };
+
+export type MobileAppBookingData = {
+  notice: string | null;
+  hurlingDisabledUntil: string | null;
+  gaelicDisabledUntil: string | null;
+};
+
+export type MobileAppData = {
+  notice: string | null;
+  booking?: MobileAppBookingData;
+};
+
+export type MobileAppDataFields = {
+  staticId: string;
+  jsonData: MobileAppData;
+};

@@ -26,12 +26,14 @@ export const Card = ({
   onPress,
   span,
   transparent = false,
+  variant,
 }: CardProps) => {
   const spanStyle = span != null ? SPAN_STYLES[span] : undefined;
 
   const cardStyle: ViewStyle[] = [
     styles.card,
     ...(transparent ? [styles.cardTransparent] : []),
+    ...(variant === "notice" ? [styles.cardNotice] : []),
     ...(spanStyle ? [spanStyle] : []),
     transparent
       ? {

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -14,13 +14,15 @@ import {
   View,
 } from "react-native";
 import Reanimated, { useAnimatedStyle } from "react-native-reanimated";
+import { useMobileAppData } from "../../context/mobile-app-data";
 import type { SportKey } from "../../hooks/use-booking";
 import { SPORTS, useBooking } from "../../hooks/use-booking";
 import { useLastBookingLabel } from "../../hooks/use-last-booking-label";
 import { useLocale } from "../../i18n";
 import type { TranslationKey } from "../../i18n/types";
 import { theme } from "../../theme";
-import { Card } from "../card";
+import { Card, CardGrid } from "../card";
+import { TrainingNoticeCard } from "../card/implementations/training-notice";
 
 import { DebugPanel } from "../debug-panel";
 import { styles } from "./styles";
@@ -80,12 +82,34 @@ export const BookingForm = () => {
   const { label: lastBookingLabel, isStale: lastBookingIsStale } =
     useLastBookingLabel(lastBooking);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
+  const { data } = useMobileAppData();
+
+  const isSportDisabled = useCallback(
+    (s: SportKey): boolean => {
+      const now = new Date();
+      if (s === "hurling") {
+        return (
+          !!data?.booking?.hurlingDisabledUntil &&
+          new Date(data.booking.hurlingDisabledUntil) > now
+        );
+      }
+      return (
+        !!data?.booking?.gaelicDisabledUntil &&
+        new Date(data.booking.gaelicDisabledUntil) > now
+      );
+    },
+    [data],
+  );
 
   const isLoading =
     booking.phase === "triggering" ||
     booking.phase === "waiting" ||
     booking.phase === "polling";
-  const canBook = !!(email && password && sport) && !isLoading;
+
+  const canBook =
+    !!(email && password && sport) &&
+    !isLoading &&
+    !(sport && isSportDisabled(sport));
 
   const progressStyle = useAnimatedStyle(() => ({
     width: `${progressAnim.value * 100}%`,
@@ -129,237 +153,250 @@ export const BookingForm = () => {
               onClose={debugClose}
             />
           )}
+          <CardGrid>
+            <TrainingNoticeCard />
 
-          <Card padding="md">
-            {/* Web keeps the card title/subtitle; native surfaces the title
+            <Card padding="md" span={2}>
+              {/* Web keeps the card title/subtitle; native surfaces the title
                 via ScreenLayout above the card. */}
-            {Platform.OS === "web" && (
-              <>
-                <View style={styles.titleRow}>
-                  <Text style={styles.title}>{t("booking.formTitle")}</Text>
-                  <View style={styles.betaBadge}>
-                    <Text style={styles.betaText}>BETA</Text>
+              {Platform.OS === "web" && (
+                <>
+                  <View style={styles.titleRow}>
+                    <Text style={styles.title}>{t("booking.formTitle")}</Text>
+                    <View style={styles.betaBadge}>
+                      <Text style={styles.betaText}>BETA</Text>
+                    </View>
                   </View>
-                </View>
-                <Text style={styles.subtitle}>{t("booking.formSubtitle")}</Text>
-              </>
-            )}
+                  <Text style={styles.subtitle}>
+                    {t("booking.formSubtitle")}
+                  </Text>
+                </>
+              )}
 
-            {/* Email */}
-            <Text style={styles.label}>{t("booking.emailLabel")}</Text>
-            <TextInput
-              style={[styles.input, isLoading && styles.inputDisabled]}
-              value={email}
-              onChangeText={setEmail}
-              placeholder={t("booking.emailPlaceholder")}
-              placeholderTextColor={colors.textPlaceholder}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              autoComplete="email"
-              editable={!isLoading}
-              onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
-              accessibilityLabel={t("booking.emailLabel")}
-            />
-
-            {/* Password */}
-            <Text style={styles.label}>{t("booking.passwordLabel")}</Text>
-            <View style={styles.passwordRow}>
+              {/* Email */}
+              <Text style={styles.label}>{t("booking.emailLabel")}</Text>
               <TextInput
-                style={[
-                  styles.input,
-                  styles.passwordInput,
-                  isLoading && styles.inputDisabled,
-                ]}
-                value={password}
-                onChangeText={setPassword}
-                placeholder={t("booking.passwordPlaceholder")}
+                style={[styles.input, isLoading && styles.inputDisabled]}
+                value={email}
+                onChangeText={setEmail}
+                placeholder={t("booking.emailPlaceholder")}
                 placeholderTextColor={colors.textPlaceholder}
-                secureTextEntry={!showPassword}
-                autoComplete="password"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="email"
                 editable={!isLoading}
                 onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
-                accessibilityLabel={t("booking.passwordLabel")}
+                accessibilityLabel={t("booking.emailLabel")}
               />
-              <Pressable
-                style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
-                onPress={() => setShowPassword((v) => !v)}
-                disabled={isLoading}
-                accessibilityRole="button"
-                accessibilityLabel={
-                  showPassword
-                    ? t("booking.hidePassword")
-                    : t("booking.showPassword")
-                }
-              >
-                <Text style={styles.eyeText}>
-                  {showPassword
-                    ? t("booking.hidePassword")
-                    : t("booking.showPassword")}
-                </Text>
-              </Pressable>
-            </View>
 
-            {/* Remember credentials checkbox — native only */}
-            {Platform.OS !== "web" && (
-              <Pressable
-                style={styles.saveOnDeviceRow}
-                onPress={() => setSaveOnDevice(!saveOnDevice)}
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: saveOnDevice }}
-                accessibilityLabel={t("booking.rememberMe")}
-                disabled={isLoading}
-              >
-                <View
+              {/* Password */}
+              <Text style={styles.label}>{t("booking.passwordLabel")}</Text>
+              <View style={styles.passwordRow}>
+                <TextInput
                   style={[
-                    styles.checkbox,
-                    saveOnDevice && styles.checkboxChecked,
+                    styles.input,
+                    styles.passwordInput,
+                    isLoading && styles.inputDisabled,
                   ]}
-                >
-                  {saveOnDevice && (
-                    <Text style={styles.checkboxTick}>{"\u2713"}</Text>
-                  )}
-                </View>
-                <Text style={styles.saveOnDeviceLabel}>
-                  {t("booking.rememberMe")}
-                </Text>
-              </Pressable>
-            )}
-
-            {/* Sport picker */}
-            <Text style={styles.label}>{t("booking.sportLabel")}</Text>
-            <View style={styles.sportRow}>
-              {SPORTS.map((s) => (
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder={t("booking.passwordPlaceholder")}
+                  placeholderTextColor={colors.textPlaceholder}
+                  secureTextEntry={!showPassword}
+                  autoComplete="password"
+                  editable={!isLoading}
+                  onBlur={Platform.OS !== "web" ? saveCredentials : undefined}
+                  accessibilityLabel={t("booking.passwordLabel")}
+                />
                 <Pressable
-                  key={s.key}
-                  style={[
-                    styles.sportBtn,
-                    sport === s.key && styles.sportBtnActive,
-                    isLoading && styles.sportBtnDisabled,
-                  ]}
-                  onPress={() => pickSport(s.key)}
+                  style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
+                  onPress={() => setShowPassword((v) => !v)}
                   disabled={isLoading}
                   accessibilityRole="button"
-                  accessibilityState={{ selected: sport === s.key }}
-                  accessibilityLabel={t(SPORT_LABEL_KEYS[s.key])}
+                  accessibilityLabel={
+                    showPassword
+                      ? t("booking.hidePassword")
+                      : t("booking.showPassword")
+                  }
                 >
-                  <Text
+                  <Text style={styles.eyeText}>
+                    {showPassword
+                      ? t("booking.hidePassword")
+                      : t("booking.showPassword")}
+                  </Text>
+                </Pressable>
+              </View>
+
+              {/* Remember credentials checkbox — native only */}
+              {Platform.OS !== "web" && (
+                <Pressable
+                  style={styles.saveOnDeviceRow}
+                  onPress={() => setSaveOnDevice(!saveOnDevice)}
+                  accessibilityRole="checkbox"
+                  accessibilityState={{ checked: saveOnDevice }}
+                  accessibilityLabel={t("booking.rememberMe")}
+                  disabled={isLoading}
+                >
+                  <View
                     style={[
-                      styles.sportBtnText,
-                      sport === s.key && styles.sportBtnTextActive,
+                      styles.checkbox,
+                      saveOnDevice && styles.checkboxChecked,
                     ]}
                   >
-                    {t(SPORT_LABEL_KEYS[s.key])}
+                    {saveOnDevice && (
+                      <Text style={styles.checkboxTick}>{"\u2713"}</Text>
+                    )}
+                  </View>
+                  <Text style={styles.saveOnDeviceLabel}>
+                    {t("booking.rememberMe")}
                   </Text>
                 </Pressable>
-              ))}
-            </View>
-
-            {/* Book button */}
-            <Pressable
-              style={[styles.bookBtn, !canBook && styles.bookBtnDisabled]}
-              onPress={book}
-              disabled={!canBook}
-              accessibilityRole="button"
-              accessibilityLabel={
-                isLoading ? t("booking.status.inProgress") : t("booking.cta")
-              }
-            >
-              {isLoading ? (
-                <View style={styles.loadingRow}>
-                  <ActivityIndicator
-                    color={colors.textOnPrimary}
-                    size="small"
-                  />
-                  <Text style={styles.bookBtnText}>
-                    {booking.phase === "triggering"
-                      ? t("booking.status.starting")
-                      : booking.phase === "polling"
-                        ? t("booking.status.checking")
-                        : t("booking.status.inProgress")}
-                  </Text>
-                </View>
-              ) : (
-                <Text style={styles.bookBtnText}>{t("booking.cta")}</Text>
               )}
-            </Pressable>
 
-            {/* Progress bar */}
-            {booking.phase === "waiting" && (
-              <View style={styles.progressTrack}>
-                <Reanimated.View style={[styles.progressFill, progressStyle]} />
+              {/* Sport picker */}
+              <Text style={styles.label}>{t("booking.sportLabel")}</Text>
+              <View style={styles.sportRow}>
+                {SPORTS.map((s) => (
+                  <Pressable
+                    key={s.key}
+                    style={[
+                      styles.sportBtn,
+                      sport === s.key && styles.sportBtnActive,
+                      (isLoading || isSportDisabled(s.key)) &&
+                        styles.sportBtnDisabled,
+                    ]}
+                    onPress={() => pickSport(s.key)}
+                    disabled={isLoading || isSportDisabled(s.key)}
+                    accessibilityRole="button"
+                    accessibilityState={{
+                      selected: sport === s.key,
+                      disabled: isSportDisabled(s.key),
+                    }}
+                    accessibilityLabel={t(SPORT_LABEL_KEYS[s.key])}
+                  >
+                    <Text
+                      style={[
+                        styles.sportBtnText,
+                        sport === s.key && styles.sportBtnTextActive,
+                      ]}
+                    >
+                      {t(SPORT_LABEL_KEYS[s.key])}
+                    </Text>
+                  </Pressable>
+                ))}
               </View>
-            )}
 
-            {/* Success */}
-            {booking.phase === "success" && (
-              <Animated.View style={[styles.statusBox, { opacity: doneAnim }]}>
-                <Text style={styles.statusText}>
-                  {t("booking.result.success")}
-                </Text>
-                <Pressable
-                  style={styles.dismissBtn}
-                  onPress={dismiss}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("booking.dismiss")}
-                >
-                  <Text style={styles.dismissBtnText}>
-                    {t("booking.dismiss")}
-                  </Text>
-                </Pressable>
-              </Animated.View>
-            )}
-
-            {/* Failure */}
-            {booking.phase === "failure" && (
-              <Animated.View
-                style={[
-                  styles.statusBox,
-                  styles.statusBoxError,
-                  { opacity: 1 },
-                ]}
+              {/* Book button */}
+              <Pressable
+                style={[styles.bookBtn, !canBook && styles.bookBtnDisabled]}
+                onPress={book}
+                disabled={!canBook}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  isLoading ? t("booking.status.inProgress") : t("booking.cta")
+                }
               >
-                <Text style={[styles.statusText, styles.statusTextError]}>
-                  {t("booking.result.failure")}
-                </Text>
-                <Pressable
-                  style={styles.dismissBtn}
-                  onPress={dismiss}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("booking.dismiss")}
-                >
-                  <Text style={styles.dismissBtnText}>
-                    {t("booking.dismiss")}
-                  </Text>
-                </Pressable>
-              </Animated.View>
-            )}
+                {isLoading ? (
+                  <View style={styles.loadingRow}>
+                    <ActivityIndicator
+                      color={colors.textOnPrimary}
+                      size="small"
+                    />
+                    <Text style={styles.bookBtnText}>
+                      {booking.phase === "triggering"
+                        ? t("booking.status.starting")
+                        : booking.phase === "polling"
+                          ? t("booking.status.checking")
+                          : t("booking.status.inProgress")}
+                    </Text>
+                  </View>
+                ) : (
+                  <Text style={styles.bookBtnText}>{t("booking.cta")}</Text>
+                )}
+              </Pressable>
 
-            {/* Timeout */}
-            {booking.phase === "timeout" && (
-              <Animated.View
-                style={[
-                  styles.statusBox,
-                  styles.statusBoxNeutral,
-                  { opacity: doneAnim },
-                ]}
-              >
-                <Text style={[styles.statusText, styles.statusTextNeutral]}>
-                  {t("booking.result.timeout")}
-                </Text>
-                <Pressable
-                  style={styles.dismissBtn}
-                  onPress={dismiss}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("booking.dismiss")}
+              {/* Progress bar */}
+              {booking.phase === "waiting" && (
+                <View style={styles.progressTrack}>
+                  <Reanimated.View
+                    style={[styles.progressFill, progressStyle]}
+                  />
+                </View>
+              )}
+
+              {/* Success */}
+              {booking.phase === "success" && (
+                <Animated.View
+                  style={[styles.statusBox, { opacity: doneAnim }]}
                 >
-                  <Text style={styles.dismissBtnText}>
-                    {t("booking.dismiss")}
+                  <Text style={styles.statusText}>
+                    {t("booking.result.success")}
                   </Text>
-                </Pressable>
-              </Animated.View>
-            )}
-          </Card>
+                  <Pressable
+                    style={styles.dismissBtn}
+                    onPress={dismiss}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("booking.dismiss")}
+                  >
+                    <Text style={styles.dismissBtnText}>
+                      {t("booking.dismiss")}
+                    </Text>
+                  </Pressable>
+                </Animated.View>
+              )}
+
+              {/* Failure */}
+              {booking.phase === "failure" && (
+                <Animated.View
+                  style={[
+                    styles.statusBox,
+                    styles.statusBoxError,
+                    { opacity: 1 },
+                  ]}
+                >
+                  <Text style={[styles.statusText, styles.statusTextError]}>
+                    {t("booking.result.failure")}
+                  </Text>
+                  <Pressable
+                    style={styles.dismissBtn}
+                    onPress={dismiss}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("booking.dismiss")}
+                  >
+                    <Text style={styles.dismissBtnText}>
+                      {t("booking.dismiss")}
+                    </Text>
+                  </Pressable>
+                </Animated.View>
+              )}
+
+              {/* Timeout */}
+              {booking.phase === "timeout" && (
+                <Animated.View
+                  style={[
+                    styles.statusBox,
+                    styles.statusBoxNeutral,
+                    { opacity: doneAnim },
+                  ]}
+                >
+                  <Text style={[styles.statusText, styles.statusTextNeutral]}>
+                    {t("booking.result.timeout")}
+                  </Text>
+                  <Pressable
+                    style={styles.dismissBtn}
+                    onPress={dismiss}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("booking.dismiss")}
+                  >
+                    <Text style={styles.dismissBtnText}>
+                      {t("booking.dismiss")}
+                    </Text>
+                  </Pressable>
+                </Animated.View>
+              )}
+            </Card>
+          </CardGrid>
 
           {lastBookingLabel && booking.phase === "idle" && (
             <View style={styles.lastBookingBox}>
