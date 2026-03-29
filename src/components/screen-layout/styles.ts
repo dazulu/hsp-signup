@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.lg,
     fontFamily: fontFamily.regular,
     color: colors.textBrand,
-    lineHeight: 26,
+    lineHeight: 24,
     marginTop: space[8],
     maxWidth: "77%",
   },
