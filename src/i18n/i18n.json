@@ -173,6 +173,11 @@
     "ga": "D'Áirithint Hochschulsport",
     "de": "Deine Hochschulsport Buchung"
   },
+  "card.lastBooking.staleNudge": {
+    "en": "Time to book your next session",
+    "ga": "Am do chéad seisiún eile a chur in áirithe",
+    "de": "Zeit, deine nächste Einheit zu buchen"
+  },
   "card.links.title": { "en": "Links", "ga": "Naisc", "de": "Links" },
   "card.strava.distance": {
     "en": "Recent Distance",

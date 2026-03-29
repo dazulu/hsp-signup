@@ -205,6 +205,23 @@ export const styles = StyleSheet.create({
     color: colors.successText,
     fontFamily: fontFamily.bold,
   },
+  nudgePill: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: space[10],
+    backgroundColor: colors.warningBackground,
+    borderRadius: radii.lg,
+    paddingVertical: space[6],
+    paddingHorizontal: space[10],
+    marginTop: space[8],
+  },
+  nudgeText: {
+    fontSize: fontSize.md,
+    fontFamily: fontFamily.regular,
+    color: colors.warningText,
+    includeFontPadding: false,
+  },
   disclaimer: {
     marginTop: space[24],
     fontSize: fontSize.sm,

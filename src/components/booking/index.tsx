@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -75,7 +77,9 @@ export const BookingForm = () => {
     debugReset,
     debugClose,
   } = useBooking();
-  const lastBookingLabel = useLastBookingLabel(lastBooking);
+  const { label: lastBookingLabel, isStale: lastBookingIsStale } =
+    useLastBookingLabel(lastBooking);
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
 
   const isLoading =
     booking.phase === "triggering" ||
@@ -363,6 +367,19 @@ export const BookingForm = () => {
                 <Text style={styles.lastBookingTick}>{"\u2713"}</Text>
                 {`  ${lastBookingLabel}`}
               </Text>
+              {lastBookingIsStale && !nudgeDismissed && (
+                <Pressable
+                  style={styles.nudgePill}
+                  onPress={() => setNudgeDismissed(true)}
+                  accessibilityRole="button"
+                  accessibilityLabel="Dismiss"
+                >
+                  <Text style={styles.nudgeText}>
+                    {t("card.lastBooking.staleNudge")}
+                  </Text>
+                  <Ionicons name="close" size={14} color={colors.warningText} />
+                </Pressable>
+              )}
             </View>
           )}
 

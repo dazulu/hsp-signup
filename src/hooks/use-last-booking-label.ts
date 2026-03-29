@@ -6,9 +6,16 @@ import type { TranslationKey } from "../i18n/types";
 import { formatTimeAgo } from "../utils";
 import { SPORTS } from "./use-booking";
 
+// 7 days
+const STALE_THRESHOLD_MS = 7 * 24 * 60 * 60 * 1000;
+// Debug 1 second
+// const STALE_THRESHOLD_MS = 1000;
+
+export type LastBookingLabelResult = { label: string | null; isStale: boolean };
+
 export const useLastBookingLabel = (
   bookingOverride?: LastBooking | null,
-): string | null => {
+): LastBookingLabelResult => {
   const { locale, t } = useLocale();
   const useAsyncStorage = bookingOverride === undefined;
   const [asyncBooking, setAsyncBooking] = useState<LastBooking | null>(null);
@@ -30,13 +37,15 @@ export const useLastBookingLabel = (
 
   const booking = useAsyncStorage ? asyncBooking : (bookingOverride ?? null);
   if (!booking) {
-    return null;
+    return { label: null, isStale: false };
   }
 
   const match = SPORTS.find((s) => s.key === booking.sport);
   if (!match) {
-    return null;
+    return { label: null, isStale: false };
   }
   const sportLabel = t(match.translationKey as TranslationKey);
-  return `${sportLabel} · ${formatTimeAgo(booking.bookedAt, locale)}`;
+  const label = `${sportLabel} · ${formatTimeAgo(booking.bookedAt, locale)}`;
+  const isStale = Date.now() - booking.bookedAt >= STALE_THRESHOLD_MS;
+  return { label, isStale };
 };
