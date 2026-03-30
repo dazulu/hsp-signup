@@ -17,7 +17,7 @@
     "de": "Passe dein App-Erlebnis an."
   },
 
-  "tab.club": { "en": "Club", "ga": "Club", "de": "Club" },
+  "tab.club": { "en": "Club", "ga": "Cumann", "de": "Club" },
   "tab.book": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
   "tab.photos": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
   "tab.settings": {
@@ -127,7 +127,7 @@
   },
   "booking.status.inProgress": {
     "en": "Booking in progress…",
-    "ga": "Áirithint á dhéanamh…",
+    "ga": "Áirithint á déanamh…",
     "de": "Buchung läuft…"
   },
   "booking.result.success": {
@@ -145,7 +145,7 @@
     "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost — mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
     "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails — falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch's erneut."
   },
-  "booking.dismiss": { "en": "Dismiss", "ga": "Cealaigh", "de": "Schließen" },
+  "booking.dismiss": { "en": "Dismiss", "ga": "Dún", "de": "Schließen" },
   "booking.disclaimer.noSave": {
     "en": "Your credentials are not saved and are used only to complete the booking.",
     "ga": "Ní shábháiltear do shonraí logála agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
@@ -175,7 +175,7 @@
   },
   "card.lastBooking.empty": {
     "en": "Book your next training",
-    "ga": "Cuir d'oiliúint eile in áirithe",
+    "ga": "Cuir do chéad traenáil eile in áirithe",
     "de": "Buche dein nächstes Training"
   },
   "card.lastBooking.staleNudge": {
