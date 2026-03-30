@@ -228,5 +228,15 @@
     "de": "vor ${n}h"
   },
   "time.yesterday": { "en": "yesterday", "ga": "inné", "de": "gestern" },
-  "time.daysAgo": { "en": "${n}d ago", "ga": "${n}l ó shin", "de": "vor ${n}T" }
+  "time.daysAgo": {
+    "en": "${n}d ago",
+    "ga": "${n}l ó shin",
+    "de": "vor ${n}T"
+  },
+
+  "update.available": {
+    "en": "Update available. Tap to restart",
+    "ga": "Nuashonrú ar fáil. Tapáil chun atosú",
+    "de": "Update verfügbar. Tippen zum Neustarten"
+  }
 }

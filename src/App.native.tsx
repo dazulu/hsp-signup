@@ -11,7 +11,9 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { ErrorBoundary } from "./components/error-boundary";
+import { UpdateBanner } from "./components/update-banner";
 import { MobileAppDataProvider } from "./context/mobile-app-data";
+import { useOtaUpdate } from "./hooks/use-ota-update";
 import { LocaleProvider, useLocale } from "./i18n";
 import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
@@ -47,9 +49,12 @@ const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
   Settings: { active: "settings", inactive: "settings-outline" },
 };
 
+const TAB_BAR_HEIGHT = 88;
+
 function AppShell() {
   const insets = useSafeAreaInsets();
   const { t } = useLocale();
+  const { updateReady, applyUpdate } = useOtaUpdate();
 
   return (
     <View style={shellStyles.root}>
@@ -74,7 +79,7 @@ function AppShell() {
               borderTopLeftRadius: radii.xl,
               borderTopRightRadius: radii.xl,
               borderTopWidth: 0,
-              height: 88,
+              height: TAB_BAR_HEIGHT,
               ...shadows.card,
             },
             tabBarItemStyle: {
@@ -131,6 +136,11 @@ function AppShell() {
           />
         </Tab.Navigator>
       </NavigationContainer>
+      <UpdateBanner
+        visible={updateReady}
+        onPress={applyUpdate}
+        style={{ bottom: TAB_BAR_HEIGHT + 20 }}
+      />
       <View
         style={[shellStyles.crestWrap, { top: insets.top + 24 }]}
         pointerEvents="none"
