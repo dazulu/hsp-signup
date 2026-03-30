@@ -19,11 +19,12 @@
 
   "tab.club": { "en": "Club", "ga": "Cumann", "de": "Club" },
   "tab.book": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "tab.training": { "en": "Training", "ga": "Traenáil", "de": "Training" },
   "tab.photos": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
   "tab.settings": {
     "en": "Settings",
     "ga": "Socruithe",
-    "de": "Einstellungen"
+    "de": "Mehr"
   },
 
   "book.title": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
@@ -141,9 +142,9 @@
     "de": "Buchung fehlgeschlagen. Überprüfe deine Anmeldedaten und ob deine Hochschulsport Hamburg Mitgliedschaft aktiv ist."
   },
   "booking.result.timeout": {
-    "en": "Couldn't confirm the result. Check your email — if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
-    "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost — mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
-    "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails — falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch's erneut."
+    "en": "Couldn't confirm the result. Check your email - if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
+    "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost - mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
+    "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails - falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch's erneut."
   },
   "booking.dismiss": { "en": "Dismiss", "ga": "Dún", "de": "Schließen" },
   "booking.disclaimer.noSave": {
@@ -238,5 +239,176 @@
     "en": "Update available. Tap to restart",
     "ga": "Nuashonrú ar fáil. Tapáil chun atosú",
     "de": "Update verfügbar. Tippen zum Neustarten"
+  },
+
+  "training.title": {
+    "en": "Training",
+    "ga": "Traenáil",
+    "de": "Training"
+  },
+  "training.subtitle": {
+    "en": "Information, times and locations for this season.",
+    "ga": "Eolas, amanna agus suíomhanna don séasúr seo.",
+    "de": "Infos, Zeiten und Orte für diese Saison."
+  },
+  "training.hsp.hurlingLabel": {
+    "en": "Hurling & Camogie",
+    "ga": "Iomáint & Camógaíocht",
+    "de": "Hurling & Camogie"
+  },
+  "training.hsp.hurlingTime": {
+    "en": "Fridays 19:30 – 21:30",
+    "ga": "Dé hAoine 19:30 – 21:30",
+    "de": "Freitags 19:30 – 21:30"
+  },
+  "training.hsp.footballLabel": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic Football"
+  },
+  "training.hsp.footballTime": {
+    "en": "Wednesdays 18:30 – 20:00",
+    "ga": "Dé Céadaoin 18:30 – 20:00",
+    "de": "Mittwochs 18:30 – 20:00"
+  },
+  "training.stadtpark.intro": {
+    "en": "Occasionally we train in Stadtpark at roughly the following location.",
+    "ga": "Ó am go chéile déanaimid traenáil i Stadtpark ag an suíomh seo a leanas, nó mar sin.",
+    "de": "Gelegentlich trainieren wir im Stadtpark an ungefähr folgendem Ort."
+  },
+  "training.stadtpark.station": {
+    "en": "Borgweg (U3) + a little walk",
+    "ga": "Borgweg (U3) + siúlóid bheag",
+    "de": "Borgweg (U3) + kurzer Fußweg"
+  },
+
+  "training.infoCard.title": {
+    "en": "Training Information",
+    "ga": "Eolas Traenála",
+    "de": "Trainingsinfos"
+  },
+  "training.infoCard.body": {
+    "en": "What to bring, locations, facilities and everything you need to know.",
+    "ga": "Cad ba cheart a thabhairt leat, suíomhanna, áiseanna agus gach rud is gá a fhios agat.",
+    "de": "Was du mitbringen solltest, Standorte, Einrichtungen und alles Wissenswerte."
+  },
+
+  "trainingInfo.title": {
+    "en": "Training Information",
+    "ga": "Eolas Traenála",
+    "de": "Trainingsinfos"
+  },
+  "trainingInfo.subtitle": {
+    "en": "What to bring with you and what to expect at training locations.",
+    "ga": "Cad ba cheart a thabhairt leat agus cad a bheidh i ndán duit ag ionaid traenála.",
+    "de": "Was du mitbringen solltest und was dich an den Trainingsorten erwartet."
+  },
+
+  "trainingInfo.equipment.title": {
+    "en": "Equipment",
+    "ga": "Trealamh",
+    "de": "Ausrüstung"
+  },
+  "trainingInfo.equipment.hurlingTitle": {
+    "en": "Hurling & Camogie",
+    "ga": "Iomáint & Camógaíocht",
+    "de": "Hurling & Camogie"
+  },
+  "trainingInfo.equipment.hurlingBody": {
+    "en": "Helmets and hurleys are available for newcomers.",
+    "ga": "Tá clogaid agus camáin ar fáil do dhaoine nua.",
+    "de": "Helme und Hurleys sind für Neulinge verfügbar."
+  },
+  "trainingInfo.equipment.footballTitle": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic Football"
+  },
+  "trainingInfo.equipment.footballBody": {
+    "en": "A gum shield is required. You will not be permitted to play without one.",
+    "ga": "Tá sciath fiacla riachtanach. Ní bheidh cead agat imirt gan ceann.",
+    "de": "Ein Mundschutz ist Pflicht. Ohne ihn ist kein Spiel erlaubt."
+  },
+  "trainingInfo.equipment.generalTitle": {
+    "en": "General",
+    "ga": "Ginearálta",
+    "de": "Allgemein"
+  },
+  "trainingInfo.equipment.water": {
+    "en": "Bring water - there is a fountain at Hochschulsport but not at Stadtpark.",
+    "ga": "Tabhair uisce leat - tá tobar uisce ag Hochschulsport ach ní ag Stadtpark.",
+    "de": "Bring Wasser mit - am Hochschulsport gibt es einen Trinkbrunnen, im Stadtpark nicht."
+  },
+  "trainingInfo.equipment.towel": {
+    "en": "A towel, change of clothes, and sports shoes are recommended.",
+    "ga": "Moltar tuáille, athrú éadaí, agus bróga spóirt a thabhairt leat.",
+    "de": "Ein Handtuch, Wechselkleidung und Sportschuhe werden empfohlen."
+  },
+  "trainingInfo.hsp.title": {
+    "en": "Hochschulsport Facilities",
+    "ga": "Áiseanna Hochschulsport",
+    "de": "Hochschulsport Einrichtungen"
+  },
+  "trainingInfo.hsp.astroturf": {
+    "en": "Astroturf pitch - no metal studs allowed.",
+    "ga": "Páirc astro-féar - níl táirní miotail ceadaithe.",
+    "de": "Kunstrasenplatz - keine Metallstollen erlaubt."
+  },
+  "trainingInfo.hsp.changingRooms": {
+    "en": "Changing rooms and showers available.",
+    "ga": "Seomraí athraithe agus cithfholcadáin ar fáil.",
+    "de": "Umkleidekabinen und Duschen vorhanden."
+  },
+  "trainingInfo.hsp.waterFountain": {
+    "en": "Water fountain on site.",
+    "ga": "Tobar uisce ar an láthair.",
+    "de": "Trinkwasserbrunnen vor Ort."
+  },
+  "trainingInfo.hsp.membershipNote": {
+    "en": "A valid Hochschulsport Hamburg membership is required to train here.",
+    "ga": "Teastaíonn ballraíocht ghníomhach Hochschulsport Hamburg chun traenáil anseo.",
+    "de": "Eine gültige Hochschulsport Hamburg Mitgliedschaft ist erforderlich, um hier zu trainieren."
+  },
+
+  "trainingInfo.membership.title": {
+    "en": "Hochschulsport Membership",
+    "ga": "Ballraíocht Hochschulsport",
+    "de": "Hochschulsport Mitgliedschaft"
+  },
+  "trainingInfo.membership.intro": {
+    "en": "To train at Hochschulsport you must first have an active membership. Here's how to get set up:",
+    "ga": "Chun traenáil ag Hochschulsport caithfidh ballraíocht ghníomhach a bheith agat ar dtús. Seo conas é a shocrú:",
+    "de": "Um am Hochschulsport zu trainieren, brauchst du zuerst eine aktive Mitgliedschaft. So richtest du sie ein:"
+  },
+  "trainingInfo.membership.step1": {
+    "en": "Visit the Hochschulsport website and find Hurling/Camogie or Gaelic Football under the A-Z sports list.",
+    "ga": "Tabhair cuairt ar shuíomh gréasáin Hochschulsport agus aimsigh Iomáint/Camógaíocht nó Peil Ghaelach faoin liosta spórt A-Z.",
+    "de": "Besuche die Hochschulsport-Website und finde Hurling/Camogie oder Gaelic Football in der A-Z Sportliste."
+  },
+  "trainingInfo.membership.step2": {
+    "en": "Follow the sign-up flow to create an account and purchase a membership.",
+    "ga": "Lean an próiseas cláraithe chun cuntas a chruthú agus ballraíocht a cheannach.",
+    "de": "Folge dem Anmeldeprozess, um ein Konto zu erstellen und eine Mitgliedschaft zu erwerben."
+  },
+  "trainingInfo.membership.step3": {
+    "en": "Once active, book training sessions via the Hochschulsport website or use our booking screen in this app.",
+    "ga": "Nuair a bheidh sé gníomhach, cuir seisiúin traenála in áirithe tríd an suíomh gréasáin Hochschulsport nó úsáid ár scáileán áirithinte san aip seo.",
+    "de": "Sobald aktiv, buche Trainingseinheiten über die Hochschulsport-Website oder nutze unseren Buchungsbildschirm in dieser App."
+  },
+  "trainingInfo.membership.link": {
+    "en": "Hochschulsport A-Z Sports",
+    "ga": "Hochschulsport A-Z Spórt",
+    "de": "Hochschulsport A-Z Sport"
+  },
+
+  "trainingInfo.stadtpark.title": {
+    "en": "Stadtpark Facilities",
+    "ga": "Áiseanna Stadtpark",
+    "de": "Stadtpark Einrichtungen"
+  },
+  "trainingInfo.stadtpark.body": {
+    "en": "We train on grass at Stadtpark. There are no changing rooms, toilets or water fountains nearby.",
+    "ga": "Déanaimid traenáil ar fhéar ag Stadtpark. Níl aon seomraí athraithe, leithris ná toibreacha uisce in aice láimhe.",
+    "de": "Im Stadtpark trainieren wir auf Rasen. Es gibt keine Umkleiden, Toiletten oder Trinkbrunnen in der Nähe."
   }
 }

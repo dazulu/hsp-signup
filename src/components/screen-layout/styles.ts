@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize["3xl"],
     fontFamily: fontFamily.extrabold,
     color: colors.textBrand,
+    marginRight: 70,
   },
   subtitle: {
     fontSize: fontSize.lg,

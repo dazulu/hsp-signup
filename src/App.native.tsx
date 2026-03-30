@@ -19,6 +19,8 @@ import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
 import { PhotosScreen } from "./screens/photos";
 import { SettingsScreen } from "./screens/settings";
+import { TrainingScreen } from "./screens/training";
+import { TrainingInfoScreen } from "./screens/training-info";
 import { UpcomingEventsScreen } from "./screens/upcoming-events";
 import { styles } from "./styles";
 import { theme } from "./theme";
@@ -34,10 +36,11 @@ const Tab = createBottomTabNavigator();
 
 const TAB_LABEL_KEYS: Record<
   string,
-  "tab.club" | "tab.book" | "tab.photos" | "tab.settings"
+  "tab.club" | "tab.book" | "tab.training" | "tab.photos" | "tab.settings"
 > = {
   Club: "tab.club",
   Book: "tab.book",
+  Training: "tab.training",
   Photos: "tab.photos",
   Settings: "tab.settings",
 };
@@ -45,6 +48,10 @@ const TAB_LABEL_KEYS: Record<
 const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
   Club: { active: "shield", inactive: "shield-outline" },
   Book: { active: "calendar", inactive: "calendar-outline" },
+  Training: {
+    active: "information-circle",
+    inactive: "information-circle-outline",
+  },
   Photos: { active: "images", inactive: "images-outline" },
   Settings: { active: "settings", inactive: "settings-outline" },
 };
@@ -87,12 +94,12 @@ function AppShell() {
             },
             tabBarLabelStyle: {
               fontFamily: fontFamily.semibold,
-              fontSize: fontSize.md,
+              fontSize: fontSize.xs,
             },
-            tabBarIcon: ({ focused, color, size }) => {
+            tabBarIcon: ({ focused, color, size: iconSize }) => {
               const icon = TAB_ICONS[route.name];
-              const pillW = size * 2;
-              const pillH = size + 4;
+              const pillW = iconSize * 2;
+              const pillH = iconSize + 4;
               return (
                 <View
                   style={{
@@ -114,7 +121,7 @@ function AppShell() {
                         typeof Ionicons
                       >["name"]
                     }
-                    size={size}
+                    size={iconSize}
                     color={color}
                   />
                 </View>
@@ -124,8 +131,17 @@ function AppShell() {
         >
           <Tab.Screen name="Club" component={ClubScreen} />
           <Tab.Screen name="Book" component={BookScreen} />
+          <Tab.Screen name="Training" component={TrainingScreen} />
           <Tab.Screen name="Photos" component={PhotosScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
+          <Tab.Screen
+            name="TrainingInfo"
+            component={TrainingInfoScreen}
+            options={{
+              tabBarButton: () => null,
+              tabBarItemStyle: { display: "none" },
+            }}
+          />
           <Tab.Screen
             name="UpcomingEvents"
             component={UpcomingEventsScreen}
