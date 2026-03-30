@@ -173,6 +173,11 @@
     "ga": "D'Áirithint Hochschulsport",
     "de": "Deine Hochschulsport Buchung"
   },
+  "card.lastBooking.empty": {
+    "en": "Book your next training",
+    "ga": "Cuir d'oiliúint eile in áirithe",
+    "de": "Buche dein nächstes Training"
+  },
   "card.lastBooking.staleNudge": {
     "en": "Time to book your next session",
     "ga": "Am do chéad seisiún eile a chur in áirithe",

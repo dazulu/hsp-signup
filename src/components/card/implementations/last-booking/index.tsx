@@ -26,8 +26,16 @@ export const LastBookingCard = () => {
       onPress={() => navigation.navigate("Book")}
     >
       <View style={styles.row}>
-        <Text style={styles.tick}>{"\u2713"}</Text>
-        <Text style={[cardStyles.bodyText]}>{label ?? "-"}</Text>
+        {label ? (
+          <>
+            <Text style={styles.tick}>{"\u2713"}</Text>
+            <Text style={[cardStyles.bodyText]}>{label}</Text>
+          </>
+        ) : (
+          <Text style={[cardStyles.bodyText]}>
+            {t("card.lastBooking.empty")}
+          </Text>
+        )}
       </View>
       {isStale && !nudgeDismissed && (
         <Pressable
