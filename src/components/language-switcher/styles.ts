@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: "rgba(0,0,0,0.35)",
   },
+  backdropFill: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   sheet: {
     backgroundColor: colors.surface,
     borderTopLeftRadius: radii.xl,

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Animated, Modal, Pressable, Text } from "react-native";
 import { useLocale } from "../../i18n";
 import { LOCALE_LABELS, LOCALES } from "../../i18n/types";
 import { theme } from "../../theme";
@@ -8,9 +8,30 @@ import { styles } from "./styles";
 
 const { colors } = theme;
 
+const SLIDE_DURATION = 250;
+
 export const LanguageSwitcher = () => {
   const { locale, setLocale, t } = useLocale();
   const [visible, setVisible] = useState(false);
+  const anim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (visible) {
+      Animated.timing(anim, {
+        toValue: 1,
+        duration: SLIDE_DURATION,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [visible, anim]);
+
+  const close = () => {
+    Animated.timing(anim, {
+      toValue: 0,
+      duration: 150,
+      useNativeDriver: true,
+    }).start(() => setVisible(false));
+  };
 
   return (
     <>
@@ -32,37 +53,58 @@ export const LanguageSwitcher = () => {
       <Modal
         visible={visible}
         transparent
-        animationType="slide"
-        onRequestClose={() => setVisible(false)}
+        animationType="none"
+        onRequestClose={close}
       >
-        <Pressable style={styles.backdrop} onPress={() => setVisible(false)}>
-          <View style={styles.sheet} onStartShouldSetResponder={() => true}>
-            {LOCALES.map((l) => (
-              <Pressable
-                key={l}
-                style={styles.option}
-                onPress={() => {
-                  setLocale(l);
-                  setVisible(false);
-                }}
-                accessibilityRole="button"
-                accessibilityState={{ selected: l === locale }}
-              >
-                <Text
-                  style={[
-                    styles.optionText,
-                    l === locale && styles.optionTextActive,
-                  ]}
+        <Animated.View style={[styles.backdrop, { opacity: anim }]}>
+          <Pressable style={styles.backdropFill} onPress={close}>
+            <Animated.View
+              style={[
+                styles.sheet,
+                {
+                  transform: [
+                    {
+                      translateY: anim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [300, 0],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+              onStartShouldSetResponder={() => true}
+            >
+              {LOCALES.map((l) => (
+                <Pressable
+                  key={l}
+                  style={styles.option}
+                  onPress={() => {
+                    setLocale(l);
+                    close();
+                  }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: l === locale }}
                 >
-                  {LOCALE_LABELS[l]}
-                </Text>
-                {l === locale && (
-                  <Ionicons name="checkmark" size={20} color={colors.primary} />
-                )}
-              </Pressable>
-            ))}
-          </View>
-        </Pressable>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      l === locale && styles.optionTextActive,
+                    ]}
+                  >
+                    {LOCALE_LABELS[l]}
+                  </Text>
+                  {l === locale && (
+                    <Ionicons
+                      name="checkmark"
+                      size={20}
+                      color={colors.primary}
+                    />
+                  )}
+                </Pressable>
+              ))}
+            </Animated.View>
+          </Pressable>
+        </Animated.View>
       </Modal>
     </>
   );
