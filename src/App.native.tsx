@@ -49,8 +49,8 @@ const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
   Club: { active: "shield", inactive: "shield-outline" },
   Book: { active: "calendar", inactive: "calendar-outline" },
   Training: {
-    active: "information-circle",
-    inactive: "information-circle-outline",
+    active: "book",
+    inactive: "book-outline",
   },
   Photos: { active: "images", inactive: "images-outline" },
   Settings: { active: "settings", inactive: "settings-outline" },
