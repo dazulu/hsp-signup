@@ -130,8 +130,8 @@ function AppShell() {
           })}
         >
           <Tab.Screen name="Club" component={ClubScreen} />
-          <Tab.Screen name="Book" component={BookScreen} />
           <Tab.Screen name="Training" component={TrainingScreen} />
+          <Tab.Screen name="Book" component={BookScreen} />
           <Tab.Screen name="Photos" component={PhotosScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
           <Tab.Screen
