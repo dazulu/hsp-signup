@@ -28,7 +28,7 @@ src/
     use-last-booking-label.ts  Formatted label for last successful booking
     use-welcome-text/          Locale-aware greeting pool
   context/
-    mobile-app-data.tsx        MobileAppDataContext — global app config from Contentful (notices, sport disables)
+    mobile-app-data.tsx        MobileAppDataContext — owns all remote data: Contentful notices, events, Strava
   navigation/
     types.ts                   Navigation param list types
   components/
@@ -40,9 +40,9 @@ src/
         club-links/            External link cards (website, socials)
         last-booking/          Last booking info card (self-fetching)
         notice/                General notice card (reads data.notice from MobileAppDataContext)
-        strava-cards/          Strava activity cards (self-fetching)
+        strava-cards/          Strava activity cards (reads stravaData from MobileAppDataContext)
         training-notice/       Booking notice card (reads data.booking.notice from MobileAppDataContext)
-        upcoming-event/        Next training session card
+        upcoming-event/        Next training session card (reads events from MobileAppDataContext)
     error-boundary.tsx         Top-level error boundary
     language-switcher/         Bottom-sheet language picker (native only)
     screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
@@ -53,7 +53,8 @@ src/
     settings.tsx               Settings — language switcher + version card
     upcoming-events.tsx        Upcoming training sessions list
   services/
-    contentful/                Generic Contentful CDA client (types + fetcher)
+    contentful/                Generic Contentful CDA client (types + fetcher + 1h event cache)
+    strava/                    Strava fetch + 1h AsyncStorage cache (`fetchStravaData(force?)`)
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
@@ -80,16 +81,34 @@ The app doesn't talk to the HSP website directly. It calls a Netlify serverless 
 
 ## Environment variables
 
-| Where | Variable | Purpose |
-|-------|----------|---------|
-| `.env` (Expo) | `EXPO_PUBLIC_API_URL` | Base URL of the Netlify site, used by native builds only (web uses relative URLs) |
-| `.env` (Expo) | `EXPO_PUBLIC_API_KEY` | Shared secret to authenticate app requests to Netlify |
-| Netlify | `API_KEY` | Same shared secret (server side) |
-| Netlify | `GITHUB_PAT` | GitHub personal access token to trigger and query workflows |
-| `.env` (Expo) | `EXPO_PUBLIC_CONTENTFUL_SPACE_ID` | Contentful space ID for CDA requests (public/read-only) |
-| `.env` (Expo) | `EXPO_PUBLIC_CONTENTFUL_ACCESS_TOKEN` | Contentful CDA access token (public/read-only) |
+### Expo app (`.env`)
 
-HSP login credentials are not env vars — they are entered by the user at runtime and passed through the Netlify function to the GitHub Actions workflow via `client_payload`. They are never stored on any server and are masked in workflow logs via `::add-mask::`.
+| Variable | Used in | Purpose |
+|----------|---------|---------|
+| `EXPO_PUBLIC_API_URL` | `use-booking.ts`, `src/services/strava/index.ts` | Base URL of the Netlify site — native only; web uses relative URLs |
+| `EXPO_PUBLIC_API_KEY` | `use-booking.ts`, `src/services/strava/index.ts` | Shared secret sent as `x-api-key` header on Netlify function requests |
+| `EXPO_PUBLIC_CONTENTFUL_SPACE_ID` | `src/services/contentful/index.ts` | Contentful space ID for CDA requests (public/read-only) |
+| `EXPO_PUBLIC_CONTENTFUL_ACCESS_TOKEN` | `src/services/contentful/index.ts` | Contentful CDA delivery access token (public/read-only) |
+
+### Netlify environment variables
+
+| Variable | Used in | Purpose |
+|----------|---------|---------|
+| `API_KEY` | `book.ts`, `status.ts`, `strava.ts` | Server-side of the shared `x-api-key` secret — must match `EXPO_PUBLIC_API_KEY` |
+| `GITHUB_PAT` | `book.ts`, `status.ts` | GitHub PAT with `repo` scope — triggers `repository_dispatch` and reads workflow runs |
+| `ENCRYPTION_KEY` | `book.ts` | 64-char hex string (32-byte AES-256-GCM key) — encrypts HSP credentials before they are placed in `client_payload` |
+| `STRAVA_CLIENT_ID` | `strava.ts` | Strava API OAuth client ID |
+| `STRAVA_CLIENT_SECRET` | `strava.ts` | Strava API OAuth client secret |
+| `STRAVA_REFRESH_TOKEN` | `strava.ts` | Long-lived Strava refresh token for the club account |
+| `STRAVA_CLUB_ID` | `strava.ts` | Numeric Strava club ID for activity queries |
+
+### GitHub Actions secrets
+
+| Secret | Used in | Purpose |
+|--------|---------|---------|
+| `ENCRYPTION_KEY` | `playwright.yml` decrypt step | Same 64-char hex value as Netlify — decrypts credentials before Playwright runs |
+
+HSP login credentials are not env vars — they are entered by the user at runtime. `book.ts` encrypts them with AES-256-GCM before putting them in `client_payload`. What GitHub stores and displays in the UI is ciphertext. The workflow decrypts using `ENCRYPTION_KEY` (GitHub secret), immediately masks the plaintext values with `::add-mask::`, then writes them to `GITHUB_ENV` for Playwright to consume. Credentials are never stored on any server.
 
 Credentials are stored on-device using Expo SecureStore (native) only when the user enables "Remember login details on this device". On web, credentials are **never** stored — they live in React state for the duration of the session only. The `secure-store.ts` wrapper abstracts the platform difference.
 
@@ -111,4 +130,8 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 
 **Contentful fetches happen client-side.** Unlike Strava (which proxies through a Netlify function because the tokens are secret), Contentful CDA tokens are public/read-only by design. The app calls `cdn.contentful.com` directly via a generic typed fetcher in `src/services/contentful/`. Event data is cached in AsyncStorage (`app_contentful_events`) for 1 hour with stale-on-error fallback. The `UpcomingEventCard` fetches on mount and passes data to the `UpcomingEventsScreen` via nav params to avoid a redundant request.
 
-**`MobileAppDataContext` for dynamic app config.** A single Contentful entry (`mobileAppData` / `MOBILE_APP_DATA`) contains a `jsonData` JSON field powering two features: a free-text `notice` string shown as a notice card at the top of the Club screen, and a `booking` object with `notice` (shown above the booking form), `hurlingDisabledUntil`, and `gaelicDisabledUntil` ISO timestamps. When a timestamp is set and in the future, the corresponding sport button is disabled and the Book button is blocked. The context fetches on mount with no AsyncStorage cache; club and book screens call `refresh()` via `useFocusEffect` so data is always current when the screen is viewed. `NoticeCard` and `TrainingNoticeCard` are self-contained display components that read from the context directly — no props needed. The `Card` component accepts a `variant="notice"` prop that applies blue notice styling (`noticeBackground` theme token).
+**`MobileAppDataContext` owns all remote data.** `MobileAppDataProvider` centralises fetching for Contentful `mobileAppData`, Contentful events, and Strava. It exposes `{ data, events, stravaData, loading, refresh, refreshContentful }`. `refresh(force?)` fetches all three via `Promise.allSettled` and returns `Promise<void>`; on web it skips events and Strava. `refreshContentful()` fetches Contentful only and returns `Promise<void>`. Both methods share a `fetchingRef` guard to prevent concurrent calls. Card components (`UpcomingEventCard`, `StravaCards`, `NoticeCard`, `TrainingNoticeCard`) read from context directly — no self-fetching.
+
+**Pull-to-refresh on Club, Book, and Upcoming Events screens.** Each screen's `onRefresh` calls `refresh(true).finally(...)` (Club) or `refreshContentful().finally(...)` (Book, Upcoming Events) to drive a `<RefreshControl>` spinner. `force=true` bypasses TTL caches but always writes fresh data back. Tab-focus refreshes call `refreshContentful()` (Contentful only, no Strava, no force, no loading spinner).
+
+**Credential encryption in transit.** `book.ts` encrypts email and password with AES-256-GCM (`ENCRYPTION_KEY`) before including them in `client_payload`. GitHub only ever stores ciphertext. The workflow decrypts using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext. Generate the key with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` — store the same 64-char hex value in both Netlify env vars and GitHub Actions secrets.

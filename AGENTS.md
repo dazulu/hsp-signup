@@ -22,7 +22,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **Styles:** Always in a sibling `styles.ts` file (`StyleSheet.create`). The legacy central `src/styles.ts` exists but new components must colocate styles in their own `styles.ts`.
 - **Design tokens:** All colours, radii, spacing, typography, and shadows live in `src/theme/index.ts`. Consume via the `theme` object: `import { theme } from "../theme"; const { colors, space } = theme;`. Never use raw hex strings or magic numbers in style files.
 - **Types:** Always in a sibling `types.ts` file. Do not declare prop types inline in the component file.
-- **Domain card components:** When a card in a screen has its own data-fetching or business logic, extract it into a dedicated component under `src/components/card/implementations/<name>/` (e.g. `last-booking/`). The component owns its own data and renders a `<Card>` internally. The screen only mounts it — no domain logic in the screen file.
+- **Domain card components:** Cards that display remote data read from `MobileAppDataContext` via `useMobileAppData()` — they do not fetch independently. `NoticeCard`, `TrainingNoticeCard`, `UpcomingEventCard`, and `StravaCards` all follow this pattern. Only `LastBookingCard` reads from AsyncStorage locally. The screen mounts cards — no domain logic in the screen file.
 - **Platform branching:** Prefer platform file extensions (`.native.tsx` / `.web.tsx`) over inline `Platform.OS` checks when the component tree diverges significantly. Use inline `Platform.OS` only for small one-line differences.
 - **Platform file extension gotcha:** When using `.native.tsx` / `.web.tsx`, the barrel `index.tsx` must import from the extensionless name (`./my-component`, not `./my-component.web`). Do not create a generic `.tsx` fallback that re-exports a platform-specific file — Metro resolves `.native.tsx` first on native and `.web.tsx` first on web, but a generic file that hard-codes `.web` will poison the chain on Android/iOS.
 - **Font family names:** `jakarta-400`, `jakarta-500`, `jakarta-600`, `jakarta-700`, `jakarta-800` (Plus Jakarta Sans loaded via `@expo-google-fonts`).
@@ -35,7 +35,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - No external state library. React hooks + `useCallback`/`useEffect`/`useRef`.
 - `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/timeout).
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
-- `MobileAppDataContext` (`src/context/mobile-app-data.tsx`) — global context providing `{ data, loading, refresh }` for the Contentful `MOBILE_APP_DATA` entry. Fetches on mount; screens call `refresh()` via `useFocusEffect` to get fresh data on focus. No AsyncStorage cache.
+- `MobileAppDataContext` (`src/context/mobile-app-data.tsx`) — global context providing `{ data, events, stravaData, loading, refresh, refreshContentful }`. Owns all remote data: Contentful `MOBILE_APP_DATA` entry, Contentful events, and Strava. `refresh(force?)` fetches all three and returns `Promise<void>` (used by pull-to-refresh). `refreshContentful()` fetches Contentful only and returns `Promise<void>` (used by `useFocusEffect` on screens). On web, `refresh()` skips events and Strava. No AsyncStorage cache on `data`; events and Strava use 1-hour TTL caches; `force=true` bypasses TTL but always writes fresh data back.
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 - **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache`, `app_contentful_events`, `app_has_opened_before`, `app_locale`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.
@@ -57,15 +57,16 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - Use Node.js `https` module directly (no axios/fetch libraries).
 - All endpoints validate the `x-api-key` header against `process.env.API_KEY`.
 - Input validation: reject invalid sport values, missing fields, and malformed JSON.
+- `book.ts` encrypts HSP credentials with AES-256-GCM (`ENCRYPTION_KEY` env var) before passing them in `client_payload`. The workflow decrypts them and masks the plaintext immediately.
 
 ## Testing
 
 - **Playwright e2e only** — no unit test framework is set up. The Playwright spec in `playwright/signup.spec.ts` runs in GitHub Actions, not locally.
-- The Playwright test is triggered by `repository_dispatch` with credentials passed via `client_payload` and masked in workflow logs.
+- The Playwright test is triggered by `repository_dispatch` with credentials passed via `client_payload` as AES-256-GCM ciphertext. The workflow decrypts them using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext with `::add-mask::` before writing to `GITHUB_ENV` for Playwright to consume.
 
 ## Security
 
-Never log, hard-code, or commit secrets. HSP credentials exist only in transit — entered at runtime, passed via `client_payload`, never stored server-side.
+Never log, hard-code, or commit secrets. HSP credentials exist only in transit — entered at runtime, encrypted by `book.ts` (AES-256-GCM) before being sent to GitHub, decrypted in the workflow, and never stored server-side.
 
 **Exception:** Demo credentials (`DEMO_EMAIL` / `DEMO_PASSWORD` in `use-booking.ts`) are intentionally hardcoded for app store review. They do not grant access to any real HSP account — they trigger a fake local-only booking flow that never contacts the backend.
 
