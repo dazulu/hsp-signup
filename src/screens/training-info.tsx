@@ -134,6 +134,7 @@ export const TrainingInfoScreen = () => {
     <ScreenLayout
       title={t("trainingInfo.title")}
       subtitle={t("trainingInfo.subtitle")}
+      showBackButton
     >
       <TrainingInfoScrollContent />
     </ScreenLayout>

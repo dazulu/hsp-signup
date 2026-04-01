@@ -134,7 +134,7 @@ export const GalleryDetailScreen = () => {
   const { galleryId, galleryTitle } = route.params;
 
   return (
-    <ScreenLayout title={galleryTitle}>
+    <ScreenLayout title={galleryTitle} showBackButton>
       <GalleryDetailScrollContent galleryId={galleryId} />
     </ScreenLayout>
   );

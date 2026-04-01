@@ -26,7 +26,11 @@ export const UpcomingEventsScreen = () => {
   const footballEvents = events ? toEvents(events.football) : [];
 
   return (
-    <ScreenLayout title={t("upcoming.title")} subtitle={t("upcoming.subtitle")}>
+    <ScreenLayout
+      title={t("upcoming.title")}
+      subtitle={t("upcoming.subtitle")}
+      showBackButton
+    >
       <ScrollView
         contentContainerStyle={styles.scroll}
         refreshControl={

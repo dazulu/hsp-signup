@@ -20,6 +20,24 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.extrabold,
     color: colors.textBrand,
     marginRight: 70,
+    includeFontPadding: false,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginRight: 70,
+  },
+  backButton: {
+    left: -12,
+    top: 10,
+  },
+  titleWithBack: {
+    flex: 1,
+    left: -5,
+    fontSize: fontSize["3xl"],
+    fontFamily: fontFamily.extrabold,
+    color: colors.textBrand,
+    includeFontPadding: false,
   },
   subtitle: {
     fontSize: fontSize.lg,

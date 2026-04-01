@@ -59,9 +59,102 @@ const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
 
 const TAB_BAR_HEIGHT = 88;
 
+const TabNavigator = () => {
+  const { t } = useLocale();
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Club"
+      screenOptions={({ route }) => ({
+        animation: "shift",
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarLabel: TAB_LABEL_KEYS[route.name]
+          ? t(TAB_LABEL_KEYS[route.name])
+          : route.name,
+        tabBarStyle: {
+          backgroundColor: colors.surface,
+          borderTopLeftRadius: radii.xl,
+          borderTopRightRadius: radii.xl,
+          borderTopWidth: 0,
+          height: TAB_BAR_HEIGHT,
+          ...shadows.card,
+        },
+        tabBarItemStyle: {
+          paddingTop: space[10],
+        },
+        tabBarLabelStyle: {
+          fontFamily: fontFamily.semibold,
+          fontSize: fontSize.xs,
+        },
+        tabBarIcon: ({ focused, color, size: iconSize }) => {
+          const icon = TAB_ICONS[route.name];
+          const pillW = iconSize * 2;
+          const pillH = iconSize + 4;
+          return (
+            <View
+              style={{
+                width: pillW,
+                height: pillH,
+                borderRadius: pillH / 2,
+                backgroundColor: focused ? colors.surfaceInput : "transparent",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Ionicons
+                name={
+                  (focused
+                    ? icon?.active
+                    : icon?.inactive) as React.ComponentProps<
+                    typeof Ionicons
+                  >["name"]
+                }
+                size={iconSize}
+                color={color}
+              />
+            </View>
+          );
+        },
+      })}
+    >
+      <Tab.Screen name="Club" component={ClubScreen} />
+      <Tab.Screen name="Training" component={TrainingScreen} />
+      <Tab.Screen name="Book" component={BookScreen} />
+      <Tab.Screen name="Photos" component={PhotosScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen
+        name="TrainingInfo"
+        component={TrainingInfoScreen}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+      <Tab.Screen
+        name="UpcomingEvents"
+        component={UpcomingEventsScreen}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+      <Tab.Screen
+        name="GalleryDetail"
+        component={GalleryDetailScreen}
+        options={{
+          tabBarButton: () => null,
+          tabBarItemStyle: { display: "none" },
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 function AppShell() {
   const insets = useSafeAreaInsets();
-  const { t } = useLocale();
   const { updateReady, applyUpdate } = useOtaUpdate();
 
   return (
@@ -71,95 +164,7 @@ function AppShell() {
         style={StyleSheet.absoluteFill}
       />
       <NavigationContainer theme={navTheme}>
-        <Tab.Navigator
-          initialRouteName="Club"
-          screenOptions={({ route }) => ({
-            animation: "shift",
-            headerShown: false,
-            tabBarShowLabel: true,
-            tabBarActiveTintColor: colors.primary,
-            tabBarInactiveTintColor: colors.textMuted,
-            tabBarLabel: TAB_LABEL_KEYS[route.name]
-              ? t(TAB_LABEL_KEYS[route.name])
-              : route.name,
-            tabBarStyle: {
-              backgroundColor: colors.surface,
-              borderTopLeftRadius: radii.xl,
-              borderTopRightRadius: radii.xl,
-              borderTopWidth: 0,
-              height: TAB_BAR_HEIGHT,
-              ...shadows.card,
-            },
-            tabBarItemStyle: {
-              paddingTop: space[10],
-            },
-            tabBarLabelStyle: {
-              fontFamily: fontFamily.semibold,
-              fontSize: fontSize.xs,
-            },
-            tabBarIcon: ({ focused, color, size: iconSize }) => {
-              const icon = TAB_ICONS[route.name];
-              const pillW = iconSize * 2;
-              const pillH = iconSize + 4;
-              return (
-                <View
-                  style={{
-                    width: pillW,
-                    height: pillH,
-                    borderRadius: pillH / 2,
-                    backgroundColor: focused
-                      ? colors.surfaceInput
-                      : "transparent",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Ionicons
-                    name={
-                      (focused
-                        ? icon?.active
-                        : icon?.inactive) as React.ComponentProps<
-                        typeof Ionicons
-                      >["name"]
-                    }
-                    size={iconSize}
-                    color={color}
-                  />
-                </View>
-              );
-            },
-          })}
-        >
-          <Tab.Screen name="Club" component={ClubScreen} />
-          <Tab.Screen name="Training" component={TrainingScreen} />
-          <Tab.Screen name="Book" component={BookScreen} />
-          <Tab.Screen name="Photos" component={PhotosScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
-          <Tab.Screen
-            name="TrainingInfo"
-            component={TrainingInfoScreen}
-            options={{
-              tabBarButton: () => null,
-              tabBarItemStyle: { display: "none" },
-            }}
-          />
-          <Tab.Screen
-            name="UpcomingEvents"
-            component={UpcomingEventsScreen}
-            options={{
-              tabBarButton: () => null,
-              tabBarItemStyle: { display: "none" },
-            }}
-          />
-          <Tab.Screen
-            name="GalleryDetail"
-            component={GalleryDetailScreen}
-            options={{
-              tabBarButton: () => null,
-              tabBarItemStyle: { display: "none" },
-            }}
-          />
-        </Tab.Navigator>
+        <TabNavigator />
       </NavigationContainer>
       <UpdateBanner
         visible={updateReady}
