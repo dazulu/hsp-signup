@@ -1,8 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type {
+  ContentfulAsset,
+  ContentfulAssetLink,
   ContentfulCollection,
+  ContentfulImageInfo,
   ContentfulItem,
   ContentfulQueryParams,
+  Gallery,
+  GalleryFields,
   MobileAppData,
   MobileAppDataFields,
   RepeatingItemsFields,
@@ -96,5 +101,97 @@ export const fetchEvents = async (
     return data;
   } catch {
     return stale;
+  }
+};
+
+// --- Gallery ---
+
+const GALLERY_CACHE_PREFIX = "app_gallery_cache_";
+const GALLERY_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+const resolveAssetLink = (
+  link: ContentfulAssetLink,
+  assets: ContentfulAsset[],
+): ContentfulImageInfo | null => {
+  const asset = assets.find((a) => a.sys.id === link.sys.id);
+  if (!asset) {
+    return null;
+  }
+  const { file, title } = asset.fields;
+  return {
+    url: file.url.startsWith("//") ? `https:${file.url}` : file.url,
+    width: file.details.image.width,
+    height: file.details.image.height,
+    title: title ?? "",
+  };
+};
+
+export const fetchGalleries = async (
+  locale = "en",
+  force = false,
+): Promise<Gallery[]> => {
+  const cacheKey = `${GALLERY_CACHE_PREFIX}${locale}`;
+  let stale: Gallery[] | null = null;
+
+  try {
+    const raw = await AsyncStorage.getItem(cacheKey);
+    if (raw) {
+      const cached = JSON.parse(raw) as { ts: number; data: Gallery[] };
+      if (!force && Date.now() - cached.ts < GALLERY_CACHE_TTL_MS) {
+        return cached.data;
+      }
+      stale = cached.data;
+    }
+  } catch {
+    // Corrupted cache — ignore and fetch fresh
+  }
+
+  try {
+    const response = await fetchContentful<GalleryFields>({
+      content_type: "gallery",
+      order: "-fields.date",
+      include: 1,
+      locale,
+    });
+
+    const assets = response.includes?.Asset ?? [];
+
+    const galleries = response.items
+      .map((entry): Gallery | null => {
+        const { title, description, date, cover, items } = entry.fields;
+        const resolvedCover = resolveAssetLink(cover, assets);
+        if (!resolvedCover) {
+          return null;
+        }
+
+        const resolvedItems = items
+          .map((item) => resolveAssetLink(item, assets))
+          .filter((img): img is ContentfulImageInfo => img !== null);
+
+        const gallery: Gallery = {
+          id: entry.sys.id,
+          title,
+          date,
+          year: new Date(date).getFullYear(),
+          cover: resolvedCover,
+          items: resolvedItems,
+        };
+        if (description) {
+          gallery.description = description;
+        }
+        return gallery;
+      })
+      .filter((g): g is Gallery => g !== null);
+
+    await AsyncStorage.setItem(
+      cacheKey,
+      JSON.stringify({ ts: Date.now(), data: galleries }),
+    );
+    return galleries;
+  } catch (e) {
+    if (stale !== null) {
+      return stale;
+    }
+    throw e;
   }
 };

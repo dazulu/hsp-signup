@@ -4,8 +4,16 @@
     "ga": "Socruithe",
     "de": "Einstellungen"
   },
-  "settings.language": { "en": "Language", "ga": "Teanga", "de": "Sprache" },
-  "settings.version": { "en": "Version", "ga": "Leagan", "de": "Version" },
+  "settings.language": {
+    "en": "Language",
+    "ga": "Teanga",
+    "de": "Sprache"
+  },
+  "settings.version": {
+    "en": "Version",
+    "ga": "Leagan",
+    "de": "Version"
+  },
   "settings.debugCopied": {
     "en": "Debug info copied to clipboard",
     "ga": "Cóipeáladh an t-eolas dífhabhtaithe ar an ngearrthaisce",
@@ -16,31 +24,71 @@
     "ga": "Saincheap d'eispéireas aipe.",
     "de": "Passe dein App-Erlebnis an."
   },
-
-  "tab.club": { "en": "Club", "ga": "Cumann", "de": "Club" },
-  "tab.book": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
-  "tab.training": { "en": "Training", "ga": "Traenáil", "de": "Training" },
-  "tab.photos": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
+  "tab.club": {
+    "en": "Club",
+    "ga": "Cumann",
+    "de": "Club"
+  },
+  "tab.book": {
+    "en": "Book",
+    "ga": "Cuir in áirithe",
+    "de": "Buchen"
+  },
+  "tab.training": {
+    "en": "Training",
+    "ga": "Traenáil",
+    "de": "Training"
+  },
+  "tab.photos": {
+    "en": "Photos",
+    "ga": "Grianghraif",
+    "de": "Fotos"
+  },
   "tab.settings": {
     "en": "Settings",
     "ga": "Socruithe",
     "de": "Mehr"
   },
-
-  "book.title": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "book.title": {
+    "en": "Book",
+    "ga": "Cuir in áirithe",
+    "de": "Buchen"
+  },
   "book.subtitle": {
     "en": "Automatically book the next available training session at Hochschulsport.",
     "ga": "Cuir an chéad seisiún traenála eile in áirithe go huathoibríoch ag Hochschulsport.",
     "de": "Buche automatisch die nächste verfügbare Trainingseinheit beim Hochschulsport."
   },
-
-  "photos.title": { "en": "Photos", "ga": "Grianghraif", "de": "Fotos" },
-  "photos.comingSoon": {
-    "en": "Coming soon",
-    "ga": "Ag teacht go luath",
-    "de": "Demnächst"
+  "photos.title": {
+    "en": "Photos",
+    "ga": "Grianghraif",
+    "de": "Fotos"
   },
-
+  "photos.empty": {
+    "en": "No galleries yet",
+    "ga": "Níl aon ghailearaithe ann fós",
+    "de": "Noch keine Galerien"
+  },
+  "photos.error": {
+    "en": "Couldn't load galleries. Pull down to try again.",
+    "ga": "Níorbh fhéidir gailearaithe a lódáil. Tarraing anuas chun iarracht eile a dhéanamh.",
+    "de": "Galerien konnten nicht geladen werden. Zum Aktualisieren nach unten ziehen."
+  },
+  "gallery.photo": {
+    "en": "photo",
+    "ga": "grianghraf",
+    "de": "Foto"
+  },
+  "gallery.photos": {
+    "en": "photos",
+    "ga": "grianghraf",
+    "de": "Fotos"
+  },
+  "gallery.close": {
+    "en": "Close",
+    "ga": "Dún",
+    "de": "Schließen"
+  },
   "upcoming.title": {
     "en": "Upcoming",
     "ga": "Le teacht",
@@ -66,7 +114,6 @@
     "ga": "Áit & Dáta le deimhniú",
     "de": "Ort & Datum folgt"
   },
-
   "booking.formTitle": {
     "en": "Book Training",
     "ga": "Cuir Traenáil in Áirithe",
@@ -97,14 +144,26 @@
     "ga": "Pasfhocal",
     "de": "Passwort"
   },
-  "booking.showPassword": { "en": "Show", "ga": "Taispeáin", "de": "Zeigen" },
-  "booking.hidePassword": { "en": "Hide", "ga": "Folaigh", "de": "Verbergen" },
+  "booking.showPassword": {
+    "en": "Show",
+    "ga": "Taispeáin",
+    "de": "Zeigen"
+  },
+  "booking.hidePassword": {
+    "en": "Hide",
+    "ga": "Folaigh",
+    "de": "Verbergen"
+  },
   "booking.rememberMe": {
     "en": "Remember login details on this device",
     "ga": "Cuimhnigh ar shonraí logála isteach ar an ngléas seo",
     "de": "Anmeldedaten auf diesem Gerät merken"
   },
-  "booking.sportLabel": { "en": "Sport", "ga": "Spórt", "de": "Sport" },
+  "booking.sportLabel": {
+    "en": "Sport",
+    "ga": "Spórt",
+    "de": "Sport"
+  },
   "booking.sport.hurling": {
     "en": "Hurling & Camogie",
     "ga": "Iomáint & Camógaíocht",
@@ -115,7 +174,11 @@
     "ga": "Peil Ghaelach",
     "de": "Gaelic Football"
   },
-  "booking.cta": { "en": "Book", "ga": "Cuir in áirithe", "de": "Buchen" },
+  "booking.cta": {
+    "en": "Book",
+    "ga": "Cuir in áirithe",
+    "de": "Buchen"
+  },
   "booking.status.starting": {
     "en": "Starting…",
     "ga": "Ag tosú…",
@@ -146,7 +209,11 @@
     "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost - mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",
     "de": "Ergebnis konnte nicht bestätigt werden. Prüfe deine E-Mails - falls nichts vom Hochschulsport Hamburg innerhalb von 10 Minuten kommt, versuch's erneut."
   },
-  "booking.dismiss": { "en": "Dismiss", "ga": "Dún", "de": "Schließen" },
+  "booking.dismiss": {
+    "en": "Dismiss",
+    "ga": "Dún",
+    "de": "Schließen"
+  },
   "booking.disclaimer.noSave": {
     "en": "Your credentials are not saved and are used only to complete the booking.",
     "ga": "Ní shábháiltear do shonraí logála agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
@@ -167,8 +234,11 @@
     "ga": "Níorbh fhéidir ceangal. Seiceáil do idirlíon agus bain triail eile as.",
     "de": "Verbindung fehlgeschlagen. Überprüfe deine Internetverbindung und versuche es erneut."
   },
-  "booking.error.title": { "en": "Error", "ga": "Earráid", "de": "Fehler" },
-
+  "booking.error.title": {
+    "en": "Error",
+    "ga": "Earráid",
+    "de": "Fehler"
+  },
   "card.lastBooking.title": {
     "en": "Your Hochschulsport Booking",
     "ga": "D'Áirithint Hochschulsport",
@@ -184,7 +254,11 @@
     "ga": "Am do chéad seisiún eile a chur in áirithe",
     "de": "Zeit, deine nächste Einheit zu buchen"
   },
-  "card.links.title": { "en": "Links", "ga": "Naisc", "de": "Links" },
+  "card.links.title": {
+    "en": "Links",
+    "ga": "Naisc",
+    "de": "Links"
+  },
   "card.strava.distance": {
     "en": "Recent Distance",
     "ga": "Fad le déanaí",
@@ -200,7 +274,6 @@
     "ga": "Le teacht",
     "de": "Bevorstehend"
   },
-
   "error.title": {
     "en": "Something went wrong",
     "ga": "Chuaigh rud éigin mícheart",
@@ -211,8 +284,11 @@
     "ga": "Athlódáil an aip chun iarracht eile a dhéanamh. Má leanann an fhadhb, téigh amach faoin aer.",
     "de": "Lade die App neu, um es erneut zu versuchen. Wenn das Problem weiterhin besteht, geh mal raus."
   },
-  "error.reload": { "en": "Reload", "ga": "Athlódáil", "de": "Neu laden" },
-
+  "error.reload": {
+    "en": "Reload",
+    "ga": "Athlódáil",
+    "de": "Neu laden"
+  },
   "time.justNow": {
     "en": "just now",
     "ga": "díreach anois",
@@ -228,19 +304,21 @@
     "ga": "${n}u ó shin",
     "de": "vor ${n}h"
   },
-  "time.yesterday": { "en": "yesterday", "ga": "inné", "de": "gestern" },
+  "time.yesterday": {
+    "en": "yesterday",
+    "ga": "inné",
+    "de": "gestern"
+  },
   "time.daysAgo": {
     "en": "${n}d ago",
     "ga": "${n}l ó shin",
     "de": "vor ${n}T"
   },
-
   "update.available": {
     "en": "Update available. Tap to restart",
     "ga": "Nuashonrú ar fáil. Tapáil chun atosú",
     "de": "Update verfügbar. Tippen zum Neustarten"
   },
-
   "training.title": {
     "en": "Training",
     "ga": "Traenáil",
@@ -281,7 +359,6 @@
     "ga": "Borgweg (U3) + siúlóid bheag",
     "de": "Borgweg (U3) + kurzer Fußweg"
   },
-
   "training.infoCard.title": {
     "en": "Training Information",
     "ga": "Eolas Traenála",
@@ -292,7 +369,6 @@
     "ga": "Cad ba cheart a thabhairt leat, suíomhanna, áiseanna agus gach rud is gá a fhios agat.",
     "de": "Was du mitbringen solltest, Standorte, Einrichtungen und alles Wissenswerte."
   },
-
   "trainingInfo.title": {
     "en": "Training Information",
     "ga": "Eolas Traenála",
@@ -303,7 +379,6 @@
     "ga": "Cad ba cheart a thabhairt leat agus cad a bheidh i ndán duit ag ionaid traenála.",
     "de": "Was du mitbringen solltest und was dich an den Trainingsorten erwartet."
   },
-
   "trainingInfo.equipment.title": {
     "en": "Equipment",
     "ga": "Trealamh",
@@ -369,7 +444,6 @@
     "ga": "Teastaíonn ballraíocht ghníomhach Hochschulsport Hamburg chun traenáil anseo.",
     "de": "Eine gültige Hochschulsport Hamburg Mitgliedschaft ist erforderlich, um hier zu trainieren."
   },
-
   "trainingInfo.membership.title": {
     "en": "Hochschulsport Membership",
     "ga": "Ballraíocht Hochschulsport",
@@ -400,7 +474,6 @@
     "ga": "Hochschulsport A-Z Spórt",
     "de": "Hochschulsport A-Z Sport"
   },
-
   "trainingInfo.stadtpark.title": {
     "en": "Stadtpark Facilities",
     "ga": "Áiseanna Stadtpark",

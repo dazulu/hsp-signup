@@ -17,6 +17,7 @@ import { useOtaUpdate } from "./hooks/use-ota-update";
 import { LocaleProvider, useLocale } from "./i18n";
 import { BookScreen } from "./screens/book";
 import { ClubScreen } from "./screens/club";
+import { GalleryDetailScreen } from "./screens/gallery-detail";
 import { PhotosScreen } from "./screens/photos";
 import { SettingsScreen } from "./screens/settings";
 import { TrainingScreen } from "./screens/training";
@@ -145,6 +146,14 @@ function AppShell() {
           <Tab.Screen
             name="UpcomingEvents"
             component={UpcomingEventsScreen}
+            options={{
+              tabBarButton: () => null,
+              tabBarItemStyle: { display: "none" },
+            }}
+          />
+          <Tab.Screen
+            name="GalleryDetail"
+            component={GalleryDetailScreen}
             options={{
               tabBarButton: () => null,
               tabBarItemStyle: { display: "none" },

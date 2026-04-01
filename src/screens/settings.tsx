@@ -32,6 +32,8 @@ const STORAGE_KEYS = [
   "hsp_last_booking",
   "app_strava_cache",
   "app_contentful_events",
+  "app_gallery_cache_en",
+  "app_gallery_cache_de",
   "app_has_opened_before",
   "app_locale",
 ];

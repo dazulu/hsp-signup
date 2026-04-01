@@ -4,6 +4,7 @@ export type TabParamList = {
   Training: undefined;
   TrainingInfo: undefined;
   Photos: undefined;
+  GalleryDetail: { galleryId: string; galleryTitle: string };
   UpcomingEvents: undefined;
   Settings: undefined;
 };

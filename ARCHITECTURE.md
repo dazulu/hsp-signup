@@ -25,6 +25,7 @@ src/
   hooks/
     use-booking.ts             Booking state machine, effects, callbacks
     use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
+    use-galleries.ts           Gallery data hook (fetches + caches Contentful galleries, locale-aware)
     use-last-booking-label.ts  Formatted label for last successful booking
     use-welcome-text/          Locale-aware greeting pool
   context/
@@ -43,17 +44,22 @@ src/
         strava-cards/          Strava activity cards (reads stravaData from MobileAppDataContext)
         training-notice/       Booking notice card (reads data.booking.notice from MobileAppDataContext)
         upcoming-event/        Next training session card (reads events from MobileAppDataContext)
+        gallery-card/          Cover image card for photo galleries
     error-boundary.tsx         Top-level error boundary
+    image-viewer/              Full-screen image viewer with pinch-zoom and horizontal paging
     language-switcher/         Bottom-sheet language picker (native only)
     screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
+    year-sidebar/              Year navigation sidebar for the photos screen
   screens/
     book.tsx                   Book a training session
     club.tsx                   Club info & links
-    photos.tsx                 Photo gallery
+    photos.tsx                 Photo gallery — gallery list with year sidebar
+    gallery-detail.tsx         Thumbnail grid for a single gallery
     settings.tsx               Settings — language switcher + version card
     upcoming-events.tsx        Upcoming training sessions list
   services/
-    contentful/                Generic Contentful CDA client (types + fetcher + 1h event cache)
+    contentful/                Generic Contentful CDA client (types + fetcher + 1h event/gallery cache)
+      images.ts                Contentful Images API URL builder (cover, thumbnail, full, placeholder)
     strava/                    Strava fetch + 1h AsyncStorage cache (`fetchStravaData(force?)`)
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch

@@ -8,8 +8,32 @@ export type ContentfulEntry<TFields> = {
   fields: TFields;
 };
 
+export type ContentfulAssetLink = {
+  sys: { type: "Link"; linkType: "Asset"; id: string };
+};
+
+export type ContentfulAssetFields = {
+  title: string;
+  description?: string;
+  file: {
+    url: string;
+    details: { image: { width: number; height: number } };
+    contentType: string;
+  };
+};
+
+export type ContentfulAsset = {
+  sys: ContentfulSys;
+  fields: ContentfulAssetFields;
+};
+
+export type ContentfulIncludes = {
+  Asset?: ContentfulAsset[];
+};
+
 export type ContentfulCollection<TFields> = {
   items: ContentfulEntry<TFields>[];
+  includes?: ContentfulIncludes;
   total: number;
   skip: number;
   limit: number;
@@ -45,4 +69,32 @@ export type MobileAppData = {
 export type MobileAppDataFields = {
   staticId: string;
   jsonData: MobileAppData;
+};
+
+// --- Gallery types ---
+
+export type GalleryFields = {
+  contentfulTitle: string;
+  title: string;
+  description?: string;
+  date: string;
+  cover: ContentfulAssetLink;
+  items: ContentfulAssetLink[];
+};
+
+export type ContentfulImageInfo = {
+  url: string;
+  width: number;
+  height: number;
+  title: string;
+};
+
+export type Gallery = {
+  id: string;
+  title: string;
+  description?: string;
+  date: string;
+  year: number;
+  cover: ContentfulImageInfo;
+  items: ContentfulImageInfo[];
 };
