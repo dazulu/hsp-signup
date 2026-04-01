@@ -17,6 +17,8 @@ export const styles = StyleSheet.create({
   },
   cardNotice: {
     backgroundColor: colors.noticeBackground,
+    borderWidth: 2,
+    borderColor: colors.noticeBorder,
     shadowOpacity: 0,
     elevation: 0,
   },

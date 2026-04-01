@@ -24,7 +24,7 @@ import { useLocale } from "../../i18n";
 import type { TranslationKey } from "../../i18n/types";
 import { theme } from "../../theme";
 import { Card, CardGrid } from "../card";
-import { TrainingNoticeCard } from "../card/implementations/training-notice";
+import { NoticeCard } from "../card/implementations/notice";
 
 import { styles } from "./styles";
 
@@ -152,7 +152,7 @@ export const BookingForm = ({
           )}
 
           <CardGrid>
-            <TrainingNoticeCard />
+            <NoticeCard message={data?.booking?.notice} />
 
             <Card padding="md" span={2}>
               {/* Web keeps the card title/subtitle; native surfaces the title

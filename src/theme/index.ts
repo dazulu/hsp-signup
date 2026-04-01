@@ -23,7 +23,10 @@
   warningBackground: "#fff7ed",
   warningText: "#d97706",
 
-  noticeBackground: "#3b82f6",
+  noticeBackground: "#ffedd5",
+  noticeBorder: "#e7cdb2",
+  noticeText: "#9a3412",
+  noticeIcon: "#f38637",
 } as const;
 
 export const radii = {

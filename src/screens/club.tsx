@@ -18,7 +18,7 @@ const { space } = theme;
 const ClubScrollContent = () => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
-  const { refresh, refreshContentful } = useMobileAppData();
+  const { data, refresh, refreshContentful } = useMobileAppData();
   const scrollRef = useRef<ScrollView>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -51,7 +51,7 @@ const ClubScrollContent = () => {
       }
     >
       <CardGrid>
-        <NoticeCard />
+        <NoticeCard message={data?.notice} />
         <UpcomingEventCard />
         <StravaCards />
         <LastBookingCard />
