@@ -1,8 +1,21 @@
+import { createCipheriv, randomBytes } from "node:crypto";
 import https from "node:https";
 import type { Handler } from "@netlify/functions";
 
 const OWNER = "dazulu";
 const REPO = "hsp-signup";
+
+function encryptField(text: string, keyHex: string): string {
+  const key = Buffer.from(keyHex, "hex");
+  const iv = randomBytes(12);
+  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const encrypted = Buffer.concat([
+    cipher.update(text, "utf8"),
+    cipher.final(),
+  ]);
+  const tag = cipher.getAuthTag();
+  return Buffer.concat([iv, tag, encrypted]).toString("base64");
+}
 
 export const handler: Handler = async (event) => {
   const headers = {
@@ -68,8 +81,20 @@ export const handler: Handler = async (event) => {
     };
   }
 
+  const encryptionKey = process.env.ENCRYPTION_KEY;
+  if (!encryptionKey) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: "Server misconfigured" }),
+    };
+  }
+
+  const encEmail = encryptField(email, encryptionKey);
+  const encPassword = encryptField(password, encryptionKey);
+
   try {
-    await dispatch(token, sport, email, password, correlationId);
+    await dispatch(token, sport, encEmail, encPassword, correlationId);
     return {
       statusCode: 200,
       headers,

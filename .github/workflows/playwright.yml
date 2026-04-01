@@ -15,10 +15,32 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Mask credentials
+      - name: Decrypt and mask credentials
+        id: creds
         run: |
-          echo "::add-mask::${{ github.event.client_payload.hsp_email }}"
-          echo "::add-mask::${{ github.event.client_payload.hsp_password }}"
+          node -e "
+            const crypto = require('crypto');
+            const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+            function decrypt(b64) {
+              const buf = Buffer.from(b64, 'base64');
+              const iv = buf.subarray(0, 12);
+              const tag = buf.subarray(12, 28);
+              const data = buf.subarray(28);
+              const d = crypto.createDecipheriv('aes-256-gcm', key, iv);
+              d.setAuthTag(tag);
+              return Buffer.concat([d.update(data), d.final()]).toString('utf8');
+            }
+            const email = decrypt(process.env.ENC_EMAIL);
+            const password = decrypt(process.env.ENC_PASSWORD);
+            console.log('::add-mask::' + email);
+            console.log('::add-mask::' + password);
+            require('fs').appendFileSync(process.env.GITHUB_ENV,
+              'HSP_EMAIL=' + email + '\nHSP_PASSWORD=' + password + '\n');
+          "
+        env:
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          ENC_EMAIL: ${{ github.event.client_payload.hsp_email }}
+          ENC_PASSWORD: ${{ github.event.client_payload.hsp_password }}
 
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -49,8 +71,8 @@ jobs:
       - name: Run Playwright script
         run: npx playwright test
         env:
-          HSP_EMAIL: ${{ github.event.client_payload.hsp_email }}
-          HSP_PASSWORD: ${{ github.event.client_payload.hsp_password }}
+          HSP_EMAIL: ${{ env.HSP_EMAIL }}
+          HSP_PASSWORD: ${{ env.HSP_PASSWORD }}
           SELECTED_SPORT: ${{ github.event.client_payload.sport }}
 
       - name: Save Playwright browsers cache
@@ -67,4 +89,4 @@ jobs:
           path: |
             playwright-report/
             test-results/
-          retention-days: 30
+          retention-days: 4
