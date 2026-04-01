@@ -51,7 +51,7 @@ const ClubScrollContent = () => {
       }
     >
       <CardGrid>
-        <NoticeCard message={data?.notice} />
+        <NoticeCard message={data?.notice ?? undefined} />
         <UpcomingEventCard />
         <StravaCards />
         <LastBookingCard />

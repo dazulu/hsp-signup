@@ -152,7 +152,7 @@ export const BookingForm = ({
           )}
 
           <CardGrid>
-            <NoticeCard message={data?.booking?.notice} />
+            <NoticeCard message={data?.booking?.notice ?? undefined} />
 
             <Card padding="md" span={2}>
               {/* Web keeps the card title/subtitle; native surfaces the title
