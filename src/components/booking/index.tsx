@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  RefreshControl,
   ScrollView,
   Text,
   TextInput,
@@ -51,8 +52,12 @@ const DismissWrapper =
 
 export const BookingForm = ({
   scrollRef,
+  refreshing,
+  onRefresh,
 }: {
   scrollRef?: React.RefObject<ScrollViewType | null>;
+  refreshing?: boolean;
+  onRefresh?: () => void;
 }) => {
   const { t } = useLocale();
   const {
@@ -128,6 +133,12 @@ export const BookingForm = ({
         ref={scrollRef}
         contentContainerStyle={styles.scroll}
         keyboardShouldPersistTaps="handled"
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing ?? false}
+            onRefresh={onRefresh}
+          />
+        }
       >
         <DismissWrapper>
           {/* Web shows a centred crest above the card; native has its own

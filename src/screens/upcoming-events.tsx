@@ -1,11 +1,9 @@
-import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout } from "../components/screen-layout";
+import { useMobileAppData } from "../context/mobile-app-data";
 import { useLocale } from "../i18n";
-import type { TabParamList } from "../navigation/types";
-import { type EventsData, fetchEvents } from "../services/contentful";
 import type { ContentfulItem } from "../services/contentful/types";
 import { styles } from "./upcoming-events.styles";
 
@@ -14,25 +12,27 @@ type SportEvent = { location: string; date: string };
 const toEvents = (items: ContentfulItem[]): SportEvent[] =>
   items.map((item) => ({ location: item.key, date: item.value }));
 
-type Props = BottomTabScreenProps<TabParamList, "UpcomingEvents">;
-
-export const UpcomingEventsScreen = ({ route }: Props) => {
+export const UpcomingEventsScreen = () => {
   const { t } = useLocale();
-  const passed = route.params?.events;
-  const [data, setData] = useState<EventsData | null>(passed ?? null);
+  const { events, refreshContentful } = useMobileAppData();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    if (!passed) {
-      fetchEvents().then(setData);
-    }
-  }, [passed]);
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    refreshContentful().finally(() => setIsRefreshing(false));
+  }, [refreshContentful]);
 
-  const hurlingEvents = data ? toEvents(data.hurling) : [];
-  const footballEvents = data ? toEvents(data.football) : [];
+  const hurlingEvents = events ? toEvents(events.hurling) : [];
+  const footballEvents = events ? toEvents(events.football) : [];
 
   return (
     <ScreenLayout title={t("upcoming.title")} subtitle={t("upcoming.subtitle")}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
+      >
         <CardGrid>
           <Card span={2} title={t("upcoming.hurling")}>
             <View style={styles.cardContent}>

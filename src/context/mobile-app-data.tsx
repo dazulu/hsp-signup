@@ -6,13 +6,22 @@ import {
   useRef,
   useState,
 } from "react";
-import { fetchMobileAppData } from "../services/contentful";
+import { Platform } from "react-native";
+import {
+  type EventsData,
+  fetchEvents,
+  fetchMobileAppData,
+} from "../services/contentful";
 import type { MobileAppData } from "../services/contentful/types";
+import { fetchStravaData, type StravaData } from "../services/strava";
 
 type MobileAppDataContextValue = {
   data: MobileAppData | null;
+  events: EventsData | null;
+  stravaData: StravaData | null;
   loading: boolean;
-  refresh: () => void;
+  refresh: (force?: boolean) => Promise<void>;
+  refreshContentful: () => Promise<void>;
 };
 
 const MobileAppDataContext = createContext<
@@ -25,30 +34,67 @@ export const MobileAppDataProvider = ({
   children: React.ReactNode;
 }) => {
   const [data, setData] = useState<MobileAppData | null>(null);
+  const [events, setEvents] = useState<EventsData | null>(null);
+  const [stravaData, setStravaData] = useState<StravaData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchingRef = useRef(false);
 
-  const refresh = useCallback(() => {
+  const refresh = useCallback(async (force = false): Promise<void> => {
     if (fetchingRef.current) {
-      return;
+      return Promise.resolve();
     }
     fetchingRef.current = true;
     setLoading(true);
-    fetchMobileAppData()
-      .then(setData)
-      .finally(() => {
-        fetchingRef.current = false;
-        setLoading(false);
-      });
+
+    try {
+      const fetches: Promise<unknown>[] = [fetchMobileAppData()];
+      if (Platform.OS !== "web") {
+        fetches.push(fetchEvents(force), fetchStravaData(force));
+      }
+
+      const results = await Promise.allSettled(fetches);
+
+      const [appDataResult, eventsResult, stravaResult] = results;
+      if (appDataResult.status === "fulfilled") {
+        setData(appDataResult.value as MobileAppData | null);
+      }
+      if (eventsResult?.status === "fulfilled") {
+        setEvents(eventsResult.value as EventsData | null);
+      }
+      if (stravaResult?.status === "fulfilled") {
+        setStravaData(stravaResult.value as StravaData | null);
+      }
+    } finally {
+      fetchingRef.current = false;
+      setLoading(false);
+    }
+  }, []);
+
+  const refreshContentful = useCallback(async (): Promise<void> => {
+    if (fetchingRef.current) {
+      return;
+    }
+    const [appDataResult, eventsResult] = await Promise.allSettled([
+      fetchMobileAppData(),
+      fetchEvents(false),
+    ]);
+    if (appDataResult.status === "fulfilled") {
+      setData(appDataResult.value as MobileAppData | null);
+    }
+    if (eventsResult.status === "fulfilled") {
+      setEvents(eventsResult.value as EventsData | null);
+    }
   }, []);
 
   useEffect(() => {
-    refresh();
+    refresh(false);
   }, [refresh]);
 
   return (
-    <MobileAppDataContext.Provider value={{ data, loading, refresh }}>
+    <MobileAppDataContext.Provider
+      value={{ data, events, stravaData, loading, refresh, refreshContentful }}
+    >
       {children}
     </MobileAppDataContext.Provider>
   );

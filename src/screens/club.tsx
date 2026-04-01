@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useRef } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { useCallback, useRef, useState } from "react";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CardGrid } from "../components/card";
 import { ClubLinksCard } from "../components/card/implementations/club-links";
@@ -18,17 +18,23 @@ const { space } = theme;
 const ClubScrollContent = () => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
-  const { refresh } = useMobileAppData();
+  const { refresh, refreshContentful } = useMobileAppData();
   const scrollRef = useRef<ScrollView>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
-      refresh();
+      refreshContentful();
       return () => {
         scrollRef.current?.scrollTo({ y: 0, animated: false });
       };
-    }, [refresh]),
+    }, [refreshContentful]),
   );
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    refresh(true).finally(() => setIsRefreshing(false));
+  }, [refresh]);
 
   return (
     <ScrollView
@@ -40,6 +46,9 @@ const ClubScrollContent = () => {
         },
       ]}
       scrollIndicatorInsets={{ top: headerHeight }}
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+      }
     >
       <CardGrid>
         <NoticeCard />

@@ -62,14 +62,16 @@ export const fetchMobileAppData = async (): Promise<MobileAppData | null> => {
   }
 };
 
-export const fetchEvents = async (): Promise<EventsData | null> => {
+export const fetchEvents = async (
+  force = false,
+): Promise<EventsData | null> => {
   let stale: EventsData | null = null;
 
   try {
     const raw = await AsyncStorage.getItem(CACHE_KEY);
     if (raw) {
       const cached = JSON.parse(raw) as { ts: number; data: EventsData };
-      if (Date.now() - cached.ts < CACHE_TTL_MS) {
+      if (!force && Date.now() - cached.ts < CACHE_TTL_MS) {
         return cached.data;
       }
       stale = cached.data;
