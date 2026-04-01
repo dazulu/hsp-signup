@@ -212,7 +212,7 @@ export const ImageViewer = ({
     >
       <GestureHandlerRootView style={styles.rootView}>
         <Animated.View style={[styles.overlay, animatedOverlayStyle]}>
-          <StatusBar hidden />
+          <StatusBar style="light" />
           <Pressable
             style={[styles.closeButton, { top: insets.top + 8 }]}
             onPress={onClose}
