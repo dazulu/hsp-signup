@@ -6,10 +6,10 @@ const { colors, fontFamily, fontSize } = theme;
 export const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   icon: {
-    marginTop: 1,
+    top: 6,
     marginRight: 8,
   },
   message: {
