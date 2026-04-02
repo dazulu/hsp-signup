@@ -1,7 +1,6 @@
 import { useCallback, useRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import type { YearSidebarProps } from "./types";
 
@@ -12,7 +11,6 @@ export const YearSidebar = ({
   activeYear,
   onYearPress,
 }: YearSidebarProps) => {
-  const insets = useSafeAreaInsets();
   const lastEmittedYear = useRef<number | null>(null);
 
   const getYearFromY = useCallback(
@@ -51,25 +49,27 @@ export const YearSidebar = ({
 
   return (
     <GestureDetector gesture={panGesture}>
-      <View style={[styles.container, { top: insets.top + 90 }]}>
-        {years.map((year) => (
-          <Pressable
-            key={year}
-            style={[styles.yearButton, { height: ITEM_HEIGHT }]}
-            onPress={() => onYearPress(year)}
-            accessibilityRole="button"
-            accessibilityLabel={String(year)}
-          >
-            <Text
-              style={[
-                styles.yearText,
-                activeYear === year && styles.yearTextActive,
-              ]}
+      <View style={styles.absoluteWrapper}>
+        <View style={styles.container}>
+          {years.map((year) => (
+            <Pressable
+              key={year}
+              style={[styles.yearButton, { height: ITEM_HEIGHT }]}
+              onPress={() => onYearPress(year)}
+              accessibilityRole="button"
+              accessibilityLabel={String(year)}
             >
-              {year}
-            </Text>
-          </Pressable>
-        ))}
+              <Text
+                style={[
+                  styles.yearText,
+                  activeYear === year && styles.yearTextActive,
+                ]}
+              >
+                {year}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
       </View>
     </GestureDetector>
   );

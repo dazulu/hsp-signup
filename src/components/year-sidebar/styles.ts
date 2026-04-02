@@ -4,11 +4,16 @@ import { theme } from "../../theme";
 const { colors, fontFamily, fontSize, radii, space } = theme;
 
 export const styles = StyleSheet.create({
-  container: {
+  absoluteWrapper: {
     position: "absolute",
     right: space[8],
-    alignItems: "center",
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
     zIndex: 10,
+  },
+  container: {
+    alignItems: "center",
     backgroundColor: "rgba(255,255,255,0.85)",
     borderRadius: radii.lg,
     paddingVertical: space[6],
