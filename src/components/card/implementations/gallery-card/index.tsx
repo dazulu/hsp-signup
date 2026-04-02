@@ -37,6 +37,7 @@ export const GalleryCard = ({
         placeholder={{ uri: placeholderUrl(gallery.cover.url) }}
         style={[styles.image, { height: imageHeight }]}
         contentFit="cover"
+        placeholderContentFit="cover"
         transition={200}
       />
       <LinearGradient

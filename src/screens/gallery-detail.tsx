@@ -76,6 +76,7 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
           placeholder={{ uri: placeholderUrl(item.url) }}
           style={{ width: itemSize, height: itemSize }}
           contentFit="cover"
+          placeholderContentFit="cover"
           transition={200}
         />
       </Pressable>
