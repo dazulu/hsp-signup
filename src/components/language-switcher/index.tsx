@@ -93,7 +93,7 @@ export const LanguageSwitcher = () => {
                   >
                     {LOCALE_LABELS[localeCode]}
                   </Text>
-                  {l === locale && (
+                  {localeCode === locale && (
                     <Ionicons
                       name="checkmark"
                       size={20}
