@@ -1,6 +1,7 @@
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import {
   type RouteProp,
+  useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
@@ -51,6 +52,12 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
 
   const [viewerVisible, setViewerVisible] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
+
+  useFocusEffect(
+    useCallback(() => {
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+    }, []),
+  );
 
   const itemSize =
     (screenWidth - PADDING * 2 - GAP * (NUM_COLUMNS - 1)) / NUM_COLUMNS;
