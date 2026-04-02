@@ -1,9 +1,12 @@
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout } from "../components/screen-layout";
 import { useMobileAppData } from "../context/mobile-app-data";
 import { useLocale } from "../i18n";
+import type { TabParamList } from "../navigation/types";
 import type { ContentfulItem } from "../services/contentful/types";
 import { styles } from "./upcoming-events.styles";
 
@@ -16,6 +19,7 @@ export const UpcomingEventsScreen = () => {
   const { t } = useLocale();
   const { events, refreshContentful } = useMobileAppData();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
@@ -29,7 +33,7 @@ export const UpcomingEventsScreen = () => {
     <ScreenLayout
       title={t("upcoming.title")}
       subtitle={t("upcoming.subtitle")}
-      showBackButton
+      onBack={() => navigation.navigate("Club")}
     >
       <ScrollView
         contentContainerStyle={styles.scroll}

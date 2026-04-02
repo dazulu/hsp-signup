@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { createContext, useCallback, useContext, useState } from "react";
 import type { LayoutChangeEvent } from "react-native";
@@ -21,12 +20,11 @@ export const useScreenLayout = () => useContext(ScreenLayoutContext);
 export const ScreenLayout = ({
   title,
   subtitle,
-  showBackButton,
+  onBack,
   children,
 }: ScreenLayoutProps) => {
   const insets = useSafeAreaInsets();
   const [headerHeight, setHeaderHeight] = useState(0);
-  const navigation = useNavigation();
 
   const onHeaderLayout = useCallback((e: LayoutChangeEvent) => {
     setHeaderHeight(e.nativeEvent.layout.height);
@@ -53,10 +51,10 @@ export const ScreenLayout = ({
           pointerEvents="box-none"
         >
           <View onLayout={onHeaderLayout}>
-            {showBackButton ? (
+            {onBack ? (
               <View style={styles.titleRow}>
                 <Pressable
-                  onPress={() => navigation.goBack()}
+                  onPress={onBack}
                   style={styles.backButton}
                   hitSlop={8}
                   accessibilityRole="button"

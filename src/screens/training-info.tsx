@@ -1,11 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useCallback, useRef } from "react";
 import { Linking, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useLocale } from "../i18n";
+import type { TabParamList } from "../navigation/types";
 import { theme } from "../theme";
 import { styles } from "./training-info.styles";
 
@@ -129,12 +131,13 @@ const TrainingInfoScrollContent = () => {
 
 export const TrainingInfoScreen = () => {
   const { t } = useLocale();
+  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   return (
     <ScreenLayout
       title={t("trainingInfo.title")}
       subtitle={t("trainingInfo.subtitle")}
-      showBackButton
+      onBack={() => navigation.navigate("Training")}
     >
       <TrainingInfoScrollContent />
     </ScreenLayout>

@@ -1,4 +1,9 @@
-import { type RouteProp, useRoute } from "@react-navigation/native";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import {
+  type RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { Image } from "expo-image";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -131,10 +136,14 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
 
 export const GalleryDetailScreen = () => {
   const route = useRoute<RouteProp<TabParamList, "GalleryDetail">>();
+  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   const { galleryId, galleryTitle } = route.params;
 
   return (
-    <ScreenLayout title={galleryTitle} showBackButton>
+    <ScreenLayout
+      title={galleryTitle}
+      onBack={() => navigation.navigate("Photos")}
+    >
       <GalleryDetailScrollContent galleryId={galleryId} />
     </ScreenLayout>
   );
