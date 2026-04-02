@@ -1,5 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as FileSystem from "expo-file-system/legacy";
 import { Image } from "expo-image";
+import * as MediaLibrary from "expo-media-library";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -154,8 +156,42 @@ export const ImageViewer = ({
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [downloadState, setDownloadState] = useState<
+    "idle" | "downloading" | "saved" | "error"
+  >("idle");
   const flatListRef = useRef<FlatList<ContentfulImageInfo>>(null);
   const opacity = useSharedValue(0);
+
+  const handleDownload = useCallback(async () => {
+    const currentImage = images[currentIndex];
+    if (!currentImage || downloadState === "downloading") {
+      return;
+    }
+
+    const { status } = await MediaLibrary.requestPermissionsAsync(false, [
+      "photo",
+    ]);
+    if (status !== "granted") {
+      return;
+    }
+
+    setDownloadState("downloading");
+    try {
+      const baseUrl = currentImage.url.startsWith("//")
+        ? `https:${currentImage.url}`
+        : currentImage.url;
+      const downloadUrl = `${baseUrl}?fm=jpg&q=90`;
+      const filename = `hamburg-gaa-${Date.now()}.jpg`;
+      const fileUri = `${FileSystem.cacheDirectory}${filename}`;
+      const { uri } = await FileSystem.downloadAsync(downloadUrl, fileUri);
+      await MediaLibrary.saveToLibraryAsync(uri);
+      setDownloadState("saved");
+      setTimeout(() => setDownloadState("idle"), 2000);
+    } catch {
+      setDownloadState("error");
+      setTimeout(() => setDownloadState("idle"), 2000);
+    }
+  }, [images, currentIndex, downloadState]);
 
   // Sync index and trigger fade when viewer opens/closes
   useEffect(() => {
@@ -182,6 +218,7 @@ export const ImageViewer = ({
     (e: NativeSyntheticEvent<NativeScrollEvent>) => {
       const newIndex = Math.round(e.nativeEvent.contentOffset.x / width);
       setCurrentIndex(newIndex);
+      setDownloadState("idle");
     },
     [width],
   );
@@ -221,6 +258,26 @@ export const ImageViewer = ({
           >
             <Ionicons
               name="close-circle"
+              size={32}
+              color="rgba(255,255,255,0.8)"
+            />
+          </Pressable>
+
+          <Pressable
+            style={[styles.downloadButton, { top: insets.top + 8 }]}
+            onPress={handleDownload}
+            disabled={downloadState === "downloading"}
+            accessibilityRole="button"
+            accessibilityLabel="Download image"
+          >
+            <Ionicons
+              name={
+                downloadState === "saved"
+                  ? "checkmark-circle"
+                  : downloadState === "error"
+                    ? "alert-circle"
+                    : "download-outline"
+              }
               size={32}
               color="rgba(255,255,255,0.8)"
             />

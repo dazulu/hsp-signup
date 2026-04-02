@@ -34,7 +34,8 @@
       "expo-secure-store",
       "expo-updates",
       "expo-localization",
-      "expo-image"
+      "expo-image",
+      "expo-media-library"
     ],
     "web": {
       "bundler": "metro",

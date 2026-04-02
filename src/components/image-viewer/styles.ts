@@ -20,6 +20,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  downloadButton: {
+    position: "absolute",
+    zIndex: 110,
+    left: space[16],
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   indexIndicator: {
     position: "absolute",
     bottom: space[40],
