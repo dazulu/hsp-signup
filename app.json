@@ -2,7 +2,7 @@
   "expo": {
     "name": "Hamburg GAA",
     "slug": "hamburg-gaa",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -35,7 +35,15 @@
       "expo-updates",
       "expo-localization",
       "expo-image",
-      "expo-media-library"
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Hamburg GAA to save photos to your library.",
+          "savePhotosPermission": "Allow Hamburg GAA to save photos to your library.",
+          "isAccessMediaLocationEnabled": false
+        }
+      ],
+      "./plugins/remove-read-media-video"
     ],
     "web": {
       "bundler": "metro",
