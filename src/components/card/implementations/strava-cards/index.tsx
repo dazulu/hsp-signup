@@ -16,13 +16,19 @@ export const StravaCards = () => {
   return (
     <>
       <Card
+        backgroundImage={stravaLogo}
         span={1}
         title={t("card.strava.distance")}
-        backgroundImage={stravaLogo}
+        tooltipText={t("card.strava.tooltip")}
       >
         <Text style={[cardStyles.bodyText, styles.value]}>{km}</Text>
       </Card>
-      <Card span={1} title={t("card.strava.pace")} backgroundImage={stravaLogo}>
+      <Card
+        backgroundImage={stravaLogo}
+        span={1}
+        title={t("card.strava.pace")}
+        tooltipText={t("card.strava.tooltip")}
+      >
         <Text style={[cardStyles.bodyText, styles.value]}>{pace}</Text>
       </Card>
     </>

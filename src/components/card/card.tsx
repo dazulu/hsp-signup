@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image, Pressable, Text, View, type ViewStyle } from "react-native";
 import { theme } from "../../theme";
+import { TooltipModal } from "../modal";
 
 const { colors, space } = theme;
 
@@ -27,6 +28,7 @@ export const Card = ({
   span,
   transparent = false,
   variant,
+  tooltipText,
 }: CardProps) => {
   const spanStyle = span != null ? SPAN_STYLES[span] : undefined;
 
@@ -42,6 +44,8 @@ export const Card = ({
         }
       : { padding: PADDING[padding] },
   ];
+
+  const tooltipIcon = tooltipText ? <TooltipModal text={tooltipText} /> : null;
 
   if (onPress) {
     return (
@@ -60,6 +64,7 @@ export const Card = ({
         {title ? (
           <View style={styles.titleRow}>
             <Text style={styles.title}>{title}</Text>
+            {tooltipIcon}
             {transparent ? (
               <Ionicons
                 name="chevron-forward"
@@ -92,7 +97,16 @@ export const Card = ({
           resizeMode="contain"
         />
       ) : null}
-      {title ? <Text style={styles.title}>{title}</Text> : null}
+      {title ? (
+        tooltipText ? (
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{title}</Text>
+            {tooltipIcon}
+          </View>
+        ) : (
+          <Text style={styles.title}>{title}</Text>
+        )
+      ) : null}
       {children}
     </View>
   );

@@ -5,10 +5,11 @@ export type CardPadding = "sm" | "md";
 export type CardProps = {
   backgroundImage?: ImageSourcePropType;
   children?: React.ReactNode;
-  padding?: CardPadding;
   onPress?: () => void;
+  padding?: CardPadding;
   span?: 1 | 2;
   title?: string;
+  tooltipText?: string;
   transparent?: boolean;
   variant?: "notice";
 };
