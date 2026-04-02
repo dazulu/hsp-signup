@@ -35,7 +35,7 @@ src/
   components/
     booking/                   Booking flow UI (form, progress, result)
     card/
-      card.tsx                 Generic Card shell
+      card.tsx                 Generic Card shell (supports optional tooltipText for inline tooltip)
       card-grid.tsx            Responsive card grid layout
       implementations/
         club-links/            External link cards (website, socials)
@@ -48,6 +48,7 @@ src/
     error-boundary.tsx         Top-level error boundary
     image-viewer/              Full-screen image viewer with pinch-zoom and horizontal paging
     language-switcher/         Bottom-sheet language picker (native only)
+    modal/                     TooltipModal — info icon + fade-in centred modal (statusBarTranslucent, onShow-driven animation)
     screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
     year-sidebar/              Year navigation sidebar for the photos screen
   screens/
