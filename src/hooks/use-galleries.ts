@@ -39,7 +39,10 @@ export const useGalleries = () => {
   }, [refresh]);
 
   const years = useMemo(
-    () => [...new Set(galleries.map((g) => g.year))].sort((a, b) => b - a),
+    () =>
+      [...new Set(galleries.map((gallery) => gallery.year))].sort(
+        (yearA, yearB) => yearB - yearA,
+      ),
     [galleries],
   );
 

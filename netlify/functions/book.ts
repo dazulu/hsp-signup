@@ -100,8 +100,8 @@ export const handler: Handler = async (event) => {
       headers,
       body: JSON.stringify({ ok: true, sport, correlationId }),
     };
-  } catch (err) {
-    console.error("Trigger failed:", (err as Error).message);
+  } catch (error) {
+    console.error("Trigger failed:", (error as Error).message);
     return {
       statusCode: 502,
       headers,
@@ -128,7 +128,7 @@ function dispatch(
       },
     });
 
-    const req = https.request(
+    const request = https.request(
       {
         hostname: "api.github.com",
         path: `/repos/${OWNER}/${REPO}/dispatches`,
@@ -142,19 +142,19 @@ function dispatch(
           "Content-Length": Buffer.byteLength(payload),
         },
       },
-      (res) => {
-        if (res.statusCode === 204) {
+      (httpResponse) => {
+        if (httpResponse.statusCode === 204) {
           return resolve();
         }
         let body = "";
-        res.on("data", (c: string) => (body += c));
-        res.on("end", () =>
-          reject(new Error(`GitHub ${res.statusCode}: ${body}`)),
+        httpResponse.on("data", (chunk: string) => (body += chunk));
+        httpResponse.on("end", () =>
+          reject(new Error(`GitHub ${httpResponse.statusCode}: ${body}`)),
         );
       },
     );
-    req.on("error", reject);
-    req.write(payload);
-    req.end();
+    request.on("error", reject);
+    request.write(payload);
+    request.end();
   });
 }

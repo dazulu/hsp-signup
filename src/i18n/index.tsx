@@ -17,7 +17,7 @@ const DEFAULT_LOCALE: Locale = "en";
 
 type LocaleContextValue = {
   locale: Locale;
-  setLocale: (l: Locale) => void;
+  setLocale: (newLocale: Locale) => void;
   t: (key: TranslationKey, vars?: Record<string, string | number>) => string;
 };
 
@@ -38,9 +38,13 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     if (Platform.OS === "web") {
       return;
     }
-    AsyncStorage.getItem(STORAGE_KEY).then((val) => {
-      if (val === "en" || val === "ga" || val === "de") {
-        setLocaleState(val);
+    AsyncStorage.getItem(STORAGE_KEY).then((storedLocale) => {
+      if (
+        storedLocale === "en" ||
+        storedLocale === "ga" ||
+        storedLocale === "de"
+      ) {
+        setLocaleState(storedLocale);
       } else {
         const deviceLang = getLocales()[0]?.languageCode ?? "en";
         const detected: Locale =
@@ -52,10 +56,10 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
-  const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l);
+  const setLocale = useCallback((newLocale: Locale) => {
+    setLocaleState(newLocale);
     if (Platform.OS !== "web") {
-      AsyncStorage.setItem(STORAGE_KEY, l);
+      AsyncStorage.setItem(STORAGE_KEY, newLocale);
     }
   }, []);
 
@@ -65,13 +69,16 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
       if (!entry) {
         return key;
       }
-      let str = entry[locale] ?? entry[DEFAULT_LOCALE] ?? key;
+      let translation = entry[locale] ?? entry[DEFAULT_LOCALE] ?? key;
       if (vars) {
-        for (const [k, v] of Object.entries(vars)) {
-          str = str.replace(`\${${k}}`, String(v));
+        for (const [variableKey, variableValue] of Object.entries(vars)) {
+          translation = translation.replace(
+            `\${${variableKey}}`,
+            String(variableValue),
+          );
         }
       }
-      return str;
+      return translation;
     },
     [locale],
   );

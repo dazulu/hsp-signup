@@ -7,9 +7,9 @@ import { useLocale } from "../i18n";
 import { useCredentials } from "./use-credentials";
 
 const uuid = (): string =>
-  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (character) => {
     const r = (Math.random() * 16) | 0;
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+    return (character === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
 
 const API_URL =
@@ -155,14 +155,14 @@ export const useBooking = () => {
           return;
         }
         try {
-          const res = await fetch(
+          const response = await fetch(
             `${API_URL}/api/status?correlationId=${correlationId}`,
             { headers: { "x-api-key": API_KEY } },
           );
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
           }
-          const data = await res.json();
+          const data = await response.json();
           if (cancelled) {
             return;
           }
@@ -327,7 +327,7 @@ export const useBooking = () => {
         return;
       }
 
-      const res = await fetch(`${API_URL}/api/book`, {
+      const response = await fetch(`${API_URL}/api/book`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -335,7 +335,7 @@ export const useBooking = () => {
         },
         body: JSON.stringify({ email, password, sport, correlationId }),
       });
-      const data = await res.json();
+      const data = await response.json();
       if (!data.ok) {
         await Promise.all([
           AsyncStorage.removeItem("hsp_triggered_at"),

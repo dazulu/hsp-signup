@@ -113,7 +113,7 @@ const resolveAssetLink = (
   link: ContentfulAssetLink,
   assets: ContentfulAsset[],
 ): ContentfulImageInfo | null => {
-  const asset = assets.find((a) => a.sys.id === link.sys.id);
+  const asset = assets.find((asset) => asset.sys.id === link.sys.id);
   if (!asset) {
     return null;
   }
@@ -181,17 +181,17 @@ export const fetchGalleries = async (
         }
         return gallery;
       })
-      .filter((g): g is Gallery => g !== null);
+      .filter((gallery): gallery is Gallery => gallery !== null);
 
     await AsyncStorage.setItem(
       cacheKey,
       JSON.stringify({ ts: Date.now(), data: galleries }),
     );
     return galleries;
-  } catch (e) {
+  } catch (error) {
     if (stale !== null) {
       return stale;
     }
-    throw e;
+    throw error;
   }
 };

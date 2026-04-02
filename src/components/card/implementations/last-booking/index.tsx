@@ -40,8 +40,8 @@ export const LastBookingCard = () => {
       {isStale && !nudgeDismissed && (
         <Pressable
           style={styles.nudgePill}
-          onPress={(e) => {
-            e.stopPropagation();
+          onPress={(pressEvent) => {
+            pressEvent.stopPropagation();
             setNudgeDismissed(true);
           }}
           accessibilityRole="button"

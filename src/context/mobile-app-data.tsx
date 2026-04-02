@@ -101,11 +101,11 @@ export const MobileAppDataProvider = ({
 };
 
 export const useMobileAppData = (): MobileAppDataContextValue => {
-  const ctx = useContext(MobileAppDataContext);
-  if (!ctx) {
+  const context = useContext(MobileAppDataContext);
+  if (!context) {
     throw new Error(
       "useMobileAppData must be used within MobileAppDataProvider",
     );
   }
-  return ctx;
+  return context;
 };

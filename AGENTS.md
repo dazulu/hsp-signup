@@ -13,6 +13,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **Formatter/Linter:** Biome — double quotes, 2-space indent, 80 char line width, trailing commas. Run `npm run check` before committing.
 - **TypeScript:** `strict: true`, extends `expo/tsconfig.base` (bundler module resolution).
 - **No path aliases** — use relative imports.
+- **Naming:** Always use full, descriptive English names for variables, parameters, and functions. Never abbreviate — no single-letter names, no shortened forms (e.g. `error` not `e`, `year` not `y`, `event` not `evt`).
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
 
 ## Component Patterns

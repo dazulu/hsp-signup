@@ -74,7 +74,7 @@ export const Card = ({
           <View style={styles.caret}>
             <Ionicons
               name="chevron-forward"
-              size={20}
+              size={22}
               color={colors.textMuted}
             />
           </View>

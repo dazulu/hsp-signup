@@ -209,7 +209,7 @@ export const BookingForm = ({
                 />
                 <Pressable
                   style={[styles.eyeBtn, isLoading && styles.inputDisabled]}
-                  onPress={() => setShowPassword((v) => !v)}
+                  onPress={() => setShowPassword((isVisible) => !isVisible)}
                   disabled={isLoading}
                   accessibilityRole="button"
                   accessibilityLabel={
@@ -255,31 +255,31 @@ export const BookingForm = ({
               {/* Sport picker */}
               <Text style={styles.label}>{t("booking.sportLabel")}</Text>
               <View style={styles.sportRow}>
-                {SPORTS.map((s) => (
+                {SPORTS.map((sportOption) => (
                   <Pressable
-                    key={s.key}
+                    key={sportOption.key}
                     style={[
                       styles.sportBtn,
-                      sport === s.key && styles.sportBtnActive,
-                      (isLoading || isSportDisabled(s.key)) &&
+                      sport === sportOption.key && styles.sportBtnActive,
+                      (isLoading || isSportDisabled(sportOption.key)) &&
                         styles.sportBtnDisabled,
                     ]}
-                    onPress={() => pickSport(s.key)}
-                    disabled={isLoading || isSportDisabled(s.key)}
+                    onPress={() => pickSport(sportOption.key)}
+                    disabled={isLoading || isSportDisabled(sportOption.key)}
                     accessibilityRole="button"
                     accessibilityState={{
-                      selected: sport === s.key,
-                      disabled: isSportDisabled(s.key),
+                      selected: sport === sportOption.key,
+                      disabled: isSportDisabled(sportOption.key),
                     }}
-                    accessibilityLabel={t(SPORT_LABEL_KEYS[s.key])}
+                    accessibilityLabel={t(SPORT_LABEL_KEYS[sportOption.key])}
                   >
                     <Text
                       style={[
                         styles.sportBtnText,
-                        sport === s.key && styles.sportBtnTextActive,
+                        sport === sportOption.key && styles.sportBtnTextActive,
                       ]}
                     >
-                      {t(SPORT_LABEL_KEYS[s.key])}
+                      {t(SPORT_LABEL_KEYS[sportOption.key])}
                     </Text>
                   </Pressable>
                 ))}

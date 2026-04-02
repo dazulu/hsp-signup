@@ -74,24 +74,24 @@ export const LanguageSwitcher = () => {
               ]}
               onStartShouldSetResponder={() => true}
             >
-              {LOCALES.map((l) => (
+              {LOCALES.map((localeCode) => (
                 <Pressable
-                  key={l}
+                  key={localeCode}
                   style={styles.option}
                   onPress={() => {
-                    setLocale(l);
+                    setLocale(localeCode);
                     close();
                   }}
                   accessibilityRole="button"
-                  accessibilityState={{ selected: l === locale }}
+                  accessibilityState={{ selected: localeCode === locale }}
                 >
                   <Text
                     style={[
                       styles.optionText,
-                      l === locale && styles.optionTextActive,
+                      localeCode === locale && styles.optionTextActive,
                     ]}
                   >
-                    {LOCALE_LABELS[l]}
+                    {LOCALE_LABELS[localeCode]}
                   </Text>
                   {l === locale && (
                     <Ionicons

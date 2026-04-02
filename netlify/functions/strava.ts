@@ -68,14 +68,16 @@ export const handler: Handler = async (event) => {
       { Authorization: `Bearer ${tokenData.access_token}` },
     );
 
-    const runs = activities.filter((a) => a.type === "Run");
+    const runs = activities.filter((activity) => activity.type === "Run");
 
-    const totalDistanceKm = runs.reduce((acc, a) => acc + a.distance, 0) / 1000;
+    const totalDistanceKm =
+      runs.reduce((acc, activity) => acc + activity.distance, 0) / 1000;
 
     let totalAveragePace = "0:00";
     if (runs.length > 0) {
       const totalPaceSeconds = runs.reduce(
-        (acc, a) => acc + a.moving_time / (a.distance / 1000),
+        (acc, activity) =>
+          acc + activity.moving_time / (activity.distance / 1000),
         0,
       );
       const avgPaceSeconds = Math.floor(totalPaceSeconds / runs.length);
@@ -89,8 +91,8 @@ export const handler: Handler = async (event) => {
       headers,
       body: JSON.stringify({ totalDistanceKm, totalAveragePace }),
     };
-  } catch (err) {
-    console.error("Strava fetch failed:", (err as Error).message);
+  } catch (error) {
+    console.error("Strava fetch failed:", (error as Error).message);
     return {
       statusCode: 502,
       headers,
@@ -107,16 +109,16 @@ function httpsRequest<T>(
   body?: string,
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    const req = https.request(
+    const request = https.request(
       { hostname, path, method, headers: reqHeaders },
-      (res) => {
+      (httpResponse) => {
         let data = "";
-        res.on("data", (c: string) => (data += c));
-        res.on("end", () => {
+        httpResponse.on("data", (chunk: string) => (data += chunk));
+        httpResponse.on("end", () => {
           try {
             const parsed = JSON.parse(data) as T;
-            if ((res.statusCode ?? 0) >= 400) {
-              reject(new Error(`Strava ${res.statusCode}: ${data}`));
+            if ((httpResponse.statusCode ?? 0) >= 400) {
+              reject(new Error(`Strava ${httpResponse.statusCode}: ${data}`));
             } else {
               resolve(parsed);
             }
@@ -126,10 +128,10 @@ function httpsRequest<T>(
         });
       },
     );
-    req.on("error", reject);
+    request.on("error", reject);
     if (body) {
-      req.write(body);
+      request.write(body);
     }
-    req.end();
+    request.end();
   });
 }

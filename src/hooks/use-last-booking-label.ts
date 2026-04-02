@@ -48,7 +48,7 @@ export const useLastBookingLabel = (
     return { label: null, isStale: false };
   }
 
-  const match = SPORTS.find((s) => s.key === booking.sport);
+  const match = SPORTS.find((sport) => sport.key === booking.sport);
   if (!match) {
     return { label: null, isStale: false };
   }

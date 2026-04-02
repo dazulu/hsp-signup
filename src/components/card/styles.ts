@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   caret: {
     position: "absolute",
     top: space[18],
-    right: space[16],
+    right: space[14],
   },
   backgroundImage: {
     position: "absolute",

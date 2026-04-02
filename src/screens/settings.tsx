@@ -49,8 +49,8 @@ const SettingsScrollContent = () => {
     }
     const pairs = await AsyncStorage.multiGet(STORAGE_KEYS);
     const storageLines = pairs
-      .filter(([, v]) => v != null)
-      .map(([k, v]) => `  ${k}: ${v}`)
+      .filter(([, storageValue]) => storageValue != null)
+      .map(([storageKey, storageValue]) => `  ${storageKey}: ${storageValue}`)
       .join("\n");
 
     const brand = Device.brand ?? "";

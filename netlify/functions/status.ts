@@ -57,7 +57,7 @@ export const handler: Handler = async (event) => {
 
   try {
     const runs = await listRuns(token);
-    const match = runs.find((r) => r.name?.includes(correlationId));
+    const match = runs.find((run) => run.name?.includes(correlationId));
 
     if (!match) {
       return {
@@ -77,8 +77,8 @@ export const handler: Handler = async (event) => {
 
     const status = match.conclusion === "success" ? "success" : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
-  } catch (err) {
-    console.error("Status check failed:", (err as Error).message);
+  } catch (error) {
+    console.error("Status check failed:", (error as Error).message);
     return {
       statusCode: 502,
       headers,
@@ -89,7 +89,7 @@ export const handler: Handler = async (event) => {
 
 function listRuns(token: string): Promise<WorkflowRun[]> {
   return new Promise((resolve, reject) => {
-    const req = https.request(
+    const request = https.request(
       {
         hostname: "api.github.com",
         path: `/repos/${OWNER}/${REPO}/actions/runs?event=repository_dispatch&per_page=20`,
@@ -101,12 +101,14 @@ function listRuns(token: string): Promise<WorkflowRun[]> {
           "User-Agent": "hsp-signup-netlify",
         },
       },
-      (res) => {
+      (httpResponse) => {
         let body = "";
-        res.on("data", (c: string) => (body += c));
-        res.on("end", () => {
-          if (res.statusCode !== 200) {
-            return reject(new Error(`GitHub ${res.statusCode}: ${body}`));
+        httpResponse.on("data", (chunk: string) => (body += chunk));
+        httpResponse.on("end", () => {
+          if (httpResponse.statusCode !== 200) {
+            return reject(
+              new Error(`GitHub ${httpResponse.statusCode}: ${body}`),
+            );
           }
           try {
             resolve(JSON.parse(body).workflow_runs);
@@ -116,7 +118,7 @@ function listRuns(token: string): Promise<WorkflowRun[]> {
         });
       },
     );
-    req.on("error", reject);
-    req.end();
+    request.on("error", reject);
+    request.end();
   });
 }

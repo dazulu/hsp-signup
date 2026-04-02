@@ -62,8 +62,8 @@ const ZoomableImage = ({
   const displayHeight = fitsLandscape ? width / imageAspect : height;
 
   const pinchGesture = Gesture.Pinch()
-    .onUpdate((e) => {
-      scale.value = Math.min(savedScale.value * e.scale, MAX_SCALE);
+    .onUpdate((gestureEvent) => {
+      scale.value = Math.min(savedScale.value * gestureEvent.scale, MAX_SCALE);
     })
     .onEnd(() => {
       if (scale.value < 1) {
@@ -79,17 +79,17 @@ const ZoomableImage = ({
     });
 
   const panGesture = Gesture.Pan()
-    .onUpdate((e) => {
+    .onUpdate((gestureEvent) => {
       if (savedScale.value > 1) {
-        translateX.value = savedTranslateX.value + e.translationX;
-        translateY.value = savedTranslateY.value + e.translationY;
+        translateX.value = savedTranslateX.value + gestureEvent.translationX;
+        translateY.value = savedTranslateY.value + gestureEvent.translationY;
       } else {
-        translateY.value = e.translationY;
+        translateY.value = gestureEvent.translationY;
       }
     })
-    .onEnd((e) => {
+    .onEnd((gestureEvent) => {
       if (savedScale.value <= 1) {
-        if (Math.abs(e.translationY) > DISMISS_THRESHOLD) {
+        if (Math.abs(gestureEvent.translationY) > DISMISS_THRESHOLD) {
           runOnJS(onSwipeDown)();
         }
         translateY.value = withSpring(0, SPRING_CONFIG);

@@ -14,9 +14,9 @@ export const YearSidebar = ({
   const lastEmittedYear = useRef<number | null>(null);
 
   const getYearFromY = useCallback(
-    (y: number) => {
+    (yPosition: number) => {
       const index = Math.min(
-        Math.max(Math.floor(y / ITEM_HEIGHT), 0),
+        Math.max(Math.floor(yPosition / ITEM_HEIGHT), 0),
         years.length - 1,
       );
       return years[index] ?? null;
@@ -25,15 +25,15 @@ export const YearSidebar = ({
   );
 
   const panGesture = Gesture.Pan()
-    .onStart((e) => {
-      const year = getYearFromY(e.y);
+    .onStart((gestureEvent) => {
+      const year = getYearFromY(gestureEvent.y);
       if (year !== null) {
         lastEmittedYear.current = year;
         onYearPress(year);
       }
     })
-    .onUpdate((e) => {
-      const year = getYearFromY(e.y);
+    .onUpdate((gestureEvent) => {
+      const year = getYearFromY(gestureEvent.y);
       if (year !== null && year !== lastEmittedYear.current) {
         lastEmittedYear.current = year;
         onYearPress(year);
