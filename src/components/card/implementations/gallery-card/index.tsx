@@ -16,17 +16,21 @@ export const GalleryCard = ({
   screenWidth,
   onPress,
 }: GalleryCardProps) => {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const imageHeight = screenWidth * IMAGE_ASPECT;
   const photoLabel =
     gallery.items.length === 1 ? t("gallery.photo") : t("gallery.photos");
+  const date = new Date(gallery.date).toLocaleString(locale, {
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <Pressable
       style={({ pressed }) => [styles.card, { opacity: pressed ? 0.92 : 1 }]}
       onPress={() => onPress(gallery)}
       accessibilityRole="button"
-      accessibilityLabel={`${gallery.title}, ${gallery.year}`}
+      accessibilityLabel={`${gallery.title}, ${date}`}
     >
       <Image
         source={{ uri: coverCardUrl(gallery.cover.url, screenWidth) }}
@@ -41,7 +45,7 @@ export const GalleryCard = ({
       >
         <Text style={styles.title}>{gallery.title}</Text>
         <Text style={styles.year}>
-          {gallery.year} · {gallery.items.length} {photoLabel}
+          {date} · {gallery.items.length} {photoLabel}
         </Text>
       </LinearGradient>
     </Pressable>

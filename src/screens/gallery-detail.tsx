@@ -91,7 +91,6 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
       ? new Date(gallery.date).toLocaleDateString(BCP47[locale], {
           year: "numeric",
           month: "long",
-          day: "numeric",
         })
       : null;
     return (
