@@ -37,7 +37,13 @@ const BCP47: Record<Locale, string> = {
   de: "de-DE",
 };
 
-const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
+const GalleryDetailScrollContent = ({
+  galleryId,
+  galleryTitle,
+}: {
+  galleryId: string;
+  galleryTitle: string;
+}) => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { width: screenWidth } = useWindowDimensions();
@@ -92,10 +98,7 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
   );
 
   const headerComponent = useMemo(() => {
-    if (!gallery?.description && !gallery?.date) {
-      return null;
-    }
-    const dateLabel = gallery.date
+    const dateLabel = gallery?.date
       ? new Date(gallery.date).toLocaleDateString(BCP47[locale], {
           year: "numeric",
           month: "long",
@@ -103,13 +106,14 @@ const GalleryDetailScrollContent = ({ galleryId }: { galleryId: string }) => {
       : null;
     return (
       <View style={styles.headerContainer}>
-        {gallery.description ? (
+        <Text style={styles.galleryTitle}>{galleryTitle}</Text>
+        {gallery?.description ? (
           <Text style={styles.description}>{gallery.description}</Text>
         ) : null}
-        {gallery.date ? <Text style={styles.date}>{dateLabel}</Text> : null}
+        {gallery?.date ? <Text style={styles.date}>{dateLabel}</Text> : null}
       </View>
     );
-  }, [gallery?.description, gallery?.date, locale]);
+  }, [gallery?.description, gallery?.date, galleryTitle, locale]);
 
   if (!gallery) {
     return null;
@@ -145,13 +149,17 @@ export const GalleryDetailScreen = () => {
   const route = useRoute<RouteProp<TabParamList, "GalleryDetail">>();
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
   const { galleryId, galleryTitle } = route.params;
+  const { t } = useLocale();
 
   return (
     <ScreenLayout
-      title={galleryTitle}
+      title={t("photos.title")}
       onBack={() => navigation.navigate("Photos")}
     >
-      <GalleryDetailScrollContent galleryId={galleryId} />
+      <GalleryDetailScrollContent
+        galleryId={galleryId}
+        galleryTitle={galleryTitle}
+      />
     </ScreenLayout>
   );
 };

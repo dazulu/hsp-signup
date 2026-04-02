@@ -24,11 +24,15 @@ export const styles = StyleSheet.create({
     color: colors.textOnPrimary,
     fontFamily: fontFamily.bold,
     fontSize: fontSize.lg,
+    includeFontPadding: false,
+    bottom: 8,
   },
   year: {
     color: "rgba(255,255,255,0.8)",
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.sm,
     marginTop: space[4],
+    includeFontPadding: false,
+    bottom: 5,
   },
 });

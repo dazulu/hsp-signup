@@ -1,7 +1,7 @@
 ﻿export const colors = {
   primary: "#4A6CF7",
 
-  textPrimary: "#1a1f36",
+  textPrimary: "#4b5a8c",
   textMuted: "#6b7a99",
   textBrand: "#505f94",
   textOnPrimary: "#ffffff",

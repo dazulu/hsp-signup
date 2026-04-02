@@ -16,14 +16,20 @@ export const styles = StyleSheet.create({
     marginBottom: space[16],
     paddingHorizontal: space[4],
   },
+  galleryTitle: {
+    color: colors.textPrimary,
+    fontFamily: fontFamily.bold,
+    fontSize: fontSize["2xl"],
+    marginBottom: space[8],
+  },
   description: {
-    color: colors.textMuted,
+    color: colors.textPrimary,
     fontFamily: fontFamily.regular,
     fontSize: fontSize.lg,
     marginBottom: space[8],
   },
   date: {
-    color: colors.textMuted,
+    color: colors.textPrimary,
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.lg,
   },
