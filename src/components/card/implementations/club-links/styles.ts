@@ -6,12 +6,16 @@ const { colors, fontFamily, fontSize, radii, space } = theme;
 export const styles = StyleSheet.create({
   list: {
     marginTop: space[8],
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: space[6],
   },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    flexBasis: "47%",
+    flexGrow: 1,
     paddingVertical: space[8],
     paddingHorizontal: space[12],
     backgroundColor: colors.surfaceInput,
@@ -25,5 +29,6 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.md,
     fontFamily: fontFamily.medium,
     color: colors.textMuted,
+    paddingRight: 1,
   },
 });
