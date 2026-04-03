@@ -168,9 +168,7 @@ export const ImageViewer = ({
       return;
     }
 
-    const { status } = await MediaLibrary.requestPermissionsAsync(false, [
-      "photo",
-    ]);
+    const { status } = await MediaLibrary.requestPermissionsAsync(true);
     if (status !== "granted") {
       return;
     }

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Hamburg GAA",
     "slug": "hamburg-gaa",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,12 @@
         "backgroundColor": "#11364E",
         "foregroundImage": "./assets/android-icon-foreground.png"
       },
-      "package": "com.dazulu.hamburggaa"
+      "package": "com.dazulu.hamburggaa",
+      "blockedPermissions": [
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_AUDIO"
+      ]
     },
     "owner": "shiftyapplications",
     "updates": {
@@ -42,8 +47,7 @@
           "savePhotosPermission": "Allow Hamburg GAA to save photos to your library.",
           "isAccessMediaLocationEnabled": false
         }
-      ],
-      "./plugins/remove-read-media-video"
+      ]
     ],
     "web": {
       "bundler": "metro",
