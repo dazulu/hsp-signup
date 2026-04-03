@@ -8,6 +8,7 @@ import { useMobileAppData } from "../context/mobile-app-data";
 import { useLocale } from "../i18n";
 import type { TabParamList } from "../navigation/types";
 import type { ContentfulItem } from "../services/contentful/types";
+import { formatEventDate } from "../utils";
 import { styles } from "./upcoming-events.styles";
 
 type SportEvent = { location: string; date: string };
@@ -16,7 +17,7 @@ const toEvents = (items: ContentfulItem[]): SportEvent[] =>
   items.map((item) => ({ location: item.key, date: item.value }));
 
 export const UpcomingEventsScreen = () => {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const { events, refreshContentful } = useMobileAppData();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
@@ -49,7 +50,9 @@ export const UpcomingEventsScreen = () => {
                   {i > 0 && <View style={styles.divider} />}
                   <View style={styles.eventRow}>
                     <Text style={styles.location}>{event.location}</Text>
-                    <Text style={styles.date}>{event.date}</Text>
+                    <Text style={styles.date}>
+                      {formatEventDate(event.date, locale)}
+                    </Text>
                   </View>
                 </View>
               ))}
@@ -62,7 +65,9 @@ export const UpcomingEventsScreen = () => {
                   {i > 0 && <View style={styles.divider} />}
                   <View style={styles.eventRow}>
                     <Text style={styles.location}>{event.location}</Text>
-                    <Text style={styles.date}>{event.date}</Text>
+                    <Text style={styles.date}>
+                      {formatEventDate(event.date, locale)}
+                    </Text>
                   </View>
                 </View>
               ))}

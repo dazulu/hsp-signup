@@ -279,6 +279,21 @@
     "ga": "Le teacht",
     "de": "Bevorstehend"
   },
+  "card.upcoming.today": {
+    "en": "Today!",
+    "ga": "Inniu!",
+    "de": "Heute!"
+  },
+  "card.upcoming.tomorrow": {
+    "en": "Tomorrow!",
+    "ga": "Amárach!",
+    "de": "Morgen!"
+  },
+  "card.upcoming.daysToGo": {
+    "en": "${days} days to go",
+    "ga": "${days} lá fágtha",
+    "de": "Noch ${days} Tage"
+  },
   "error.title": {
     "en": "Something went wrong",
     "ga": "Chuaigh rud éigin mícheart",

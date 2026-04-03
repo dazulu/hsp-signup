@@ -3,6 +3,102 @@ import type { Locale } from "./i18n/types";
 
 const PLACEHOLDER = "$" + "{n}";
 
+const EN_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// Parses "April 18 2026" — stored as English full month name, day, year.
+// Using an explicit lookup avoids Hermes's non-standard date string behaviour.
+const parseStoredEventDate = (dateString: string): Date | null => {
+  const parts = dateString.trim().split(/\s+/);
+  if (parts.length !== 3) {
+    return null;
+  }
+  const [monthStr, dayStr, yearStr] = parts;
+  const monthIndex = EN_MONTHS.indexOf(monthStr);
+  const day = parseInt(dayStr, 10);
+  const year = parseInt(yearStr, 10);
+  if (monthIndex === -1 || Number.isNaN(day) || Number.isNaN(year)) {
+    return null;
+  }
+  return new Date(year, monthIndex, day);
+};
+
+const LOCALE_MAP: Record<Locale, string> = {
+  en: "en-GB",
+  de: "de-DE",
+  ga: "ga-IE",
+};
+
+const getOrdinalSuffix = (day: number): string => {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
+export const formatEventDate = (dateString: string, locale: Locale): string => {
+  const date = parseStoredEventDate(dateString);
+  if (!date) {
+    return dateString;
+  }
+  const showYear = date.getFullYear() !== new Date().getFullYear();
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    ...(showYear && { year: "numeric" }),
+  };
+  const formatted = date.toLocaleDateString(LOCALE_MAP[locale], options);
+
+  // English: replace plain day number with ordinal ("18" → "18th")
+  if (locale === "en") {
+    const day = date.getDate();
+    return formatted.replace(
+      new RegExp(`\\b${day}\\b`),
+      `${day}${getOrdinalSuffix(day)}`,
+    );
+  }
+  return formatted;
+};
+
+const COUNTDOWN_THRESHOLD_DAYS = 7;
+
+export const getEventCountdownDays = (dateString: string): number | null => {
+  const date = parseStoredEventDate(dateString);
+  if (!date) {
+    return null;
+  }
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.round(
+    (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+  if (diffDays < 0 || diffDays > COUNTDOWN_THRESHOLD_DAYS) {
+    return null;
+  }
+  return diffDays;
+};
+
 export const formatTimeAgo = (
   timestamp: number,
   locale: Locale = "en",

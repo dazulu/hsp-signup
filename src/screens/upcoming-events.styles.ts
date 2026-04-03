@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     paddingBottom: space[32],
   },
   cardContent: {
+    marginTop: space[6],
     gap: space[6],
   },
   eventRow: {
