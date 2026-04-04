@@ -1,6 +1,6 @@
 {
   "name": "hsp-signup",
-  "version": "1.7.3",
+  "version": "1.8.1",
   "main": "index.ts",
   "description": "Log in and book an upcoming training session",
   "scripts": {
@@ -24,6 +24,7 @@
     "@expo-google-fonts/plus-jakarta-sans": "^0.4.2",
     "@expo/metro-runtime": "~55.0.7",
     "@expo/vector-icons": "^15.0.2",
+    "@netlify/blobs": "^10.7.4",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.15.8",
     "@react-navigation/native": "^7.2.1",
@@ -32,6 +33,7 @@
     "expo-blur": "~55.0.10",
     "expo-clipboard": "~55.0.9",
     "expo-constants": "~55.0.9",
+    "expo-crypto": "~55.0.12",
     "expo-device": "~55.0.10",
     "expo-file-system": "~55.0.12",
     "expo-font": "~55.0.4",

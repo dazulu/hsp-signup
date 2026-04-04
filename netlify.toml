@@ -25,6 +25,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/likes"
+  to = "/.netlify/functions/likes"
+  status = 200
+
+[[redirects]]
   from = "/privacy-policy-app"
   to = "/privacy-policy-app/index.html"
   status = 200
