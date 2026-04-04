@@ -26,6 +26,7 @@ import { theme } from "../../theme";
 import { Card, CardGrid } from "../card";
 import { NoticeCard } from "../card/implementations/notice";
 import { useScreenLayout } from "../screen-layout";
+import { FaqCard } from "./faq-card";
 
 import { styles } from "./styles";
 
@@ -424,6 +425,8 @@ export const BookingForm = ({
               )}
             </View>
           )}
+
+          <FaqCard />
 
           <Text style={styles.disclaimer}>
             {Platform.OS === "web"

@@ -508,5 +508,50 @@
     "en": "We train on grass at Stadtpark. There are no changing rooms, toilets or water fountains nearby.",
     "ga": "Déanaimid traenáil ar fhéar ag Stadtpark. Níl aon seomraí athraithe, leithris ná toibreacha uisce in aice láimhe.",
     "de": "Im Stadtpark trainieren wir auf Rasen. Es gibt keine Umkleiden, Toiletten oder Trinkbrunnen in der Nähe."
+  },
+  "booking.faq.title": {
+    "en": "FAQ",
+    "ga": "Ceisteanna",
+    "de": "FAQ"
+  },
+  "booking.faq.q1": {
+    "en": "How does this work?",
+    "ga": "Conas a oibríonn sé seo?",
+    "de": "Wie funktioniert das?"
+  },
+  "booking.faq.a1": {
+    "en": "Enter your Hochschulsport Hamburg login and choose your sport. The app books the next available training session on your behalf. No need to log in to the website yourself.",
+    "ga": "Iontráil do logáil isteach Hochschulsport Hamburg agus roghnaigh do spórt. Cuireann an app an chéad seisiún traenála eile in áirithe ar do shon. Ní gá duit logáil isteach sa suíomh gréasáin.",
+    "de": "Gib deine Hochschulsport Hamburg Zugangsdaten ein und wähle deinen Sport. Die App bucht die nächste verfügbare Trainingseinheit für dich. Du musst dich nicht selbst auf der Website anmelden."
+  },
+  "booking.faq.q2": {
+    "en": "How do I know what it will book?",
+    "ga": "Conas a bheidh a fhios agam cad a chuirfidh sé in áirithe?",
+    "de": "Woher weiß ich, was gebucht wird?"
+  },
+  "booking.faq.a2": {
+    "en": "It always books the next open slot for your chosen sport. It might be this week or it could be next. Depends what HSP slots are up next.",
+    "ga": "Cuireann sé i gcónaí an sliotán oscailte is gaire in áirithe don spórt atá roghnaithe agat. D'fhéadfadh sé a bheith an tseachtain seo nó an chéad cheann eile. Braitheann sé ar na sliotáin HSP atá ar fáil.",
+    "de": "Es bucht immer den nächsten freien Termin für deinen gewählten Sport. Es könnte diese Woche sein oder die nächste. Das hängt davon ab, welche HSP-Slots als nächstes verfügbar sind."
+  },
+  "booking.faq.q3": {
+    "en": "How do I know if it worked?",
+    "ga": "Conas a bheidh a fhios agam ar éirigh leis?",
+    "de": "Woran erkenne ich, ob es geklappt hat?"
+  },
+  "booking.faq.a3": {
+    "en": "A success message appears in the app and Hochschulsport Hamburg sends a confirmation email. No email = no booking.",
+    "ga": "Feictear teachtaireacht ratha san app agus seolann Hochschulsport Hamburg ríomhphost deimhnithe. Gan ríomhphost = gan áirithint.",
+    "de": "In der App erscheint eine Erfolgsmeldung und Hochschulsport Hamburg sendet eine Bestätigungs-E-Mail. Keine E-Mail = keine Buchung."
+  },
+  "booking.faq.q4": {
+    "en": "It didn't work. What now?",
+    "ga": "Níor éirigh leis. Cad anois?",
+    "de": "Es hat nicht funktioniert. Was nun?"
+  },
+  "booking.faq.a4": {
+    "en": "Check your Hochschulsport Hamburg email and password are correct and that your membership is active. It will also fail to book if there are no slots available e.g. HSP is closed or training has been cancelled.",
+    "ga": "Seiceáil go bhfuil do ríomhphost agus pasfhocal Hochschulsport Hamburg ceart agus go bhfuil do bhallraíocht gníomhach. Teipfidh freisin mura bhfuil sliotáin ar fáil, m.sh. má tá HSP dúnta nó má cuireadh an traenáil ar ceal.",
+    "de": "Überprüfe, ob deine Hochschulsport Hamburg E-Mail und dein Passwort korrekt sind und deine Mitgliedschaft aktiv ist. Die Buchung schlägt auch fehl, wenn keine Slots verfügbar sind, z.B. wenn HSP geschlossen ist oder das Training abgesagt wurde."
   }
 }
