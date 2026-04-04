@@ -331,6 +331,13 @@ export const BookingForm = ({
                 </View>
               )}
 
+              {/* Safe-to-close nudge */}
+              {isLoading && (
+                <Text style={styles.safeToClose}>
+                  {t("booking.safeToClose")}
+                </Text>
+              )}
+
               {/* Success */}
               {booking.phase === "success" && (
                 <Animated.View
@@ -402,31 +409,37 @@ export const BookingForm = ({
                 </Animated.View>
               )}
             </Card>
-          </CardGrid>
 
-          {lastBookingLabel && booking.phase === "idle" && (
-            <View style={styles.lastBookingBox}>
-              <Text style={styles.lastBookingText}>
-                <Text style={styles.lastBookingTick}>{"\u2713"}</Text>
-                {`  ${lastBookingLabel}`}
-              </Text>
-              {lastBookingIsStale && !nudgeDismissed && (
-                <Pressable
-                  style={styles.nudgePill}
-                  onPress={() => setNudgeDismissed(true)}
-                  accessibilityRole="button"
-                  accessibilityLabel="Dismiss"
-                >
-                  <Text style={styles.nudgeText}>
-                    {t("card.lastBooking.staleNudge")}
+            {lastBookingLabel && booking.phase === "idle" && (
+              <Card span={2} padding="sm">
+                <View style={styles.lastBookingBox}>
+                  <Text style={styles.lastBookingText}>
+                    <Text style={styles.lastBookingTick}>{"\u2713"}</Text>
+                    {`  ${lastBookingLabel}`}
                   </Text>
-                  <Ionicons name="close" size={14} color={colors.warningText} />
-                </Pressable>
-              )}
-            </View>
-          )}
+                  {lastBookingIsStale && !nudgeDismissed && (
+                    <Pressable
+                      style={styles.nudgePill}
+                      onPress={() => setNudgeDismissed(true)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Dismiss"
+                    >
+                      <Text style={styles.nudgeText}>
+                        {t("card.lastBooking.staleNudge")}
+                      </Text>
+                      <Ionicons
+                        name="close"
+                        size={14}
+                        color={colors.warningText}
+                      />
+                    </Pressable>
+                  )}
+                </View>
+              </Card>
+            )}
 
-          <FaqCard />
+            <FaqCard />
+          </CardGrid>
 
           <Text style={styles.disclaimer}>
             {Platform.OS === "web"

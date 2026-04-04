@@ -153,6 +153,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: space[10],
   },
+  safeToClose: {
+    marginTop: space[12],
+    fontSize: fontSize.sm,
+    fontFamily: fontFamily.regular,
+    color: colors.textMuted,
+    textAlign: "center",
+    lineHeight: 18,
+    includeFontPadding: false,
+  },
   progressTrack: {
     marginTop: space[16],
     height: 6,
@@ -188,14 +197,7 @@ export const styles = StyleSheet.create({
   statusTextError: { color: colors.errorText },
   statusTextNeutral: { color: colors.textPrimary },
   lastBookingBox: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.xl,
-    paddingVertical: space[12],
-    paddingHorizontal: space[18],
-    marginTop: space[16],
-    marginBottom: space[16],
     alignItems: "center",
-    ...shadows.subtle,
   },
   lastBookingText: {
     fontSize: fontSize.md,

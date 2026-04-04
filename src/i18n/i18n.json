@@ -219,6 +219,11 @@
     "ga": "Dún",
     "de": "Schließen"
   },
+  "booking.safeToClose": {
+    "en": "You can close the app. Booking will continue in the background.",
+    "ga": "Is féidir leat an app a dhúnadh. Leanóidh an áirithint ar siúl sa chúlra.",
+    "de": "Du kannst die App schließen. Die Buchung läuft im Hintergrund weiter."
+  },
   "booking.disclaimer.noSave": {
     "en": "Your credentials are not saved and are used only to complete the booking.",
     "ga": "Ní shábháiltear do shonraí logála agus ní úsáidtear iad ach chun an áirithint a chríochnú.",
@@ -553,5 +558,25 @@
     "en": "Check your Hochschulsport Hamburg email and password are correct and that your membership is active. It will also fail to book if there are no slots available e.g. HSP is closed or training has been cancelled.",
     "ga": "Seiceáil go bhfuil do ríomhphost agus pasfhocal Hochschulsport Hamburg ceart agus go bhfuil do bhallraíocht gníomhach. Teipfidh freisin mura bhfuil sliotáin ar fáil, m.sh. má tá HSP dúnta nó má cuireadh an traenáil ar ceal.",
     "de": "Überprüfe, ob deine Hochschulsport Hamburg E-Mail und dein Passwort korrekt sind und deine Mitgliedschaft aktiv ist. Die Buchung schlägt auch fehl, wenn keine Slots verfügbar sind, z.B. wenn HSP geschlossen ist oder das Training abgesagt wurde."
+  },
+  "booking.faq.q5": {
+    "en": "Is my password safe?",
+    "ga": "An bhfuil mo phasfhocal sábhailte?",
+    "de": "Ist mein Passwort sicher?"
+  },
+  "booking.faq.a5": {
+    "en": "Your password is encrypted on-device before it leaves your phone. It is used only to complete the booking.",
+    "ga": "Criptían do phasfhocal ar an ngléas sula bhfágann sé do ghuthán. Ní úsáidtear é ach chun an áirithint a chríochnú.",
+    "de": "Dein Passwort wird auf dem Gerät verschlüsselt, bevor es dein Handy verlässt. Es wird nur zur Durchführung der Buchung verwendet."
+  },
+  "booking.faq.q6": {
+    "en": "Can I cancel a booking?",
+    "ga": "An féidir liom áirithint a chealú?",
+    "de": "Kann ich eine Buchung stornieren?"
+  },
+  "booking.faq.a6": {
+    "en": "Not through the app. Please let the trainer know directly via e.g. WhatsApp to say you can't make it.",
+    "ga": "Ní féidir trid an app. Cuir in iút don traenálaí go díreach trí WhatsApp nó a leitéid má ní féidir leat a bheith ann.",
+    "de": "Nicht über die App. Bitte sag dem Trainer direkt Bescheid, z.B. per WhatsApp, dass du nicht kommen kannst."
   }
 }

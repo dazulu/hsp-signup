@@ -20,6 +20,8 @@ const FAQ_ITEMS: { questionKey: TranslationKey; answerKey: TranslationKey }[] =
     { questionKey: "booking.faq.q2", answerKey: "booking.faq.a2" },
     { questionKey: "booking.faq.q3", answerKey: "booking.faq.a3" },
     { questionKey: "booking.faq.q4", answerKey: "booking.faq.a4" },
+    { questionKey: "booking.faq.q5", answerKey: "booking.faq.a5" },
+    { questionKey: "booking.faq.q6", answerKey: "booking.faq.a6" },
   ];
 
 const FaqItem = ({
