@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Text, View } from "react-native";
 import { useMobileAppData } from "../../../../context/mobile-app-data";
 import { useLocale } from "../../../../i18n";
-import type { TabParamList } from "../../../../navigation/types";
+import type { ClubStackParamList } from "../../../../navigation/types";
 import type { ContentfulItem } from "../../../../services/contentful/types";
 import { theme } from "../../../../theme";
 import { formatEventDate, getEventCountdownDays } from "../../../../utils";
@@ -33,7 +33,8 @@ const buildCountdownLabel = (
 
 export const UpcomingEventCard = () => {
   const { t, locale } = useLocale();
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<ClubStackParamList>>();
   const { events } = useMobileAppData();
 
   const footballFirst: ContentfulItem | undefined = events?.football[0];

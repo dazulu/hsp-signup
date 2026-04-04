@@ -1,5 +1,5 @@
-import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useRef } from "react";
 import {
   Image,
@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useLocale } from "../i18n";
-import type { TabParamList } from "../navigation/types";
+import type { TrainingStackParamList } from "../navigation/types";
 import { theme } from "../theme";
 import { styles } from "./training.styles";
 
@@ -26,7 +26,8 @@ const TrainingScrollContent = () => {
   const { headerHeight } = useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<TrainingStackParamList>>();
   const scrollRef = useRef<ScrollView>(null);
 
   useFocusEffect(

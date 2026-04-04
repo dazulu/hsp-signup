@@ -1,7 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import {
+  DefaultTheme,
+  NavigationContainer,
+  StackActions,
+} from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
@@ -15,14 +19,11 @@ import { UpdateBanner } from "./components/update-banner";
 import { MobileAppDataProvider } from "./context/mobile-app-data";
 import { useOtaUpdate } from "./hooks/use-ota-update";
 import { LocaleProvider, useLocale } from "./i18n";
+import { ClubStack } from "./navigation/club-stack";
+import { PhotosStack } from "./navigation/photos-stack";
+import { TrainingStack } from "./navigation/training-stack";
 import { BookScreen } from "./screens/book";
-import { ClubScreen } from "./screens/club";
-import { GalleryDetailScreen } from "./screens/gallery-detail";
-import { PhotosScreen } from "./screens/photos";
 import { SettingsScreen } from "./screens/settings";
-import { TrainingScreen } from "./screens/training";
-import { TrainingInfoScreen } from "./screens/training-info";
-import { UpcomingEventsScreen } from "./screens/upcoming-events";
 import { styles } from "./styles";
 import { theme } from "./theme";
 
@@ -120,35 +121,71 @@ const TabNavigator = () => {
         },
       })}
     >
-      <Tab.Screen name="Club" component={ClubScreen} />
-      <Tab.Screen name="Training" component={TrainingScreen} />
+      <Tab.Screen
+        name="Club"
+        component={ClubStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            const nestedState = navigation
+              .getState()
+              .routes.find((r) => r.name === route.name)?.state;
+            if (
+              nestedState &&
+              (nestedState.index ?? 0) > 0 &&
+              nestedState.key
+            ) {
+              navigation.dispatch({
+                ...StackActions.popToTop(),
+                target: nestedState.key,
+              });
+            }
+          },
+        })}
+      />
+      <Tab.Screen
+        name="Training"
+        component={TrainingStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            const nestedState = navigation
+              .getState()
+              .routes.find((r) => r.name === route.name)?.state;
+            if (
+              nestedState &&
+              (nestedState.index ?? 0) > 0 &&
+              nestedState.key
+            ) {
+              navigation.dispatch({
+                ...StackActions.popToTop(),
+                target: nestedState.key,
+              });
+            }
+          },
+        })}
+      />
       <Tab.Screen name="Book" component={BookScreen} />
-      <Tab.Screen name="Photos" component={PhotosScreen} />
+      <Tab.Screen
+        name="Photos"
+        component={PhotosStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            const nestedState = navigation
+              .getState()
+              .routes.find((r) => r.name === route.name)?.state;
+            if (
+              nestedState &&
+              (nestedState.index ?? 0) > 0 &&
+              nestedState.key
+            ) {
+              navigation.dispatch({
+                ...StackActions.popToTop(),
+                target: nestedState.key,
+              });
+            }
+          },
+        })}
+      />
       <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen
-        name="TrainingInfo"
-        component={TrainingInfoScreen}
-        options={{
-          tabBarButton: () => null,
-          tabBarItemStyle: { display: "none" },
-        }}
-      />
-      <Tab.Screen
-        name="UpcomingEvents"
-        component={UpcomingEventsScreen}
-        options={{
-          tabBarButton: () => null,
-          tabBarItemStyle: { display: "none" },
-        }}
-      />
-      <Tab.Screen
-        name="GalleryDetail"
-        component={GalleryDetailScreen}
-        options={{
-          tabBarButton: () => null,
-          tabBarItemStyle: { display: "none" },
-        }}
-      />
     </Tab.Navigator>
   );
 };

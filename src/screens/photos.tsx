@@ -1,5 +1,5 @@
-import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useRef, useState } from "react";
 import {
   FlatList,
@@ -14,7 +14,7 @@ import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { YearSidebar } from "../components/year-sidebar";
 import { useGalleries } from "../hooks/use-galleries";
 import { useLocale } from "../i18n";
-import type { TabParamList } from "../navigation/types";
+import type { PhotosStackParamList } from "../navigation/types";
 import type { Gallery } from "../services/contentful/types";
 import { theme } from "../theme";
 import { styles } from "./photos.styles";
@@ -26,7 +26,8 @@ const PhotosScrollContent = () => {
   const { bottom } = useSafeAreaInsets();
   const { width: screenWidth } = useWindowDimensions();
   const { t } = useLocale();
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<PhotosStackParamList>>();
   const { galleries, years, loading, error, refresh } = useGalleries();
   const flatListRef = useRef<FlatList<Gallery>>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);

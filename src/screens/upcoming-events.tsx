@@ -1,12 +1,12 @@
-import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useState } from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout } from "../components/screen-layout";
 import { useMobileAppData } from "../context/mobile-app-data";
 import { useLocale } from "../i18n";
-import type { TabParamList } from "../navigation/types";
+import type { ClubStackParamList } from "../navigation/types";
 import type { ContentfulItem } from "../services/contentful/types";
 import { formatEventDate } from "../utils";
 import { styles } from "./upcoming-events.styles";
@@ -20,7 +20,8 @@ export const UpcomingEventsScreen = () => {
   const { t, locale } = useLocale();
   const { events, refreshContentful } = useMobileAppData();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<ClubStackParamList>>();
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
@@ -34,7 +35,7 @@ export const UpcomingEventsScreen = () => {
     <ScreenLayout
       title={t("upcoming.title")}
       subtitle={t("upcoming.subtitle")}
-      onBack={() => navigation.navigate("Club")}
+      onBack={() => navigation.goBack()}
     >
       <ScrollView
         contentContainerStyle={styles.scroll}

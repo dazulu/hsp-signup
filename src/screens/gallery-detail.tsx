@@ -1,10 +1,10 @@
-import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import {
   type RouteProp,
   useFocusEffect,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -20,7 +20,7 @@ import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useGalleries } from "../hooks/use-galleries";
 import { useLocale } from "../i18n";
 import type { Locale } from "../i18n/types";
-import type { TabParamList } from "../navigation/types";
+import type { PhotosStackParamList } from "../navigation/types";
 import { placeholderUrl, thumbnailUrl } from "../services/contentful/images";
 import type { ContentfulImageInfo } from "../services/contentful/types";
 import { theme } from "../theme";
@@ -146,16 +146,14 @@ const GalleryDetailScrollContent = ({
 };
 
 export const GalleryDetailScreen = () => {
-  const route = useRoute<RouteProp<TabParamList, "GalleryDetail">>();
-  const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
+  const route = useRoute<RouteProp<PhotosStackParamList, "GalleryDetail">>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<PhotosStackParamList>>();
   const { galleryId, galleryTitle } = route.params;
   const { t } = useLocale();
 
   return (
-    <ScreenLayout
-      title={t("photos.title")}
-      onBack={() => navigation.navigate("Photos")}
-    >
+    <ScreenLayout title={t("photos.title")} onBack={() => navigation.goBack()}>
       <GalleryDetailScrollContent
         galleryId={galleryId}
         galleryTitle={galleryTitle}
