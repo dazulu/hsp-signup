@@ -55,4 +55,15 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     includeFontPadding: false,
   },
+  skeletonGrid: {
+    paddingHorizontal: space[16],
+  },
+  skeletonRow: {
+    flexDirection: "row",
+    gap: space[4],
+    marginBottom: space[4],
+  },
+  skeletonThumbnail: {
+    borderRadius: radii.sm,
+  },
 });

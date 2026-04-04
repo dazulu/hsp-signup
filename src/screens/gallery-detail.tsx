@@ -6,11 +6,13 @@ import {
 } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  Animated,
   FlatList,
   Pressable,
   RefreshControl,
+  ScrollView,
   Text,
   useWindowDimensions,
   View,
@@ -32,6 +34,16 @@ const { colors, space } = theme;
 const NUM_COLUMNS = 3;
 const GAP = space[4];
 const PADDING = space[16];
+
+// Pre-built stable key arrays for the skeleton loader — avoids index-as-key lint errors.
+const SKELETON_ROWS: string[][] = Array.from(
+  { length: Math.ceil(21 / NUM_COLUMNS) },
+  (_, rowIndex) =>
+    Array.from(
+      { length: NUM_COLUMNS },
+      (_, colIndex) => `sk-${rowIndex}-${colIndex}`,
+    ),
+);
 
 const BCP47: Record<Locale, string> = {
   en: "en-IE",
@@ -60,10 +72,39 @@ const GalleryDetailScrollContent = ({
   const { locale } = useLocale();
   const [refreshing, setRefreshing] = useState(false);
 
+  const pulseAnim = useRef(new Animated.Value(0)).current;
+
   const gallery = useMemo(
     () => galleries.find((g) => g.id === galleryId),
     [galleries, galleryId],
   );
+
+  useEffect(() => {
+    if (gallery && !likesLoading) {
+      return;
+    }
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 700,
+          useNativeDriver: false,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 0,
+          duration: 700,
+          useNativeDriver: false,
+        }),
+      ]),
+    );
+    animation.start();
+    return () => animation.stop();
+  }, [pulseAnim, gallery, likesLoading]);
+
+  const skeletonColor = pulseAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["#a5b1cb", "#c8d4e8"],
+  });
 
   const sortedItems = useMemo(() => {
     if (!gallery) {
@@ -164,7 +205,38 @@ const GalleryDetailScrollContent = ({
   }, [gallery?.description, gallery?.date, galleryTitle, locale]);
 
   if (!gallery || likesLoading) {
-    return null;
+    return (
+      <ScrollView
+        contentContainerStyle={[
+          styles.skeletonGrid,
+          {
+            paddingTop: contentPaddingTop + 60,
+            paddingBottom: bottom + space[12],
+          },
+        ]}
+        scrollIndicatorInsets={{ top: headerHeight }}
+        onScroll={onScrollHandler}
+        scrollEventThrottle={16}
+      >
+        {SKELETON_ROWS.map((rowCells) => (
+          <View key={rowCells[0]} style={styles.skeletonRow}>
+            {rowCells.map((cellId) => (
+              <Animated.View
+                key={cellId}
+                style={[
+                  styles.skeletonThumbnail,
+                  {
+                    width: itemSize,
+                    height: itemSize,
+                    backgroundColor: skeletonColor,
+                  },
+                ]}
+              />
+            ))}
+          </View>
+        ))}
+      </ScrollView>
+    );
   }
 
   return (

@@ -3,12 +3,18 @@ import { useLocale } from "../i18n";
 import { fetchGalleries } from "../services/contentful";
 import type { Gallery } from "../services/contentful/types";
 
+// Module-level cache keyed by locale — so remounts (e.g. navigating from the Photos
+// screen to GalleryDetail) read instantly without a second AsyncStorage round-trip.
+const galleriesCache = new Map<string, Gallery[]>();
+
 export const useGalleries = () => {
   const { locale } = useLocale();
   const cdaLocale = locale === "de" ? "de" : "en";
 
-  const [galleries, setGalleries] = useState<Gallery[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [galleries, setGalleries] = useState<Gallery[]>(
+    () => galleriesCache.get(cdaLocale) ?? [],
+  );
+  const [loading, setLoading] = useState(() => !galleriesCache.has(cdaLocale));
   const [error, setError] = useState<string | null>(null);
   const fetchingRef = useRef(false);
 
@@ -18,11 +24,14 @@ export const useGalleries = () => {
         return;
       }
       fetchingRef.current = true;
-      setLoading(true);
+      if (force || !galleriesCache.has(cdaLocale)) {
+        setLoading(true);
+      }
       setError(null);
 
       try {
         const data = await fetchGalleries(cdaLocale, force);
+        galleriesCache.set(cdaLocale, data);
         setGalleries(data);
       } catch {
         setError("Failed to load galleries");
