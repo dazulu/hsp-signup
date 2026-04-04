@@ -38,8 +38,10 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
 - `MobileAppDataContext` (`src/context/mobile-app-data.tsx`) — global context providing `{ data, events, stravaData, loading, refresh, refreshContentful }`. Owns all remote data: Contentful `MOBILE_APP_DATA` entry, Contentful events, and Strava. `refresh(force?)` fetches all three and returns `Promise<void>` (used by pull-to-refresh). `refreshContentful()` fetches Contentful only and returns `Promise<void>` (used by `useFocusEffect` on screens). On web, `refresh()` skips events and Strava. No AsyncStorage cache on `data`; events and Strava use 1-hour TTL caches; `force=true` bypasses TTL but always writes fresh data back.
 - `useGalleries` — independent gallery data hook (not in MobileAppDataContext). Fetches Contentful `gallery` entries with locale awareness (`de` when app is German, `en` otherwise). 1-hour TTL cache keyed by locale (`app_gallery_cache_en`, `app_gallery_cache_de`). Used only on the Photos and GalleryDetail screens.
+- `useLikes` — per-gallery photo likes. Fetches like counts and per-user liked state from `/api/likes` on first mount (skipped if module-level cache already has data). `toggleLike(imageId)` does optimistic UI updates with server reconciliation. Pull-to-refresh is the only server sync trigger after the first fetch. Used on GalleryDetail screen.
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
+- **SecureStore keys:** `app_user_id` (anonymous UUID for photo likes — persists across iOS reinstalls via Keychain).
 - **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.
 
 ## i18n
@@ -56,9 +58,10 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 ## Serverless Functions
 
 - Located in `netlify/functions/`. Written in TypeScript using `@netlify/functions`.
-- Use Node.js `https` module directly (no axios/fetch libraries).
+- `book.ts`, `status.ts`, `strava.ts` use Node.js `https` module directly (no axios/fetch libraries).
+- `likes.ts` uses `@netlify/blobs` for per-gallery photo like storage.
 - All endpoints validate the `x-api-key` header against `process.env.API_KEY`.
-- Input validation: reject invalid sport values, missing fields, and malformed JSON.
+- Input validation: reject invalid sport values, missing fields, malformed JSON, and oversized input strings.
 - `book.ts` encrypts HSP credentials with AES-256-GCM (`ENCRYPTION_KEY` env var) before passing them in `client_payload`. The workflow decrypts them and masks the plaintext immediately.
 
 ## Testing

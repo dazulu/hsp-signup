@@ -11,7 +11,7 @@
 
 ## What is this
 
-The companion app for Hamburg GAA. Book Hochschulsport training sessions, check upcoming events, and stay connected with the club.
+The companion app for Hamburg GAA. Book Hochschulsport training sessions, browse photo galleries, like your favourite photos, check upcoming events, and stay connected with the club.
 
 
 

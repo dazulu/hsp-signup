@@ -27,6 +27,8 @@
   noticeBorder: "#e7cdb2",
   noticeText: "#9a3412",
   noticeIcon: "#f38637",
+
+  like: "#ff4d6d",
 } as const;
 
 export const radii = {

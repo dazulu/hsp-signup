@@ -17,7 +17,7 @@ src/
   styles.ts                    App-shell styles (flex, gradient) — not for component use
   theme/index.ts               Design tokens: colours, radii, spacing, typography, shadows
   secure-store.ts              SecureStore/localStorage abstraction
-  utils.ts                     formatTimeAgo helper (locale-aware)
+  utils.ts                     formatTimeAgo helper (locale-aware), getOrCreateUserId (SecureStore UUID)
   i18n/
     i18n.json                  All translatable strings: { key: { en, ga, de } }
     index.tsx                  LocaleContext, LocaleProvider, useLocale() hook
@@ -26,6 +26,7 @@ src/
     use-booking.ts             Booking state machine, effects, callbacks
     use-credentials.ts         Email/password state, opt-in SecureStore persistence (native only)
     use-galleries.ts           Gallery data hook (fetches + caches Contentful galleries, locale-aware)
+    use-likes.ts               Per-gallery photo likes (fetches + toggles via /api/likes, optimistic UI)
     use-last-booking-label.ts  Formatted label for last successful booking
     use-welcome-text/          Locale-aware greeting pool
   context/
@@ -46,7 +47,7 @@ src/
         upcoming-event/        Next training session card (reads events from MobileAppDataContext)
         gallery-card/          Cover image card for photo galleries
     error-boundary.tsx         Top-level error boundary
-    image-viewer/              Full-screen image viewer with pinch-zoom and horizontal paging
+    image-viewer/              Full-screen image viewer with pinch-zoom, horizontal paging, and like button
     language-switcher/         Bottom-sheet language picker (native only)
     modal/                     TooltipModal — info icon + fade-in centred modal (statusBarTranslucent, onShow-driven animation)
     screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
@@ -55,7 +56,7 @@ src/
     book.tsx                   Book a training session
     club.tsx                   Club info & links
     photos.tsx                 Photo gallery — gallery list with year sidebar
-    gallery-detail.tsx         Thumbnail grid for a single gallery
+    gallery-detail.tsx         Thumbnail grid for a single gallery (sorted by likes, pull-to-refresh)
     settings.tsx               Settings — language switcher + version card
     upcoming-events.tsx        Upcoming training sessions list
   services/
@@ -66,6 +67,7 @@ netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
   status.ts                    Queries workflow run result via correlationId
   strava.ts                    Strava activity proxy
+  likes.ts                     Photo like storage (Netlify Blobs — per-gallery read/write)
 playwright/
   signup.spec.ts               Browser automation script (runs in GitHub Actions only)
 ```
@@ -92,8 +94,8 @@ The app doesn't talk to the HSP website directly. It calls a Netlify serverless 
 
 | Variable | Used in | Purpose |
 |----------|---------|---------|
-| `EXPO_PUBLIC_API_URL` | `use-booking.ts`, `src/services/strava/index.ts` | Base URL of the Netlify site — native only; web uses relative URLs |
-| `EXPO_PUBLIC_API_KEY` | `use-booking.ts`, `src/services/strava/index.ts` | Shared secret sent as `x-api-key` header on Netlify function requests |
+| `EXPO_PUBLIC_API_URL` | `use-booking.ts`, `use-likes.ts`, `src/services/strava/index.ts` | Base URL of the Netlify site — native only; web uses relative URLs |
+| `EXPO_PUBLIC_API_KEY` | `use-booking.ts`, `use-likes.ts`, `src/services/strava/index.ts` | Shared secret sent as `x-api-key` header on Netlify function requests |
 | `EXPO_PUBLIC_CONTENTFUL_SPACE_ID` | `src/services/contentful/index.ts` | Contentful space ID for CDA requests (public/read-only) |
 | `EXPO_PUBLIC_CONTENTFUL_ACCESS_TOKEN` | `src/services/contentful/index.ts` | Contentful CDA delivery access token (public/read-only) |
 
@@ -101,7 +103,7 @@ The app doesn't talk to the HSP website directly. It calls a Netlify serverless 
 
 | Variable | Used in | Purpose |
 |----------|---------|---------|
-| `API_KEY` | `book.ts`, `status.ts`, `strava.ts` | Server-side of the shared `x-api-key` secret — must match `EXPO_PUBLIC_API_KEY` |
+| `API_KEY` | `book.ts`, `status.ts`, `strava.ts`, `likes.ts` | Server-side of the shared `x-api-key` secret — must match `EXPO_PUBLIC_API_KEY` |
 | `GITHUB_PAT` | `book.ts`, `status.ts` | GitHub PAT with `repo` scope — triggers `repository_dispatch` and reads workflow runs |
 | `ENCRYPTION_KEY` | `book.ts` | 64-char hex string (32-byte AES-256-GCM key) — encrypts HSP credentials before they are placed in `client_payload` |
 | `STRAVA_CLIENT_ID` | `strava.ts` | Strava API OAuth client ID |
@@ -139,6 +141,8 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 
 **`MobileAppDataContext` owns all remote data.** `MobileAppDataProvider` centralises fetching for Contentful `mobileAppData`, Contentful events, and Strava. It exposes `{ data, events, stravaData, loading, refresh, refreshContentful }`. `refresh(force?)` fetches all three via `Promise.allSettled` and returns `Promise<void>`; on web it skips events and Strava. `refreshContentful()` fetches Contentful only and returns `Promise<void>`. Both methods share a `fetchingRef` guard to prevent concurrent calls. Card components (`UpcomingEventCard`, `StravaCards`, `NoticeCard`) read from context directly — no self-fetching. `NoticeCard` accepts a `message` prop; callers source the message from context.
 
-**Pull-to-refresh on Club, Book, and Upcoming Events screens.** Each screen's `onRefresh` calls `refresh(true).finally(...)` (Club) or `refreshContentful().finally(...)` (Book, Upcoming Events) to drive a `<RefreshControl>` spinner. `force=true` bypasses TTL caches but always writes fresh data back. Tab-focus refreshes call `refreshContentful()` (Contentful only, no Strava, no force, no loading spinner).
+**Pull-to-refresh on Club, Book, Upcoming Events, and Gallery Detail screens.** Each screen's `onRefresh` calls `refresh(true).finally(...)` (Club) or `refreshContentful().finally(...)` (Book, Upcoming Events) to drive a `<RefreshControl>` spinner. Gallery Detail refreshes both gallery data and likes in parallel. `force=true` bypasses TTL caches but always writes fresh data back. Tab-focus refreshes call `refreshContentful()` (Contentful only, no Strava, no force, no loading spinner).
+
+**Photo likes use Netlify Blobs.** Each gallery has one blob (`gallery:{id}`) mapping `{ imageId: userId[] }`. `likes.ts` exposes GET (fetch all likes for a gallery with per-user `liked` state) and POST (like/unlike). The client (`useLikes` hook) does optimistic UI updates — flips `liked` and adjusts `count` immediately, reverts on server error. Gallery thumbnails are sorted by like count descending. Anonymous user identity is a `crypto.randomUUID()` (via `expo-crypto`) stored in SecureStore (`app_user_id`) — survives iOS reinstall via Keychain. Concurrent write races on the blob are an accepted limitation at this scale.
 
 **Credential encryption in transit.** `book.ts` encrypts email and password with AES-256-GCM (`ENCRYPTION_KEY`) before including them in `client_payload`. GitHub only ever stores ciphertext. The workflow decrypts using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext. Generate the key with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` — store the same 64-char hex value in both Netlify env vars and GitHub Actions secrets.

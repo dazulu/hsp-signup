@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../theme";
 
-const { fontFamily, fontSize, radii, space } = theme;
+const { colors, fontFamily, fontSize, radii, space } = theme;
 
 export const styles = StyleSheet.create({
   rootView: {
@@ -39,10 +39,29 @@ export const styles = StyleSheet.create({
     paddingVertical: space[6],
   },
   indexText: {
-    color: "rgba(255,255,255,0.85)",
+    color: colors.textOnPrimary,
     fontFamily: fontFamily.semibold,
     fontSize: fontSize.sm,
     includeFontPadding: false,
+  },
+  likeButton: {
+    position: "absolute",
+    zIndex: 110,
+    right: space[16],
+    bottom: space[40] + 52,
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 1,
+  },
+  likeCount: {
+    color: colors.textOnPrimary,
+    fontFamily: fontFamily.semibold,
+    fontSize: fontSize.md,
+    includeFontPadding: false,
+    textAlign: "center",
+    marginTop: -2,
   },
   page: {
     alignItems: "center",

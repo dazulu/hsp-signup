@@ -83,6 +83,7 @@ export type GalleryFields = {
 };
 
 export type ContentfulImageInfo = {
+  id: string;
   url: string;
   width: number;
   height: number;

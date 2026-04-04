@@ -37,4 +37,22 @@ export const styles = StyleSheet.create({
     gap: space[4],
     marginBottom: space[4],
   },
+  likeOverlay: {
+    position: "absolute",
+    bottom: space[4],
+    right: space[4],
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 3,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    borderRadius: radii.xs,
+    paddingHorizontal: space[6],
+    paddingVertical: 3,
+  },
+  likeOverlayText: {
+    color: "#ffffff",
+    fontFamily: fontFamily.semibold,
+    fontSize: fontSize.sm,
+    includeFontPadding: false,
+  },
 });

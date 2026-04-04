@@ -1,5 +1,19 @@
+import * as ExpoCrypto from "expo-crypto";
 import translations from "./i18n/i18n.json";
 import type { Locale } from "./i18n/types";
+import { getItemAsync, setItemAsync } from "./secure-store";
+
+const USER_ID_KEY = "app_user_id";
+
+export const getOrCreateUserId = async (): Promise<string> => {
+  const existing = await getItemAsync(USER_ID_KEY);
+  if (existing) {
+    return existing;
+  }
+  const newId = ExpoCrypto.randomUUID();
+  await setItemAsync(USER_ID_KEY, newId);
+  return newId;
+};
 
 const PLACEHOLDER = "$" + "{n}";
 

@@ -119,6 +119,7 @@ const resolveAssetLink = (
   }
   const { file, title } = asset.fields;
   return {
+    id: asset.sys.id,
     url: file.url.startsWith("//") ? `https:${file.url}` : file.url,
     width: file.details.image.width,
     height: file.details.image.height,
