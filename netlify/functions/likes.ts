@@ -1,5 +1,5 @@
 import { getStore } from "@netlify/blobs";
-import type { Handler } from "@netlify/functions";
+import type { Context } from "@netlify/functions";
 
 const STORE_NAME = "photo-likes";
 
@@ -10,35 +10,37 @@ type LikeSummary = Record<string, { count: number; liked: boolean }>;
 const MAX_FIELD_LENGTH = 64;
 const MAX_LIKES_PER_IMAGE = 10_000;
 
-const headers = {
-  "Content-Type": "application/json",
+const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type, x-api-key",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
-export const handler: Handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers, body: "" };
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+
+export default async (request: Request, _context: Context) => {
+  if (request.method === "OPTIONS") {
+    return new Response("", { status: 204, headers: corsHeaders });
   }
 
   // Verify API key
   const apiKey = process.env.API_KEY;
-  const provided = event.headers["x-api-key"];
+  const provided = request.headers.get("x-api-key");
   if (!apiKey || !provided || provided !== apiKey) {
-    return {
-      statusCode: 401,
-      headers,
-      body: JSON.stringify({ error: "Unauthorized" }),
-    };
+    return json({ error: "Unauthorized" }, 401);
   }
 
   const store = getStore(STORE_NAME);
 
   // --- GET ---
-  if (event.httpMethod === "GET") {
-    const galleryId = event.queryStringParameters?.galleryId;
-    const userId = event.queryStringParameters?.userId;
+  if (request.method === "GET") {
+    const url = new URL(request.url);
+    const galleryId = url.searchParams.get("galleryId");
+    const userId = url.searchParams.get("userId");
 
     if (
       !galleryId ||
@@ -46,13 +48,7 @@ export const handler: Handler = async (event) => {
       galleryId.length > MAX_FIELD_LENGTH ||
       userId.length > MAX_FIELD_LENGTH
     ) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({
-          error: "Missing or invalid galleryId or userId",
-        }),
-      };
+      return json({ error: "Missing or invalid galleryId or userId" }, 400);
     }
 
     let blob: LikesBlob = {};
@@ -73,28 +69,20 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify(summary),
-    };
+    return json(summary);
   }
 
   // --- POST ---
-  if (event.httpMethod === "POST") {
+  if (request.method === "POST") {
     let galleryId: string;
     let imageId: string;
     let userId: string;
     let action: string;
 
     try {
-      ({ galleryId, imageId, userId, action } = JSON.parse(event.body ?? ""));
+      ({ galleryId, imageId, userId, action } = await request.json());
     } catch {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: "Invalid JSON" }),
-      };
+      return json({ error: "Invalid JSON" }, 400);
     }
 
     if (
@@ -110,11 +98,7 @@ export const handler: Handler = async (event) => {
       imageId.length > MAX_FIELD_LENGTH ||
       userId.length > MAX_FIELD_LENGTH
     ) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: "Invalid request" }),
-      };
+      return json({ error: "Invalid request" }, 400);
     }
 
     let blob: LikesBlob = {};
@@ -145,16 +129,15 @@ export const handler: Handler = async (event) => {
     await store.setJSON(`gallery:${galleryId}`, blob);
 
     const updatedUserIds = blob[imageId] ?? [];
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        imageId,
-        count: updatedUserIds.length,
-        liked: action === "like",
-      }),
-    };
+    return json({
+      imageId,
+      count: updatedUserIds.length,
+      liked: action === "like",
+    });
   }
 
-  return { statusCode: 405, headers, body: "Method not allowed" };
+  return new Response("Method not allowed", {
+    status: 405,
+    headers: corsHeaders,
+  });
 };
