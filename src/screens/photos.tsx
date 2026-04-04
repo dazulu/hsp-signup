@@ -22,7 +22,8 @@ import { styles } from "./photos.styles";
 const { space } = theme;
 
 const PhotosScrollContent = () => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { width: screenWidth } = useWindowDimensions();
   const { t } = useLocale();
@@ -37,8 +38,9 @@ const PhotosScrollContent = () => {
     useCallback(() => {
       return () => {
         flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+        resetScrollY();
       };
-    }, []),
+    }, [resetScrollY]),
   );
 
   const onRefresh = useCallback(() => {
@@ -107,29 +109,36 @@ const PhotosScrollContent = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        ref={flatListRef}
-        data={galleries}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={[
-          styles.list,
-          { paddingBottom: bottom + space[12] },
-        ]}
-        scrollIndicatorInsets={{ top: headerHeight }}
-        refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-        }
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-        ListEmptyComponent={emptyComponent}
-        onScrollToIndexFailed={(info) => {
-          flatListRef.current?.scrollToOffset({
-            offset: info.averageItemLength * info.index,
-            animated: true,
-          });
-        }}
-      />
+      {contentPaddingTop > 0 && (
+        <FlatList
+          ref={flatListRef}
+          data={galleries}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={[
+            styles.list,
+            {
+              paddingTop: contentPaddingTop,
+              paddingBottom: bottom + space[12],
+            },
+          ]}
+          scrollIndicatorInsets={{ top: headerHeight }}
+          onScroll={onScrollHandler}
+          scrollEventThrottle={16}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+          ListEmptyComponent={emptyComponent}
+          onScrollToIndexFailed={(info) => {
+            flatListRef.current?.scrollToOffset({
+              offset: info.averageItemLength * info.index,
+              animated: true,
+            });
+          }}
+        />
+      )}
       <YearSidebar
         years={years}
         activeYear={activeYear}
@@ -143,7 +152,7 @@ export const PhotosScreen = () => {
   const { t } = useLocale();
 
   return (
-    <ScreenLayout title={t("photos.title")}>
+    <ScreenLayout title={t("photos.title")} subtitle={t("photos.subtitle")}>
       <PhotosScrollContent />
     </ScreenLayout>
   );

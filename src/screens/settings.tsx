@@ -39,7 +39,8 @@ const STORAGE_KEYS = [
 ];
 
 const SettingsScrollContent = () => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
 
@@ -76,9 +77,11 @@ const SettingsScrollContent = () => {
     <ScrollView
       contentContainerStyle={[
         styles.scroll,
-        { paddingBottom: bottom + space[12] },
+        { paddingTop: contentPaddingTop, paddingBottom: bottom + space[12] },
       ]}
       scrollIndicatorInsets={{ top: headerHeight }}
+      onScroll={onScrollHandler}
+      scrollEventThrottle={16}
     >
       <View style={styles.section}>
         <View style={styles.row}>

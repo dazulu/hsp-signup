@@ -46,7 +46,8 @@ const GalleryDetailScrollContent = ({
   galleryId: string;
   galleryTitle: string;
 }) => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { width: screenWidth } = useWindowDimensions();
   const { galleries, refresh: galleryRefresh } = useGalleries();
@@ -176,9 +177,11 @@ const GalleryDetailScrollContent = ({
         columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={[
           styles.grid,
-          { paddingBottom: bottom + space[12] },
+          { paddingTop: contentPaddingTop, paddingBottom: bottom + space[12] },
         ]}
         scrollIndicatorInsets={{ top: headerHeight }}
+        onScroll={onScrollHandler}
+        scrollEventThrottle={16}
         ListHeaderComponent={headerComponent}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

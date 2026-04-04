@@ -14,7 +14,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **TypeScript:** `strict: true`, extends `expo/tsconfig.base` (bundler module resolution).
 - **No path aliases** — use relative imports.
 - **Naming:** Always use full, descriptive English names for variables, parameters, and functions. Never abbreviate — no single-letter names, no shortened forms (e.g. `error` not `e`, `year` not `y`, `event` not `evt`).
-- **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
+- **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, etc.). When asked to generate a commit message, keep it short — a subject line and a few bullet points covering only the main user-facing changes. No fiddly implementation details.
 
 ## Component Patterns
 
@@ -23,6 +23,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **Styles:** Always in a sibling `styles.ts` file (`StyleSheet.create`). The legacy central `src/styles.ts` exists but new components must colocate styles in their own `styles.ts`.
 - **Design tokens:** All colours, radii, spacing, typography, and shadows live in `src/theme/index.ts`. Consume via the `theme` object: `import { theme } from "../theme"; const { colors, space } = theme;`. Never use raw hex strings or magic numbers in style files.
 - **Types:** Always in a sibling `types.ts` file. Do not declare prop types inline in the component file.
+- **`ScreenLayout` contract:** Every screen must wrap its content in `<ScreenLayout>`. The layout renders a floating gradient header (safe-area-aware). Content sits behind it — scroll offset is handled by each screen via `contentPaddingTop` from `useScreenLayout()`, applied to the `ScrollView`/`FlatList` `contentContainerStyle`. The scroll position is fed back via `onScrollHandler` (also from context) on the `onScroll` prop with `scrollEventThrottle={16}` — this drives the subtitle fade animation. On screens with a `useFocusEffect` scroll-reset, always call `resetScrollY()` alongside `scrollTo({ y: 0 })` so the subtitle opacity resets correctly. Never apply `contentPaddingTop` to the `ScreenLayout` content wrapper itself — it must be zero so the `BlurTargetView` ancestor spans the full screen.
 - **Domain card components:** Cards that display remote data read from `MobileAppDataContext` via `useMobileAppData()` — they do not fetch independently. `NoticeCard` (accepts a `message` prop — callers source it from context), `UpcomingEventCard`, and `StravaCards` all follow this pattern. Only `LastBookingCard` reads from AsyncStorage locally. The screen mounts cards — no domain logic in the screen file.
 - **Platform branching:** Prefer platform file extensions (`.native.tsx` / `.web.tsx`) over inline `Platform.OS` checks when the component tree diverges significantly. Use inline `Platform.OS` only for small one-line differences.
 - **Platform file extension gotcha:** When using `.native.tsx` / `.web.tsx`, the barrel `index.tsx` must import from the extensionless name (`./my-component`, not `./my-component.web`). Do not create a generic `.tsx` fallback that re-exports a platform-specific file — Metro resolves `.native.tsx` first on native and `.web.tsx` first on web, but a generic file that hard-codes `.web` will poison the chain on Android/iOS.

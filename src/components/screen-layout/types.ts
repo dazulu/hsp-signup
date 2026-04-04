@@ -1,4 +1,9 @@
 import type { ReactNode } from "react";
+import type {
+  Animated,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from "react-native";
 
 export type ScreenLayoutProps = {
   title: string;
@@ -7,4 +12,10 @@ export type ScreenLayoutProps = {
   children?: ReactNode;
 };
 
-export type ScreenLayoutContextValue = { headerHeight: number };
+export type ScreenLayoutContextValue = {
+  headerHeight: number;
+  contentPaddingTop: number;
+  scrollY: Animated.Value;
+  onScrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  resetScrollY: () => void;
+};

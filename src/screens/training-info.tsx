@@ -35,7 +35,8 @@ const Step = ({ n, text }: { n: number; text: string }) => (
 );
 
 const TrainingInfoScrollContent = () => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
   const scrollRef = useRef<ScrollView>(null);
@@ -44,8 +45,9 @@ const TrainingInfoScrollContent = () => {
     useCallback(() => {
       return () => {
         scrollRef.current?.scrollTo({ y: 0, animated: false });
+        resetScrollY();
       };
-    }, []),
+    }, [resetScrollY]),
   );
 
   return (
@@ -53,9 +55,11 @@ const TrainingInfoScrollContent = () => {
       ref={scrollRef}
       contentContainerStyle={[
         styles.scroll,
-        { paddingBottom: bottom + space[12] },
+        { paddingTop: contentPaddingTop, paddingBottom: bottom + space[12] },
       ]}
       scrollIndicatorInsets={{ top: headerHeight }}
+      onScroll={onScrollHandler}
+      scrollEventThrottle={16}
     >
       <CardGrid>
         {/* Equipment card */}

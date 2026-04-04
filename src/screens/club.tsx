@@ -16,7 +16,8 @@ import { theme } from "../theme";
 const { space } = theme;
 
 const ClubScrollContent = () => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { data, refresh, refreshContentful } = useMobileAppData();
   const scrollRef = useRef<ScrollView>(null);
@@ -27,8 +28,9 @@ const ClubScrollContent = () => {
       refreshContentful();
       return () => {
         scrollRef.current?.scrollTo({ y: 0, animated: false });
+        resetScrollY();
       };
-    }, [refreshContentful]),
+    }, [refreshContentful, resetScrollY]),
   );
 
   const onRefresh = useCallback(() => {
@@ -42,10 +44,13 @@ const ClubScrollContent = () => {
       contentContainerStyle={[
         styles.scroll,
         {
+          paddingTop: contentPaddingTop,
           paddingBottom: bottom + space[12],
         },
       ]}
       scrollIndicatorInsets={{ top: headerHeight }}
+      onScroll={onScrollHandler}
+      scrollEventThrottle={16}
       refreshControl={
         <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
       }

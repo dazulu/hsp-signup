@@ -6,13 +6,15 @@ const { colors, fontFamily, fontSize, space } = theme;
 export const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "transparent" },
   content: { flex: 1 },
+  contentHidden: { opacity: 0 },
   header: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
+    overflow: "hidden",
     paddingHorizontal: space[24],
-    paddingBottom: 48,
+    paddingBottom: space[16],
     zIndex: 10,
   },
   title: {

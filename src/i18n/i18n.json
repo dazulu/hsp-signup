@@ -64,6 +64,11 @@
     "ga": "Grianghraif",
     "de": "Fotos"
   },
+  "photos.subtitle": {
+    "en": "Memories from the pitch, the club, and beyond.",
+    "ga": "Cuimhní ón bpáirc, ón gcumann, agus níos faide ná sin.",
+    "de": "Erinnerungen vom Platz, dem Club und darüber hinaus."
+  },
   "photos.empty": {
     "en": "No galleries yet",
     "ga": "Níl aon ghailearaithe ann fós",

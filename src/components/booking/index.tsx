@@ -25,6 +25,7 @@ import type { TranslationKey } from "../../i18n/types";
 import { theme } from "../../theme";
 import { Card, CardGrid } from "../card";
 import { NoticeCard } from "../card/implementations/notice";
+import { useScreenLayout } from "../screen-layout";
 
 import { styles } from "./styles";
 
@@ -60,6 +61,7 @@ export const BookingForm = ({
   onRefresh?: () => void;
 }) => {
   const { t } = useLocale();
+  const { contentPaddingTop, onScrollHandler } = useScreenLayout();
   const {
     email,
     setEmail,
@@ -131,8 +133,13 @@ export const BookingForm = ({
     >
       <ScrollView
         ref={scrollRef}
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[
+          styles.scroll,
+          { paddingTop: contentPaddingTop },
+        ]}
         keyboardShouldPersistTaps="handled"
+        onScroll={onScrollHandler}
+        scrollEventThrottle={16}
         refreshControl={
           <RefreshControl
             refreshing={refreshing ?? false}

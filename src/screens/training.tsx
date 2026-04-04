@@ -23,7 +23,8 @@ const HSP_MAP_URL = "https://maps.app.goo.gl/g1j5MjNKGKgmeWec6";
 const STADTPARK_MAP_URL = "https://maps.app.goo.gl/3CW5MYLVh8MvbdVt5";
 
 const TrainingScrollContent = () => {
-  const { headerHeight } = useScreenLayout();
+  const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
+    useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
   const navigation =
@@ -34,8 +35,9 @@ const TrainingScrollContent = () => {
     useCallback(() => {
       return () => {
         scrollRef.current?.scrollTo({ y: 0, animated: false });
+        resetScrollY();
       };
-    }, []),
+    }, [resetScrollY]),
   );
 
   return (
@@ -43,9 +45,11 @@ const TrainingScrollContent = () => {
       ref={scrollRef}
       contentContainerStyle={[
         styles.scroll,
-        { paddingBottom: bottom + space[12] },
+        { paddingTop: contentPaddingTop, paddingBottom: bottom + space[12] },
       ]}
       scrollIndicatorInsets={{ top: headerHeight }}
+      onScroll={onScrollHandler}
+      scrollEventThrottle={16}
     >
       <CardGrid>
         {/* Training information card */}

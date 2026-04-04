@@ -50,7 +50,7 @@ src/
     image-viewer/              Full-screen image viewer with pinch-zoom, horizontal paging, and like button
     language-switcher/         Bottom-sheet language picker (native only)
     modal/                     TooltipModal — info icon + fade-in centred modal (statusBarTranslucent, onShow-driven animation)
-    screen-layout/             Shared screen wrapper (gradient, safe area, scroll)
+    screen-layout/             Floating header layout: gradient + safe-area, subtitle fade-on-scroll, scroll context
     year-sidebar/              Year navigation sidebar for the photos screen
   screens/
     book.tsx                   Book a training session
@@ -124,6 +124,8 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 ## Design decisions
 
 **Native credential storage is opt-in.** On native, credentials are only written to Expo SecureStore if the user explicitly checks "Remember login details on this device". Unchecking the box immediately removes any stored credentials. On web, credentials are never persisted — memory only.
+
+**`ScreenLayout` floats over scrollable content.** The header is `position: absolute` with a `LinearGradient` that matches the app's root background gradient, fading to transparent at its bottom edge. Content renders behind it — each screen's `ScrollView`/`FlatList` uses `contentPaddingTop` (from `useScreenLayout()`) as its top padding so the first item starts below the header. The subtitle fades out as the user scrolls via an `Animated.Value` driven by `onScrollHandler` (a plain callback that calls `scrollY.setValue()`). Screens that programmatically reset scroll on blur must also call `resetScrollY()` to restore the subtitle opacity.
 
 **50-second countdown then status polling.** After triggering a booking, the app shows a 50-second progress bar (the time the workflow typically takes to complete). Once the countdown finishes it switches to a polling phase: it calls `/api/status` every 10 seconds (up to 10 attempts) to check the GitHub Actions workflow result via the `correlationId`. On success or failure it shows the result; if all polls are exhausted it shows a timeout state with a "Check Again" button to resume polling.
 
