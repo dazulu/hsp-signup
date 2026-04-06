@@ -52,10 +52,31 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
     }
   });
 
-  // Log in
+  // Log in — use evaluate to avoid credentials appearing in report step titles
   await newPage.waitForSelector("#bs_pw_anm", { state: "visible" });
-  await newPage.fill('input[name="pw_email"]', process.env.HSP_EMAIL || "");
-  await newPage.fill('input[type="password"]', process.env.HSP_PASSWORD || "");
+  await newPage.evaluate(
+    ({ email, password }) => {
+      const emailInput = document.querySelector(
+        'input[name="pw_email"]',
+      ) as HTMLInputElement;
+      const passwordInput = document.querySelector(
+        'input[type="password"]',
+      ) as HTMLInputElement;
+      for (const [input, value] of [
+        [emailInput, email],
+        [passwordInput, password],
+      ] as const) {
+        input.focus();
+        input.value = value;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    },
+    {
+      email: process.env.HSP_EMAIL || "",
+      password: process.env.HSP_PASSWORD || "",
+    },
+  );
   await newPage.click('input[type="submit"][value="weiter zur Buchung"]');
 
   // Select Terms & Conditions checkbox and continue
