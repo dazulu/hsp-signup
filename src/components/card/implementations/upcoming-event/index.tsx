@@ -7,7 +7,11 @@ import { useLocale } from "../../../../i18n";
 import type { ClubStackParamList } from "../../../../navigation/types";
 import type { ContentfulItem } from "../../../../services/contentful/types";
 import { theme } from "../../../../theme";
-import { formatEventDate, getEventCountdownDays } from "../../../../utils";
+import {
+  formatEventDate,
+  getEventCountdownDays,
+  parseStoredEventDate,
+} from "../../../../utils";
 import { Card, cardStyles } from "../../";
 import { styles } from "./styles";
 
@@ -44,12 +48,21 @@ export const UpcomingEventCard = () => {
     return null;
   }
 
-  const footballCountdown = footballFirst
-    ? buildCountdownLabel(getEventCountdownDays(footballFirst.value), t)
-    : null;
-  const hurlingCountdown = hurlingFirst
-    ? buildCountdownLabel(getEventCountdownDays(hurlingFirst.value), t)
-    : null;
+  const sortedEvents: Array<{
+    item: ContentfulItem;
+    sport: "football" | "hurling";
+  }> = [
+    ...(footballFirst
+      ? [{ item: footballFirst, sport: "football" as const }]
+      : []),
+    ...(hurlingFirst
+      ? [{ item: hurlingFirst, sport: "hurling" as const }]
+      : []),
+  ].sort(
+    (a, b) =>
+      (parseStoredEventDate(a.item.value)?.getTime() ?? 0) -
+      (parseStoredEventDate(b.item.value)?.getTime() ?? 0),
+  );
 
   return (
     <Card
@@ -58,44 +71,31 @@ export const UpcomingEventCard = () => {
       onPress={() => navigation.navigate("UpcomingEvents")}
     >
       <View style={styles.content}>
-        {footballFirst && (
-          <View style={styles.row}>
-            <Ionicons
-              style={styles.rowIcon}
-              name="trophy"
-              size={15}
-              color={colors.textMuted}
-            />
-            <Text style={[cardStyles.bodyText, styles.rowText]}>
-              {t("upcoming.football")} · {footballFirst.key} ·{" "}
-              {formatEventDate(footballFirst.value, locale)}
-            </Text>
-            {footballCountdown ? (
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>{footballCountdown}</Text>
-              </View>
-            ) : null}
-          </View>
-        )}
-        {hurlingFirst && (
-          <View style={styles.row}>
-            <Ionicons
-              style={styles.rowIcon}
-              name="trophy"
-              size={15}
-              color={colors.textMuted}
-            />
-            <Text style={[cardStyles.bodyText, styles.rowText]}>
-              {t("upcoming.hurling")} · {hurlingFirst.key} ·{" "}
-              {formatEventDate(hurlingFirst.value, locale)}
-            </Text>
-            {hurlingCountdown ? (
-              <View style={styles.pill}>
-                <Text style={styles.pillText}>{hurlingCountdown}</Text>
-              </View>
-            ) : null}
-          </View>
-        )}
+        {sortedEvents.map(({ item, sport }) => {
+          const countdown = buildCountdownLabel(
+            getEventCountdownDays(item.value),
+            t,
+          );
+          return (
+            <View key={sport} style={styles.row}>
+              <Ionicons
+                style={styles.rowIcon}
+                name="trophy"
+                size={15}
+                color={colors.textMuted}
+              />
+              <Text style={[cardStyles.bodyText, styles.rowText]}>
+                {t(`upcoming.${sport}`)} · {item.key} ·{" "}
+                {formatEventDate(item.value, locale)}
+              </Text>
+              {countdown ? (
+                <View style={styles.pill}>
+                  <Text style={styles.pillText}>{countdown}</Text>
+                </View>
+              ) : null}
+            </View>
+          );
+        })}
       </View>
     </Card>
   );

@@ -34,7 +34,7 @@ const EN_MONTHS = [
 
 // Parses "April 18 2026" — stored as English full month name, day, year.
 // Using an explicit lookup avoids Hermes's non-standard date string behaviour.
-const parseStoredEventDate = (dateString: string): Date | null => {
+export const parseStoredEventDate = (dateString: string): Date | null => {
   const parts = dateString.trim().split(/\s+/);
   if (parts.length !== 3) {
     return null;
