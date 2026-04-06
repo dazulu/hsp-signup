@@ -565,14 +565,14 @@
     "de": "Überprüfe, ob deine Hochschulsport Hamburg E-Mail und dein Passwort korrekt sind und deine Mitgliedschaft aktiv ist. Die Buchung schlägt auch fehl, wenn keine Slots verfügbar sind, z.B. wenn HSP geschlossen ist oder das Training abgesagt wurde."
   },
   "booking.faq.q5": {
-    "en": "Is my password safe?",
-    "ga": "An bhfuil mo phasfhocal sábhailte?",
-    "de": "Ist mein Passwort sicher?"
+    "en": "Are my login details safe?",
+    "ga": "An bhfuil mo shonraí logála sábhailte?",
+    "de": "Sind meine Zugangsdaten sicher?"
   },
   "booking.faq.a5": {
-    "en": "Your password is encrypted on-device before it leaves your phone. It is used only to complete the booking.",
-    "ga": "Criptían do phasfhocal ar an ngléas sula bhfágann sé do ghuthán. Ní úsáidtear é ach chun an áirithint a chríochnú.",
-    "de": "Dein Passwort wird auf dem Gerät verschlüsselt, bevor es dein Handy verlässt. Es wird nur zur Durchführung der Buchung verwendet."
+    "en": "Your login details are encrypted on-device before they leave your phone. They are used only to complete the booking.",
+    "ga": "Criptítear do shonraí logála ar an ngléas sula bhfágann siad do ghuthán. Ní úsáidtear iad ach chun an áirithint a chríochnú.",
+    "de": "Deine Zugangsdaten werden auf dem Gerät verschlüsselt, bevor sie dein Handy verlassen. Sie werden nur zur Durchführung der Buchung verwendet."
   },
   "booking.faq.q6": {
     "en": "Can I cancel a booking?",
