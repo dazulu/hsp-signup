@@ -5,6 +5,7 @@ const OWNER = "dazulu";
 const REPO = "hsp-signup";
 
 interface WorkflowRun {
+  id: number;
   name: string | null;
   status: string;
   conclusion: string | null;
@@ -75,12 +76,17 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    const status =
-      match.conclusion === "success"
-        ? "success"
-        : match.name?.includes("[AUTH_FAILED]")
-          ? "auth_failed"
-          : "failure";
+    if (match.conclusion === "success") {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ status: "success" }),
+      };
+    }
+
+    // Run failed — check if the auth-failed artifact was uploaded
+    const hasAuthFailed = await checkAuthFailedArtifact(token, match.id);
+    const status = hasAuthFailed ? "auth_failed" : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
   } catch (error) {
     console.error("Status check failed:", (error as Error).message);
@@ -117,6 +123,50 @@ function listRuns(token: string): Promise<WorkflowRun[]> {
           }
           try {
             resolve(JSON.parse(body).workflow_runs);
+          } catch {
+            reject(new Error("Invalid JSON from GitHub"));
+          }
+        });
+      },
+    );
+    request.on("error", reject);
+    request.end();
+  });
+}
+
+function checkAuthFailedArtifact(
+  token: string,
+  runId: number,
+): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    const request = https.request(
+      {
+        hostname: "api.github.com",
+        path: `/repos/${OWNER}/${REPO}/actions/runs/${runId}/artifacts?per_page=10`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "hsp-signup-netlify",
+        },
+      },
+      (httpResponse) => {
+        let body = "";
+        httpResponse.on("data", (chunk: string) => (body += chunk));
+        httpResponse.on("end", () => {
+          if (httpResponse.statusCode !== 200) {
+            return reject(
+              new Error(`GitHub ${httpResponse.statusCode}: ${body}`),
+            );
+          }
+          try {
+            const artifacts = JSON.parse(body).artifacts as {
+              name: string;
+            }[];
+            resolve(
+              artifacts.some((artifact) => artifact.name === "auth-failed"),
+            );
           } catch {
             reject(new Error("Invalid JSON from GitHub"));
           }
