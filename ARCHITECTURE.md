@@ -1,12 +1,23 @@
 # Architecture & Developer Notes
 
-## How it works
+## Architecture
 
-1. **You** enter your HSP credentials and pick a sport (Hurling & Camogie or Gaelic Football)
-2. **The app** sends a request to a Netlify function, which triggers a GitHub Actions workflow
-3. **The workflow** runs a Playwright script that navigates the HSP website, logs in, and completes the booking on your behalf
-4. **The app** polls a second Netlify function to check the workflow result
-5. **You** get a confirmation email directly from Hochschulsport Hamburg
+```
+Expo App (React Native / Web)
+  → Contentful CDA (cdn.contentful.com)          — notices, events, galleries (direct, public token)
+  → Netlify Function (/api/strava)               — Strava club activity proxy (tokens server-side)
+  → Netlify Function (/api/likes)                — photo like counts (Netlify Blobs)
+  → Netlify Function (/api/book)                 — triggers booking workflow
+  |   → GitHub Actions (repository_dispatch)
+  |       → Playwright script (playwright/signup.spec.ts)
+  |           → HSP website booking
+  → Netlify Function (/api/status?correlationId=…)
+      → GitHub Actions API (list workflow runs)
+```
+
+The app is built with Expo and runs as both a native Android app and a web app served from the same Netlify site that hosts the serverless functions. The web bundle is produced by `expo export --platform web` at build time (Metro SPA output → `dist/`).
+
+Most features (galleries, events, Strava, likes) are served through Contentful or lightweight Netlify functions. The booking feature is the exception — it calls a Netlify function that triggers a GitHub Actions workflow via `repository_dispatch`, which runs a Playwright browser automation script to handle the actual HSP sign-up flow.
 
 ## Code structure
 
@@ -72,21 +83,15 @@ playwright/
   signup.spec.ts               Browser automation script (runs in GitHub Actions only)
 ```
 
-## Architecture
+## How the booking feature works
 
-```
-Expo App (React Native / Web)
-  → Netlify Function (/api/book)
-  |   → GitHub Actions (repository_dispatch)
-  |       → Playwright script (playwright/signup.spec.ts)
-  |           → HSP website booking
-  → Netlify Function (/api/status?correlationId=…)
-      → GitHub Actions API (list workflow runs)
-```
+1. **You** enter your HSP credentials and pick a sport (Hurling & Camogie or Gaelic Football)
+2. **The app** sends a request to a Netlify function, which triggers a GitHub Actions workflow
+3. **The workflow** runs a Playwright script that navigates the HSP website, logs in, and completes the booking on your behalf
+4. **The app** polls a second Netlify function to check the workflow result
+5. **You** get a confirmation email directly from Hochschulsport Hamburg
 
-The app is built with Expo and runs as both a native Android app and a web app served from the same Netlify site that hosts the serverless functions. The web bundle is produced by `expo export --platform web` at build time (Metro SPA output → `dist/`).
-
-The app doesn't talk to the HSP website directly. It calls a Netlify serverless function that triggers a GitHub Actions workflow via `repository_dispatch`. The workflow runs a Playwright browser automation script that handles the actual multi-page signup flow.
+Other features (photo galleries, upcoming events, Strava, club info) are served directly from Contentful and the Strava/likes APIs — no GitHub Actions involvement.
 
 ## Environment variables
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Expo SDK 55 React Native app that books Hochschulsport Hamburg training sessions. Runs on Android (sideloaded APK), web (Netlify SPA), and has iOS config but no distribution yet.
+Expo SDK 55 React Native companion app for Hamburg GAA. Features include booking Hochschulsport Hamburg training sessions, browsing photo galleries, viewing upcoming events, tracking Strava activity, and club info. Runs on Android (Play Store + sideloaded APK), web (Netlify SPA), and has iOS config but no distribution yet.
 
 See `ARCHITECTURE.md` for system overview, file structure, build commands, env vars, and design decisions.
 
