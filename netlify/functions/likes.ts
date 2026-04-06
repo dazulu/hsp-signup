@@ -13,7 +13,7 @@ const MAX_LIKES_PER_IMAGE = 10_000;
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type, x-api-key",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
 };
 
 const json = (body: unknown, status = 200) =>
@@ -134,6 +134,50 @@ export default async (request: Request, _context: Context) => {
       count: updatedUserIds.length,
       liked: action === "like",
     });
+  }
+
+  // --- DELETE ---
+  if (request.method === "DELETE") {
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+
+    if (!userId || userId.length > MAX_FIELD_LENGTH) {
+      return json({ error: "Missing or invalid userId" }, 400);
+    }
+
+    const listed = store.list({ prefix: "gallery:" });
+    const blobs = await listed;
+
+    let removedCount = 0;
+    for (const entry of blobs.blobs) {
+      let blob: LikesBlob = {};
+      try {
+        const raw = await store.get(entry.key, { type: "json" });
+        if (raw) {
+          blob = raw as LikesBlob;
+        }
+      } catch {
+        continue;
+      }
+
+      let changed = false;
+      for (const [imageId, userIds] of Object.entries(blob)) {
+        const filtered = userIds.filter(
+          (existingUserId) => existingUserId !== userId,
+        );
+        if (filtered.length !== userIds.length) {
+          blob[imageId] = filtered;
+          changed = true;
+          removedCount += userIds.length - filtered.length;
+        }
+      }
+
+      if (changed) {
+        await store.setJSON(entry.key, blob);
+      }
+    }
+
+    return json({ deleted: true, removedCount });
   }
 
   return new Response("Method not allowed", {

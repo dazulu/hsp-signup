@@ -24,6 +24,51 @@
     "ga": "Saincheap d'eispéireas aipe.",
     "de": "Passe dein App-Erlebnis an."
   },
+  "settings.privacy": {
+    "en": "Privacy",
+    "ga": "Príobháideachas",
+    "de": "Datenschutz"
+  },
+  "settings.privacyPolicy": {
+    "en": "Privacy Policy",
+    "ga": "Polasaí Príobháideachais",
+    "de": "Datenschutzerklärung"
+  },
+  "settings.deleteLikes": {
+    "en": "Delete my likes data",
+    "ga": "Scrios mo shonraí moltaí",
+    "de": "Meine Like-Daten löschen"
+  },
+  "settings.deleteLikes.confirm.title": {
+    "en": "Delete likes data?",
+    "ga": "Scrios sonraí moltaí?",
+    "de": "Like-Daten löschen?"
+  },
+  "settings.deleteLikes.confirm.message": {
+    "en": "This will remove all your photo likes from our server and reset your anonymous ID. This cannot be undone.",
+    "ga": "Bainfidh sé seo do mholtaí grianghraf go léir ónár bhfreastalaí agus athshocrófar d'aitheantas anaithnid. Ní féidir é seo a chealú.",
+    "de": "Dadurch werden alle deine Foto-Likes von unserem Server entfernt und deine anonyme ID zurückgesetzt. Dies kann nicht rückgängig gemacht werden."
+  },
+  "settings.deleteLikes.confirm.delete": {
+    "en": "Delete",
+    "ga": "Scrios",
+    "de": "Löschen"
+  },
+  "settings.deleteLikes.confirm.cancel": {
+    "en": "Cancel",
+    "ga": "Cealaigh",
+    "de": "Abbrechen"
+  },
+  "settings.deleteLikes.success": {
+    "en": "Likes data deleted",
+    "ga": "Sonraí moltaí scriosta",
+    "de": "Like-Daten gelöscht"
+  },
+  "settings.deleteLikes.error": {
+    "en": "Could not delete likes data. Please try again.",
+    "ga": "Níorbh fhéidir sonraí moltaí a scriosadh. Bain triail eile as.",
+    "de": "Like-Daten konnten nicht gelöscht werden. Bitte versuche es erneut."
+  },
   "tab.club": {
     "en": "Club",
     "ga": "Cumann",

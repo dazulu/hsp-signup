@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Clipboard from "expo-clipboard";
 import Constants from "expo-constants";
@@ -7,6 +8,7 @@ import * as Updates from "expo-updates";
 import { useCallback } from "react";
 import {
   Alert,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -14,15 +16,20 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { DeleteLikesButton } from "../components/delete-likes-button";
 import { LanguageSwitcher } from "../components/language-switcher";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useLocale } from "../i18n";
 import { theme } from "../theme";
 import { styles } from "./settings.styles";
 
-const { space } = theme;
+const { space, colors } = theme;
 
 const appVersion = Constants.expoConfig?.version ?? "—";
+
+const PRIVACY_POLICY_URL = process.env.EXPO_PUBLIC_API_URL
+  ? `${process.env.EXPO_PUBLIC_API_URL}/privacy-policy-app`
+  : "/privacy-policy-app";
 
 const STORAGE_KEYS = [
   "app_save_on_device",
@@ -73,6 +80,10 @@ const SettingsScrollContent = () => {
     Alert.alert(t("settings.version"), t("settings.debugCopied"));
   }, [t]);
 
+  const openPrivacyPolicy = useCallback(() => {
+    Linking.openURL(PRIVACY_POLICY_URL);
+  }, []);
+
   return (
     <ScrollView
       contentContainerStyle={[
@@ -88,6 +99,24 @@ const SettingsScrollContent = () => {
           <Text style={styles.rowLabel}>{t("settings.language")}</Text>
           <LanguageSwitcher />
         </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>{t("settings.privacy")}</Text>
+        <Pressable
+          style={({ pressed }) => [
+            styles.privacyLinkRow,
+            pressed && styles.privacyRowPressed,
+          ]}
+          onPress={openPrivacyPolicy}
+          accessibilityRole="link"
+          accessibilityLabel={t("settings.privacyPolicy")}
+        >
+          <Text style={styles.privacyLink}>{t("settings.privacyPolicy")}</Text>
+          <Ionicons name="open-outline" size={14} color={colors.primary} />
+        </Pressable>
+        <View style={styles.privacyDivider} />
+        <DeleteLikesButton />
       </View>
 
       <Pressable
