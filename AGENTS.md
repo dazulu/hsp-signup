@@ -35,7 +35,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 ## State Management
 
 - No external state library. React hooks + `useCallback`/`useEffect`/`useRef`.
-- `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/timeout).
+- `useBooking` — booking state machine (idle → triggering → waiting → polling → success/failure/auth_failed/timeout).
 - `useCredentials` — credential persistence. Native: opt-in SecureStore (user must enable "Remember login details" checkbox). Web: never stored — memory only.
 - `MobileAppDataContext` (`src/context/mobile-app-data.tsx`) — global context providing `{ data, events, stravaData, loading, refresh, refreshContentful }`. Owns all remote data: Contentful `MOBILE_APP_DATA` entry, Contentful events, and Strava. `refresh(force?)` fetches all three and returns `Promise<void>` (used by pull-to-refresh). `refreshContentful()` fetches Contentful only and returns `Promise<void>` (used by `useFocusEffect` on screens). On web, `refresh()` skips events and Strava. No AsyncStorage cache on `data`; events and Strava use 1-hour TTL caches; `force=true` bypasses TTL but always writes fresh data back.
 - `useGalleries` — independent gallery data hook (not in MobileAppDataContext). Fetches Contentful `gallery` entries with locale awareness (`de` when app is German, `en` otherwise). 1-hour TTL cache keyed by locale (`app_gallery_cache_en`, `app_gallery_cache_de`). Used only on the Photos and GalleryDetail screens.
@@ -60,6 +60,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 
 - Located in `netlify/functions/`. Written in TypeScript using `@netlify/functions`.
 - `book.ts`, `status.ts`, `strava.ts` use Node.js `https` module directly (no axios/fetch libraries).
+- `status.ts` checks for an `auth-failed` artifact on failed runs (via the GitHub artifacts API) and returns `"auth_failed"` status so the app can show a specific credentials error.
 - `likes.ts` uses `@netlify/blobs` for per-gallery photo like storage.
 - All endpoints validate the `x-api-key` header against `process.env.API_KEY`.
 - Input validation: reject invalid sport values, missing fields, malformed JSON, and oversized input strings.
@@ -69,6 +70,8 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 
 - **Playwright e2e only** — no unit test framework is set up. The Playwright spec in `playwright/signup.spec.ts` runs in GitHub Actions, not locally.
 - The Playwright test is triggered by `repository_dispatch` with credentials passed via `client_payload` as AES-256-GCM ciphertext. The workflow decrypts them using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext with `::add-mask::` before writing to `GITHUB_ENV` for Playwright to consume.
+- **Credential masking in report:** The Playwright spec uses `evaluate()` instead of `fill()` to set email/password fields, so credentials don't appear in HTML report step titles.
+- **Auth failure detection:** After login submission, the spec checks if the HSP login prompt is still visible. If so, it writes a `test-results/auth-failed` marker file and fails the test. The workflow uploads this as a named artifact (`auth-failed`), which `status.ts` checks to distinguish auth failures from other failures.
 
 ## Security
 

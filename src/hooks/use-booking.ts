@@ -15,8 +15,8 @@ const uuid = (): string =>
 const API_URL =
   Platform.OS === "web" ? "" : (process.env.EXPO_PUBLIC_API_URL ?? "");
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
-const LOADING_DURATION = 43; // seconds — wait before polling begins
-const POLL_INTERVAL_MS = 3_000;
+const LOADING_DURATION = 50; // seconds — wait before polling begins
+const POLL_INTERVAL_MS = 2_000;
 const MAX_POLLS = 20;
 
 // Demo credentials for reviewers
