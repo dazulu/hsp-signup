@@ -53,6 +53,7 @@ export const LanguageSwitcher = () => {
       <Modal
         visible={visible}
         transparent
+        statusBarTranslucent
         animationType="none"
         onRequestClose={close}
       >
