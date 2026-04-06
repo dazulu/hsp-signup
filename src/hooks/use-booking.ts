@@ -44,6 +44,7 @@ export type BookingState =
   | { phase: "polling"; correlationId: string }
   | { phase: "success" }
   | { phase: "failure" }
+  | { phase: "auth_failed" }
   | { phase: "timeout"; correlationId: string };
 
 export const useBooking = () => {
@@ -79,6 +80,7 @@ export const useBooking = () => {
     if (
       booking.phase === "success" ||
       booking.phase === "failure" ||
+      booking.phase === "auth_failed" ||
       booking.phase === "timeout"
     ) {
       if (Platform.OS !== "web") {
@@ -182,6 +184,10 @@ export const useBooking = () => {
             }
             if (!cancelled) {
               setBooking({ phase: "success" });
+            }
+          } else if (data.status === "auth_failed") {
+            if (!cancelled) {
+              setBooking({ phase: "auth_failed" });
             }
           } else if (data.status === "failure") {
             if (!cancelled) {

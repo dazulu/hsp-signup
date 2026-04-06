@@ -75,7 +75,12 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    const status = match.conclusion === "success" ? "success" : "failure";
+    const status =
+      match.conclusion === "success"
+        ? "success"
+        : match.name?.includes("[AUTH_FAILED]")
+          ? "auth_failed"
+          : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
   } catch (error) {
     console.error("Status check failed:", (error as Error).message);

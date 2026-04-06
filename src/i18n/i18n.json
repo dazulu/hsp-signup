@@ -209,6 +209,11 @@
     "ga": "Theip ar an áirithint. Seiceáil do shonraí logála isteach agus go bhfuil do bhallraíocht Hochschulsport Hamburg gníomhach.",
     "de": "Buchung fehlgeschlagen. Überprüfe deine Anmeldedaten und ob deine Hochschulsport Hamburg Mitgliedschaft aktiv ist."
   },
+  "booking.result.authFailed": {
+    "en": "Your email or password didn't work. Double-check your Hochschulsport Hamburg login details and try again.",
+    "ga": "Níor oibrigh do ríomhphost nó do phasfhocal. Athsheiceáil do shonraí logála Hochschulsport Hamburg agus bain triail eile as.",
+    "de": "Deine E-Mail oder dein Passwort hat nicht funktioniert. Überprüfe deine Hochschulsport Hamburg Zugangsdaten und versuch's erneut."
+  },
   "booking.result.timeout": {
     "en": "Couldn't confirm the result. Check your email - if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
     "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost - mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",

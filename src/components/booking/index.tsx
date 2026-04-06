@@ -384,6 +384,31 @@ export const BookingForm = ({
                 </Animated.View>
               )}
 
+              {/* Auth failed */}
+              {booking.phase === "auth_failed" && (
+                <Animated.View
+                  style={[
+                    styles.statusBox,
+                    styles.statusBoxError,
+                    { opacity: 1 },
+                  ]}
+                >
+                  <Text style={[styles.statusText, styles.statusTextError]}>
+                    {t("booking.result.authFailed")}
+                  </Text>
+                  <Pressable
+                    style={styles.dismissBtn}
+                    onPress={dismiss}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("booking.dismiss")}
+                  >
+                    <Text style={styles.dismissBtnText}>
+                      {t("booking.dismiss")}
+                    </Text>
+                  </Pressable>
+                </Animated.View>
+              )}
+
               {/* Timeout */}
               {booking.phase === "timeout" && (
                 <Animated.View

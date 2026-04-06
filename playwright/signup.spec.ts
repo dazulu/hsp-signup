@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import dotenv from "dotenv";
 
@@ -77,7 +78,20 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
       password: process.env.HSP_PASSWORD || "",
     },
   );
+
   await newPage.click('input[type="submit"][value="weiter zur Buchung"]');
+  await newPage.waitForLoadState("networkidle");
+
+  // If the login prompt text is still visible, credentials were rejected
+  const loginPromptVisible = await newPage
+    .locator("text=Ich habe ein Passwort und möchte mich damit anmelden.")
+    .isVisible();
+
+  if (loginPromptVisible) {
+    mkdirSync("test-results", { recursive: true });
+    writeFileSync("test-results/auth-failed", "");
+    expect(false, "Login credentials were rejected by HSP").toBeTruthy();
+  }
 
   // Select Terms & Conditions checkbox and continue
   await newPage.check('input[name="tnbed"]');
