@@ -13,6 +13,16 @@
 
 The companion app for Hamburg GAA. Book Hochschulsport training sessions, browse photo galleries, like your favourite photos, check upcoming events, and stay connected with the club.
 
+## Preview screenshots
+
+<table>
+  <tr>
+    <td width="25%"><img src="assets/screenshots/club.png" width="100%" /></td>
+    <td width="25%"><img src="assets/screenshots/upcoming.png" width="100%" /></td>
+    <td width="25%"><img src="assets/screenshots/training.png" width="100%" /></td>
+    <td width="25%"><img src="assets/screenshots/training-info.png" width="100%" /></td>
+  </tr>
+</table>
 
 
 ## Commands
