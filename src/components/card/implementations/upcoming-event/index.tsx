@@ -10,6 +10,7 @@ import { theme } from "../../../../theme";
 import {
   formatEventDate,
   getEventCountdownDays,
+  isDateInPast,
   parseStoredEventDate,
 } from "../../../../utils";
 import { Card, cardStyles } from "../../";
@@ -41,8 +42,12 @@ export const UpcomingEventCard = () => {
     useNavigation<NativeStackNavigationProp<ClubStackParamList>>();
   const { events } = useMobileAppData();
 
-  const footballFirst: ContentfulItem | undefined = events?.football[0];
-  const hurlingFirst: ContentfulItem | undefined = events?.hurling[0];
+  const footballFirst: ContentfulItem | undefined = events?.football.find(
+    (item) => !isDateInPast(item.value),
+  );
+  const hurlingFirst: ContentfulItem | undefined = events?.hurling.find(
+    (item) => !isDateInPast(item.value),
+  );
 
   if (!footballFirst && !hurlingFirst) {
     return null;
