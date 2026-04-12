@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: space[6],
-    paddingVertical: space[14],
+    paddingVertical: space[6],
   },
   rowPressed: {
     opacity: 0.6,

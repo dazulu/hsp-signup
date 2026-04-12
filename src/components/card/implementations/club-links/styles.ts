@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../../../theme";
 
-const { colors, fontFamily, fontSize, radii, space } = theme;
+const { colors, fontFamily, fontSize, space } = theme;
 
 export const styles = StyleSheet.create({
   list: {
@@ -11,15 +11,8 @@ export const styles = StyleSheet.create({
     gap: space[6],
   },
   item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     flexBasis: "47%",
     flexGrow: 1,
-    paddingVertical: space[8],
-    paddingHorizontal: space[12],
-    backgroundColor: colors.surfaceInput,
-    borderRadius: radii.md,
   },
   itemPressed: {
     opacity: 0.7,

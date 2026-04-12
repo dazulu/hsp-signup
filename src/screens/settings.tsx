@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Clipboard from "expo-clipboard";
 import Constants from "expo-constants";
@@ -6,30 +5,31 @@ import * as Device from "expo-device";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import { useCallback } from "react";
-import {
-  Alert,
-  Linking,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Platform, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Card } from "../components/card";
 import { DeleteLikesButton } from "../components/delete-likes-button";
+import { ExternalLink } from "../components/external-link";
 import { LanguageSwitcher } from "../components/language-switcher";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useLocale } from "../i18n";
 import { theme } from "../theme";
 import { styles } from "./settings.styles";
 
-const { space, colors } = theme;
+const { space } = theme;
 
 const appVersion = Constants.expoConfig?.version ?? "—";
 
 const PRIVACY_POLICY_URL = process.env.EXPO_PUBLIC_API_URL
   ? `${process.env.EXPO_PUBLIC_API_URL}/privacy-policy-app`
   : "/privacy-policy-app";
+
+const RATE_APP_URL: string | null =
+  Platform.OS === "android"
+    ? "https://play.google.com/store/apps/details?id=com.dazulu.hamburggaa&showAllReviews=true"
+    : Platform.OS === "ios"
+      ? "" // Set to itms-apps:// URL once App Store ID is assigned
+      : "https://play.google.com/store/apps/details?id=com.dazulu.hamburggaa&showAllReviews=true";
 
 const STORAGE_KEYS = [
   "app_save_on_device",
@@ -80,10 +80,6 @@ const SettingsScrollContent = () => {
     Alert.alert(t("settings.version"), t("settings.debugCopied"));
   }, [t]);
 
-  const openPrivacyPolicy = useCallback(() => {
-    Linking.openURL(PRIVACY_POLICY_URL);
-  }, []);
-
   return (
     <ScrollView
       contentContainerStyle={[
@@ -94,43 +90,33 @@ const SettingsScrollContent = () => {
       onScroll={onScrollHandler}
       scrollEventThrottle={16}
     >
-      <View style={styles.section}>
+      <Card>
         <View style={styles.row}>
           <Text style={styles.rowLabel}>{t("settings.language")}</Text>
           <LanguageSwitcher />
         </View>
-      </View>
+      </Card>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>{t("settings.privacy")}</Text>
-        <Pressable
-          style={({ pressed }) => [
-            styles.privacyLinkRow,
-            pressed && styles.privacyRowPressed,
-          ]}
-          onPress={openPrivacyPolicy}
-          accessibilityRole="link"
-          accessibilityLabel={t("settings.privacyPolicy")}
-        >
-          <Text style={styles.privacyLink}>{t("settings.privacyPolicy")}</Text>
-          <Ionicons name="open-outline" size={14} color={colors.primary} />
-        </Pressable>
-        <View style={styles.privacyDivider} />
+      <Card>
+        <View style={styles.rowGap}>
+          <ExternalLink label={t("settings.rateApp")} href={RATE_APP_URL} />
+          <ExternalLink
+            label={t("settings.privacyPolicy")}
+            href={PRIVACY_POLICY_URL}
+          />
+        </View>
+      </Card>
+
+      <Card>
         <DeleteLikesButton />
-      </View>
+      </Card>
 
-      <Pressable
-        style={styles.section}
-        onLongPress={copyDebugInfo}
-        delayLongPress={500}
-        accessibilityRole="button"
-        accessibilityLabel={t("settings.version")}
-      >
+      <Card onLongPress={copyDebugInfo} delayLongPress={500}>
         <View style={styles.row}>
           <Text style={styles.rowLabel}>{t("settings.version")}</Text>
           <Text style={styles.rowValue}>{appVersion}</Text>
         </View>
-      </Pressable>
+      </Card>
     </ScrollView>
   );
 };

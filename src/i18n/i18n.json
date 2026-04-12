@@ -1,4 +1,9 @@
 {
+  "settings.rateApp": {
+    "en": "Rate the App",
+    "ga": "Rátáil an Aip",
+    "de": "App bewerten"
+  },
   "settings.title": {
     "en": "Settings",
     "ga": "Socruithe",

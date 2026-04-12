@@ -25,6 +25,8 @@ export const Card = ({
   title,
   padding = "sm",
   onPress,
+  onLongPress,
+  delayLongPress,
   span,
   transparent = false,
   variant,
@@ -47,11 +49,13 @@ export const Card = ({
 
   const tooltipIcon = tooltipText ? <TooltipModal text={tooltipText} /> : null;
 
-  if (onPress) {
+  if (onPress || onLongPress) {
     return (
       <Pressable
         style={({ pressed }) => [cardStyle, { opacity: pressed ? 0.9 : 1 }]}
         onPress={onPress}
+        onLongPress={onLongPress}
+        delayLongPress={delayLongPress}
         accessibilityRole="button"
       >
         {backgroundImage ? (
@@ -75,7 +79,7 @@ export const Card = ({
           </View>
         ) : null}
         {children}
-        {!transparent ? (
+        {onPress && !transparent ? (
           <View style={styles.caret}>
             <Ionicons
               name="chevron-forward"

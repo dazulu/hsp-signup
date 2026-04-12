@@ -6,6 +6,8 @@ export type CardProps = {
   backgroundImage?: ImageSourcePropType;
   children?: React.ReactNode;
   onPress?: () => void;
+  onLongPress?: () => void;
+  delayLongPress?: number;
   padding?: CardPadding;
   span?: 1 | 2;
   title?: string;
