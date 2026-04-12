@@ -10,7 +10,7 @@ import { useLocale } from "../i18n";
 import type { ClubStackParamList } from "../navigation/types";
 import type { ContentfulItem } from "../services/contentful/types";
 import { theme } from "../theme";
-import { formatEventDate } from "../utils";
+import { formatEventDate, isDateInPast } from "../utils";
 import { styles } from "./upcoming-events.styles";
 
 const { space } = theme;
@@ -54,8 +54,20 @@ const UpcomingEventsContent = () => {
               <View key={event.location}>
                 {i > 0 && <View style={styles.divider} />}
                 <View style={styles.eventRow}>
-                  <Text style={styles.location}>{event.location}</Text>
-                  <Text style={styles.date}>
+                  <Text
+                    style={[
+                      styles.location,
+                      isDateInPast(event.date) && styles.pastText,
+                    ]}
+                  >
+                    {event.location}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.date,
+                      isDateInPast(event.date) && styles.pastText,
+                    ]}
+                  >
                     {formatEventDate(event.date, locale)}
                   </Text>
                 </View>
@@ -69,8 +81,20 @@ const UpcomingEventsContent = () => {
               <View key={event.location}>
                 {i > 0 && <View style={styles.divider} />}
                 <View style={styles.eventRow}>
-                  <Text style={styles.location}>{event.location}</Text>
-                  <Text style={styles.date}>
+                  <Text
+                    style={[
+                      styles.location,
+                      isDateInPast(event.date) && styles.pastText,
+                    ]}
+                  >
+                    {event.location}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.date,
+                      isDateInPast(event.date) && styles.pastText,
+                    ]}
+                  >
                     {formatEventDate(event.date, locale)}
                   </Text>
                 </View>

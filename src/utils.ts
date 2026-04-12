@@ -95,6 +95,16 @@ export const formatEventDate = (dateString: string, locale: Locale): string => {
   return formatted;
 };
 
+export const isDateInPast = (dateString: string): boolean => {
+  const date = parseStoredEventDate(dateString);
+  if (!date) {
+    return false;
+  }
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
+};
+
 const COUNTDOWN_THRESHOLD_DAYS = 7;
 
 export const getEventCountdownDays = (dateString: string): number | null => {

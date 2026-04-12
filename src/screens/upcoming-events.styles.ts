@@ -32,4 +32,8 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.border,
   },
+  pastText: {
+    opacity: 0.4,
+    textDecorationLine: "line-through",
+  },
 });
