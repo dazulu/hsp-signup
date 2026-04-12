@@ -25,9 +25,16 @@ export const styles = StyleSheet.create({
     borderRadius: radii.sm,
     backgroundColor: "#eef1fe",
   },
+  pillToday: {
+    backgroundColor: colors.successBackground,
+  },
   pillText: {
     fontSize: fontSize.xs,
     fontFamily: fontFamily.semibold,
     color: colors.primary,
+  },
+  pillTextToday: {
+    color: colors.successText,
+    includeFontPadding: false,
   },
 });

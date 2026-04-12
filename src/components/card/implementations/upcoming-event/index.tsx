@@ -72,10 +72,8 @@ export const UpcomingEventCard = () => {
     >
       <View style={styles.content}>
         {sortedEvents.map(({ item, sport }) => {
-          const countdown = buildCountdownLabel(
-            getEventCountdownDays(item.value),
-            t,
-          );
+          const days = getEventCountdownDays(item.value);
+          const countdown = buildCountdownLabel(days, t);
           return (
             <View key={sport} style={styles.row}>
               <Ionicons
@@ -89,8 +87,15 @@ export const UpcomingEventCard = () => {
                 {formatEventDate(item.value, locale)}
               </Text>
               {countdown ? (
-                <View style={styles.pill}>
-                  <Text style={styles.pillText}>{countdown}</Text>
+                <View style={[styles.pill, days === 0 && styles.pillToday]}>
+                  <Text
+                    style={[
+                      styles.pillText,
+                      days === 0 && styles.pillTextToday,
+                    ]}
+                  >
+                    {countdown}
+                  </Text>
                 </View>
               ) : null}
             </View>
