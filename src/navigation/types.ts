@@ -7,16 +7,16 @@ export type TabParamList = {
 };
 
 export type ClubStackParamList = {
-  Club: undefined;
+  ClubHome: undefined;
   UpcomingEvents: undefined;
 };
 
 export type TrainingStackParamList = {
-  Training: undefined;
+  TrainingHome: undefined;
   TrainingInfo: undefined;
 };
 
 export type PhotosStackParamList = {
-  Photos: undefined;
+  PhotosHome: undefined;
   GalleryDetail: { galleryId: string; galleryTitle: string };
 };

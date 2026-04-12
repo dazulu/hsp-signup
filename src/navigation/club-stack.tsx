@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator<ClubStackParamList>();
 
 export const ClubStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false, animation: "fade" }}>
-    <Stack.Screen name="Club" component={ClubScreen} />
+    <Stack.Screen name="ClubHome" component={ClubScreen} />
     <Stack.Screen name="UpcomingEvents" component={UpcomingEventsScreen} />
   </Stack.Navigator>
 );

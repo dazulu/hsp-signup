@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator<TrainingStackParamList>();
 
 export const TrainingStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false, animation: "fade" }}>
-    <Stack.Screen name="Training" component={TrainingScreen} />
+    <Stack.Screen name="TrainingHome" component={TrainingScreen} />
     <Stack.Screen name="TrainingInfo" component={TrainingInfoScreen} />
   </Stack.Navigator>
 );

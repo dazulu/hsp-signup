@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator<PhotosStackParamList>();
 
 export const PhotosStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false, animation: "fade" }}>
-    <Stack.Screen name="Photos" component={PhotosScreen} />
+    <Stack.Screen name="PhotosHome" component={PhotosScreen} />
     <Stack.Screen name="GalleryDetail" component={GalleryDetailScreen} />
   </Stack.Navigator>
 );
