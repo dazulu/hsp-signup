@@ -1,5 +1,8 @@
 import { Component, type ReactNode } from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { theme } from "../theme";
+
+const { colors, radii, space, fontFamily, fontSize } = theme;
 
 interface Props {
   children: ReactNode;
@@ -59,33 +62,33 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 32,
-    backgroundColor: "#f4f6fb",
+    padding: space[32],
+    backgroundColor: colors.surfaceInput,
   },
   title: {
-    fontSize: 18,
-    fontFamily: "jakarta-600",
-    color: "#1a1f36",
-    marginBottom: 12,
+    fontSize: fontSize.lg,
+    fontFamily: fontFamily.semibold,
+    color: colors.textPrimary,
+    marginBottom: space[12],
     textAlign: "center",
   },
   body: {
-    fontSize: 14,
-    color: "#6b7a99",
+    fontSize: fontSize.md,
+    color: colors.textMuted,
     textAlign: "center",
     lineHeight: 22,
-    marginBottom: 24,
+    marginBottom: space[24],
   },
   button: {
-    backgroundColor: "#4A6CF7",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 14,
+    backgroundColor: colors.primary,
+    paddingVertical: space[14],
+    paddingHorizontal: space[32],
+    borderRadius: radii.md,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 15,
-    fontFamily: "jakarta-600",
+    color: colors.textOnPrimary,
+    fontSize: fontSize.body,
+    fontFamily: fontFamily.semibold,
     textAlign: "center",
   },
 });
