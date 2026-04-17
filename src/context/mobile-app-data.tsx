@@ -75,15 +75,20 @@ export const MobileAppDataProvider = ({
     if (fetchingRef.current) {
       return;
     }
-    const [appDataResult, eventsResult] = await Promise.allSettled([
-      fetchMobileAppData(),
-      fetchEvents(false),
-    ]);
-    if (appDataResult.status === "fulfilled") {
-      setData(appDataResult.value as MobileAppData | null);
-    }
-    if (eventsResult.status === "fulfilled") {
-      setEvents(eventsResult.value as EventsData | null);
+    fetchingRef.current = true;
+    try {
+      const [appDataResult, eventsResult] = await Promise.allSettled([
+        fetchMobileAppData(),
+        fetchEvents(false),
+      ]);
+      if (appDataResult.status === "fulfilled") {
+        setData(appDataResult.value as MobileAppData | null);
+      }
+      if (eventsResult.status === "fulfilled") {
+        setEvents(eventsResult.value as EventsData | null);
+      }
+    } finally {
+      fetchingRef.current = false;
     }
   }, []);
 
