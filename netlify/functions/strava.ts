@@ -60,7 +60,12 @@ export const handler: Handler = async (event) => {
     );
 
     const activities = await httpsRequest<
-      Array<{ type: string; distance: number; moving_time: number }>
+      Array<{
+        type: string;
+        sport_type: string;
+        distance: number;
+        moving_time: number;
+      }>
     >(
       "www.strava.com",
       `/api/v3/clubs/${clubId}/activities?page=1&per_page=200`,
@@ -68,7 +73,9 @@ export const handler: Handler = async (event) => {
       { Authorization: `Bearer ${tokenData.access_token}` },
     );
 
-    const runs = activities.filter((activity) => activity.type === "Run");
+    const runs = activities.filter(
+      (activity) => activity.sport_type === "Run" || activity.type === "Run",
+    );
 
     const totalDistanceKm =
       runs.reduce((acc, activity) => acc + activity.distance, 0) / 1000;

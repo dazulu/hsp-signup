@@ -36,15 +36,18 @@ export const fetchStravaData = async (
       headers: { "x-api-key": API_KEY },
     });
     if (!res.ok) {
+      console.log(res.status, await res.text());
       throw new Error("Failed");
     }
     const fresh = (await res.json()) as StravaData;
+    console.log("fresh", fresh);
     await AsyncStorage.setItem(
       CACHE_KEY,
       JSON.stringify({ ts: Date.now(), data: fresh }),
     );
     return fresh;
-  } catch {
+  } catch (error) {
+    console.log("Strava fetch error:", (error as Error).message);
     return stale;
   }
 };
