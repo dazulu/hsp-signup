@@ -5,6 +5,7 @@ export type CardPadding = "sm" | "md";
 export type CardProps = {
   backgroundImage?: ImageSourcePropType;
   children?: React.ReactNode;
+  gradient?: readonly [string, string];
   onPress?: () => void;
   onLongPress?: () => void;
   delayLongPress?: number;

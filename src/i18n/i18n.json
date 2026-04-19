@@ -319,6 +319,21 @@
     "ga": "Am do chéad seisiún eile a chur in áirithe",
     "de": "Zeit, deine nächste Einheit zu buchen"
   },
+  "card.trainingPromo.heading": {
+    "en": "Come join us",
+    "ga": "Tar linn",
+    "de": "Mach mit"
+  },
+  "card.trainingPromo.body": {
+    "en": "New to Gaelic sports? Find out what to bring, where we train, and what to expect.",
+    "ga": "Nua do chluichí Gaelacha? Faigh amach cad a thabhairt leat, cá dtraenálaimid, agus cad a bheidh i ndán duit.",
+    "de": "Neu bei den Gälischen Sportarten? Erfahre, was du mitbringen solltest, wo wir trainieren und was dich erwartet."
+  },
+  "card.trainingPromo.dismiss": {
+    "en": "Don't show this again",
+    "ga": "Ná taispeáin seo arís",
+    "de": "Nicht mehr anzeigen"
+  },
   "card.links.title": {
     "en": "Links",
     "ga": "Naisc",

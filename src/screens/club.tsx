@@ -7,6 +7,7 @@ import { ClubLinksCard } from "../components/card/implementations/club-links";
 import { LastBookingCard } from "../components/card/implementations/last-booking";
 import { NoticeCard } from "../components/card/implementations/notice";
 import { StravaCards } from "../components/card/implementations/strava-cards";
+import { TrainingPromoCard } from "../components/card/implementations/training-promo";
 import { UpcomingEventCard } from "../components/card/implementations/upcoming-event";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { useMobileAppData } from "../context/mobile-app-data";
@@ -57,6 +58,7 @@ const ClubScrollContent = () => {
     >
       <CardGrid>
         <NoticeCard message={data?.notice ?? undefined} />
+        <TrainingPromoCard />
         <UpcomingEventCard />
         <StravaCards />
         <LastBookingCard />

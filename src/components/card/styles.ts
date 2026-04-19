@@ -22,10 +22,22 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0,
   },
+  cardGradient: {
+    backgroundColor: "transparent",
+  },
+  gradientFill: {
+    ...StyleSheet.absoluteFillObject,
+  },
   title: {
     fontSize: fontSize.sm,
     fontFamily: fontFamily.semibold,
     color: colors.textMuted,
+    marginBottom: space[4],
+  },
+  titleOnGradient: {
+    fontSize: fontSize.sm,
+    fontFamily: fontFamily.semibold,
+    color: "white",
     marginBottom: space[4],
   },
   titleRow: {

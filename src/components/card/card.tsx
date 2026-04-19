@@ -1,12 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { Image, Pressable, Text, View, type ViewStyle } from "react-native";
 import { theme } from "../../theme";
 import { TooltipModal } from "../modal";
-
-const { colors, space } = theme;
-
 import { styles } from "./styles";
 import type { CardProps } from "./types";
+
+const { colors, space } = theme;
 
 const SPAN_STYLES: Record<1 | 2, ViewStyle> = {
   1: { flex: 1 },
@@ -22,6 +22,7 @@ const TRANSPARENT_PADDING: Record<"sm" | "md", number> = {
 export const Card = ({
   backgroundImage,
   children,
+  gradient,
   title,
   padding = "sm",
   onPress,
@@ -38,6 +39,7 @@ export const Card = ({
     styles.card,
     ...(transparent ? [styles.cardTransparent] : []),
     ...(variant === "notice" ? [styles.cardNotice] : []),
+    ...(gradient ? [styles.cardGradient] : []),
     ...(spanStyle ? [spanStyle] : []),
     transparent
       ? {
@@ -46,6 +48,8 @@ export const Card = ({
         }
       : { padding: PADDING[padding] },
   ];
+
+  const titleStyle = gradient ? styles.titleOnGradient : styles.title;
 
   const tooltipIcon = tooltipText ? <TooltipModal text={tooltipText} /> : null;
 
@@ -58,6 +62,14 @@ export const Card = ({
         delayLongPress={delayLongPress}
         accessibilityRole="button"
       >
+        {gradient ? (
+          <LinearGradient
+            colors={gradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradientFill}
+          />
+        ) : null}
         {backgroundImage ? (
           <Image
             source={backgroundImage}
@@ -67,7 +79,7 @@ export const Card = ({
         ) : null}
         {title ? (
           <View style={styles.titleRow}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={titleStyle}>{title}</Text>
             {tooltipIcon}
             {transparent ? (
               <Ionicons
@@ -84,7 +96,7 @@ export const Card = ({
             <Ionicons
               name="chevron-forward"
               size={22}
-              color={colors.textMuted}
+              color={gradient ? "white" : colors.textMuted}
             />
           </View>
         ) : null}
@@ -94,6 +106,14 @@ export const Card = ({
 
   return (
     <View style={cardStyle}>
+      {gradient ? (
+        <LinearGradient
+          colors={gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradientFill}
+        />
+      ) : null}
       {backgroundImage ? (
         <Image
           source={backgroundImage}
@@ -104,11 +124,11 @@ export const Card = ({
       {title ? (
         tooltipText ? (
           <View style={styles.titleRow}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={titleStyle}>{title}</Text>
             {tooltipIcon}
           </View>
         ) : (
-          <Text style={styles.title}>{title}</Text>
+          <Text style={titleStyle}>{title}</Text>
         )
       ) : null}
       {children}
