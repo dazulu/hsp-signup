@@ -93,6 +93,16 @@ export const styles = StyleSheet.create({
     borderRadius: radii.md,
     marginTop: space[10],
   },
+  linkItemPrimary: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: space[12],
+    paddingHorizontal: space[16],
+    backgroundColor: colors.primary,
+    borderRadius: radii.md,
+    marginTop: space[14],
+  },
   linkItemPressed: {
     opacity: 0.7,
   },
@@ -101,5 +111,11 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.md,
     fontFamily: fontFamily.medium,
     color: colors.textMuted,
+  },
+  linkLabelPrimary: {
+    flex: 1,
+    fontSize: fontSize.md,
+    fontFamily: fontFamily.semibold,
+    color: "white",
   },
 });

@@ -11,7 +11,7 @@ import type { TrainingStackParamList } from "../navigation/types";
 import { theme } from "../theme";
 import { styles } from "./training-info.styles";
 
-const { colors, space } = theme;
+const { space } = theme;
 
 const HSP_SPORTS_URL =
   "https://www.hochschulsport.uni-hamburg.de/sportcampus/vona-z.html";
@@ -62,8 +62,37 @@ const TrainingInfoScrollContent = () => {
       scrollEventThrottle={16}
     >
       <CardGrid>
-        {/* Equipment card */}
+        {/* Getting Started — first card, most important for newcomers */}
+        <Card span={2} title={t("trainingInfo.membership.title")}>
+          <View style={styles.spacer} />
+          <Text style={styles.body}>{t("trainingInfo.membership.intro")}</Text>
+          <Step n={1} text={t("trainingInfo.membership.step1")} />
+          <Step n={2} text={t("trainingInfo.membership.step2")} />
+          <Step n={3} text={t("trainingInfo.membership.step3")} />
+          <Pressable
+            style={({ pressed }) => [
+              styles.linkItemPrimary,
+              pressed && styles.linkItemPressed,
+            ]}
+            onPress={() => Linking.openURL(HSP_SPORTS_URL)}
+            accessibilityRole="link"
+          >
+            <Text style={styles.linkLabelPrimary} numberOfLines={1}>
+              {t("trainingInfo.membership.link")}
+            </Text>
+            <Ionicons name="open-outline" size={16} color="white" />
+          </Pressable>
+        </Card>
+
+        {/* Equipment — general first, then sport-specific */}
         <Card span={2} title={t("trainingInfo.equipment.title")}>
+          <View style={styles.spacer} />
+          <Text style={styles.sectionTitle}>
+            {t("trainingInfo.equipment.generalTitle")}
+          </Text>
+          <Bullet text={t("trainingInfo.equipment.water")} />
+          <Bullet text={t("trainingInfo.equipment.towel")} />
+
           <View style={styles.spacer} />
           <Text style={styles.sectionTitle}>
             {t("trainingInfo.equipment.hurlingTitle")}
@@ -76,16 +105,7 @@ const TrainingInfoScrollContent = () => {
           <Text style={styles.sectionTitle}>
             {t("trainingInfo.equipment.footballTitle")}
           </Text>
-          <Text style={styles.body}>
-            {t("trainingInfo.equipment.footballBody")}
-          </Text>
-
-          <View style={styles.spacer} />
-          <Text style={styles.sectionTitle}>
-            {t("trainingInfo.equipment.generalTitle")}
-          </Text>
-          <Bullet text={t("trainingInfo.equipment.water")} />
-          <Bullet text={t("trainingInfo.equipment.towel")} />
+          <Bullet text={t("trainingInfo.equipment.footballBody")} semibold />
         </Card>
 
         {/* Hochschulsport facilities */}
@@ -94,33 +114,6 @@ const TrainingInfoScrollContent = () => {
           <Bullet text={t("trainingInfo.hsp.astroturf")} />
           <Bullet text={t("trainingInfo.hsp.changingRooms")} />
           <Bullet text={t("trainingInfo.hsp.waterFountain")} />
-          <Bullet text={t("trainingInfo.hsp.membershipNote")} semibold />
-
-          <View style={styles.spacer} />
-          <View style={styles.divider} />
-
-          <Text style={styles.sectionTitle}>
-            {t("trainingInfo.membership.title")}
-          </Text>
-
-          <View style={styles.spacer} />
-          <Text style={styles.body}>{t("trainingInfo.membership.intro")}</Text>
-          <Step n={1} text={t("trainingInfo.membership.step1")} />
-          <Step n={2} text={t("trainingInfo.membership.step2")} />
-          <Step n={3} text={t("trainingInfo.membership.step3")} />
-          <Pressable
-            style={({ pressed }) => [
-              styles.linkItem,
-              pressed && styles.linkItemPressed,
-            ]}
-            onPress={() => Linking.openURL(HSP_SPORTS_URL)}
-            accessibilityRole="link"
-          >
-            <Text style={styles.linkLabel} numberOfLines={1}>
-              {t("trainingInfo.membership.link")}
-            </Text>
-            <Ionicons name="open-outline" size={16} color={colors.textMuted} />
-          </Pressable>
         </Card>
 
         {/* Stadtpark facilities */}
