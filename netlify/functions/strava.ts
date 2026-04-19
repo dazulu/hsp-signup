@@ -73,11 +73,6 @@ export const handler: Handler = async (event) => {
       { Authorization: `Bearer ${tokenData.access_token}` },
     );
 
-    const uniqueTypes = [
-      ...new Set(activities.map((a) => a.sport_type ?? a.type)),
-    ];
-    console.log("Activity count:", activities.length, "Types:", uniqueTypes);
-
     const runs = activities.filter(
       (activity) => activity.sport_type === "Run" || activity.type === "Run",
     );
