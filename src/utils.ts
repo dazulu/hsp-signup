@@ -95,6 +95,27 @@ export const formatEventDate = (dateString: string, locale: Locale): string => {
   return formatted;
 };
 
+export const isValidEventDate = (dateString: string): boolean =>
+  parseStoredEventDate(dateString) !== null;
+
+export const sortContentfulEventsByDate = <T extends { value: string }>(
+  items: T[],
+): T[] =>
+  [...items].sort((a, b) => {
+    const dateA = parseStoredEventDate(a.value);
+    const dateB = parseStoredEventDate(b.value);
+    if (!dateA && !dateB) {
+      return 0;
+    }
+    if (!dateA) {
+      return 1;
+    }
+    if (!dateB) {
+      return -1;
+    }
+    return dateA.getTime() - dateB.getTime();
+  });
+
 export const isDateInPast = (dateString: string): boolean => {
   const date = parseStoredEventDate(dateString);
   if (!date) {

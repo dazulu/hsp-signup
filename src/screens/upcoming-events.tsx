@@ -10,7 +10,11 @@ import { useLocale } from "../i18n";
 import type { ClubStackParamList } from "../navigation/types";
 import type { ContentfulItem } from "../services/contentful/types";
 import { theme } from "../theme";
-import { formatEventDate, isDateInPast } from "../utils";
+import {
+  formatEventDate,
+  isDateInPast,
+  sortContentfulEventsByDate,
+} from "../utils";
 import { styles } from "./upcoming-events.styles";
 
 const { space } = theme;
@@ -18,7 +22,10 @@ const { space } = theme;
 type SportEvent = { location: string; date: string };
 
 const toEvents = (items: ContentfulItem[]): SportEvent[] =>
-  items.map((item) => ({ location: item.key, date: item.value }));
+  sortContentfulEventsByDate(items).map((item) => ({
+    location: item.key,
+    date: item.value,
+  }));
 
 const UpcomingEventsContent = () => {
   const { contentPaddingTop, onScrollHandler } = useScreenLayout();

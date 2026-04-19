@@ -11,7 +11,8 @@ import {
   formatEventDate,
   getEventCountdownDays,
   isDateInPast,
-  parseStoredEventDate,
+  isValidEventDate,
+  sortContentfulEventsByDate,
 } from "../../../../utils";
 import { Card, cardStyles } from "../../";
 import { styles } from "./styles";
@@ -43,31 +44,26 @@ export const UpcomingEventCard = () => {
   const { events } = useMobileAppData();
 
   const footballFirst: ContentfulItem | undefined = events?.football.find(
-    (item) => !isDateInPast(item.value),
+    (item) => isValidEventDate(item.value) && !isDateInPast(item.value),
   );
   const hurlingFirst: ContentfulItem | undefined = events?.hurling.find(
-    (item) => !isDateInPast(item.value),
+    (item) => isValidEventDate(item.value) && !isDateInPast(item.value),
   );
 
   if (!footballFirst && !hurlingFirst) {
     return null;
   }
 
-  const sortedEvents: Array<{
-    item: ContentfulItem;
-    sport: "football" | "hurling";
-  }> = [
-    ...(footballFirst
-      ? [{ item: footballFirst, sport: "football" as const }]
-      : []),
-    ...(hurlingFirst
-      ? [{ item: hurlingFirst, sport: "hurling" as const }]
-      : []),
-  ].sort(
-    (a, b) =>
-      (parseStoredEventDate(a.item.value)?.getTime() ?? 0) -
-      (parseStoredEventDate(b.item.value)?.getTime() ?? 0),
-  );
+  const sortedEvents = sortContentfulEventsByDate(
+    [footballFirst, hurlingFirst].filter(
+      (item): item is ContentfulItem => item !== undefined,
+    ),
+  ).map((item) => ({
+    item,
+    sport: (item === footballFirst ? "football" : "hurling") as
+      | "football"
+      | "hurling",
+  }));
 
   return (
     <Card
