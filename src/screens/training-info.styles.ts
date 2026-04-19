@@ -118,4 +118,32 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.semibold,
     color: "white",
   },
+  quoteText: {
+    fontSize: fontSize.xl,
+    fontFamily: fontFamily.semibold,
+    color: colors.textPrimary,
+    lineHeight: 28,
+    fontStyle: "italic",
+    textAlign: "center",
+    includeFontPadding: false,
+  },
+  quoteAttribution: {
+    fontSize: fontSize.sm,
+    fontFamily: fontFamily.semibold,
+    color: colors.textPrimary,
+    includeFontPadding: false,
+  },
+  quotePersonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: space[8],
+    marginTop: space[12],
+  },
+  quoteAvatar: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: colors.surfaceInput,
+  },
 });

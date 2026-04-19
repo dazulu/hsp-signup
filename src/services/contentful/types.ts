@@ -29,6 +29,7 @@ export type ContentfulAsset = {
 
 export type ContentfulIncludes = {
   Asset?: ContentfulAsset[];
+  Entry?: ContentfulEntry<Record<string, unknown>>[];
 };
 
 export type ContentfulCollection<TFields> = {
@@ -98,4 +99,30 @@ export type Gallery = {
   year: number;
   cover: ContentfulImageInfo;
   items: ContentfulImageInfo[];
+};
+
+// --- Quote types ---
+
+export type ContentfulEntryLink = {
+  sys: { type: "Link"; linkType: "Entry"; id: string };
+};
+
+export type PersonFields = {
+  name: string;
+  image: ContentfulAssetLink;
+};
+
+export type QuoteFields = {
+  quoteText: string;
+  person?: ContentfulEntryLink;
+};
+
+export type TrainingQuotePerson = {
+  name: string;
+  imageUrl: string;
+};
+
+export type TrainingQuote = {
+  quoteText: string;
+  person?: TrainingQuotePerson;
 };

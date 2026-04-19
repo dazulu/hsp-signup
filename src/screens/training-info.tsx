@@ -2,10 +2,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useRef } from "react";
-import { Linking, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card, CardGrid } from "../components/card";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
+import { useTrainingQuote } from "../hooks/use-training-quote";
 import { useLocale } from "../i18n";
 import type { TrainingStackParamList } from "../navigation/types";
 import { theme } from "../theme";
@@ -38,8 +46,9 @@ const TrainingInfoScrollContent = () => {
   const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
     useScreenLayout();
   const { bottom } = useSafeAreaInsets();
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const scrollRef = useRef<ScrollView>(null);
+  const trainingQuote = useTrainingQuote();
 
   useFocusEffect(
     useCallback(() => {
@@ -62,29 +71,6 @@ const TrainingInfoScrollContent = () => {
       scrollEventThrottle={16}
     >
       <CardGrid>
-        {/* Getting Started — first card, most important for newcomers */}
-        <Card span={2} title={t("trainingInfo.membership.title")}>
-          <View style={styles.spacer} />
-          <Text style={styles.body}>{t("trainingInfo.membership.intro")}</Text>
-          <Step n={1} text={t("trainingInfo.membership.step1")} />
-          <Step n={2} text={t("trainingInfo.membership.step2")} />
-          <Step n={3} text={t("trainingInfo.membership.step3")} />
-          <Pressable
-            style={({ pressed }) => [
-              styles.linkItemPrimary,
-              pressed && styles.linkItemPressed,
-            ]}
-            onPress={() => Linking.openURL(HSP_SPORTS_URL)}
-            accessibilityRole="link"
-          >
-            <Text style={styles.linkLabelPrimary} numberOfLines={1}>
-              {t("trainingInfo.membership.link")}
-            </Text>
-            <Ionicons name="open-outline" size={16} color="white" />
-          </Pressable>
-        </Card>
-
-        {/* Equipment — general first, then sport-specific */}
         <Card span={2} title={t("trainingInfo.equipment.title")}>
           <View style={styles.spacer} />
           <Text style={styles.sectionTitle}>
@@ -108,7 +94,50 @@ const TrainingInfoScrollContent = () => {
           <Bullet text={t("trainingInfo.equipment.footballBody")} semibold />
         </Card>
 
-        {/* Hochschulsport facilities */}
+        {trainingQuote !== null ? (
+          <Card span={2} transparent>
+            <Text style={styles.quoteText}>
+              {locale === "de" ? "\u201E" : "\u201C"}
+              {trainingQuote.quoteText}
+              {locale === "de" ? "\u201C" : "\u201D"}
+            </Text>
+            {trainingQuote.person !== undefined ? (
+              <View style={styles.quotePersonRow}>
+                {trainingQuote.person.imageUrl !== "" ? (
+                  <Image
+                    source={{ uri: trainingQuote.person.imageUrl }}
+                    style={styles.quoteAvatar}
+                  />
+                ) : null}
+                <Text style={styles.quoteAttribution}>
+                  {trainingQuote.person.name}
+                </Text>
+              </View>
+            ) : null}
+          </Card>
+        ) : null}
+
+        <Card span={2} title={t("trainingInfo.membership.title")}>
+          <View style={styles.spacer} />
+          <Text style={styles.body}>{t("trainingInfo.membership.intro")}</Text>
+          <Step n={1} text={t("trainingInfo.membership.step1")} />
+          <Step n={2} text={t("trainingInfo.membership.step2")} />
+          <Step n={3} text={t("trainingInfo.membership.step3")} />
+          <Pressable
+            style={({ pressed }) => [
+              styles.linkItemPrimary,
+              pressed && styles.linkItemPressed,
+            ]}
+            onPress={() => Linking.openURL(HSP_SPORTS_URL)}
+            accessibilityRole="link"
+          >
+            <Text style={styles.linkLabelPrimary} numberOfLines={1}>
+              {t("trainingInfo.membership.link")}
+            </Text>
+            <Ionicons name="open-outline" size={16} color="white" />
+          </Pressable>
+        </Card>
+
         <Card span={2} title={t("trainingInfo.hsp.title")}>
           <View style={styles.spacer} />
           <Bullet text={t("trainingInfo.hsp.astroturf")} />
@@ -116,7 +145,6 @@ const TrainingInfoScrollContent = () => {
           <Bullet text={t("trainingInfo.hsp.waterFountain")} />
         </Card>
 
-        {/* Stadtpark facilities */}
         <Card span={2} title={t("trainingInfo.stadtpark.title")}>
           <View style={styles.spacer} />
           <Text style={styles.body}>{t("trainingInfo.stadtpark.body")}</Text>

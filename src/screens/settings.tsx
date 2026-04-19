@@ -44,6 +44,7 @@ const STORAGE_KEYS = [
   "app_has_opened_before",
   "app_locale",
   "app_training_promo_dismissed",
+  "app_contentful_quote",
 ];
 
 const SettingsScrollContent = () => {

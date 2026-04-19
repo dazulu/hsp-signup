@@ -465,9 +465,9 @@
     "de": "Trainingsinfos"
   },
   "training.infoCard.body": {
-    "en": "What to bring, locations, facilities and everything you need to know.",
-    "ga": "Cad ba cheart a thabhairt leat, suíomhanna, áiseanna agus gach rud is gá a fhios agat.",
-    "de": "Was du mitbringen solltest, Standorte, Einrichtungen und alles Wissenswerte."
+    "en": "New or returning? Find out what to bring, what to expect, and how to get started.",
+    "ga": "Nua nó ag filleadh? Faigh amach cad a thabhairt leat, cad a bheidh i ndán duit, agus conas tosú.",
+    "de": "Neu oder zurück? Erfahre, was du mitbringen solltest, was dich erwartet und wie du loslegst."
   },
   "trainingInfo.title": {
     "en": "Training Information",
@@ -550,9 +550,9 @@
     "de": "Loslegen"
   },
   "trainingInfo.membership.intro": {
-    "en": "To train at Hochschulsport you must first have an active membership. Here's how to get set up:",
-    "ga": "Chun traenáil ag Hochschulsport caithfidh ballraíocht ghníomhach a bheith agat ar dtús. Seo conas é a shocrú:",
-    "de": "Um am Hochschulsport zu trainieren, brauchst du zuerst eine aktive Mitgliedschaft. So richtest du sie ein:"
+    "en": "An HSP Hamburg membership is a one-time setup that gives you access to over 100 sports at the university — training with us included. Here's how to get set up:",
+    "ga": "Is socrú aonuaire é ballraíocht HSP Hamburg a thugann rochtain duit ar bhreis agus 100 spórt ag an ollscoil — traenáil linn san áireamh. Seo conas é a shocrú:",
+    "de": "Eine HSP Hamburg Mitgliedschaft ist eine einmalige Einrichtung, die dir Zugang zu über 100 Sportarten an der Universität verschafft — Training mit uns inklusive. So richtest du sie ein:"
   },
   "trainingInfo.membership.step1": {
     "en": "Visit the Hochschulsport website and find Hurling/Camogie or Gaelic Football under the A-Z sports list.",

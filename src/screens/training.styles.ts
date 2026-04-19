@@ -60,6 +60,21 @@ export const styles = StyleSheet.create({
     color: colors.textMuted,
     lineHeight: 20,
   },
+  infoCardRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space[12],
+    marginTop: space[10],
+  },
+  infoCardImage: {
+    width: 72,
+    height: 72,
+    borderRadius: radii.md,
+    backgroundColor: colors.surfaceInput,
+  },
+  infoCardText: {
+    flex: 1,
+  },
   credits: {
     marginTop: space[16],
     fontSize: fontSize.xs,

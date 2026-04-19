@@ -58,7 +58,15 @@ const TrainingScrollContent = () => {
           title={t("training.infoCard.title")}
           onPress={() => navigation.navigate("TrainingInfo")}
         >
-          <Text style={styles.introText}>{t("training.infoCard.body")}</Text>
+          <View style={styles.infoCardRow}>
+            <Image
+              source={require("../../assets/training-group.png")}
+              style={styles.infoCardImage}
+            />
+            <Text style={[styles.introText, styles.infoCardText]}>
+              {t("training.infoCard.body")}
+            </Text>
+          </View>
         </Card>
 
         {/* Hochschulsport card */}

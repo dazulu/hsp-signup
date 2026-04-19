@@ -3,6 +3,7 @@ import type {
   ContentfulAsset,
   ContentfulAssetLink,
   ContentfulCollection,
+  ContentfulEntry,
   ContentfulImageInfo,
   ContentfulItem,
   ContentfulQueryParams,
@@ -10,7 +11,10 @@ import type {
   GalleryFields,
   MobileAppData,
   MobileAppDataFields,
+  PersonFields,
+  QuoteFields,
   RepeatingItemsFields,
+  TrainingQuote,
 } from "./types";
 
 const SPACE_ID = process.env.EXPO_PUBLIC_CONTENTFUL_SPACE_ID ?? "";
@@ -194,5 +198,90 @@ export const fetchGalleries = async (
       return stale;
     }
     throw error;
+  }
+};
+
+// --- Quote ---
+
+const QUOTE_CACHE_KEY = "app_contentful_quote";
+const QUOTE_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+export const fetchTrainingQuote = async (
+  force = false,
+): Promise<TrainingQuote | null> => {
+  let stale: TrainingQuote | null = null;
+
+  try {
+    const raw = await AsyncStorage.getItem(QUOTE_CACHE_KEY);
+    if (raw) {
+      const cached = JSON.parse(raw) as {
+        ts: number;
+        data: TrainingQuote | null;
+      };
+      if (
+        !force &&
+        cached.data !== null &&
+        Date.now() - cached.ts < QUOTE_CACHE_TTL_MS
+      ) {
+        return cached.data;
+      }
+      stale = cached.data;
+    }
+  } catch {
+    // Corrupted cache — ignore and fetch fresh
+  }
+
+  try {
+    const data = await fetchContentful<QuoteFields>({
+      content_type: "quote",
+      "metadata.tags.sys.id[in]": "mobileTrainingQuote",
+      include: 2,
+      limit: 1,
+    });
+    const item = data.items[0];
+
+    let result: TrainingQuote | null = null;
+
+    if (item) {
+      result = { quoteText: item.fields.quoteText };
+      const personLink = item.fields.person;
+      if (personLink) {
+        const entries = data.includes?.Entry ?? [];
+        const assets = data.includes?.Asset ?? [];
+        const personEntry = entries.find(
+          (entry) => entry.sys.id === personLink.sys.id,
+        ) as ContentfulEntry<PersonFields> | undefined;
+
+        if (personEntry) {
+          const imageAsset = personEntry.fields.image
+            ? assets.find(
+                (asset) => asset.sys.id === personEntry.fields.image.sys.id,
+              )
+            : undefined;
+          result.person = {
+            name: personEntry.fields.name,
+            imageUrl: imageAsset
+              ? imageAsset.fields.file.url.startsWith("//")
+                ? `https:${imageAsset.fields.file.url}`
+                : imageAsset.fields.file.url
+              : "",
+          };
+        }
+      }
+    }
+
+    // Only cache non-null results — avoids locking out a null for a full TTL
+    // when the Contentful entry doesn't exist yet.
+    if (result !== null) {
+      await AsyncStorage.setItem(
+        QUOTE_CACHE_KEY,
+        JSON.stringify({ ts: Date.now(), data: result }),
+      );
+    } else {
+      await AsyncStorage.removeItem(QUOTE_CACHE_KEY);
+    }
+    return result;
+  } catch {
+    return stale;
   }
 };
