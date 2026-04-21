@@ -1234,15 +1234,15 @@
     "ga": "Cosúil ó thaobh méide agus cruth le liathróid sacair ach beagán níos troime agus le greim níos fearr. Tá an liathróid deartha le haghaidh ciceáil agus lámhphasáil araon.",
     "de": "Ähnlich in Größe und Form wie ein Fußball, aber etwas schwerer und mit besserem Grip. Der Ball ist sowohl für Tritte als auch für Handpässe konzipiert."
   },
-  "learn.football.equipment.boots.name": {
-    "en": "Boots",
-    "ga": "Bróga Peile",
-    "de": "Fußballschuhe"
+  "learn.football.equipment.gumshield.name": {
+    "en": "Gumshield",
+    "ga": "Garda Béil",
+    "de": "Mundschutz"
   },
-  "learn.football.equipment.boots.description": {
-    "en": "Standard football boots with moulded studs are ideal. No specialised equipment beyond boots is strictly required, though many players also wear a mouthguard.",
-    "ga": "Tá bróga peile caighdeánacha le stodanna múnlaithe oiriúnach. Níl aon trealamh speisialta thar bhróga riachtanach go docht, cé go gcaitheann go leor imreoirí garda béil freisin.",
-    "de": "Standard-Fußballschuhe mit Formstollen sind ideal. Keine spezielle Ausrüstung über Schuhe hinaus ist zwingend erforderlich, obwohl viele Spieler auch einen Mundschutz tragen."
+  "learn.football.equipment.gumshield.description": {
+    "en": "A mouthguard is strongly recommended and worn by most players. It protects teeth and reduces the risk of concussion during physical contact.",
+    "ga": "Moltar go láidir garda béil agus caitheann an chuid is mó de na himreoirí é. Cosnaíonn sé fiacla agus laghdaíonn sé an baol concussion le linn teagmháil fhisiciúil.",
+    "de": "Ein Mundschutz wird dringend empfohlen und von den meisten Spielern getragen. Er schützt die Zähne und verringert das Risiko einer Gehirnerschütterung bei Körperkontakt."
   },
   "learn.football.drills.solorun.title": {
     "en": "Solo Run (Toe-Tap)",

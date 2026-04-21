@@ -238,9 +238,10 @@ export const LEARN_CONTENT: Record<LearnSport, SportContent> = {
         placeholderUrl: "https://placehold.co/160x160/e8ecf4/4b5a8c?text=Ball",
       },
       {
-        nameKey: "learn.football.equipment.boots.name",
-        descriptionKey: "learn.football.equipment.boots.description",
-        placeholderUrl: "https://placehold.co/160x160/e8ecf4/4b5a8c?text=Boots",
+        nameKey: "learn.football.equipment.gumshield.name",
+        descriptionKey: "learn.football.equipment.gumshield.description",
+        placeholderUrl:
+          "https://placehold.co/160x160/e8ecf4/4b5a8c?text=Gumshield",
       },
     ],
     drills: [
