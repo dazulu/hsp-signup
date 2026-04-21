@@ -648,5 +648,705 @@
     "en": "Not through the app. Please let the trainer know directly via e.g. WhatsApp to say you can't make it.",
     "ga": "Ní féidir trid an app. Cuir in iút don traenálaí go díreach trí WhatsApp nó a leitéid má ní féidir leat a bheith ann.",
     "de": "Nicht über die App. Bitte sag dem Trainer direkt Bescheid, z.B. per WhatsApp, dass du nicht kommen kannst."
+  },
+  "tab.learn": {
+    "en": "Learn",
+    "ga": "Foghlaim",
+    "de": "Lernen"
+  },
+  "learn.title": {
+    "en": "Learn",
+    "ga": "Foghlaim",
+    "de": "Lernen"
+  },
+  "learn.subtitle": {
+    "en": "Discover Gaelic Games",
+    "ga": "Aimsigh Cluichí Gaelacha",
+    "de": "Entdecke Gälische Spiele"
+  },
+  "learn.hero.heading": {
+    "en": "The Ancient Games of Ireland",
+    "ga": "Seanachluichí na hÉireann",
+    "de": "Die alten Spiele Irlands"
+  },
+  "learn.hero.body": {
+    "en": "Explore the history, rules, equipment, and drills for each of our Gaelic sports.",
+    "ga": "Déan iniúchadh ar stair, rialacha, trealamh agus cleachtaí gach ceann dár gcluichí Gaelacha.",
+    "de": "Entdecke die Geschichte, Regeln, Ausrüstung und Übungen unserer gälischen Sportarten."
+  },
+  "learn.sport.hurling": {
+    "en": "Hurling",
+    "ga": "Iomáint",
+    "de": "Hurling"
+  },
+  "learn.sport.camogie": {
+    "en": "Camogie",
+    "ga": "Camógaíocht",
+    "de": "Camogie"
+  },
+  "learn.sport.football": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic Football"
+  },
+  "learn.section.history": {
+    "en": "History",
+    "ga": "Stair",
+    "de": "Geschichte"
+  },
+  "learn.section.rules": {
+    "en": "Rules",
+    "ga": "Rialacha",
+    "de": "Regeln"
+  },
+  "learn.section.equipment": {
+    "en": "Equipment",
+    "ga": "Trealamh",
+    "de": "Ausrüstung"
+  },
+  "learn.section.drills": {
+    "en": "Drills",
+    "ga": "Cleachtaí",
+    "de": "Übungen"
+  },
+  "learn.hurling.tagline": {
+    "en": "The fastest field sport in the world, and one of the oldest",
+    "ga": "An cluiche páirce is tapúla ar domhan, agus ceann de na cinn is sine",
+    "de": "Der schnellste und älteste Feldsport der Welt"
+  },
+  "learn.hurling.history.intro": {
+    "en": "Hurling is one of the oldest field games in the world, with roots stretching back over 3,000 years in Irish mythology and history. It is mentioned in the earliest Irish texts and was played by legendary heroes like Cú Chulainn.",
+    "ga": "Is é an iomáint ceann de na cluichí páirce is sine ar domhan, le fréamhacha a théann siar breis is 3,000 bliain i miotaseolaíocht agus stair na hÉireann. Luaitear é sna téacsanna Gaeilge is luaithe agus d'imir laochra finscéalacha ar nós Chú Chulainn é.",
+    "de": "Hurling ist eines der ältesten Feldspiele der Welt. Seine Wurzeln reichen über 3.000 Jahre in die irische Mythologie und Geschichte zurück. Es wird in den frühesten irischen Texten erwähnt und wurde von legendären Helden wie Cú Chulainn gespielt."
+  },
+  "learn.hurling.history.body": {
+    "en": "The modern game was formalised when the Gaelic Athletic Association (GAA) was founded in 1884 in Thurles, County Tipperary. Today, hurling is played across Ireland and in GAA clubs worldwide, including here in Hamburg. The All-Ireland Senior Hurling Championship is the sport's premier competition, drawing tens of thousands of spectators to Croke Park each summer.",
+    "ga": "Cuireadh an cluiche nua-aimseartha ar bhonn foirmiúil nuair a bunaíodh Cumann Lúthchleas Gael (CLG) i 1884 i nDurlas, Contae Thiobraid Árann. Sa lá atá inniu ann, imrítear an iomáint ar fud na hÉireann agus i gcluib CLG ar fud an domhain, anseo i Hamburg san áireamh. Is é Craobh Shinsir Iomána na hÉireann príomhchomórtas an spóirt, a mheallann na mílte lucht féachana go Páirc an Chrócaigh gach samhradh.",
+    "de": "Das moderne Spiel wurde formalisiert, als die Gaelic Athletic Association (GAA) 1884 in Thurles, County Tipperary, gegründet wurde. Heute wird Hurling in ganz Irland und in GAA-Vereinen weltweit gespielt, auch hier in Hamburg. Die All-Ireland Senior Hurling Championship ist der wichtigste Wettbewerb des Sports und zieht jeden Sommer Zehntausende Zuschauer in den Croke Park."
+  },
+  "learn.hurling.history.stat1.label": {
+    "en": "First official match",
+    "ga": "Chéad chluiche oifigiúil",
+    "de": "Erstes offizielles Spiel"
+  },
+  "learn.hurling.history.stat1.value": {
+    "en": "1884",
+    "ga": "1884",
+    "de": "1884"
+  },
+  "learn.hurling.history.stat2.label": {
+    "en": "County teams",
+    "ga": "Foirne contae",
+    "de": "County-Teams"
+  },
+  "learn.hurling.history.stat2.value": {
+    "en": "30+",
+    "ga": "30+",
+    "de": "30+"
+  },
+  "learn.hurling.history.stat3.label": {
+    "en": "GAA founded",
+    "ga": "CLG bunaithe",
+    "de": "GAA gegründet"
+  },
+  "learn.hurling.history.stat3.value": {
+    "en": "1884",
+    "ga": "1884",
+    "de": "1884"
+  },
+  "learn.hurling.rules.scoring": {
+    "en": "A goal (into the net) is worth 3 points. A point (over the crossbar) is worth 1 point. Scores are written as Goals-Points, e.g. 1-05 means 1 goal and 5 points (8 total).",
+    "ga": "Is fiú 3 phointe báire (isteach sa líontán). Is fiú 1 phointe cúilín (thar an trasnán). Scríobhtar scóir mar Báirí-Pointí, m.sh. 1-05 ciallaíonn 1 báire agus 5 phointe (8 ar fad).",
+    "de": "Ein Goal (ins Netz) zählt 3 Punkte. Ein Point (über die Querlatte) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 1-05 bedeutet 1 Goal und 5 Points (8 insgesamt)."
+  },
+  "learn.hurling.rules.rule1": {
+    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
+    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lárpháirtí, agus 6 thosaithe.",
+    "de": "Jedes Team besteht aus 15 Spielern: 1 Torwart, 6 Verteidiger, 2 Mittelfeldspieler und 6 Stürmer."
+  },
+  "learn.hurling.rules.rule2": {
+    "en": "The ball (sliotar) may be struck with the hurley on the ground or in the air.",
+    "ga": "Féadtar an liathróid (sliotar) a bhualadh leis an gcamán ar an talamh nó san aer.",
+    "de": "Der Ball (Sliotar) darf mit dem Hurley am Boden oder in der Luft geschlagen werden."
+  },
+  "learn.hurling.rules.rule3": {
+    "en": "Players may catch the ball in the hand but cannot carry it for more than 4 steps. After that, they must bounce or balance it on the hurley (solo).",
+    "ga": "Féadann imreoirí an liathróid a ghabháil sa lámh ach ní féidir leo í a iompar ar feadh níos mó ná 4 chéim. Ina dhiaidh sin, caithfidh siad í a phreabadh nó í a chothromú ar an gcamán (aonair).",
+    "de": "Spieler dürfen den Ball fangen, aber nicht mehr als 4 Schritte tragen. Danach muss er geprellt oder auf dem Hurley balanciert werden (Solo)."
+  },
+  "learn.hurling.rules.rule4": {
+    "en": "The ball may not be picked up directly from the ground with the hand. Instead, it must be lifted with the hurley.",
+    "ga": "Ní féidir an liathróid a thógáil díreach ón talamh leis an lámh. Ina áit sin, caithfear í a ardú leis an gcamán.",
+    "de": "Der Ball darf nicht direkt mit der Hand vom Boden aufgehoben werden. Stattdessen muss er mit dem Hurley aufgenommen werden."
+  },
+  "learn.hurling.rules.rule5": {
+    "en": "A player may hand-pass the ball (strike it with the fist) but not throw it.",
+    "ga": "Féadann imreoir an liathróid a lámhphasáil (í a bhualadh leis an dorn) ach ní féidir í a chaitheamh.",
+    "de": "Ein Spieler darf den Ball per Handpass spielen (mit der Faust schlagen), aber nicht werfen."
+  },
+  "learn.hurling.rules.rule6": {
+    "en": "Shoulder-to-shoulder tackles are permitted, but tripping, pushing, or pulling is not allowed.",
+    "ga": "Ceadaítear tacláil gualainn ar ghualainn, ach ní cheadaítear cos a chur faoi, brú, ná tarraingt.",
+    "de": "Schulter-an-Schulter-Tackles sind erlaubt, aber Treten, Schubsen oder Ziehen ist verboten."
+  },
+  "learn.hurling.rules.rule7": {
+    "en": "A match consists of two halves of 30 minutes (adult) or 20 minutes (underage). Helmets are mandatory for all players.",
+    "ga": "Bíonn dhá leath de 30 nóiméad (fásta) nó 20 nóiméad (faoi aois) i gcluiche. Tá clogaid éigeantach do gach imreoir.",
+    "de": "Ein Spiel besteht aus zwei Halbzeiten von 30 Minuten (Erwachsene) oder 20 Minuten (Jugend). Helme sind für alle Spieler Pflicht."
+  },
+  "learn.hurling.equipment.hurley.name": {
+    "en": "Hurley (Camán)",
+    "ga": "Camán",
+    "de": "Hurley (Camán)"
+  },
+  "learn.hurling.equipment.hurley.description": {
+    "en": "A wooden stick made from ash, about 90–95 cm long, with a flat, curved end (the bas) used to strike the ball. Each hurley is handcrafted and varies in weight and feel.",
+    "ga": "Bata adhmaid déanta as fuinseog, thart ar 90–95 cm ar fad, le deireadh cothrom, cuar (an bas) a úsáidtear chun an liathróid a bhualadh. Déantar gach camán de láimh agus bíonn meáchan agus mothú éagsúil acu.",
+    "de": "Ein Holzschläger aus Eschenholz, etwa 90–95 cm lang, mit einem flachen, gebogenen Ende (dem Bas), mit dem der Ball geschlagen wird. Jeder Hurley wird handgefertigt und variiert in Gewicht und Gefühl."
+  },
+  "learn.hurling.equipment.sliotar.name": {
+    "en": "Sliotar",
+    "ga": "Sliotar",
+    "de": "Sliotar"
+  },
+  "learn.hurling.equipment.sliotar.description": {
+    "en": "The ball used in hurling. Similar in size to a tennis ball but harder, with a cork core wrapped in leather. It can travel at speeds over 150 km/h when struck.",
+    "ga": "An liathróid a úsáidtear san iomáint. Cosúil le liathróid leadóige ó thaobh méide ach níos crua, le croílár coirce clúdaithe le leathar. Féadann sí taisteal ar luasanna os cionn 150 km/u nuair a bhuailtear í.",
+    "de": "Der Ball im Hurling. Ähnlich groß wie ein Tennisball, aber härter, mit einem Korkkern, der mit Leder umwickelt ist. Er kann beim Schlag Geschwindigkeiten über 150 km/h erreichen."
+  },
+  "learn.hurling.equipment.helmet.name": {
+    "en": "Helmet with Faceguard",
+    "ga": "Clogad le Gáirdghrílle",
+    "de": "Helm mit Gesichtsschutz"
+  },
+  "learn.hurling.equipment.helmet.description": {
+    "en": "Mandatory for all players. A reinforced helmet with a metal faceguard protects against accidental strikes from the hurley or sliotar.",
+    "ga": "Éigeantach do gach imreoir. Cosnaíonn clogad treisithe le gáirdghrílle miotail in aghaidh buillí taismeacha ón gcamán nó ón sliotar.",
+    "de": "Pflicht für alle Spieler. Ein verstärkter Helm mit Metallgesichtsschutz schützt vor versehentlichen Treffern durch Hurley oder Sliotar."
+  },
+  "learn.hurling.drills.wallball.title": {
+    "en": "Wall Ball",
+    "ga": "Liathróid an Bhalla",
+    "de": "Wandball"
+  },
+  "learn.hurling.drills.wallball.description": {
+    "en": "Improve your striking accuracy and first touch by hitting the sliotar against a wall and controlling the return.",
+    "ga": "Feabhsaigh do chruinneas buailte agus do chéad tadhaill trí an sliotar a bhualadh in aghaidh balla agus an pilleadh a rialú.",
+    "de": "Verbessere deine Schlaggenauigkeit und erste Ballberührung, indem du den Sliotar gegen eine Wand schlägst und den Rückprall kontrollierst."
+  },
+  "learn.hurling.drills.wallball.step1": {
+    "en": "Stand about 5 metres from a solid wall with your hurley and sliotar.",
+    "ga": "Seas thart ar 5 mhéadar ó bhalla daingean le do chamán agus sliotar.",
+    "de": "Stelle dich etwa 5 Meter vor eine feste Wand mit Hurley und Sliotar."
+  },
+  "learn.hurling.drills.wallball.step2": {
+    "en": "Strike the sliotar against the wall using your dominant side. Focus on a clean, flat contact with the bas.",
+    "ga": "Buail an sliotar in aghaidh an bhalla ar do thaobh láidir. Dírigh ar theagmháil ghlan, chothrom leis an mbas.",
+    "de": "Schlage den Sliotar mit deiner starken Seite gegen die Wand. Achte auf einen sauberen, flachen Kontakt mit dem Bas."
+  },
+  "learn.hurling.drills.wallball.step3": {
+    "en": "Catch or control the rebound on your hurley. Alternate between catching and controlling.",
+    "ga": "Beir ar an bpreabadh nó rialaigh é ar do chamán. Malartaigh idir breith agus rialú.",
+    "de": "Fange oder kontrolliere den Rückprall auf deinem Hurley. Wechsle zwischen Fangen und Kontrollieren."
+  },
+  "learn.hurling.drills.wallball.step4": {
+    "en": "Repeat on your weaker side. Aim for 50 strikes per side as a starting goal.",
+    "ga": "Déan arís ar do thaobh lag. Aimsigh 50 buille ar gach taobh mar sprioc tosaithe.",
+    "de": "Wiederhole auf deiner schwächeren Seite. Ziel: 50 Schläge pro Seite als Anfangsziel."
+  },
+  "learn.hurling.drills.solo.title": {
+    "en": "Solo Running",
+    "ga": "Rith Aonair",
+    "de": "Solo-Lauf"
+  },
+  "learn.hurling.drills.solo.description": {
+    "en": "Practice balancing the sliotar on the bas of the hurley while running. This is a core skill for moving upfield with possession.",
+    "ga": "Cleachtaigh an sliotar a chothromú ar bhas an chamáin agus tú ag rith. Is bunscil é seo le bogadh suas an páirc agus seilbh agat.",
+    "de": "Übe das Balancieren des Sliotars auf dem Bas des Hurleys beim Laufen. Das ist eine Kernfähigkeit, um mit Ballbesitz nach vorne zu kommen."
+  },
+  "learn.hurling.drills.solo.step1": {
+    "en": "Place the sliotar flat on the bas of your hurley. Start walking, keeping the ball balanced.",
+    "ga": "Leag an sliotar go cothrom ar bhas do chamáin. Tosaigh ag siúl, coinnigh an liathróid cothrom.",
+    "de": "Lege den Sliotar flach auf den Bas deines Hurleys. Beginne zu gehen und halte den Ball balanciert."
+  },
+  "learn.hurling.drills.solo.step2": {
+    "en": "Gradually increase to a jog, then a run. Let the sliotar bounce gently on the bas with each stride.",
+    "ga": "Méadaigh go mall go bogshodar, ansin go rith. Lig don sliotar preabadh go héadrom ar an mbas le gach céim.",
+    "de": "Steigere dich langsam zum Joggen, dann zum Laufen. Lass den Sliotar mit jedem Schritt sanft auf dem Bas hüpfen."
+  },
+  "learn.hurling.drills.solo.step3": {
+    "en": "Try turning and changing direction without dropping the ball. Practice both left and right turns.",
+    "ga": "Bain triail as casadh agus athrú treo gan an liathróid a ligean uait. Cleachtaigh casadh clé agus deas.",
+    "de": "Versuche, dich zu drehen und die Richtung zu wechseln, ohne den Ball zu verlieren. Übe Links- und Rechtskurven."
+  },
+  "learn.hurling.drills.striking.title": {
+    "en": "Striking from Hand",
+    "ga": "Bualadh ó Lámh",
+    "de": "Schlagen aus der Hand"
+  },
+  "learn.hurling.drills.striking.description": {
+    "en": "Develop power and accuracy when striking the sliotar from your hand. This is the most common way to pass and score.",
+    "ga": "Forbair cumhacht agus cruinneas agus an sliotar á bhualadh ó do lámh. Is é seo an bealach is coitianta le pasáil agus scóráil.",
+    "de": "Entwickle Kraft und Genauigkeit beim Schlagen des Sliotars aus der Hand. Das ist die häufigste Art zu passen und zu punkten."
+  },
+  "learn.hurling.drills.striking.step1": {
+    "en": "Hold the sliotar in your non-dominant hand at shoulder height. Grip the hurley with both hands at the handle.",
+    "ga": "Coinnigh an sliotar i do lámh neamhláidir ag airde gualainne. Beir ar an gcamán le dhá lámh ag an hanla.",
+    "de": "Halte den Sliotar in deiner schwächeren Hand auf Schulterhöhe. Greife den Hurley mit beiden Händen am Griff."
+  },
+  "learn.hurling.drills.striking.step2": {
+    "en": "Release the ball and swing the hurley through it in one fluid motion. Follow through fully.",
+    "ga": "Scaoil an liathróid agus luasc an camán tríd in aon ghluaiseacht amháin. Lean tríd go hiomlán.",
+    "de": "Lass den Ball los und schwinge den Hurley in einer fließenden Bewegung durch. Schwinge vollständig durch."
+  },
+  "learn.hurling.drills.striking.step3": {
+    "en": "Aim at a target on a wall or between two markers. Start close, then move further back.",
+    "ga": "Aimsigh sprioc ar bhalla nó idir dhá mharcóir. Tosaigh gar, ansin bog siar.",
+    "de": "Ziele auf ein Ziel an einer Wand oder zwischen zwei Markierungen. Beginne nah und gehe dann weiter zurück."
+  },
+  "learn.hurling.drills.striking.step4": {
+    "en": "Switch to your weaker side and repeat. Consistent practice on both sides is key.",
+    "ga": "Athraigh go dtí do thaobh lag agus déan arís. Tá cleachtadh comhsheasmhach ar an dá thaobh ríthábhachtach.",
+    "de": "Wechsle auf deine schwächere Seite und wiederhole. Konsequentes Training auf beiden Seiten ist entscheidend."
+  },
+  "learn.hurling.drills.groundstrike.title": {
+    "en": "Ground Strike & Lift",
+    "ga": "Buille Talún agus Ardú",
+    "de": "Bodenschlag & Aufheben"
+  },
+  "learn.hurling.drills.groundstrike.description": {
+    "en": "Master lifting the sliotar off the ground with the hurley and striking in one motion. This is essential for winning possession.",
+    "ga": "Déan máistreacht ar an sliotar a ardú ón talamh leis an gcamán agus bualadh in aon ghluaiseacht. Tá sé seo riachtanach le seilbh a fháil.",
+    "de": "Meistere das Aufheben des Sliotars vom Boden mit dem Hurley und das Schlagen in einer Bewegung. Das ist unverzichtbar, um den Ballbesitz zu gewinnen."
+  },
+  "learn.hurling.drills.groundstrike.step1": {
+    "en": "Place the sliotar on the ground. Angle your hurley at roughly 45 degrees and slide it under the ball to flick it up.",
+    "ga": "Leag an sliotar ar an talamh. Claon do chamán ag thart ar 45 céim agus sleamhnaigh faoin liathróid é chun í a fhlipeáil suas.",
+    "de": "Lege den Sliotar auf den Boden. Halte deinen Hurley in etwa 45 Grad und schiebe ihn unter den Ball, um ihn hochzuschnippen."
+  },
+  "learn.hurling.drills.groundstrike.step2": {
+    "en": "As the ball rises, strike it immediately from the air or catch it on the bas and then strike.",
+    "ga": "Agus an liathróid ag éirí, buail láithreach í ón aer nó beir uirthi ar an mbas agus ansin buail.",
+    "de": "Sobald der Ball aufsteigt, schlage ihn sofort aus der Luft oder fange ihn auf dem Bas und schlage dann."
+  },
+  "learn.hurling.drills.groundstrike.step3": {
+    "en": "Repeat at pace, simulating match conditions. Try lifting while moving forward.",
+    "ga": "Déan arís ar luas, ag aithris ar choinníollacha cluiche. Bain triail as ardú agus tú ag bogadh ar aghaidh.",
+    "de": "Wiederhole im Tempo und simuliere Spielbedingungen. Versuche, den Ball beim Vorwärtslaufen aufzuheben."
+  },
+  "learn.camogie.tagline": {
+    "en": "Fast, skilful, and fierce. A sport with its own proud history.",
+    "ga": "Tapa, sciliúil, agus fíochmhar. Spórt le stair bhrodúil féin.",
+    "de": "Schnell, geschickt und kämpferisch. Ein Sport mit seiner eigenen stolzen Geschichte."
+  },
+  "learn.camogie.history.intro": {
+    "en": "Camogie is a dynamic stick-and-ball sport with deep roots in Irish culture and its own distinct identity and governing body. The game was formally organised in the early 1900s as part of the broader Gaelic revival movement.",
+    "ga": "Is spórt dinimiciúil camáin agus liathróide í an chamógaíocht le fréamhacha domhaine i gcultúr na hÉireann agus a féiniúlacht agus a comhlacht rialaithe féin. Eagraíodh an cluiche go foirmiúil go luath sna 1900í mar chuid den ghluaiseacht athbheochana Gaelach.",
+    "de": "Camogie ist ein dynamischer Schläger-und-Ball-Sport mit tiefen Wurzeln in der irischen Kultur und einer eigenen Identität und eigenem Dachverband. Das Spiel wurde Anfang der 1900er Jahre im Rahmen der gälischen Erneuerungsbewegung formell organisiert."
+  },
+  "learn.camogie.history.body": {
+    "en": "The Camogie Association (An Cumann Camógaíochta) was founded in 1904 by Máire Ní Chinnéide. Today, camogie is one of the fastest-growing women's sports in Ireland, with the All-Ireland Senior Camogie Championship held annually in Croke Park. The sport is played by over 100,000 women and girls across Ireland and internationally.",
+    "ga": "Bunaíodh Cumann na Camógaíochta (An Cumann Camógaíochta) i 1904 ag Máire Ní Chinnéide. Sa lá atá inniu ann, tá an chamógaíocht ar cheann de na spóirt ban is tapúla fáis in Éirinn, le Craobh Shinsir Camógaíochta na hÉireann ar siúl gach bliain i bPáirc an Chrócaigh. Imríonn breis is 100,000 bean agus cailín an spórt ar fud na hÉireann agus go hidirnáisiúnta.",
+    "de": "Der Camogie-Verband (An Cumann Camógaíochta) wurde 1904 von Máire Ní Chinnéide gegründet. Heute ist Camogie einer der am schnellsten wachsenden Frauensportarten in Irland. Die All-Ireland Senior Camogie Championship findet jährlich im Croke Park statt. Über 100.000 Frauen und Mädchen spielen den Sport in Irland und international."
+  },
+  "learn.camogie.history.stat1.label": {
+    "en": "First organised match",
+    "ga": "Chéad chluiche eagraithe",
+    "de": "Erstes organisiertes Spiel"
+  },
+  "learn.camogie.history.stat1.value": {
+    "en": "1904",
+    "ga": "1904",
+    "de": "1904"
+  },
+  "learn.camogie.history.stat2.label": {
+    "en": "Players nationwide",
+    "ga": "Imreoirí ar fud na tíre",
+    "de": "Spielerinnen landesweit"
+  },
+  "learn.camogie.history.stat2.value": {
+    "en": "100k+",
+    "ga": "100k+",
+    "de": "100k+"
+  },
+  "learn.camogie.history.stat3.label": {
+    "en": "Association founded",
+    "ga": "Cumann bunaithe",
+    "de": "Verband gegründet"
+  },
+  "learn.camogie.history.stat3.value": {
+    "en": "1904",
+    "ga": "1904",
+    "de": "1904"
+  },
+  "learn.camogie.rules.scoring": {
+    "en": "A goal (into the net) is worth 3 points, and a point (over the crossbar) is worth 1 point. Scores are written as Goals-Points, e.g. 2-06 means 2 goals and 6 points (12 total).",
+    "ga": "Is fiú 3 phointe báire (isteach sa líontán), agus is fiú 1 phointe cúilín (thar an trasnán). Scríobhtar scóir mar Báirí-Pointí, m.sh. 2-06 ciallaíonn 2 bháire agus 6 phointe (12 ar fad).",
+    "de": "Ein Goal (ins Netz) zählt 3 Punkte, ein Point (über die Querlatte) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 2-06 bedeutet 2 Goals und 6 Points (12 insgesamt)."
+  },
+  "learn.camogie.rules.rule1": {
+    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
+    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lár páirce, agus 6 thosaí.",
+    "de": "Teams bestehen aus 15 Spielerinnen: 1 Torhüterin, 6 Verteidigerinnen, 2 Mittelfeldspielerinnen und 6 Stürmerinnen."
+  },
+  "learn.camogie.rules.rule2": {
+    "en": "The sliotar may be struck with the hurley on the ground or in the air.",
+    "ga": "Féadtar an sliotar a bhualadh leis an gcamán ar an talamh nó san aer.",
+    "de": "Der Sliotar darf am Boden oder in der Luft mit dem Hurley geschlagen werden."
+  },
+  "learn.camogie.rules.rule3": {
+    "en": "Players may not carry the ball in the hand for more than 4 steps. After that, they must solo or release.",
+    "ga": "Ní féidir le himreoirí an liathróid a iompar sa lámh ar feadh níos mó ná 4 chéim. Ina dhiaidh sin, caithfidh siad aonair nó scaoileadh.",
+    "de": "Spielerinnen dürfen den Ball nicht mehr als 4 Schritte in der Hand tragen. Danach müssen sie solo spielen oder abgeben."
+  },
+  "learn.camogie.rules.rule4": {
+    "en": "Shoulder-to-shoulder contact is allowed, but body-checking and deliberate physical challenges are restricted.",
+    "ga": "Ceadaítear teagmháil gualainn ar ghualainn, ach tá seiceáil choirp agus dúshláin fhisiciúla d'aon ghnó srianta.",
+    "de": "Schulter-an-Schulter-Kontakt ist erlaubt, aber Bodychecks und absichtliche körperliche Herausforderungen sind eingeschränkt."
+  },
+  "learn.camogie.rules.rule5": {
+    "en": "A hand-pass goal is not allowed. Goals must be scored by striking the sliotar with the hurley.",
+    "ga": "Ní cheadaítear báire ó lámhphasáil. Caithfear báirí a scóráil trí an sliotar a bhualadh leis an gcamán.",
+    "de": "Ein Handpass-Tor ist nicht erlaubt. Tore müssen durch Schlagen des Sliotars mit dem Hurley erzielt werden."
+  },
+  "learn.camogie.rules.rule6": {
+    "en": "Helmets with a faceguard are mandatory for all players.",
+    "ga": "Tá clogaid le gáirdghrílle éigeantach do gach imreoir.",
+    "de": "Helme mit Gesichtsschutz sind für alle Spielerinnen Pflicht."
+  },
+  "learn.camogie.rules.rule7": {
+    "en": "Matches are two halves of 30 minutes (senior) or shorter at underage level.",
+    "ga": "Bíonn dhá leath de 30 nóiméad i gcluichí (sinsir) nó níos giorra ag leibhéal faoi aois.",
+    "de": "Spiele bestehen aus zwei Halbzeiten von 30 Minuten (Senior) oder kürzer im Nachwuchsbereich."
+  },
+  "learn.camogie.equipment.hurley.name": {
+    "en": "Hurley (Camán)",
+    "ga": "Camán",
+    "de": "Hurley (Camán)"
+  },
+  "learn.camogie.equipment.hurley.description": {
+    "en": "A curved ash-wood stick used to strike and carry the sliotar. Comes in various sizes to suit each player's height and build.",
+    "ga": "Bata fuinnseoge cuar a úsáidtear chun an sliotar a bhualadh agus a iompar. Ar fáil i méideanna éagsúla chun oiriúint d'airde agus tógáil gach imreora.",
+    "de": "Ein gebogener Eschenschläger zum Schlagen und Tragen des Sliotars. Erhältlich in verschiedenen Größen, passend zu Größe und Statur der Spielerin."
+  },
+  "learn.camogie.equipment.sliotar.name": {
+    "en": "Sliotar",
+    "ga": "Sliotar",
+    "de": "Sliotar"
+  },
+  "learn.camogie.equipment.sliotar.description": {
+    "en": "A hard, leather-covered ball with a cork core, roughly the size of a tennis ball.",
+    "ga": "Liathróid chrua clúdaithe le leathar le croílár coirce, thart ar mhéid liathróid leadóige.",
+    "de": "Ein harter, lederummantelter Ball mit Korkkern, etwa so groß wie ein Tennisball."
+  },
+  "learn.camogie.equipment.helmet.name": {
+    "en": "Helmet with Faceguard",
+    "ga": "Clogad le Gáirdghrílle",
+    "de": "Helm mit Gesichtsschutz"
+  },
+  "learn.camogie.equipment.helmet.description": {
+    "en": "Mandatory for all players. A reinforced helmet with a metal faceguard for protection during play.",
+    "ga": "Éigeantach do gach imreoir. Clogad treisithe le gáirdghrílle miotail chun cosaint a thabhairt le linn imeartha.",
+    "de": "Pflicht für alle Spielerinnen. Ein verstärkter Helm mit Metallgesichtsschutz zum Schutz während des Spiels."
+  },
+  "learn.camogie.drills.wallball.title": {
+    "en": "Wall Ball",
+    "ga": "Liathróid an Bhalla",
+    "de": "Wandball"
+  },
+  "learn.camogie.drills.wallball.description": {
+    "en": "Build striking accuracy and ball control by hitting the sliotar against a wall and controlling the return.",
+    "ga": "Forbair cruinneas buailte agus rialú liathróide trí an sliotar a bhualadh in aghaidh balla agus an pilleadh a rialú.",
+    "de": "Baue Schlaggenauigkeit und Ballkontrolle auf, indem du den Sliotar gegen eine Wand schlägst und den Rückprall kontrollierst."
+  },
+  "learn.camogie.drills.wallball.step1": {
+    "en": "Stand about 5 metres from a wall with your hurley and sliotar.",
+    "ga": "Seas thart ar 5 mhéadar ó bhalla le do chamán agus sliotar.",
+    "de": "Stelle dich etwa 5 Meter vor eine Wand mit Hurley und Sliotar."
+  },
+  "learn.camogie.drills.wallball.step2": {
+    "en": "Strike the sliotar against the wall on your dominant side. Focus on clean contact.",
+    "ga": "Buail an sliotar in aghaidh an bhalla ar do thaobh láidir. Dírigh ar theagmháil ghlan.",
+    "de": "Schlage den Sliotar mit deiner starken Seite gegen die Wand. Achte auf sauberen Kontakt."
+  },
+  "learn.camogie.drills.wallball.step3": {
+    "en": "Catch or control the rebound. Alternate between catching and trapping on the bas.",
+    "ga": "Beir ar an bpreabadh nó rialaigh é. Malartaigh idir breith agus gabháil ar an mbas.",
+    "de": "Fange oder kontrolliere den Rückprall. Wechsle zwischen Fangen und Stoppen auf dem Bas."
+  },
+  "learn.camogie.drills.wallball.step4": {
+    "en": "Switch to your weaker side. Aim for 40–50 strikes per side.",
+    "ga": "Athraigh go dtí do thaobh lag. Aimsigh 40–50 buille ar gach taobh.",
+    "de": "Wechsle auf deine schwächere Seite. Ziel: 40–50 Schläge pro Seite."
+  },
+  "learn.camogie.drills.solo.title": {
+    "en": "Solo Running",
+    "ga": "Rith Aonair",
+    "de": "Solo-Lauf"
+  },
+  "learn.camogie.drills.solo.description": {
+    "en": "Practice balancing the sliotar on the bas while moving. This is essential for carrying the ball upfield.",
+    "ga": "Cleachtaigh an sliotar a chothromú ar an mbas agus tú ag gluaiseacht. Tá sé seo riachtanach chun an liathróid a iompar suas an páirc.",
+    "de": "Übe das Balancieren des Sliotars auf dem Bas in Bewegung. Das ist unverzichtbar, um den Ball nach vorne zu tragen."
+  },
+  "learn.camogie.drills.solo.step1": {
+    "en": "Place the sliotar on the bas. Start walking, keeping it balanced.",
+    "ga": "Leag an sliotar ar an mbas. Tosaigh ag siúl, coinnigh é cothrom.",
+    "de": "Lege den Sliotar auf den Bas. Beginne zu gehen und halte ihn balanciert."
+  },
+  "learn.camogie.drills.solo.step2": {
+    "en": "Build up to a jog, then a run. Let the ball bounce gently with each stride.",
+    "ga": "Méadaigh go bogshodar, ansin go rith. Lig don liathróid preabadh go héadrom le gach céim.",
+    "de": "Steigere dich zum Joggen, dann zum Laufen. Lass den Ball mit jedem Schritt sanft hüpfen."
+  },
+  "learn.camogie.drills.solo.step3": {
+    "en": "Add direction changes and turns. Practice on both sides.",
+    "ga": "Cuir athruithe treo agus casadh leis. Cleachtaigh ar an dá thaobh.",
+    "de": "Füge Richtungswechsel und Drehungen hinzu. Übe auf beiden Seiten."
+  },
+  "learn.camogie.drills.striking.title": {
+    "en": "Striking from Hand",
+    "ga": "Bualadh ó Lámh",
+    "de": "Schlagen aus der Hand"
+  },
+  "learn.camogie.drills.striking.description": {
+    "en": "Develop your striking power and accuracy when hitting the sliotar from the hand.",
+    "ga": "Forbair do chumhacht agus cruinneas buailte agus an sliotar á bhualadh ó do lámh.",
+    "de": "Entwickle Schlagkraft und Genauigkeit beim Schlagen des Sliotars aus der Hand."
+  },
+  "learn.camogie.drills.striking.step1": {
+    "en": "Hold the sliotar in your non-dominant hand at shoulder height. Grip the hurley firmly.",
+    "ga": "Coinnigh an sliotar i do lámh neamhláidir ag airde gualainne. Beir go daingean ar an gcamán.",
+    "de": "Halte den Sliotar in deiner schwächeren Hand auf Schulterhöhe. Greife den Hurley fest."
+  },
+  "learn.camogie.drills.striking.step2": {
+    "en": "Release and swing through the ball in one smooth motion.",
+    "ga": "Scaoil agus luasc tríd an liathróid in aon ghluaiseacht mhín amháin.",
+    "de": "Lass los und schwinge in einer fließenden Bewegung durch den Ball."
+  },
+  "learn.camogie.drills.striking.step3": {
+    "en": "Aim at a specific target, like a mark on a wall or between two cones.",
+    "ga": "Aimsigh sprioc ar leith, cosúil le marc ar bhalla nó idir dhá chón.",
+    "de": "Ziele auf ein bestimmtes Ziel, zum Beispiel eine Markierung an einer Wand oder zwischen zwei Hütchen."
+  },
+  "learn.camogie.drills.striking.step4": {
+    "en": "Repeat on your weaker side. Work towards equal comfort on both sides.",
+    "ga": "Déan arís ar do thaobh lag. Oibrigh i dtreo compord comhionann ar an dá thaobh.",
+    "de": "Wiederhole auf deiner schwächeren Seite. Arbeite auf gleiches Wohlgefühl auf beiden Seiten hin."
+  },
+  "learn.football.tagline": {
+    "en": "A uniquely Irish game, played in every county in the country",
+    "ga": "Cluiche úr Gælach, à imrítear i ngach contae sa tír",
+    "de": "Ein einzigartiges irisches Spiel, das in jedem County des Landes gespielt wird"
+  },
+  "learn.football.history.intro": {
+    "en": "Gaelic football is a fast, physical field sport unique to Ireland that combines elements of soccer, rugby, and basketball. Its origins are debated, but organised play dates back to at least the 17th century.",
+    "ga": "Is spórt páirce tapa, fisiciúil é an peil Ghaelach atá ar leith d'Éirinn agus a chomhcheanglaíonn gnéithe den sacar, rugbaí, agus cispheil. Déantar díospóireacht ar a bhunús, ach téann imirt eagraithe siar go dtí an 17ú haois ar a laghad.",
+    "de": "Gaelic Football ist ein schneller, physischer Feldsport, der einzigartig irisch ist und Elemente aus Fußball, Rugby und Basketball verbindet. Seine Ursprünge sind umstritten, aber organisiertes Spielen reicht mindestens bis ins 17. Jahrhundert zurück."
+  },
+  "learn.football.history.body": {
+    "en": "When the GAA was founded in 1884, Gaelic football was among the first sports codified with standardised rules. The All-Ireland Senior Football Championship is the most prestigious competition, culminating each September in the final at Croke Park, regularly attracting over 80,000 spectators. Every county in Ireland fields a team, making it a cornerstone of local identity.",
+    "ga": "Nuair a bunaíodh CLG i 1884, bhí an peil Ghaelach ar cheann de na chéad spóirt a códaíodh le rialacha caighdeánaithe. Is é Craobh Shinsir Peile na hÉireann an comórtas is mó gradam, a thagann chun buaice gach Meán Fómhair sa chluiche ceannais i bPáirc an Chrócaigh, a mheallann breis is 80,000 lucht féachana go rialta. Cuireann gach contae in Éirinn foireann ar an bpáirc, rud a fhágann gur bunchloch d'fhéiniúlacht áitiúil é.",
+    "de": "Als die GAA 1884 gegründet wurde, war Gaelic Football eine der ersten Sportarten, die mit standardisierten Regeln kodifiziert wurden. Die All-Ireland Senior Football Championship ist der prestigeträchtigste Wettbewerb und gipfelt jeden September im Finale im Croke Park, regelmäßig mit über 80.000 Zuschauern. Jedes County in Irland stellt ein Team, was den Sport zu einem Eckpfeiler lokaler Identität macht."
+  },
+  "learn.football.history.stat1.label": {
+    "en": "First codified rules",
+    "ga": "Chéad rialacha códaithe",
+    "de": "Erste kodifizierte Regeln"
+  },
+  "learn.football.history.stat1.value": {
+    "en": "1884",
+    "ga": "1884",
+    "de": "1884"
+  },
+  "learn.football.history.stat2.label": {
+    "en": "County teams",
+    "ga": "Foirne contae",
+    "de": "County-Teams"
+  },
+  "learn.football.history.stat2.value": {
+    "en": "32",
+    "ga": "32",
+    "de": "32"
+  },
+  "learn.football.history.stat3.label": {
+    "en": "Croke Park capacity",
+    "ga": "Toilliú Pháirc an Chrócaigh",
+    "de": "Croke Park Kapazität"
+  },
+  "learn.football.history.stat3.value": {
+    "en": "82k+",
+    "ga": "82k+",
+    "de": "82k+"
+  },
+  "learn.football.rules.scoring": {
+    "en": "A goal (into the net below the crossbar) is worth 3 points. A point (over the crossbar between the posts) is worth 1 point. Scores are written as Goals-Points, e.g. 2-08 means 2 goals and 8 points (14 total).",
+    "ga": "Is fiú 3 phointe báire (isteach sa líontán faoin trasnán). Is fiú 1 phointe cúilín (thar an trasnán idir na cuaillí). Scríobhtar scóir mar Báirí-Pointí, m.sh. 2-08 ciallaíonn 2 bháire agus 8 bpointe (14 ar fad).",
+    "de": "Ein Goal (ins Netz unter der Querlatte) zählt 3 Punkte. Ein Point (über die Querlatte zwischen den Pfosten) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 2-08 bedeutet 2 Goals und 8 Points (14 insgesamt)."
+  },
+  "learn.football.rules.rule1": {
+    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
+    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lárpháirtí, agus 6 thosaithe.",
+    "de": "Jedes Team besteht aus 15 Spielern: 1 Torwart, 6 Verteidiger, 2 Mittelfeldspieler und 6 Stürmer."
+  },
+  "learn.football.rules.rule2": {
+    "en": "The ball may be kicked or hand-passed (struck with the fist), but may not be thrown.",
+    "ga": "Féadtar an liathróid a chiceáil nó a lámhphasáil (buaileadh leis an dorn), ach ní féidir í a chaitheamh.",
+    "de": "Der Ball darf getreten oder per Handpass gespielt werden (mit der Faust geschlagen), aber nicht geworfen."
+  },
+  "learn.football.rules.rule3": {
+    "en": "Players may carry the ball in the hand for a maximum of 4 steps. After that, they must bounce or solo (toe-tap) the ball.",
+    "ga": "Féadann imreoirí an liathróid a iompar sa lámh ar feadh uasmhéid 4 chéim. Ina dhiaidh sin, caithfidh siad an liathróid a phreabadh nó a shólóáil (tapáil méire coise).",
+    "de": "Spieler dürfen den Ball maximal 4 Schritte in der Hand tragen. Danach müssen sie den Ball prellen oder solo spielen (Zehen-Tipp)."
+  },
+  "learn.football.rules.rule4": {
+    "en": "The ball may be picked up from the ground only by scooping it with the foot into the hands, not by bending down and grabbing it.",
+    "ga": "Ní féidir an liathróid a thógáil ón talamh ach trí í a scuabadh leis an gcos isteach sna lámha, ní trí chromadh síos agus breith uirthi.",
+    "de": "Der Ball darf nur vom Boden aufgenommen werden, indem man ihn mit dem Fuß in die Hände schaufelt, nicht durch Bücken und Aufheben."
+  },
+  "learn.football.rules.rule5": {
+    "en": "You cannot bounce the ball twice in a row. You must solo (toe-tap) between bounces.",
+    "ga": "Ní féidir an liathróid a phreabadh faoi dhó as a chéile. Caithfidh tú sólóáil (tapáil méire coise) idir preabadh.",
+    "de": "Man darf den Ball nicht zweimal hintereinander prellen. Zwischen den Prellern muss man solo spielen (Zehen-Tipp)."
+  },
+  "learn.football.rules.rule6": {
+    "en": "Shoulder-to-shoulder tackles are permitted when the opponent has possession or is playing the ball.",
+    "ga": "Ceadaítear tacláil gualainn ar ghualainn nuair atá seilbh ag an gcéile comhraic nó nuair atá sé/sí ag imirt na liathróide.",
+    "de": "Schulter-an-Schulter-Tackles sind erlaubt, wenn der Gegner in Ballbesitz ist oder den Ball spielt."
+  },
+  "learn.football.rules.rule7": {
+    "en": "A match consists of two halves of 30 minutes (adult) or shorter at underage levels.",
+    "ga": "Bíonn dhá leath de 30 nóiméad i gcluiche (fásta) nó níos giorra ag leibhéil faoi aois.",
+    "de": "Ein Spiel besteht aus zwei Halbzeiten von 30 Minuten (Erwachsene) oder kürzer im Nachwuchsbereich."
+  },
+  "learn.football.rules.rule8": {
+    "en": "The goalkeeper may handle the ball freely inside the small rectangle. Outfield players follow all carrying and passing rules.",
+    "ga": "Féadann an cúl báire an liathróid a láimhseáil go saor laistigh den dronuilleog bheag. Leanann imreoirí lasmuigh gach riail iompair agus pasála.",
+    "de": "Der Torwart darf den Ball im kleinen Rechteck frei handhaben. Feldspieler befolgen alle Trage- und Passregeln."
+  },
+  "learn.football.equipment.ball.name": {
+    "en": "Gaelic Football",
+    "ga": "Liathróid Peile",
+    "de": "Gaelic Football"
+  },
+  "learn.football.equipment.ball.description": {
+    "en": "Similar in size and shape to a soccer ball but slightly heavier and with better grip. The ball is designed for both kicking and hand-passing.",
+    "ga": "Cosúil ó thaobh méide agus cruth le liathróid sacair ach beagán níos troime agus le greim níos fearr. Tá an liathróid deartha le haghaidh ciceáil agus lámhphasáil araon.",
+    "de": "Ähnlich in Größe und Form wie ein Fußball, aber etwas schwerer und mit besserem Grip. Der Ball ist sowohl für Tritte als auch für Handpässe konzipiert."
+  },
+  "learn.football.equipment.boots.name": {
+    "en": "Boots",
+    "ga": "Bróga Peile",
+    "de": "Fußballschuhe"
+  },
+  "learn.football.equipment.boots.description": {
+    "en": "Standard football boots with moulded studs are ideal. No specialised equipment beyond boots is strictly required, though many players also wear a mouthguard.",
+    "ga": "Tá bróga peile caighdeánacha le stodanna múnlaithe oiriúnach. Níl aon trealamh speisialta thar bhróga riachtanach go docht, cé go gcaitheann go leor imreoirí garda béil freisin.",
+    "de": "Standard-Fußballschuhe mit Formstollen sind ideal. Keine spezielle Ausrüstung über Schuhe hinaus ist zwingend erforderlich, obwohl viele Spieler auch einen Mundschutz tragen."
+  },
+  "learn.football.drills.solorun.title": {
+    "en": "Solo Run (Toe-Tap)",
+    "ga": "Rith Aonair (Tapáil Méire Coise)",
+    "de": "Solo-Lauf (Zehen-Tipp)"
+  },
+  "learn.football.drills.solorun.description": {
+    "en": "Master the toe-tap solo technique. This is the primary way to carry the ball while running in Gaelic football.",
+    "ga": "Déan máistreacht ar theicníc aonair tapáil méire coise. Is é seo an príomhbhealach chun an liathróid a iompar agus tú ag rith sa pheil Ghaelach.",
+    "de": "Meistere die Zehen-Tipp-Solo-Technik. Das ist die wichtigste Art, den Ball beim Laufen im Gaelic Football zu tragen."
+  },
+  "learn.football.drills.solorun.step1": {
+    "en": "Hold the ball in both hands while standing. Drop it onto your preferred foot and kick it back up to your hands with a toe-tap.",
+    "ga": "Coinnigh an liathróid i do dhá lámh agus tú i do sheasamh. Lig anuas í ar do chos roghnaithe agus ciceáil ar ais go dtí do lámha í le tapáil méire coise.",
+    "de": "Halte den Ball in beiden Händen im Stehen. Lass ihn auf deinen bevorzugten Fuß fallen und kicke ihn mit einem Zehen-Tipp zurück in die Hände."
+  },
+  "learn.football.drills.solorun.step2": {
+    "en": "Once comfortable, start walking, then jogging while maintaining the solo rhythm: drop, toe-tap, catch, repeat.",
+    "ga": "Nuair atá tú compordach, tosaigh ag siúl, ansin ag bogshodar agus rithim an aonair á coinneáil: lig anuas, tapáil, beir, déan arís.",
+    "de": "Wenn du dich sicher fühlst, beginne zu gehen, dann zu joggen und halte den Solo-Rhythmus: fallen lassen, Zehen-Tipp, fangen, wiederholen."
+  },
+  "learn.football.drills.solorun.step3": {
+    "en": "Add direction changes. Practice with both feet for balanced control.",
+    "ga": "Cuir athruithe treo leis. Cleachtaigh leis an dá chos le haghaidh rialú cothrom.",
+    "de": "Füge Richtungswechsel hinzu. Übe mit beiden Füßen für ausgewogene Kontrolle."
+  },
+  "learn.football.drills.kickpass.title": {
+    "en": "Kick Passing",
+    "ga": "Ciceáil Pasála",
+    "de": "Kick-Pass"
+  },
+  "learn.football.drills.kickpass.description": {
+    "en": "Improve your kicking accuracy and distance for the most common long-range pass.",
+    "ga": "Feabhsaigh do chruinneas agus d'fhad ciceála don phasáil fhad-raoin is coitianta.",
+    "de": "Verbessere deine Schussgenauigkeit und -weite für den häufigsten Langstreckenpass."
+  },
+  "learn.football.drills.kickpass.step1": {
+    "en": "Set up a target, like a cone, a wall, or a partner standing 15 to 20 metres away.",
+    "ga": "Socraigh sprioc, cosúil le cón, balla, nó comhpháirtí ina sheasamh 15 go 20 méadar uait.",
+    "de": "Stelle ein Ziel auf, zum Beispiel ein Hütchen, eine Wand oder einen Partner in 15 bis 20 Metern Entfernung."
+  },
+  "learn.football.drills.kickpass.step2": {
+    "en": "Hold the ball in front of you. Drop it onto your kicking foot and strike through the ball with the instep.",
+    "ga": "Coinnigh an liathróid os do chomhair. Lig anuas í ar do chos ciceála agus buail tríd an liathróid le hinsteap.",
+    "de": "Halte den Ball vor dir. Lass ihn auf deinen Schussfuß fallen und schlage mit dem Spann durch den Ball."
+  },
+  "learn.football.drills.kickpass.step3": {
+    "en": "Follow through fully and aim for accuracy over power to start.",
+    "ga": "Lean tríd go hiomlán agus aimsigh cruinneas thar chumhacht ar dtús.",
+    "de": "Schwinge vollständig durch und ziele zunächst auf Genauigkeit statt Kraft."
+  },
+  "learn.football.drills.kickpass.step4": {
+    "en": "Gradually increase distance. Practice with both feet.",
+    "ga": "Méadaigh an fad de réir a chéile. Cleachtaigh leis an dá chos.",
+    "de": "Erhöhe die Distanz schrittweise. Übe mit beiden Füßen."
+  },
+  "learn.football.drills.handpass.title": {
+    "en": "Hand Passing",
+    "ga": "Lámhphasáil",
+    "de": "Handpass"
+  },
+  "learn.football.drills.handpass.description": {
+    "en": "Sharpen your hand-pass technique. This is the quick, short-range pass used constantly in play.",
+    "ga": "Géaraigh do theicníc lámhphasála. Is é seo an pasáil thapa, ghearr-raoin a úsáidtear go leanúnach san imirt.",
+    "de": "Verfeinere deine Handpass-Technik. Das ist der schnelle Kurzstreckenpass, der ständig im Spiel verwendet wird."
+  },
+  "learn.football.drills.handpass.step1": {
+    "en": "Hold the ball in one hand. Strike it with the fist of the other hand. Do not throw it.",
+    "ga": "Coinnigh an liathróid i lámh amháin. Buail í le dorn na láimhe eile. Ná caith í.",
+    "de": "Halte den Ball in einer Hand. Schlage ihn mit der Faust der anderen Hand. Nicht werfen."
+  },
+  "learn.football.drills.handpass.step2": {
+    "en": "Pass against a wall and catch the return. Focus on keeping the pass flat and accurate.",
+    "ga": "Pasáil in aghaidh balla agus beir ar an bpilleadh. Dírigh ar an bpasáil a choinneáil cothrom agus cruinn.",
+    "de": "Passe gegen eine Wand und fange den Rückprall. Achte darauf, den Pass flach und genau zu halten."
+  },
+  "learn.football.drills.handpass.step3": {
+    "en": "Alternate hands. Practice with your weaker hand until it feels natural.",
+    "ga": "Malartaigh lámha. Cleachtaigh le do lámh lag go dtí go mbraitheann sé nádúrtha.",
+    "de": "Wechsle die Hände. Übe mit deiner schwächeren Hand, bis es sich natürlich anfühlt."
+  },
+  "learn.football.drills.highcatch.title": {
+    "en": "High Catching (Fielding)",
+    "ga": "Ardghabháil (Gort a Bhaint)",
+    "de": "Hohe Bälle Fangen (Fielding)"
+  },
+  "learn.football.drills.highcatch.description": {
+    "en": "Improve your ability to win high balls. This is a critical skill for midfielders and full forwards.",
+    "ga": "Feabhsaigh do chumas liathróidí arda a bhuachan. Is scil ríthábhachtach í seo do lárpháirtithe agus lántosaigh.",
+    "de": "Verbessere deine Fähigkeit, hohe Bälle zu gewinnen. Das ist eine entscheidende Fähigkeit für Mittelfeldspieler und Stürmer."
+  },
+  "learn.football.drills.highcatch.step1": {
+    "en": "Throw the ball high into the air (or kick it off a wall to get height).",
+    "ga": "Caith an liathróid in airde san aer (nó ciceáil de bhalla í le haghaidh airde).",
+    "de": "Wirf den Ball hoch in die Luft (oder kicke ihn gegen eine Wand, um Höhe zu bekommen)."
+  },
+  "learn.football.drills.highcatch.step2": {
+    "en": "Jump and catch the ball at the highest point with both hands. Pull it into your chest immediately.",
+    "ga": "Léim agus beir ar an liathróid ag an bpointe is airde le do dhá lámh. Tarraing isteach go dtí d'ucht í láithreach.",
+    "de": "Springe und fange den Ball am höchsten Punkt mit beiden Händen. Ziehe ihn sofort an deine Brust."
+  },
+  "learn.football.drills.highcatch.step3": {
+    "en": "Repeat, varying the height and angle. Practice catching under pressure by imagining an opponent.",
+    "ga": "Déan arís, ag athrú na hairde agus an uillinn. Cleachtaigh breith faoi bhrú trí chéile comhraic a shamhlú.",
+    "de": "Wiederhole mit unterschiedlicher Höhe und Winkel. Übe das Fangen unter Druck, indem du dir einen Gegner vorstellst."
   }
 }

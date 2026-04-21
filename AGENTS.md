@@ -30,7 +30,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **Font family names:** `jakarta-400`, `jakarta-500`, `jakarta-600`, `jakarta-700`, `jakarta-800` (Plus Jakarta Sans loaded via `@expo-google-fonts`).
 - **Primary colour:** `colors.primary` (`#4A6CF7`). See `src/theme/index.ts` for the full token set.
 - **Border radius:** 14–16 for inputs/buttons, 24 for cards and sheets.
-- **Valid sport keys:** `"hurling"` and `"football"` — the only accepted values throughout the app, Netlify functions, and Playwright script.
+- **Valid sport keys:** `"hurling"` and `"football"` — the only accepted values for booking, Netlify functions, and Playwright. The Learn section additionally supports `"camogie"` (read-only content only — it is never passed to the booking flow).
 
 ## State Management
 

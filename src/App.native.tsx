@@ -20,6 +20,7 @@ import { MobileAppDataProvider } from "./context/mobile-app-data";
 import { useOtaUpdate } from "./hooks/use-ota-update";
 import { LocaleProvider, useLocale } from "./i18n";
 import { ClubStack } from "./navigation/club-stack";
+import { LearnStack } from "./navigation/learn-stack";
 import { PhotosStack } from "./navigation/photos-stack";
 import { TrainingStack } from "./navigation/training-stack";
 import { BookScreen } from "./screens/book";
@@ -38,12 +39,18 @@ const Tab = createBottomTabNavigator();
 
 const TAB_LABEL_KEYS: Record<
   string,
-  "tab.club" | "tab.book" | "tab.training" | "tab.photos" | "tab.settings"
+  | "tab.club"
+  | "tab.book"
+  | "tab.training"
+  | "tab.photos"
+  | "tab.learn"
+  | "tab.settings"
 > = {
   Club: "tab.club",
   Book: "tab.book",
   Training: "tab.training",
   Photos: "tab.photos",
+  Learn: "tab.learn",
   Settings: "tab.settings",
 };
 
@@ -55,6 +62,7 @@ const TAB_ICONS: Record<string, { active: string; inactive: string }> = {
     inactive: "book-outline",
   },
   Photos: { active: "images", inactive: "images-outline" },
+  Learn: { active: "school", inactive: "school-outline" },
   Settings: { active: "settings", inactive: "settings-outline" },
 };
 
@@ -124,6 +132,27 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Club"
         component={ClubStack}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            const nestedState = navigation
+              .getState()
+              .routes.find((r) => r.name === route.name)?.state;
+            if (
+              nestedState &&
+              (nestedState.index ?? 0) > 0 &&
+              nestedState.key
+            ) {
+              navigation.dispatch({
+                ...StackActions.popToTop(),
+                target: nestedState.key,
+              });
+            }
+          },
+        })}
+      />
+      <Tab.Screen
+        name="Learn"
+        component={LearnStack}
         listeners={({ navigation, route }) => ({
           tabPress: () => {
             const nestedState = navigation

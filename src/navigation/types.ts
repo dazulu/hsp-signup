@@ -3,6 +3,7 @@ export type TabParamList = {
   Book: undefined;
   Training: undefined;
   Photos: undefined;
+  Learn: undefined;
   Settings: undefined;
 };
 
@@ -16,7 +17,14 @@ export type TrainingStackParamList = {
   TrainingInfo: undefined;
 };
 
+import type { LearnSport } from "../screens/learn/content/types";
+
 export type PhotosStackParamList = {
   PhotosHome: undefined;
   GalleryDetail: { galleryId: string; galleryTitle: string };
+};
+
+export type LearnStackParamList = {
+  LearnHome: undefined;
+  SportDetail: { sport: LearnSport };
 };
