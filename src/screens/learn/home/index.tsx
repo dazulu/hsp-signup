@@ -3,7 +3,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useCallback, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Card } from "../../../components/card/card";
+import { Card } from "../../../components/card";
 import {
   ScreenLayout,
   useScreenLayout,
@@ -58,8 +58,12 @@ const LearnHomeContent = () => {
       scrollEventThrottle={16}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.heroHeading}>{t("learn.hero.heading")}</Text>
-      <Text style={styles.heroBody}>{t("learn.hero.body")}</Text>
+      <Card span={2}>
+        <Text style={styles.clubHeading}>{t("learn.club.heading")}</Text>
+        <Text style={styles.clubBody}>{t("learn.club.body1")}</Text>
+        <Text style={styles.clubBody}>{t("learn.club.body2")}</Text>
+        <Text style={styles.clubBody}>{t("learn.club.body3")}</Text>
+      </Card>
       <View style={styles.cardsWrapper}>
         {LEARN_SPORTS.map((sport) => {
           const content = LEARN_CONTENT[sport];

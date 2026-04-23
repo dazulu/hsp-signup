@@ -8,18 +8,18 @@ export const styles = StyleSheet.create({
     paddingHorizontal: space[16],
     paddingBottom: space[40],
   },
-  heroHeading: {
+  clubHeading: {
     fontFamily: fontFamily.bold,
     fontSize: fontSize.xl,
     color: colors.textPrimary,
-    marginBottom: space[6],
+    marginBottom: space[8],
   },
-  heroBody: {
+  clubBody: {
     fontFamily: fontFamily.regular,
     fontSize: fontSize.body,
     color: colors.textMuted,
     lineHeight: 22,
-    marginBottom: space[24],
+    marginBottom: space[8],
   },
   cardContent: {
     gap: space[4],
@@ -37,5 +37,6 @@ export const styles = StyleSheet.create({
   },
   cardsWrapper: {
     gap: space[12],
+    marginTop: space[12],
   },
 });

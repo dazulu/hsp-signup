@@ -13,7 +13,7 @@ export const LEARN_CONTENT: Record<LearnSport, SportContent> = {
         {
           labelKey: "learn.hurling.history.stat1.label",
           valueKey: "learn.hurling.history.stat1.value",
-          icon: "trophy-outline",
+          icon: "hourglass-outline",
         },
         {
           labelKey: "learn.hurling.history.stat2.label",
@@ -29,6 +29,7 @@ export const LEARN_CONTENT: Record<LearnSport, SportContent> = {
     },
     rules: {
       scoringKey: "learn.hurling.rules.scoring",
+      rulesUrl: "https://www.gaa.ie/article/gaa-official-guides-codes",
       ruleKeys: [
         "learn.hurling.rules.rule1",
         "learn.hurling.rules.rule2",
@@ -129,6 +130,8 @@ export const LEARN_CONTENT: Record<LearnSport, SportContent> = {
     },
     rules: {
       scoringKey: "learn.camogie.rules.scoring",
+      rulesUrl:
+        "https://camogie.ie/administration/official-rules/official-playing-rules/",
       ruleKeys: [
         "learn.camogie.rules.rule1",
         "learn.camogie.rules.rule2",
@@ -220,6 +223,7 @@ export const LEARN_CONTENT: Record<LearnSport, SportContent> = {
     },
     rules: {
       scoringKey: "learn.football.rules.scoring",
+      rulesUrl: "https://www.gaa.ie/article/gaa-official-guides-codes",
       ruleKeys: [
         "learn.football.rules.rule1",
         "learn.football.rules.rule2",

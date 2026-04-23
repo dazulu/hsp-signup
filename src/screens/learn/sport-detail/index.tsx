@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AnchorNav } from "../../../components/anchor-nav";
+import { Card, CardGrid } from "../../../components/card";
+import { ExternalLink } from "../../../components/external-link";
 import {
   ScreenLayout,
   useScreenLayout,
@@ -149,8 +151,10 @@ const SportDetailContent = ({ sport }: { sport: LearnSport }) => {
               </View>
             ))}
           </View>
-          <Text style={styles.bodyText}>{t(content.history.introKey)}</Text>
-          <Text style={styles.bodyText}>{t(content.history.bodyKey)}</Text>
+          <Card>
+            <Text style={styles.bodyText}>{t(content.history.introKey)}</Text>
+            <Text style={styles.bodyText}>{t(content.history.bodyKey)}</Text>
+          </Card>
         </View>
 
         <View style={styles.sectionDivider} />
@@ -162,19 +166,25 @@ const SportDetailContent = ({ sport }: { sport: LearnSport }) => {
           }}
         >
           <Text style={styles.sectionHeading}>{t("learn.section.rules")}</Text>
-          <View style={styles.scoringBlock}>
+          <Card>
             <Text style={styles.scoringText}>
               {t(content.rules.scoringKey)}
             </Text>
-          </View>
-          {content.rules.ruleKeys.map(
-            (ruleKey: TranslationKey, index: number) => (
+          </Card>
+          <View style={styles.sectionDivider} />
+          <Card>
+            {content.rules.ruleKeys.map((ruleKey: TranslationKey) => (
               <View key={ruleKey} style={styles.ruleRow}>
-                <Text style={styles.ruleNumber}>{index + 1}.</Text>
+                <Text style={styles.ruleBullet}>{"\u2022"}</Text>
                 <Text style={styles.ruleText}>{t(ruleKey)}</Text>
               </View>
-            ),
-          )}
+            ))}
+            <ExternalLink
+              label={t("learn.rules.officialLink")}
+              href={content.rules.rulesUrl}
+              style={styles.rulesLink}
+            />
+          </Card>
         </View>
 
         <View style={styles.sectionDivider} />
@@ -188,21 +198,25 @@ const SportDetailContent = ({ sport }: { sport: LearnSport }) => {
           <Text style={styles.sectionHeading}>
             {t("learn.section.equipment")}
           </Text>
-          {content.equipment.map((item) => (
-            <View key={item.nameKey} style={styles.equipmentItem}>
-              <Image
-                source={{ uri: item.placeholderUrl }}
-                style={styles.equipmentImage}
-                accessibilityLabel={t(item.nameKey)}
-              />
-              <View style={styles.equipmentInfo}>
-                <Text style={styles.equipmentName}>{t(item.nameKey)}</Text>
-                <Text style={styles.equipmentDescription}>
-                  {t(item.descriptionKey)}
-                </Text>
-              </View>
-            </View>
-          ))}
+          <CardGrid gap={12}>
+            {content.equipment.map((item) => (
+              <Card key={item.nameKey} span={2}>
+                <View style={styles.equipmentItem}>
+                  <Image
+                    source={{ uri: item.placeholderUrl }}
+                    style={styles.equipmentImage}
+                    accessibilityLabel={t(item.nameKey)}
+                  />
+                  <View style={styles.equipmentInfo}>
+                    <Text style={styles.equipmentName}>{t(item.nameKey)}</Text>
+                    <Text style={styles.equipmentDescription}>
+                      {t(item.descriptionKey)}
+                    </Text>
+                  </View>
+                </View>
+              </Card>
+            ))}
+          </CardGrid>
         </View>
 
         <View style={styles.sectionDivider} />
@@ -214,20 +228,22 @@ const SportDetailContent = ({ sport }: { sport: LearnSport }) => {
           }}
         >
           <Text style={styles.sectionHeading}>{t("learn.section.drills")}</Text>
-          {content.drills.map((drill) => (
-            <View key={drill.titleKey} style={styles.drillCard}>
-              <Text style={styles.drillTitle}>{t(drill.titleKey)}</Text>
-              <Text style={styles.drillDescription}>
-                {t(drill.descriptionKey)}
-              </Text>
-              {drill.steps.map((step, stepIndex) => (
-                <View key={step.stepKey} style={styles.stepRow}>
-                  <Text style={styles.stepNumber}>{stepIndex + 1}.</Text>
-                  <Text style={styles.stepText}>{t(step.stepKey)}</Text>
-                </View>
-              ))}
-            </View>
-          ))}
+          <CardGrid gap={12}>
+            {content.drills.map((drill) => (
+              <Card key={drill.titleKey} span={2}>
+                <Text style={styles.drillTitle}>{t(drill.titleKey)}</Text>
+                <Text style={styles.drillDescription}>
+                  {t(drill.descriptionKey)}
+                </Text>
+                {drill.steps.map((step, stepIndex) => (
+                  <View key={step.stepKey} style={styles.stepRow}>
+                    <Text style={styles.stepNumber}>{stepIndex + 1}.</Text>
+                    <Text style={styles.stepText}>{t(step.stepKey)}</Text>
+                  </View>
+                ))}
+              </Card>
+            ))}
+          </CardGrid>
         </View>
       </ScrollView>
     </View>

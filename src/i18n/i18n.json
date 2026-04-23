@@ -95,7 +95,7 @@
     "de": "Fotos"
   },
   "tab.settings": {
-    "en": "Settings",
+    "en": "More",
     "ga": "Socruithe",
     "de": "Mehr"
   },
@@ -660,19 +660,29 @@
     "de": "Lernen"
   },
   "learn.subtitle": {
-    "en": "Discover Gaelic Games",
-    "ga": "Aimsigh Cluichí Gaelacha",
-    "de": "Entdecke Gälische Spiele"
+    "en": "Get to know the club and the Gaelic sports we play.",
+    "ga": "Faigh aithne ar an gclub agus na cluichí Gaelacha a imrímid.",
+    "de": "Lerne den Club und die gälischen Sportarten kennen, die wir spielen."
   },
-  "learn.hero.heading": {
-    "en": "The Ancient Games of Ireland",
-    "ga": "Seanachluichí na hÉireann",
-    "de": "Die alten Spiele Irlands"
+  "learn.club.heading": {
+    "en": "What is Hamburg GAA?",
+    "ga": "Cad é Hamburg GAA?",
+    "de": "Was ist Hamburg GAA?"
   },
-  "learn.hero.body": {
-    "en": "Explore the history, rules, equipment, and drills for each of our Gaelic sports.",
-    "ga": "Déan iniúchadh ar stair, rialacha, trealamh agus cleachtaí gach ceann dár gcluichí Gaelacha.",
-    "de": "Entdecke die Geschichte, Regeln, Ausrüstung und Übungen unserer gälischen Sportarten."
+  "learn.club.body1": {
+    "en": "Hamburg GAA Club e.V. was founded in 2015 by people who wanted to bring Gaelic Games to Hamburg. We play hurling, camogie, and Gaelic football, and we compete at national and European level.",
+    "ga": "Bunaíodh Hamburg GAA Club e.V. sa bhliain 2015 ag daoine a bhí ag iarraidh Cluichí Gaelacha a thabhairt go Hamburg. Imrímid iomáint, camógaíocht agus peil Ghaelach, agus iomaímid ar leibhéal náisiúnta agus Eorpach.",
+    "de": "Hamburg GAA Club e.V. wurde 2015 von Menschen gegründet, die Gälische Spiele nach Hamburg bringen wollten. Wir spielen Hurling, Camogie und Gaelic Football und treten auf nationaler und europäischer Ebene an."
+  },
+  "learn.club.body2": {
+    "en": "The club is open to new players, no matter your sporting background or fitness level.",
+    "ga": "Tá an club oscailte do dhaoine nua, is cuma cad é do chúlra spóirt nó do leibhéal aclaíochta.",
+    "de": "Der Club steht neuen Spielerinnen und Spielern offen, unabhängig von sportlichem Hintergrund oder Fitnessniveau."
+  },
+  "learn.club.body3": {
+    "en": "Explore the history, rules, equipment, and drills for each of our Gaelic sports below.",
+    "ga": "Déan iniúchadh ar stair, rialacha, trealamh agus cleachtaí gach ceann dár gcluichí Gaelacha thíos.",
+    "de": "Entdecke die Geschichte, Regeln, Ausrüstung und Übungen unserer gälischen Sportarten unten."
   },
   "learn.sport.hurling": {
     "en": "Hurling",
@@ -698,6 +708,11 @@
     "en": "Rules",
     "ga": "Rialacha",
     "de": "Regeln"
+  },
+  "learn.rules.officialLink": {
+    "en": "Official rules",
+    "ga": "Rialacha oifigiúla",
+    "de": "Offizielle Regeln"
   },
   "learn.section.equipment": {
     "en": "Equipment",
@@ -725,14 +740,14 @@
     "de": "Das moderne Spiel wurde formalisiert, als die Gaelic Athletic Association (GAA) 1884 in Thurles, County Tipperary, gegründet wurde. Heute wird Hurling in ganz Irland und in GAA-Vereinen weltweit gespielt, auch hier in Hamburg. Die All-Ireland Senior Hurling Championship ist der wichtigste Wettbewerb des Sports und zieht jeden Sommer Zehntausende Zuschauer in den Croke Park."
   },
   "learn.hurling.history.stat1.label": {
-    "en": "First official match",
-    "ga": "Chéad chluiche oifigiúil",
-    "de": "Erstes offizielles Spiel"
+    "en": "Years of history",
+    "ga": "Blianta staire",
+    "de": "Jahre Geschichte"
   },
   "learn.hurling.history.stat1.value": {
-    "en": "1884",
-    "ga": "1884",
-    "de": "1884"
+    "en": "3,000+",
+    "ga": "3,000+",
+    "de": "3.000+"
   },
   "learn.hurling.history.stat2.label": {
     "en": "County teams",
@@ -760,9 +775,9 @@
     "de": "Ein Goal (ins Netz) zählt 3 Punkte. Ein Point (über die Querlatte) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 1-05 bedeutet 1 Goal und 5 Points (8 insgesamt)."
   },
   "learn.hurling.rules.rule1": {
-    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
-    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lárpháirtí, agus 6 thosaithe.",
-    "de": "Jedes Team besteht aus 15 Spielern: 1 Torwart, 6 Verteidiger, 2 Mittelfeldspieler und 6 Stürmer."
+    "en": "Each team has 15 players, one of whom is the goalkeeper.",
+    "ga": "Bíonn 15 imreoir ar gach foireann, agus duine amháin acu ina chúl báire.",
+    "de": "Jedes Team hat 15 Spieler, darunter ein Torwart."
   },
   "learn.hurling.rules.rule2": {
     "en": "The ball (sliotar) may be struck with the hurley on the ground or in the air.",
@@ -950,14 +965,14 @@
     "de": "Der Camogie-Verband (An Cumann Camógaíochta) wurde 1904 von Máire Ní Chinnéide gegründet. Heute ist Camogie einer der am schnellsten wachsenden Frauensportarten in Irland. Die All-Ireland Senior Camogie Championship findet jährlich im Croke Park statt. Über 100.000 Frauen und Mädchen spielen den Sport in Irland und international."
   },
   "learn.camogie.history.stat1.label": {
-    "en": "First organised match",
-    "ga": "Chéad chluiche eagraithe",
-    "de": "Erstes organisiertes Spiel"
+    "en": "All-Ireland Championships",
+    "ga": "Craobhacha na hÉireann",
+    "de": "All-Ireland-Meisterschaften"
   },
   "learn.camogie.history.stat1.value": {
-    "en": "1904",
-    "ga": "1904",
-    "de": "1904"
+    "en": "90+",
+    "ga": "90+",
+    "de": "90+"
   },
   "learn.camogie.history.stat2.label": {
     "en": "Players nationwide",
@@ -985,9 +1000,9 @@
     "de": "Ein Goal (ins Netz) zählt 3 Punkte, ein Point (über die Querlatte) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 2-06 bedeutet 2 Goals und 6 Points (12 insgesamt)."
   },
   "learn.camogie.rules.rule1": {
-    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
-    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lár páirce, agus 6 thosaí.",
-    "de": "Teams bestehen aus 15 Spielerinnen: 1 Torhüterin, 6 Verteidigerinnen, 2 Mittelfeldspielerinnen und 6 Stürmerinnen."
+    "en": "Each team has 15 players, one of whom is the goalkeeper.",
+    "ga": "Bíonn 15 imreoir ar gach foireann, agus duine amháin acu ina cúl báire.",
+    "de": "Jedes Team hat 15 Spielerinnen, darunter eine Torhüterin."
   },
   "learn.camogie.rules.rule2": {
     "en": "The sliotar may be struck with the hurley on the ground or in the air.",
@@ -1185,9 +1200,9 @@
     "de": "Ein Goal (ins Netz unter der Querlatte) zählt 3 Punkte. Ein Point (über die Querlatte zwischen den Pfosten) zählt 1 Punkt. Ergebnisse werden als Goals-Points geschrieben, z.B. 2-08 bedeutet 2 Goals und 8 Points (14 insgesamt)."
   },
   "learn.football.rules.rule1": {
-    "en": "Teams consist of 15 players: 1 goalkeeper, 6 defenders, 2 midfielders, and 6 forwards.",
-    "ga": "Bíonn 15 imreoir ar gach foireann: 1 cúl báire, 6 chosantóir, 2 lárpháirtí, agus 6 thosaithe.",
-    "de": "Jedes Team besteht aus 15 Spielern: 1 Torwart, 6 Verteidiger, 2 Mittelfeldspieler und 6 Stürmer."
+    "en": "Each team has 15 players, one of whom is the goalkeeper.",
+    "ga": "Bíonn 15 imreoir ar gach foireann, agus duine amháin acu ina chúl báire.",
+    "de": "Jedes Team hat 15 Spieler, darunter ein Torwart."
   },
   "learn.football.rules.rule2": {
     "en": "The ball may be kicked or hand-passed (struck with the fist), but may not be thrown.",

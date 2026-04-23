@@ -36,6 +36,7 @@ export type HistoryContent = {
 export type RulesContent = {
   scoringKey: TranslationKey;
   ruleKeys: TranslationKey[];
+  rulesUrl: string;
 };
 
 export type EquipmentItem = {
