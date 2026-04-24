@@ -1,6 +1,6 @@
 {
   "name": "hsp-signup",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "main": "index.ts",
   "description": "Log in and book an upcoming training session",
   "scripts": {
