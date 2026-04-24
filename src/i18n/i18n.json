@@ -755,9 +755,9 @@
     "de": "County-Teams"
   },
   "learn.hurling.history.stat2.value": {
-    "en": "30+",
-    "ga": "30+",
-    "de": "30+"
+    "en": "36",
+    "ga": "36",
+    "de": "36"
   },
   "learn.hurling.history.stat3.label": {
     "en": "GAA founded",
@@ -785,29 +785,29 @@
     "de": "Der Ball (Sliotar) darf mit dem Hurley am Boden oder in der Luft geschlagen werden."
   },
   "learn.hurling.rules.rule3": {
-    "en": "Players may catch the ball in the hand but cannot carry it for more than 4 steps. After that, they must bounce or balance it on the hurley (solo).",
-    "ga": "Féadann imreoirí an liathróid a ghabháil sa lámh ach ní féidir leo í a iompar ar feadh níos mó ná 4 chéim. Ina dhiaidh sin, caithfidh siad í a phreabadh nó í a chothromú ar an gcamán (aonair).",
-    "de": "Spieler dürfen den Ball fangen, aber nicht mehr als 4 Schritte tragen. Danach muss er geprellt oder auf dem Hurley balanciert werden (Solo)."
+    "en": "Players may catch the ball in the hand but cannot carry it for more than 4 steps. They may handle the ball a maximum of twice before they must solo, bounce, kick, or strike it.",
+    "ga": "Féadann imreoirí an liathróid a ghabháil sa lámh ach ní féidir leo í a iompar ar feadh níos mó ná 4 chéim. Féadann siad an liathróid a láimhseáil faoi dhó ar a mhéad sula gcaithfidh siad aonair a dhéanamh, í a phreabadh, í a chiceáil, nó í a bhualadh.",
+    "de": "Spieler dürfen den Ball fangen, aber nicht mehr als 4 Schritte tragen. Sie dürfen den Ball höchstens zweimal aufnehmen, bevor sie solo spielen, prellen, kicken oder schlagen müssen."
   },
   "learn.hurling.rules.rule4": {
-    "en": "The ball may not be picked up directly from the ground with the hand. Instead, it must be lifted with the hurley.",
-    "ga": "Ní féidir an liathróid a thógáil díreach ón talamh leis an lámh. Ina áit sin, caithfear í a ardú leis an gcamán.",
-    "de": "Der Ball darf nicht direkt mit der Hand vom Boden aufgehoben werden. Stattdessen muss er mit dem Hurley aufgenommen werden."
+    "en": "The ball may not be picked up directly from the ground with the hand. Instead, it must be lifted with the hurley, the foot, or a combination of both.",
+    "ga": "Ní féidir an liathróid a thógáil díreach ón talamh leis an lámh. Ina áit sin, caithfear í a ardú leis an gcamán, leis an gcos, nó le teaglaim den dá cheann.",
+    "de": "Der Ball darf nicht direkt mit der Hand vom Boden aufgehoben werden. Stattdessen muss er mit dem Hurley, dem Fuß oder einer Kombination aus beidem aufgenommen werden."
   },
   "learn.hurling.rules.rule5": {
-    "en": "A player may hand-pass the ball (strike it with the fist) but not throw it.",
-    "ga": "Féadann imreoir an liathróid a lámhphasáil (í a bhualadh leis an dorn) ach ní féidir í a chaitheamh.",
-    "de": "Ein Spieler darf den Ball per Handpass spielen (mit der Faust schlagen), aber nicht werfen."
+    "en": "A player may hand-pass the ball - striking it with the fist or the open hand (underhand action) but may not throw it.",
+    "ga": "Féadann imreoir an liathróid a lámhphasáil – í a bhualadh leis an dorn nó leis an lámh oscailte (gníomh faoin lámh) – ach ní féidir í a chaitheamh.",
+    "de": "Ein Spieler darf den Ball per Handpass spielen – mit der Faust oder der offenen Hand schlagen (Unterhandaktion) – aber nicht werfen."
   },
   "learn.hurling.rules.rule6": {
-    "en": "Shoulder-to-shoulder tackles are permitted, but tripping, pushing, or pulling is not allowed.",
-    "ga": "Ceadaítear tacláil gualainn ar ghualainn, ach ní cheadaítear cos a chur faoi, brú, ná tarraingt.",
-    "de": "Schulter-an-Schulter-Tackles sind erlaubt, aber Treten, Schubsen oder Ziehen ist verboten."
+    "en": "Shoulder-to-shoulder tackles are permitted (with at least one foot on the ground), but tripping, pushing, pulling, or charging from the front or back is not allowed.",
+    "ga": "Ceadaítear tacláil gualainn ar ghualainn (le cos amháin ar a laghad ar an talamh), ach ní cheadaítear cos a chur faoi, brú, tarraingt, ná ionsaí ón tosach nó ón gcúl.",
+    "de": "Schulter-an-Schulter-Tackles sind erlaubt (mit mindestens einem Fuß am Boden), aber Treten, Schubsen, Ziehen oder Anrempeln von vorne oder hinten ist verboten."
   },
   "learn.hurling.rules.rule7": {
-    "en": "A match consists of two halves of 30 minutes (adult) or 20 minutes (underage). Helmets are mandatory for all players.",
-    "ga": "Bíonn dhá leath de 30 nóiméad (fásta) nó 20 nóiméad (faoi aois) i gcluiche. Tá clogaid éigeantach do gach imreoir.",
-    "de": "Ein Spiel besteht aus zwei Halbzeiten von 30 Minuten (Erwachsene) oder 20 Minuten (Jugend). Helme sind für alle Spieler Pflicht."
+    "en": "A match consists of two halves of 30 minutes for adult club games, 35 minutes for senior inter-county, and varying durations for underage and international. Helmets are mandatory for all players.",
+    "ga": "Bíonn dhá leath de 30 nóiméad i gcluichí club do dhaoine fásta, 35 nóiméad i gcluichí idirchontae do shinsir, agus faid éagsúla do chluichí faoi aois agus idirnáisiúnta. Tá clogaid éigeantach do gach imreoir.",
+    "de": "Ein Spiel besteht aus zwei Halbzeiten von 30 Minuten bei Vereinsspielen für Erwachsene, 35 Minuten bei Senior-Intercounty-Spielen und unterschiedlichen Spielzeiten für Nachwuchs und internationale Spiele. Helme sind für alle Spieler Pflicht."
   },
   "learn.hurling.equipment.hurley.name": {
     "en": "Hurley (Camán)",
@@ -1010,19 +1010,19 @@
     "de": "Der Sliotar darf am Boden oder in der Luft mit dem Hurley geschlagen werden."
   },
   "learn.camogie.rules.rule3": {
-    "en": "Players may not carry the ball in the hand for more than 4 steps. After that, they must solo or release.",
-    "ga": "Ní féidir le himreoirí an liathróid a iompar sa lámh ar feadh níos mó ná 4 chéim. Ina dhiaidh sin, caithfidh siad aonair nó scaoileadh.",
-    "de": "Spielerinnen dürfen den Ball nicht mehr als 4 Schritte in der Hand tragen. Danach müssen sie solo spielen oder abgeben."
+    "en": "A player may carry the ball for up to 4 steps and may catch the sliotar a maximum of two times. After a second catch, they cannot solo again and must strike or pass the sliotar.",
+    "ga": "Féadann imreoir an sliotar a thógáil ar ais ina lámh 2 uair. Ní féidir leo an liathróid a iompar sa lámh ar feadh níos mó ná 4 chéim. Ina dhiaidh sin, caithfidh siad aonair nó scaoileadh.",
+    "de": "Eine Spielerin kann den Sliotar 2 Mal zurück in ihre Hand nehmen. Spielerinnen dürfen den Ball nicht mehr als 4 Schritte in der Hand tragen. Danach müssen sie solo spielen oder abgeben."
   },
   "learn.camogie.rules.rule4": {
-    "en": "Shoulder-to-shoulder contact is allowed, but body-checking and deliberate physical challenges are restricted.",
-    "ga": "Ceadaítear teagmháil gualainn ar ghualainn, ach tá seiceáil choirp agus dúshláin fhisiciúla d'aon ghnó srianta.",
-    "de": "Schulter-an-Schulter-Kontakt ist erlaubt, aber Bodychecks und absichtliche körperliche Herausforderungen sind eingeschränkt."
+    "en": "Side-on body contact is allowed when making a reasonable effort to gain possession, but deliberate shouldering, charging, and body-checking are fouls.",
+    "ga": "Ceadaítear teagmháil choirp ón taobh nuair atá iarracht réasúnta á déanamh seilbh a fháil, ach is cionta iad gualainn d'aon ghnó, ruathar, agus seiceáil choirp.",
+    "de": "Seitlicher Körperkontakt ist erlaubt, wenn ein vertretbarer Versuch unternommen wird, Ballbesitz zu erlangen, aber absichtliches Schultern, Anrempeln und Bodychecks sind Fouls."
   },
   "learn.camogie.rules.rule5": {
-    "en": "A hand-pass goal is not allowed. Goals must be scored by striking the sliotar with the hurley.",
-    "ga": "Ní cheadaítear báire ó lámhphasáil. Caithfear báirí a scóráil trí an sliotar a bhualadh leis an gcamán.",
-    "de": "Ein Handpass-Tor ist nicht erlaubt. Tore müssen durch Schlagen des Sliotars mit dem Hurley erzielt werden."
+    "en": "A hand-pass goal is not allowed, but a hand-pass point (over the bar) is permitted.",
+    "ga": "Ní cheadaítear báire ó lámhphasáil, ach ceadaítear cúilín ó lámhphasáil (thar an trasnán).",
+    "de": "Ein Handpass-Tor ist nicht erlaubt, aber ein Handpass-Point (über die Querlatte) ist erlaubt."
   },
   "learn.camogie.rules.rule6": {
     "en": "Helmets with a faceguard are mandatory for all players.",
@@ -1030,9 +1030,9 @@
     "de": "Helme mit Gesichtsschutz sind für alle Spielerinnen Pflicht."
   },
   "learn.camogie.rules.rule7": {
-    "en": "Matches are two halves of 30 minutes (senior) or shorter at underage level.",
-    "ga": "Bíonn dhá leath de 30 nóiméad i gcluichí (sinsir) nó níos giorra ag leibhéal faoi aois.",
-    "de": "Spiele bestehen aus zwei Halbzeiten von 30 Minuten (Senior) oder kürzer im Nachwuchsbereich."
+    "en": "Matches are two halves of 30 minutes (senior) or shorter at underage or international level.",
+    "ga": "Bíonn dhá leath de 30 nóiméad i gcluichí (sinsir) nó níos giorra ag leibhéal faoi aois nó idirnáisiúnta.",
+    "de": "Spiele bestehen aus zwei Halbzeiten von 30 Minuten (Senior) oder kürzer im Nachwuchs- oder internationalen Bereich."
   },
   "learn.camogie.equipment.hurley.name": {
     "en": "Hurley (Camán)",
