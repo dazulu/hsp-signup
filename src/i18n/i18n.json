@@ -339,15 +339,20 @@
     "ga": "Naisc",
     "de": "Links"
   },
+  "card.strava.club": {
+    "en": "Strava Club",
+    "ga": "Club Strava",
+    "de": "Strava-Club"
+  },
   "card.strava.distance": {
-    "en": "Recent Distance",
-    "ga": "Fad le déanaí",
-    "de": "Letzte Distanz"
+    "en": "Total Recent Distance",
+    "ga": "Fad iomlán le déanaí",
+    "de": "Gesamte letzte Distanz"
   },
   "card.strava.pace": {
-    "en": "Average Pace",
-    "ga": "Meánluas",
-    "de": "Durchschnittstempo"
+    "en": "Average Club Pace",
+    "ga": "Meánluas an Chlub",
+    "de": "Durchschnittstempo des Clubs"
   },
   "card.strava.latest.run": {
     "en": "Latest Run",

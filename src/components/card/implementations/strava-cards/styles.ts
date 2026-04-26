@@ -1,19 +1,30 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../../../theme";
 
-const { fontFamily, fontSize, space } = theme;
+const { colors, fontFamily, fontSize, space } = theme;
 
 export const styles = StyleSheet.create({
-  name: {
-    marginTop: space[4],
-    fontSize: fontSize.body,
-    fontFamily: fontFamily.semibold,
-    lineHeight: fontSize.body * 1.4,
+  statsList: {
+    gap: space[4],
   },
-  value: {
-    marginTop: 2,
-    fontSize: fontSize["2xl"],
+  statRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+  },
+  statLabel: {
+    fontSize: fontSize.md,
+    fontFamily: fontFamily.regular,
+    color: colors.textMuted,
+  },
+  statValue: {
+    fontSize: fontSize.lg,
     fontFamily: fontFamily.semibold,
-    lineHeight: fontSize["2xl"] * 1.2,
+    color: colors.textPrimary,
+  },
+  statSubvalue: {
+    fontSize: fontSize.sm,
+    fontFamily: fontFamily.regular,
+    color: colors.textMuted,
   },
 });
