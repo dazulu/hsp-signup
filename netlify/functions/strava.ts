@@ -81,14 +81,18 @@ export const handler: Handler = async (event) => {
     const totalDistanceKm =
       runs.reduce((acc, activity) => acc + activity.distance, 0) / 1000;
 
+    const runsWithDistance = runs.filter((activity) => activity.distance > 0);
+
     let totalAveragePace = "0:00";
-    if (runs.length > 0) {
-      const totalPaceSeconds = runs.reduce(
+    if (runsWithDistance.length > 0) {
+      const totalPaceSeconds = runsWithDistance.reduce(
         (acc, activity) =>
           acc + activity.moving_time / (activity.distance / 1000),
         0,
       );
-      const avgPaceSeconds = Math.floor(totalPaceSeconds / runs.length);
+      const avgPaceSeconds = Math.floor(
+        totalPaceSeconds / runsWithDistance.length,
+      );
       const minutes = Math.floor(avgPaceSeconds / 60);
       const seconds = avgPaceSeconds % 60;
       totalAveragePace = `${minutes}:${seconds.toString().padStart(2, "0")}`;
