@@ -12,7 +12,20 @@ const BASE_URL =
 const API_KEY = process.env.EXPO_PUBLIC_API_KEY ?? "";
 
 const CACHE_KEY = "app_strava_cache_v2";
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+export const getCachedStravaData = async (): Promise<StravaData | null> => {
+  try {
+    const raw = await AsyncStorage.getItem(CACHE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const cached = JSON.parse(raw) as { ts: number; data: StravaData };
+    return cached.data;
+  } catch {
+    return null;
+  }
+};
 
 export const fetchStravaData = async (
   force = false,

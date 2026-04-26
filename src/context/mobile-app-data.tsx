@@ -13,7 +13,11 @@ import {
   fetchMobileAppData,
 } from "../services/contentful";
 import type { MobileAppData } from "../services/contentful/types";
-import { fetchStravaData, type StravaData } from "../services/strava";
+import {
+  fetchStravaData,
+  getCachedStravaData,
+  type StravaData,
+} from "../services/strava";
 
 type MobileAppDataContextValue = {
   data: MobileAppData | null;
@@ -93,6 +97,11 @@ export const MobileAppDataProvider = ({
   }, []);
 
   useEffect(() => {
+    if (Platform.OS !== "web") {
+      getCachedStravaData().then((cached) => {
+        setStravaData((current) => current ?? cached);
+      });
+    }
     refresh(false);
   }, [refresh]);
 

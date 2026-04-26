@@ -20,18 +20,18 @@ const ClubScrollContent = () => {
   const { headerHeight, contentPaddingTop, onScrollHandler, resetScrollY } =
     useScreenLayout();
   const { bottom } = useSafeAreaInsets();
-  const { data, refresh, refreshContentful } = useMobileAppData();
+  const { data, refresh } = useMobileAppData();
   const scrollRef = useRef<ScrollView>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
-      refreshContentful();
+      refresh();
       return () => {
         scrollRef.current?.scrollTo({ y: 0, animated: false });
         resetScrollY();
       };
-    }, [refreshContentful, resetScrollY]),
+    }, [refresh, resetScrollY]),
   );
 
   const onRefresh = useCallback(() => {
