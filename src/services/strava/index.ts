@@ -4,6 +4,7 @@ import { Platform } from "react-native";
 export type StravaData = {
   totalDistanceKm: number;
   totalAveragePace: string;
+  latestRun: { athleteName: string; distanceKm: number } | null;
 };
 
 const BASE_URL =

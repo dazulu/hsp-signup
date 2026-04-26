@@ -65,6 +65,7 @@ export const handler: Handler = async (event) => {
         sport_type: string;
         distance: number;
         moving_time: number;
+        athlete: { firstname: string; lastname: string };
       }>
     >(
       "www.strava.com",
@@ -93,10 +94,18 @@ export const handler: Handler = async (event) => {
       totalAveragePace = `${minutes}:${seconds.toString().padStart(2, "0")}`;
     }
 
+    const latestRun =
+      runs.length > 0
+        ? {
+            athleteName: `${runs[0].athlete.firstname} ${runs[0].athlete.lastname}`,
+            distanceKm: runs[0].distance / 1000,
+          }
+        : null;
+
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ totalDistanceKm, totalAveragePace }),
+      body: JSON.stringify({ totalDistanceKm, totalAveragePace, latestRun }),
     };
   } catch (error) {
     console.error("Strava fetch failed:", (error as Error).message);

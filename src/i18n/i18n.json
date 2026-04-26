@@ -349,6 +349,11 @@
     "ga": "Meánluas",
     "de": "Durchschnittstempo"
   },
+  "card.strava.latest.run": {
+    "en": "Latest Run",
+    "ga": "Rith is Déanaí",
+    "de": "Letzter Lauf"
+  },
   "card.strava.tooltip": {
     "en": "Join the Hamburg GAA group on Strava to pump the numbers!",
     "ga": "Glac páirt i ngrúpa Hamburg GAA ar Strava chun na huimhreacha a mhéadú!",
