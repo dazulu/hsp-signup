@@ -38,7 +38,11 @@ const LINKS: Array<{ label: string; href: string }> = [
     href: "https://www.germangaa.de/clubs",
   },
   {
-    label: "Hochschulsport Hamburg",
+    label: "Strava Club",
+    href: "https://www.strava.com/clubs/1228201",
+  },
+  {
+    label: "Hochschulsport",
     href: "https://www.hochschulsport.uni-hamburg.de/",
   },
 ];

@@ -6,7 +6,7 @@ const { colors, fontFamily, fontSize, radii, shadows, space } = theme;
 export const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: space[32],
@@ -23,5 +23,8 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.md,
     color: colors.textPrimary,
     lineHeight: fontSize.md * 1.5,
+  },
+  link: {
+    marginTop: space[12],
   },
 });

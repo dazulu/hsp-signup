@@ -13,6 +13,8 @@ export type CardProps = {
   span?: 1 | 2;
   title?: string;
   tooltipText?: string;
+  tooltipLinkUrl?: string;
+  tooltipLinkText?: string;
   transparent?: boolean;
   variant?: "notice";
 };

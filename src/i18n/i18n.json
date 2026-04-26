@@ -354,6 +354,16 @@
     "ga": "Glac páirt i ngrúpa Hamburg GAA ar Strava chun na huimhreacha a mhéadú!",
     "de": "Tritt der Hamburg GAA Gruppe auf Strava bei und kurbel die Zahlen hoch!"
   },
+  "card.strava.tooltip.link.text": {
+    "en": "Open Strava Club",
+    "ga": "Oscail Club Strava",
+    "de": "Strava-Club öffnen"
+  },
+  "card.strava.tooltip.link.url": {
+    "en": "https://www.strava.com/clubs/1228201",
+    "ga": "https://www.strava.com/clubs/1228201",
+    "de": "https://www.strava.com/clubs/1228201"
+  },
   "card.upcoming.title": {
     "en": "Upcoming",
     "ga": "Le teacht",

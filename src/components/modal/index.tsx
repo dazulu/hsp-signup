@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import { Animated, Modal, Pressable, Text, View } from "react-native";
 import { theme } from "../../theme";
+import { ExternalLink } from "../external-link";
 import { styles } from "./styles";
 import type { TooltipModalProps } from "./types";
 
@@ -9,7 +10,11 @@ const { colors } = theme;
 
 const FADE_DURATION = 200;
 
-export const TooltipModal = ({ text }: TooltipModalProps) => {
+export const TooltipModal = ({
+  text,
+  linkUrl,
+  linkText,
+}: TooltipModalProps) => {
   const [visible, setVisible] = useState(false);
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -23,7 +28,11 @@ export const TooltipModal = ({ text }: TooltipModalProps) => {
       toValue: 0,
       duration: FADE_DURATION,
       useNativeDriver: true,
-    }).start(() => setVisible(false));
+    }).start(({ finished }) => {
+      if (finished) {
+        setVisible(false);
+      }
+    });
   };
 
   const onShow = () => {
@@ -36,7 +45,12 @@ export const TooltipModal = ({ text }: TooltipModalProps) => {
 
   return (
     <>
-      <Pressable onPress={open} accessibilityRole="button" hitSlop={8}>
+      <Pressable
+        onPress={open}
+        accessibilityRole="button"
+        accessibilityLabel="More information"
+        hitSlop={8}
+      >
         <Ionicons
           name="information-circle-outline"
           size={14}
@@ -55,10 +69,17 @@ export const TooltipModal = ({ text }: TooltipModalProps) => {
           <Pressable
             style={styles.backdropDismiss}
             onPress={close}
-            accessibilityRole="button"
+            accessible={false}
           />
           <View style={styles.box}>
             <Text style={styles.content}>{text}</Text>
+            {linkUrl && linkText ? (
+              <ExternalLink
+                href={linkUrl}
+                label={linkText}
+                style={styles.link}
+              />
+            ) : null}
           </View>
         </Animated.View>
       </Modal>

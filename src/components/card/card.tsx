@@ -29,9 +29,11 @@ export const Card = ({
   onLongPress,
   delayLongPress,
   span,
+  tooltipText,
+  tooltipLinkUrl,
+  tooltipLinkText,
   transparent = false,
   variant,
-  tooltipText,
 }: CardProps) => {
   const spanStyle = span != null ? SPAN_STYLES[span] : undefined;
 
@@ -51,7 +53,13 @@ export const Card = ({
 
   const titleStyle = gradient ? styles.titleOnGradient : styles.title;
 
-  const tooltipIcon = tooltipText ? <TooltipModal text={tooltipText} /> : null;
+  const tooltipIcon = tooltipText ? (
+    <TooltipModal
+      text={tooltipText}
+      linkUrl={tooltipLinkUrl}
+      linkText={tooltipLinkText}
+    />
+  ) : null;
 
   if (onPress || onLongPress) {
     return (

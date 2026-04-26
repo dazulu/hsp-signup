@@ -29,6 +29,8 @@
   noticeIcon: "#f38637",
 
   like: "#ff4d6d",
+
+  overlay: "rgba(0, 0, 0, 0.4)",
 } as const;
 
 export const radii = {

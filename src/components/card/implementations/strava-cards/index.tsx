@@ -20,6 +20,8 @@ export const StravaCards = () => {
         span={1}
         title={t("card.strava.distance")}
         tooltipText={t("card.strava.tooltip")}
+        tooltipLinkUrl={t("card.strava.tooltip.link.url")}
+        tooltipLinkText={t("card.strava.tooltip.link.text")}
       >
         <Text style={[cardStyles.bodyText, styles.value]}>{km}</Text>
       </Card>
@@ -28,6 +30,8 @@ export const StravaCards = () => {
         span={1}
         title={t("card.strava.pace")}
         tooltipText={t("card.strava.tooltip")}
+        tooltipLinkUrl={t("card.strava.tooltip.link.url")}
+        tooltipLinkText={t("card.strava.tooltip.link.text")}
       >
         <Text style={[cardStyles.bodyText, styles.value]}>{pace}</Text>
       </Card>
