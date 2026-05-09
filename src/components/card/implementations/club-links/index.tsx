@@ -30,6 +30,10 @@ const LINKS: Array<{ label: string; href: string }> = [
     href: "https://www.foireann.ie/",
   },
   {
+    label: "Feirla",
+    href: "https://www.feirla.com/?utm_source=hamburggaa",
+  },
+  {
     label: "GAA Europe",
     href: "https://gaelicgameseurope.com/",
   },
