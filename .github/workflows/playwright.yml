@@ -43,13 +43,21 @@ jobs:
           ENC_PASSWORD: ${{ github.event.client_payload.hsp_password }}
 
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            playwright
+            playwright.config.ts
+            package.json
+            package-lock.json
+            tsconfig.json
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts --no-audit --no-fund --omit=optional
 
       - name: Restore Playwright browsers cache
         id: playwright-cache
@@ -63,10 +71,6 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
-
-      - name: Install Playwright system dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
 
       - name: Run Playwright script
         run: npx playwright test
