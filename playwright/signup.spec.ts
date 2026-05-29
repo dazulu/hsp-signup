@@ -107,20 +107,6 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
     ).toBeTruthy();
   }
 
-  // If both these strings are visible, the user is already signed up for this session
-  const alreadyBookedText1 = await newPage
-    .locator("text=dieses Angebot bereits seit")
-    .isVisible();
-  const alreadyBookedText2 = await newPage
-    .locator("text=mit der Buchungsnummer")
-    .isVisible();
-
-  if (alreadyBookedText1 && alreadyBookedText2) {
-    mkdirSync("test-results", { recursive: true });
-    writeFileSync("test-results/already-booked", "");
-    expect(false, "User is already signed up for this session").toBeTruthy();
-  }
-
   // Select Terms & Conditions checkbox and continue
   await newPage.check('input[name="tnbed"]');
   await newPage.click("#bs_submit");
@@ -130,6 +116,18 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
 
   // Wait for page to update after booking
   await newPage.waitForLoadState("networkidle");
+
+  // If this text is visible, the user is already signed up for this session
+  // (this page appears after the final booking step, not after login)
+  const alreadyBookedVisible = await newPage
+    .locator("text=Sie sind für dieses Angebot bereits seit")
+    .isVisible();
+
+  if (alreadyBookedVisible) {
+    mkdirSync("test-results", { recursive: true });
+    writeFileSync("test-results/already-booked", "");
+    expect(false, "User is already signed up for this session").toBeTruthy();
+  }
 
   // Capture booking result
   await newPage.screenshot({
