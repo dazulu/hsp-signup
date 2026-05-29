@@ -45,6 +45,7 @@ export type BookingState =
   | { phase: "success" }
   | { phase: "failure" }
   | { phase: "auth_failed" }
+  | { phase: "no_membership" }
   | { phase: "timeout"; correlationId: string };
 
 export const useBooking = () => {
@@ -81,6 +82,7 @@ export const useBooking = () => {
       booking.phase === "success" ||
       booking.phase === "failure" ||
       booking.phase === "auth_failed" ||
+      booking.phase === "no_membership" ||
       booking.phase === "timeout"
     ) {
       if (Platform.OS !== "web") {
@@ -188,6 +190,10 @@ export const useBooking = () => {
           } else if (data.status === "auth_failed") {
             if (!cancelled) {
               setBooking({ phase: "auth_failed" });
+            }
+          } else if (data.status === "no_membership") {
+            if (!cancelled) {
+              setBooking({ phase: "no_membership" });
             }
           } else if (data.status === "failure") {
             if (!cancelled) {

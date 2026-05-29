@@ -384,8 +384,9 @@ export const BookingForm = ({
                 </Animated.View>
               )}
 
-              {/* Auth failed */}
-              {booking.phase === "auth_failed" && (
+              {/* Auth failed / No membership */}
+              {(booking.phase === "auth_failed" ||
+                booking.phase === "no_membership") && (
                 <Animated.View
                   style={[
                     styles.statusBox,
@@ -394,7 +395,11 @@ export const BookingForm = ({
                   ]}
                 >
                   <Text style={[styles.statusText, styles.statusTextError]}>
-                    {t("booking.result.authFailed")}
+                    {t(
+                      booking.phase === "auth_failed"
+                        ? "booking.result.authFailed"
+                        : "booking.result.noMembership",
+                    )}
                   </Text>
                   <Pressable
                     style={styles.dismissBtn}

@@ -93,6 +93,20 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
     expect(false, "Login credentials were rejected by HSP").toBeTruthy();
   }
 
+  // If this text is visible, the user's HSP membership is not active for this semester
+  const noMembershipVisible = await newPage
+    .locator("text=vorher eines folgender Angebote gebucht haben")
+    .isVisible();
+
+  if (noMembershipVisible) {
+    mkdirSync("test-results", { recursive: true });
+    writeFileSync("test-results/no-membership", "");
+    expect(
+      false,
+      "HSP membership is not active for this semester",
+    ).toBeTruthy();
+  }
+
   // Select Terms & Conditions checkbox and continue
   await newPage.check('input[name="tnbed"]');
   await newPage.click("#bs_submit");

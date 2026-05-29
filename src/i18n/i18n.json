@@ -264,6 +264,11 @@
     "ga": "Seans nár oibrigh do ríomhphost nó do phasfhocal. Athsheiceáil do shonraí logála Hochschulsport Hamburg agus bain triail eile as.",
     "de": "Deine E-Mail oder dein Passwort haben möglicherweise nicht funktioniert. Überprüfe deine Hochschulsport Hamburg Zugangsdaten und versuch's erneut."
   },
+  "booking.result.noMembership": {
+    "en": "It looks like you do not have an active, paid FlexiCard membership or it has expired.",
+    "ga": "Is cosúil nach bhfuil ballraíocht FlexiCard ghníomhach, íoctha agat nó go bhfuil sí imithe in éag.",
+    "de": "Es sieht so aus, als hättest du keine aktive, bezahlte FlexiCard-Mitgliedschaft oder sie ist abgelaufen."
+  },
   "booking.result.timeout": {
     "en": "Couldn't confirm the result. Check your email - if nothing from Hochschulsport Hamburg arrives within 10 minutes, try again.",
     "ga": "Níorbh fhéidir an toradh a dheimhniú. Seiceáil do ríomhphost - mura dtagann faic ó Hochschulsport Hamburg laistigh de 10 nóiméad, bain triail eile as.",

@@ -84,9 +84,16 @@ export const handler: Handler = async (event) => {
       };
     }
 
-    // Run failed — check if the auth-failed artifact was uploaded
-    const hasAuthFailed = await checkAuthFailedArtifact(token, match.id);
-    const status = hasAuthFailed ? "auth_failed" : "failure";
+    // Run failed — check which failure artifact was uploaded
+    const [hasAuthFailed, hasNoMembership] = await Promise.all([
+      checkArtifactExists(token, match.id, "auth-failed"),
+      checkArtifactExists(token, match.id, "no-membership"),
+    ]);
+    const status = hasAuthFailed
+      ? "auth_failed"
+      : hasNoMembership
+        ? "no_membership"
+        : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
   } catch (error) {
     console.error("Status check failed:", (error as Error).message);
@@ -134,9 +141,10 @@ function listRuns(token: string): Promise<WorkflowRun[]> {
   });
 }
 
-function checkAuthFailedArtifact(
+function checkArtifactExists(
   token: string,
   runId: number,
+  artifactName: string,
 ): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const request = https.request(
@@ -165,7 +173,7 @@ function checkAuthFailedArtifact(
               name: string;
             }[];
             resolve(
-              artifacts.some((artifact) => artifact.name === "auth-failed"),
+              artifacts.some((artifact) => artifact.name === artifactName),
             );
           } catch {
             reject(new Error("Invalid JSON from GitHub"));
