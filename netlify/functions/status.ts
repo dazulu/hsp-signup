@@ -85,15 +85,19 @@ export const handler: Handler = async (event) => {
     }
 
     // Run failed — check which failure artifact was uploaded
-    const [hasAuthFailed, hasNoMembership] = await Promise.all([
-      checkArtifactExists(token, match.id, "auth-failed"),
-      checkArtifactExists(token, match.id, "no-membership"),
-    ]);
+    const [hasAuthFailed, hasNoMembership, hasAlreadyBooked] =
+      await Promise.all([
+        checkArtifactExists(token, match.id, "auth-failed"),
+        checkArtifactExists(token, match.id, "no-membership"),
+        checkArtifactExists(token, match.id, "already-booked"),
+      ]);
     const status = hasAuthFailed
       ? "auth_failed"
       : hasNoMembership
         ? "no_membership"
-        : "failure";
+        : hasAlreadyBooked
+          ? "already_booked"
+          : "failure";
     return { statusCode: 200, headers, body: JSON.stringify({ status }) };
   } catch (error) {
     console.error("Status check failed:", (error as Error).message);

@@ -338,13 +338,18 @@ export const BookingForm = ({
                 </Text>
               )}
 
-              {/* Success */}
-              {booking.phase === "success" && (
+              {/* Success / Already booked */}
+              {(booking.phase === "success" ||
+                booking.phase === "already_booked") && (
                 <Animated.View
                   style={[styles.statusBox, { opacity: doneAnim }]}
                 >
                   <Text style={styles.statusText}>
-                    {t("booking.result.success")}
+                    {t(
+                      booking.phase === "success"
+                        ? "booking.result.success"
+                        : "booking.result.alreadyBooked",
+                    )}
                   </Text>
                   <Pressable
                     style={styles.dismissBtn}

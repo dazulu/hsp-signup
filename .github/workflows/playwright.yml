@@ -97,6 +97,15 @@ jobs:
           if-no-files-found: ignore
           retention-days: 4
 
+      - name: Upload already-booked marker
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: already-booked
+          path: test-results/already-booked
+          if-no-files-found: ignore
+          retention-days: 4
+
       - name: Save Playwright browsers cache
         if: always() && steps.playwright-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4

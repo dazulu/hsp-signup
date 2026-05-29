@@ -254,6 +254,11 @@
     "ga": "Curtha in áirithe! Gheobhaidh tú ríomhphost deimhnithe ó Hochschulsport Hamburg. Faic i gceann 10 nóiméad? Bain triail eile as.",
     "de": "Gebucht! Du erhältst eine Bestätigungs-E-Mail vom Hochschulsport Hamburg. Nichts innerhalb von 10 Minuten? Versuch's erneut."
   },
+  "booking.result.alreadyBooked": {
+    "en": "You're already signed up for this session. See you on the pitch!",
+    "ga": "Tá tú cláraithe cheana féin don seisiún seo. Feicfimid thú ar an bpáirc!",
+    "de": "Du bist für diese Einheit bereits angemeldet. Bis auf dem Platz!"
+  },
   "booking.result.failure": {
     "en": "Booking failed. Check your login details and that your Hochschulsport Hamburg membership is active.",
     "ga": "Theip ar an áirithint. Seiceáil do shonraí logála isteach agus go bhfuil do bhallraíocht Hochschulsport Hamburg gníomhach.",

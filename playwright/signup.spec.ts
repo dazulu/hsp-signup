@@ -107,6 +107,20 @@ test("Book Hurling und Camogie course", async ({ context, page }) => {
     ).toBeTruthy();
   }
 
+  // If both these strings are visible, the user is already signed up for this session
+  const alreadyBookedText1 = await newPage
+    .locator("text=dieses Angebot bereits seit")
+    .isVisible();
+  const alreadyBookedText2 = await newPage
+    .locator("text=mit der Buchungsnummer")
+    .isVisible();
+
+  if (alreadyBookedText1 && alreadyBookedText2) {
+    mkdirSync("test-results", { recursive: true });
+    writeFileSync("test-results/already-booked", "");
+    expect(false, "User is already signed up for this session").toBeTruthy();
+  }
+
   // Select Terms & Conditions checkbox and continue
   await newPage.check('input[name="tnbed"]');
   await newPage.click("#bs_submit");

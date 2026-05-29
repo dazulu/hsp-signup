@@ -43,6 +43,7 @@ export type BookingState =
   | { phase: "waiting"; correlationId: string }
   | { phase: "polling"; correlationId: string }
   | { phase: "success" }
+  | { phase: "already_booked" }
   | { phase: "failure" }
   | { phase: "auth_failed" }
   | { phase: "no_membership" }
@@ -80,6 +81,7 @@ export const useBooking = () => {
   useEffect(() => {
     if (
       booking.phase === "success" ||
+      booking.phase === "already_booked" ||
       booking.phase === "failure" ||
       booking.phase === "auth_failed" ||
       booking.phase === "no_membership" ||
@@ -87,7 +89,7 @@ export const useBooking = () => {
     ) {
       if (Platform.OS !== "web") {
         Haptics.notificationAsync(
-          booking.phase === "success"
+          booking.phase === "success" || booking.phase === "already_booked"
             ? Haptics.NotificationFeedbackType.Success
             : Haptics.NotificationFeedbackType.Error,
         );
@@ -194,6 +196,10 @@ export const useBooking = () => {
           } else if (data.status === "no_membership") {
             if (!cancelled) {
               setBooking({ phase: "no_membership" });
+            }
+          } else if (data.status === "already_booked") {
+            if (!cancelled) {
+              setBooking({ phase: "already_booked" });
             }
           } else if (data.status === "failure") {
             if (!cancelled) {
