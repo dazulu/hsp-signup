@@ -43,7 +43,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 - **SecureStore keys:** `app_user_id` (anonymous UUID for photo likes — persists across iOS reinstalls via Keychain).
-- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`, `app_training_reminder_prefs`, `app_training_reminder_state`. Keep the `STORAGE_KEYS` constant in `src/hooks/use-copy-debug-info.ts` in sync when adding new keys.
+- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`, `app_training_reminder_prefs`, `app_training_reminder_state`, `app_whats_new_seen_version`. Keep the `STORAGE_KEYS` constant in `src/hooks/use-copy-debug-info.ts` in sync when adding new keys.
 
 ## i18n
 

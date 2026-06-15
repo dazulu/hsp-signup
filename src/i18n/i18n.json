@@ -1443,5 +1443,120 @@
     "en": "Repeat, varying the height and angle. Practice catching under pressure by imagining an opponent.",
     "ga": "Déan arís, ag athrú na hairde agus an uillinn. Cleachtaigh breith faoi bhrú trí chéile comhraic a shamhlú.",
     "de": "Wiederhole mit unterschiedlicher Höhe und Winkel. Übe das Fangen unter Druck, indem du dir einen Gegner vorstellst."
+  },
+  "settings.whatsNew": {
+    "en": "What's new",
+    "ga": "Cad atá nua",
+    "de": "Was ist neu"
+  },
+  "whatsNew.title": {
+    "en": "What's new",
+    "ga": "Cad atá nua",
+    "de": "Was ist neu"
+  },
+  "whatsNew.close": {
+    "en": "Close",
+    "ga": "Dún",
+    "de": "Schließen"
+  },
+  "whatsNew.crestA11yLabel": {
+    "en": "What's new — tap to see recent updates",
+    "ga": "Cad atá nua — tapáil chun nuashonruithe le déanaí a fheiceáil",
+    "de": "Was ist neu — tippe, um aktuelle Updates zu sehen"
+  },
+  "whatsNew.reminders.title": {
+    "en": "Training reminders",
+    "ga": "Meabhrúcháin traenála",
+    "de": "Trainings-Erinnerungen"
+  },
+  "whatsNew.reminders.body": {
+    "en": "Get a push notification before each session so you never miss a training. Set your preferred reminder time in Settings.",
+    "ga": "Faigh fógra brú roimh gach seisiún ionas nach gcailleann tú traenáil ar bith. Socraigh do am meabhrúcháin roghnaithe i Socruithe.",
+    "de": "Erhalte eine Push-Benachrichtigung vor jeder Einheit, damit du kein Training verpasst. Stelle deine bevorzugte Erinnerungszeit in den Einstellungen ein."
+  },
+  "whatsNew.reminders.cta": {
+    "en": "Open Settings",
+    "ga": "Oscail Socruithe",
+    "de": "Einstellungen öffnen"
+  },
+  "whatsNew.alreadyBooked.title": {
+    "en": "Smarter booking detection",
+    "ga": "Braite áirithinte níos cliste",
+    "de": "Intelligentere Buchungserkennung"
+  },
+  "whatsNew.alreadyBooked.body": {
+    "en": "When you try to book, the app now detects if you're already signed up for a session and lets you know.",
+    "ga": "Nuair a dhéanann tú iarracht áirithint, braiteann an aip anois má tá tú cláraithe cheana féin do sheisiún agus cuireann sé in iúl duit.",
+    "de": "Wenn du versuchst zu buchen, erkennt die App jetzt, ob du bereits für eine Einheit angemeldet bist, und informiert dich."
+  },
+  "whatsNew.hspMembership.title": {
+    "en": "HSP membership feedback",
+    "ga": "Aiseolas ballraíochta HSP",
+    "de": "HSP-Mitgliedschaft-Rückmeldung"
+  },
+  "whatsNew.hspMembership.body": {
+    "en": "If your HSP membership isn't active, the app now tells you clearly instead of leaving you guessing why a booking didn't go through.",
+    "ga": "Mura bhfuil do bhallraíocht HSP gníomhach, insíonn an aip duit anois go soiléir in ionad tú a fhágáil ag thomhas cén fáth nár éirigh le háirithint.",
+    "de": "Wenn deine HSP-Mitgliedschaft nicht aktiv ist, informiert dich die App jetzt klar darüber, anstatt dich im Unklaren zu lassen."
+  },
+  "whatsNew.strava.title": {
+    "en": "Strava integration",
+    "ga": "Comhtháthú Strava",
+    "de": "Strava-Integration"
+  },
+  "whatsNew.strava.body": {
+    "en": "Your latest club run and Strava club links now appear on the Club screen, so you can stay connected with the squad's activity.",
+    "ga": "Taispeántar do rith club is déanaí agus naisc chlub Strava anois ar scáileán an Chlub, ionas gur féidir leat fanacht nasctha le gníomhaíocht an fhoirne.",
+    "de": "Dein letzter Club-Lauf und die Strava-Club-Links erscheinen jetzt im Club-Bereich, damit du mit den Aktivitäten der Mannschaft verbunden bleibst."
+  },
+  "whatsNew.strava.cta": {
+    "en": "Go to Club",
+    "ga": "Téigh go dtí an Club",
+    "de": "Zum Club"
+  },
+  "whatsNew.learn.title": {
+    "en": "Learn section",
+    "ga": "Rannóg Foghlama",
+    "de": "Lernbereich"
+  },
+  "whatsNew.learn.body": {
+    "en": "Explore skills, drills, and the history of Hurling, Football, and Camogie — all in one place. Great for players new to Gaelic games.",
+    "ga": "Déan iniúchadh ar scileanna, cleachtaí, agus stair an Iomána, Peil na hÉireann agus na Camógaíochta — gach rud in aon áit amháin. Feiliúnach do imreoirí nua ar chluichí Gaelacha.",
+    "de": "Entdecke Techniken, Übungen und die Geschichte von Hurling, Football und Camogie – alles an einem Ort. Ideal für Spieler, die neu in den gälischen Spielen sind."
+  },
+  "whatsNew.learn.cta": {
+    "en": "Explore Learn",
+    "ga": "Iniúch an Fhoghlaim",
+    "de": "Lernbereich erkunden"
+  },
+  "whatsNew.trainingInfo.title": {
+    "en": "Training info improvements",
+    "ga": "Feabhsuithe ar eolas traenála",
+    "de": "Verbesserungen bei Trainingsinformationen"
+  },
+  "whatsNew.trainingInfo.body": {
+    "en": "The training screen has been updated with social proof, better layout, and upcoming event dates so you always know what's on.",
+    "ga": "Nuashonraíodh an scáileán traenála le cruthúnas sóisialta, leagan amach níos fearr, agus dátaí imeachtaí atá le teacht ionas go mbeidh a fhios agat i gcónaí cad atá ar siúl.",
+    "de": "Der Trainingsbereich wurde mit sozialem Beweis, besserem Layout und bevorstehenden Veranstaltungsdaten aktualisiert, damit du immer weißt, was geplant ist."
+  },
+  "whatsNew.trainingInfo.cta": {
+    "en": "Go to Training",
+    "ga": "Téigh go dtí Traenáil",
+    "de": "Zum Training"
+  },
+  "whatsNew.photoGalleries.title": {
+    "en": "Photo galleries",
+    "ga": "Gailearaí grianghraf",
+    "de": "Fotogalerien"
+  },
+  "whatsNew.photoGalleries.body": {
+    "en": "Browse match and training photos, zoom in for a closer look, and like your favourite shots. Galleries update after every session.",
+    "ga": "Brabhsáil grianghraif cluiche agus traenála, zúmáil isteach le féachaint níos gaire, agus cuir 'is maith liom' le do ghrianghraif is fearr. Nuashonraítear gailearaí tar éis gach seisiúin.",
+    "de": "Durchstöbere Spiel- und Trainingsfotos, zoome für eine genauere Ansicht hinein und like deine Lieblingsaufnahmen. Galerien werden nach jeder Einheit aktualisiert."
+  },
+  "whatsNew.photoGalleries.cta": {
+    "en": "Browse Photos",
+    "ga": "Brabhsáil Grianghraif",
+    "de": "Fotos durchsuchen"
   }
 }

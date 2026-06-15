@@ -26,6 +26,7 @@ const STORAGE_KEYS = [
   "app_training_reminder_prefs",
   "app_training_reminder_state",
   "app_contentful_quote",
+  "app_whats_new_seen_version",
 ];
 
 const CACHE_KEYS = new Set([

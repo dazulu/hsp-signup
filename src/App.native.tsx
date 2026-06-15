@@ -9,7 +9,15 @@ import {
 } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   SafeAreaProvider,
@@ -17,10 +25,14 @@ import {
 } from "react-native-safe-area-context";
 import { ErrorBoundary } from "./components/error-boundary";
 import { UpdateBanner } from "./components/update-banner";
+import { WhatsNewDot } from "./components/whats-new-dot";
+import { WhatsNewSheet } from "./components/whats-new-sheet";
 import { MobileAppDataProvider } from "./context/mobile-app-data";
+import { WhatsNewSheetContext } from "./context/whats-new-sheet";
 import { useNotificationDeepLink } from "./hooks/use-notification-deep-link";
 import { useOtaUpdate } from "./hooks/use-ota-update";
 import { useTrainingReminderBootstrap } from "./hooks/use-training-reminder-bootstrap";
+import { useWhatsNew } from "./hooks/use-whats-new";
 import { LocaleProvider, useLocale } from "./i18n";
 import { ClubStack } from "./navigation/club-stack";
 import { LearnStack } from "./navigation/learn-stack";
@@ -227,41 +239,54 @@ const TabNavigator = () => {
 
 function AppShell() {
   const insets = useSafeAreaInsets();
+  const { t } = useLocale();
   const { updateReady, applyUpdate } = useOtaUpdate();
+  const { hasUnseen, markSeen } = useWhatsNew();
+  const [sheetVisible, setSheetVisible] = useState(false);
+  const openSheet = useCallback(() => setSheetVisible(true), []);
   useTrainingReminderBootstrap();
   useNotificationDeepLink(navigationRef);
 
   return (
-    <View style={shellStyles.root}>
-      <LinearGradient
-        colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
-        style={StyleSheet.absoluteFill}
-      />
-      <NavigationContainer ref={navigationRef} theme={navTheme}>
-        <TabNavigator />
-      </NavigationContainer>
-      <UpdateBanner
-        visible={updateReady}
-        onPress={applyUpdate}
-        style={{ bottom: TAB_BAR_HEIGHT + 20 }}
-      />
-      <View
-        style={[shellStyles.crestWrap, { top: insets.top + 24 }]}
-        pointerEvents="none"
-      >
-        <Image
-          source={require("../assets/crest.png")}
-          style={shellStyles.crest}
-          resizeMode="contain"
+    <WhatsNewSheetContext.Provider value={{ open: openSheet, markSeen }}>
+      <View style={shellStyles.root}>
+        <LinearGradient
+          colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
+          style={StyleSheet.absoluteFill}
         />
-        <View style={shellStyles.betaBadge}>
-          <Text style={shellStyles.betaText}>BETA</Text>
-        </View>
+        <NavigationContainer ref={navigationRef} theme={navTheme}>
+          <TabNavigator />
+        </NavigationContainer>
+        <UpdateBanner
+          visible={updateReady}
+          onPress={applyUpdate}
+          style={{ bottom: TAB_BAR_HEIGHT + 20 }}
+        />
+        <WhatsNewSheet
+          visible={sheetVisible}
+          onClose={() => setSheetVisible(false)}
+          navigationRef={navigationRef}
+        />
+        <Pressable
+          style={[shellStyles.crestWrap, { top: insets.top + 24 }]}
+          onPress={() => setSheetVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel={t("whatsNew.crestA11yLabel")}
+        >
+          <Image
+            source={require("../assets/crest.png")}
+            style={shellStyles.crest}
+            resizeMode="contain"
+          />
+          <View style={shellStyles.betaBadge}>
+            <Text style={shellStyles.betaText}>BETA</Text>
+          </View>
+          {hasUnseen ? <WhatsNewDot /> : null}
+        </Pressable>
       </View>
-    </View>
+    </WhatsNewSheetContext.Provider>
   );
 }
-
 export const App = () => {
   const [fontsLoaded] = useFonts({
     "jakarta-400": require("@expo-google-fonts/plus-jakarta-sans/400Regular/PlusJakartaSans_400Regular.ttf"),

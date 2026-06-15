@@ -66,14 +66,18 @@ src/
     screen-layout/             Floating header layout: gradient + safe-area, subtitle fade-on-scroll, scroll context
     training-reminder-settings/  Settings card with two Switches for football/hurling local reminders (native only)
     dev-clear-notifications-button/  Dev-only Settings button to wipe all scheduled training reminders (rendered behind `__DEV__`)
+    whats-new-dot/             Pulsing red notification dot (native only; respects reduce-motion)
+    whats-new-sheet/           Bottom sheet listing What's New items with optional CTA deep-links
     year-sidebar/              Year navigation sidebar for the photos screen
   screens/
     book.tsx                   Book a training session
     club.tsx                   Club info & links
     photos.tsx                 Photo gallery — gallery list with year sidebar
     gallery-detail.tsx         Thumbnail grid for a single gallery (sorted by likes, pull-to-refresh)
-    settings.tsx               Settings — language switcher + training reminders + version card
+    settings.tsx               Settings — language switcher + training reminders + what's new + version card
     upcoming-events.tsx        Upcoming training sessions list
+  whats-new/
+    content.ts                 WHATS_NEW_ITEMS array + WHATS_NEW_VERSION integer; edit per release
   services/
     contentful/                Generic Contentful CDA client (types + fetcher + 1h event/gallery cache)
       images.ts                Contentful Images API URL builder (cover, thumbnail, full, placeholder)
@@ -160,3 +164,5 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 **Credential encryption in transit.** `book.ts` encrypts email and password with AES-256-GCM (`ENCRYPTION_KEY`) before including them in `client_payload`. GitHub only ever stores ciphertext. The workflow decrypts using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext. Generate the key with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` — store the same 64-char hex value in both Netlify env vars and GitHub Actions secrets.
 
 **Training reminders are local notifications only.** `src/services/notifications/` schedules one-shot `expo-notifications` reminders: Tuesday 08:00 local for Gaelic football, Thursday 08:00 local for Hurling & Camogie. Each sport has an independent Settings toggle. A reminder is suppressed for the current week (Sun–Sat) if `hsp_last_booking` shows that sport was booked in that window. A reminder is also suppressed when the sport is currently paused via Contentful (`gaelicDisabledUntil` / `hurlingDisabledUntil` still in the future at the reminder fire-time) — `useTrainingReminderBootstrap` mirrors the latest pause timestamps from `MobileAppDataContext` into the service via `setRemoteSportAvailability`, which triggers a reconcile whenever they change. `reconcileTrainingReminders()` is idempotent and runs on app start, on `AppState` foreground (debounced to 30s), after a successful booking (`onBookingChanged`), after a toggle flip, and after a remote pause-state change. No push tokens, no backend send pipeline. Both toggles default off — existing users see zero behaviour change after the update until they opt in, and the OS permission prompt is never requested on cold start. If the user revokes notification permission via system settings, the next foreground reconcile cancels all scheduled reminders; the Settings card detects the denied state, visually flips both Switches off (preferences are preserved), and offers an "Open notification settings" button that deep-links straight to the app's notification screen via `Linking.sendIntent("android.settings.APP_NOTIFICATION_SETTINGS", ...)`. When the user re-grants permission and returns, the same foreground hook restores Switch state and reschedules.
+
+**What's new (crest-dot pattern, native only).** `src/whats-new/content.ts` holds a flat list of `WhatsNewItem` entries and a `WHATS_NEW_VERSION` integer constant. A red pulsing dot renders on the crest (top-right of every native screen) when `WHATS_NEW_VERSION` exceeds `app_whats_new_seen_version` in AsyncStorage. Tapping the crest, or the "What's new" row in Settings, opens a bottom sheet listing all entries with optional CTA deep-links. `markSeen()` persists `WHATS_NEW_VERSION` to storage. Fresh installs are seeded with the current version on first run (gated on `app_has_opened_before` also being absent) so the dot never appears on a clean install. Bumping `WHATS_NEW_VERSION` re-shows the dot to all existing users on both binary and OTA releases. The feature is a no-op on web.

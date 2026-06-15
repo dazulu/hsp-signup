@@ -5,7 +5,7 @@ const { colors, space, fontFamily, fontSize } = theme;
 
 export const styles = StyleSheet.create({
   container: {
-    gap: space[12],
+    gap: space[8],
   },
   sectionTitle: {
     fontFamily: fontFamily.semibold,
@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: space[4],
   },
   rowLabel: {
     fontFamily: fontFamily.medium,

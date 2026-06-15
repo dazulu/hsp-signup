@@ -1,4 +1,5 @@
-import { Platform, ScrollView, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card } from "../components/card";
 import { DebugButton } from "../components/debug-button";
@@ -8,11 +9,13 @@ import { ExternalLink } from "../components/external-link";
 import { LanguageSwitcher } from "../components/language-switcher";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
 import { TrainingReminderSettings } from "../components/training-reminder-settings";
+import { useWhatsNewSheet } from "../context/whats-new-sheet";
 import { useLocale } from "../i18n";
 import { theme } from "../theme";
+import { WHATS_NEW_ITEMS } from "../whats-new/content";
 import { styles } from "./settings.styles";
 
-const { space } = theme;
+const { space, colors } = theme;
 
 const PRIVACY_POLICY_URL = process.env.EXPO_PUBLIC_API_URL
   ? `${process.env.EXPO_PUBLIC_API_URL}/privacy-policy-app`
@@ -30,6 +33,7 @@ const SettingsScrollContent = () => {
     useScreenLayout();
   const { bottom } = useSafeAreaInsets();
   const { t } = useLocale();
+  const { open: openWhatsNew } = useWhatsNewSheet();
 
   return (
     <ScrollView
@@ -41,6 +45,23 @@ const SettingsScrollContent = () => {
       onScroll={onScrollHandler}
       scrollEventThrottle={16}
     >
+      {Platform.OS !== "web" && WHATS_NEW_ITEMS.length > 0 ? (
+        <Card>
+          <Pressable
+            style={styles.row}
+            onPress={openWhatsNew}
+            accessibilityRole="button"
+          >
+            <Text style={styles.rowLabel}>{t("settings.whatsNew")}</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={18}
+              color={colors.textMuted}
+            />
+          </Pressable>
+        </Card>
+      ) : null}
+
       <Card>
         <View style={styles.row}>
           <Text style={styles.rowLabel}>{t("settings.language")}</Text>

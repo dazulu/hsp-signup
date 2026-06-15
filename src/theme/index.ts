@@ -31,6 +31,8 @@
 
   like: "#ff4d6d",
 
+  notificationDot: "#e53935",
+
   overlay: "rgba(0, 0, 0, 0.4)",
 } as const;
 
