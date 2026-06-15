@@ -47,6 +47,14 @@
           "savePhotosPermission": "Allow Hamburg GAA to save photos to your library.",
           "isAccessMediaLocationEnabled": false
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "defaultChannel": "training-reminders",
+          "icon": "./assets/notification-icon.png",
+          "color": "#4A6CF7"
+        }
       ]
     ],
     "web": {

@@ -1,4 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import type { ScrollView as ScrollViewType } from "react-native";
 import {
@@ -87,6 +89,25 @@ export const BookingForm = ({
     useLastBookingLabel(lastBooking);
   const [nudgeDismissed, setNudgeDismissed] = useState(false);
   const { data } = useMobileAppData();
+
+  // Re-sync the sport from storage when the screen regains focus. Covers the
+  // notification-tap case where the deep-link handler writes hsp_sport before
+  // navigating, but useBooking's one-shot mount-load has already run.
+  useFocusEffect(
+    useCallback(() => {
+      if (Platform.OS === "web") {
+        return;
+      }
+      AsyncStorage.getItem("hsp_sport").then((stored) => {
+        if (
+          (stored === "football" || stored === "hurling") &&
+          stored !== sport
+        ) {
+          pickSport(stored);
+        }
+      });
+    }, [sport, pickSport]),
+  );
 
   const isSportDisabled = useCallback(
     (s: SportKey): boolean => {

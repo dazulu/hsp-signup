@@ -23,6 +23,8 @@ const STORAGE_KEYS = [
   "app_has_opened_before",
   "app_locale",
   "app_training_promo_dismissed",
+  "app_training_reminder_prefs",
+  "app_training_reminder_state",
   "app_contentful_quote",
 ];
 

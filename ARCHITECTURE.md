@@ -39,6 +39,8 @@ src/
     use-galleries.ts           Gallery data hook (fetches + caches Contentful galleries, locale-aware)
     use-likes.ts               Per-gallery photo likes (fetches + toggles via /api/likes, optimistic UI)
     use-last-booking-label.ts  Formatted label for last successful booking
+    use-training-reminders.ts  Settings hook for the two reminder toggles (prefs + permission state)
+    use-training-reminder-bootstrap.ts  Init notifications + reconcile on app start / foreground (native only)
     use-welcome-text/          Locale-aware greeting pool
   context/
     mobile-app-data.tsx        MobileAppDataContext — owns all remote data: Contentful notices, events, Strava
@@ -62,17 +64,20 @@ src/
     language-switcher/         Bottom-sheet language picker (native only)
     modal/                     TooltipModal — info icon + fade-in centred modal (statusBarTranslucent, onShow-driven animation)
     screen-layout/             Floating header layout: gradient + safe-area, subtitle fade-on-scroll, scroll context
+    training-reminder-settings/  Settings card with two Switches for football/hurling local reminders (native only)
+    dev-clear-notifications-button/  Dev-only Settings button to wipe all scheduled training reminders (rendered behind `__DEV__`)
     year-sidebar/              Year navigation sidebar for the photos screen
   screens/
     book.tsx                   Book a training session
     club.tsx                   Club info & links
     photos.tsx                 Photo gallery — gallery list with year sidebar
     gallery-detail.tsx         Thumbnail grid for a single gallery (sorted by likes, pull-to-refresh)
-    settings.tsx               Settings — language switcher + version card
+    settings.tsx               Settings — language switcher + training reminders + version card
     upcoming-events.tsx        Upcoming training sessions list
   services/
     contentful/                Generic Contentful CDA client (types + fetcher + 1h event/gallery cache)
       images.ts                Contentful Images API URL builder (cover, thumbnail, full, placeholder)
+    notifications/             Local training-reminder scheduling: permissions, weekly rules, AsyncStorage, orchestration
     strava/                    Strava fetch + 1h AsyncStorage cache (`fetchStravaData(force?)`)
 netlify/functions/
   book.ts                      Triggers GitHub Actions repository_dispatch
@@ -153,3 +158,5 @@ Credentials are stored on-device using Expo SecureStore (native) only when the u
 **Photo likes use Netlify Blobs.** Each gallery has one blob (`gallery:{id}`) mapping `{ imageId: userId[] }`. `likes.ts` exposes GET (fetch all likes for a gallery with per-user `liked` state) and POST (like/unlike). The client (`useLikes` hook) does optimistic UI updates — flips `liked` and adjusts `count` immediately, reverts on server error. Gallery thumbnails are sorted by like count descending. Anonymous user identity is a `crypto.randomUUID()` (via `expo-crypto`) stored in SecureStore (`app_user_id`) — survives iOS reinstall via Keychain. Concurrent write races on the blob are an accepted limitation at this scale.
 
 **Credential encryption in transit.** `book.ts` encrypts email and password with AES-256-GCM (`ENCRYPTION_KEY`) before including them in `client_payload`. GitHub only ever stores ciphertext. The workflow decrypts using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext. Generate the key with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` — store the same 64-char hex value in both Netlify env vars and GitHub Actions secrets.
+
+**Training reminders are local notifications only.** `src/services/notifications/` schedules one-shot `expo-notifications` reminders: Tuesday 08:00 local for Gaelic football, Thursday 08:00 local for Hurling & Camogie. Each sport has an independent Settings toggle. A reminder is suppressed for the current week (Sun–Sat) if `hsp_last_booking` shows that sport was booked in that window. A reminder is also suppressed when the sport is currently paused via Contentful (`gaelicDisabledUntil` / `hurlingDisabledUntil` still in the future at the reminder fire-time) — `useTrainingReminderBootstrap` mirrors the latest pause timestamps from `MobileAppDataContext` into the service via `setRemoteSportAvailability`, which triggers a reconcile whenever they change. `reconcileTrainingReminders()` is idempotent and runs on app start, on `AppState` foreground (debounced to 30s), after a successful booking (`onBookingChanged`), after a toggle flip, and after a remote pause-state change. No push tokens, no backend send pipeline. Both toggles default off — existing users see zero behaviour change after the update until they opt in, and the OS permission prompt is never requested on cold start. If the user revokes notification permission via system settings, the next foreground reconcile cancels all scheduled reminders; the Settings card detects the denied state, visually flips both Switches off (preferences are preserved), and offers an "Open notification settings" button that deep-links straight to the app's notification screen via `Linking.sendIntent("android.settings.APP_NOTIFICATION_SETTINGS", ...)`. When the user re-grants permission and returns, the same foreground hook restores Switch state and reschedules.

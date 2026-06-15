@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, Animated, Platform } from "react-native";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import { useLocale } from "../i18n";
+import { onBookingChanged } from "../services/notifications";
 import { useCredentials } from "./use-credentials";
 
 const uuid = (): string =>
@@ -144,7 +145,9 @@ export const useBooking = () => {
       const currentSport = sportRef.current;
       if (currentSport) {
         const bookingRecord = { sport: currentSport, bookedAt: Date.now() };
-        AsyncStorage.setItem("hsp_last_booking", JSON.stringify(bookingRecord));
+        AsyncStorage.setItem("hsp_last_booking", JSON.stringify(bookingRecord))
+          .then(() => onBookingChanged(currentSport))
+          .catch(() => {});
         setLastBooking(bookingRecord);
       }
       setBooking({ phase: "success" });
@@ -185,6 +188,7 @@ export const useBooking = () => {
                 JSON.stringify(bookingRecord),
               );
               setLastBooking(bookingRecord);
+              onBookingChanged(currentSport);
             }
             if (!cancelled) {
               setBooking({ phase: "success" });

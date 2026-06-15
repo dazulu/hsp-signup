@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "@expo-google-fonts/plus-jakarta-sans";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
+  createNavigationContainerRef,
   DefaultTheme,
   NavigationContainer,
   StackActions,
@@ -17,12 +18,15 @@ import {
 import { ErrorBoundary } from "./components/error-boundary";
 import { UpdateBanner } from "./components/update-banner";
 import { MobileAppDataProvider } from "./context/mobile-app-data";
+import { useNotificationDeepLink } from "./hooks/use-notification-deep-link";
 import { useOtaUpdate } from "./hooks/use-ota-update";
+import { useTrainingReminderBootstrap } from "./hooks/use-training-reminder-bootstrap";
 import { LocaleProvider, useLocale } from "./i18n";
 import { ClubStack } from "./navigation/club-stack";
 import { LearnStack } from "./navigation/learn-stack";
 import { PhotosStack } from "./navigation/photos-stack";
 import { TrainingStack } from "./navigation/training-stack";
+import type { TabParamList } from "./navigation/types";
 import { BookScreen } from "./screens/book";
 import { SettingsScreen } from "./screens/settings";
 import { styles } from "./styles";
@@ -36,6 +40,8 @@ const navTheme = {
 };
 
 const Tab = createBottomTabNavigator();
+
+const navigationRef = createNavigationContainerRef<TabParamList>();
 
 const TAB_LABEL_KEYS: Record<
   string,
@@ -222,6 +228,8 @@ const TabNavigator = () => {
 function AppShell() {
   const insets = useSafeAreaInsets();
   const { updateReady, applyUpdate } = useOtaUpdate();
+  useTrainingReminderBootstrap();
+  useNotificationDeepLink(navigationRef);
 
   return (
     <View style={shellStyles.root}>
@@ -229,7 +237,7 @@ function AppShell() {
         colors={["#e8f0fe", "#d4e4fc", "#f0e6ff"]}
         style={StyleSheet.absoluteFill}
       />
-      <NavigationContainer theme={navTheme}>
+      <NavigationContainer ref={navigationRef} theme={navTheme}>
         <TabNavigator />
       </NavigationContainer>
       <UpdateBanner

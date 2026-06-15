@@ -43,7 +43,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 - **SecureStore keys:** `app_user_id` (anonymous UUID for photo likes — persists across iOS reinstalls via Keychain).
-- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`. Keep `STORAGE_KEYS` in `src/screens/settings.tsx` in sync when adding new keys.
+- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`, `app_training_reminder_prefs`, `app_training_reminder_state`. Keep the `STORAGE_KEYS` constant in `src/hooks/use-copy-debug-info.ts` in sync when adding new keys.
 
 ## i18n
 
@@ -82,7 +82,7 @@ Never log, hard-code, or commit secrets. HSP credentials exist only in transit �
 ## Dependencies
 
 - Stick to Expo-compatible packages. Use `npx expo install` for SDK-aligned native deps.
-- Development uses Expo Go (`npm start`). Native modules not bundled in Expo Go require a full native rebuild (`npx expo prebuild` + `npx expo run:android`).
+- Development uses Expo Go (`npm start`) for pure-JS work. Features that pull in native modules not bundled in Expo Go (e.g. `expo-notifications`) require a **dev-client build** (`eas build --profile development --platform android`, then `eas build:dev` for subsequent installs). `expo-dev-client` is in `dependencies` and the `development` profile lives in `eas.json`.
 - Android APK/AAB production builds use EAS Build (`npm run release:preview` for APK, `npm run release:production` for AAB).
 - OTA updates via EAS Update: `npm run ota:preview` / `npm run ota:production`. Uses `fingerprint` runtime version policy — JS-only changes don't need a rebuild.
 - New Arch is enabled (`newArchEnabled: true`) for both iOS and Android.

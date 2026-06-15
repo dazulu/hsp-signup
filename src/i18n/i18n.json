@@ -29,6 +29,56 @@
     "ga": "Saincheap d'eispéireas aipe.",
     "de": "Passe dein App-Erlebnis an."
   },
+  "settings.reminders.sectionTitle": {
+    "en": "Booking reminders",
+    "ga": "Meabhrúcháin áirithinte",
+    "de": "Buchungserinnerungen"
+  },
+  "settings.reminders.helper": {
+    "en": "Get a reminder to book your weekly training session.",
+    "ga": "Faigh meabhrúchán chun seisiún traenála na seachtaine a chur in áirithe.",
+    "de": "Erhalte eine Erinnerung, dein wöchentliches Training zu buchen."
+  },
+  "settings.reminders.football.label": {
+    "en": "Gaelic Football",
+    "ga": "Peil Ghaelach",
+    "de": "Gaelic-Football"
+  },
+  "settings.reminders.hurling.label": {
+    "en": "Hurling & Camogie",
+    "ga": "Iománaíochta & Camógaíochta",
+    "de": "Hurling & Camogie"
+  },
+  "settings.reminders.permissionBlocked": {
+    "en": "Notifications are blocked in your device settings. Enable them there to receive reminders.",
+    "ga": "Tá fógraí blocáilte i socruithe do ghléis. Cumasaigh iad ansin chun meabhrúcháin a fháil.",
+    "de": "Benachrichtigungen sind in deinen Geräteeinstellungen blockiert. Aktiviere sie dort, um Erinnerungen zu erhalten."
+  },
+  "settings.reminders.openSettings": {
+    "en": "Open notification settings",
+    "ga": "Oscail socruithe na bhfógraí",
+    "de": "Benachrichtigungseinstellungen öffnen"
+  },
+  "notifications.football.title": {
+    "en": "Gaelic football reminder",
+    "ga": "Meabhrúchán peile Gaelaí",
+    "de": "Erinnerung an Gaelic Football"
+  },
+  "notifications.football.body": {
+    "en": "You haven't booked this week's training yet.",
+    "ga": "Níl traenáil na seachtaine seo curtha in áirithe agat fós.",
+    "de": "Du hast das Training dieser Woche noch nicht gebucht."
+  },
+  "notifications.hurling.title": {
+    "en": "Hurling & Camogie reminder",
+    "ga": "Meabhrúchán Iománaíochta & Camógaíochta",
+    "de": "Erinnerung an Hurling & Camogie"
+  },
+  "notifications.hurling.body": {
+    "en": "You haven't booked this week's training yet.",
+    "ga": "Níl traenáil na seachtaine seo curtha in áirithe agat fós.",
+    "de": "Du hast das Training dieser Woche noch nicht gebucht."
+  },
   "settings.privacy": {
     "en": "Privacy",
     "ga": "Príobháideachas",

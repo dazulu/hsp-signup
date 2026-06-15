@@ -3,9 +3,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Card } from "../components/card";
 import { DebugButton } from "../components/debug-button";
 import { DeleteLikesButton } from "../components/delete-likes-button";
+import { DevClearNotificationsButton } from "../components/dev-clear-notifications-button";
 import { ExternalLink } from "../components/external-link";
 import { LanguageSwitcher } from "../components/language-switcher";
 import { ScreenLayout, useScreenLayout } from "../components/screen-layout";
+import { TrainingReminderSettings } from "../components/training-reminder-settings";
 import { useLocale } from "../i18n";
 import { theme } from "../theme";
 import { styles } from "./settings.styles";
@@ -46,6 +48,8 @@ const SettingsScrollContent = () => {
         </View>
       </Card>
 
+      {Platform.OS !== "web" ? <TrainingReminderSettings /> : null}
+
       <Card>
         <View style={styles.rowGap}>
           <ExternalLink label={t("settings.rateApp")} href={RATE_APP_URL} />
@@ -59,6 +63,10 @@ const SettingsScrollContent = () => {
       <Card>
         <DeleteLikesButton />
       </Card>
+
+      {__DEV__ && Platform.OS !== "web" ? (
+        <DevClearNotificationsButton />
+      ) : null}
 
       <DebugButton />
     </ScrollView>

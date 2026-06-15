@@ -22,6 +22,7 @@
 
   warningBackground: "#fff7ed",
   warningText: "#d97706",
+  warningAction: "#f59e0b",
 
   noticeBackground: "#ffedd5",
   noticeBorder: "#e7cdb2",
