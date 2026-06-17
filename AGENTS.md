@@ -43,7 +43,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - `AsyncStorage` for non-sensitive persistence (sport choice, triggered_at, correlationId, last booking, locale, strava cache, first-open flag).
 - `expo-secure-store` for credentials on native, wrapped by `src/secure-store.ts` which provides a localStorage fallback on web.
 - **SecureStore keys:** `app_user_id` (anonymous UUID for photo likes — persists across iOS reinstalls via Keychain).
-- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`, `app_training_reminder_prefs`, `app_training_reminder_state`, `app_whats_new_seen_version`. Keep the `STORAGE_KEYS` constant in `src/hooks/use-copy-debug-info.ts` in sync when adding new keys.
+- **AsyncStorage keys:** `app_save_on_device`, `hsp_sport`, `hsp_triggered_at`, `hsp_correlation_id`, `hsp_last_booking`, `app_strava_cache_v2`, `app_contentful_events`, `app_contentful_mobile_app_data`, `app_gallery_cache_en`, `app_gallery_cache_de`, `app_has_opened_before`, `app_locale`, `app_training_promo_dismissed`, `app_training_reminder_prefs`, `app_training_reminder_state`, `app_whats_new_seen_version`. Keep the `STORAGE_KEYS` constant in `src/hooks/use-copy-debug-info.ts` in sync when adding new keys.
 
 ## i18n
 
@@ -71,7 +71,7 @@ See `ARCHITECTURE.md` for system overview, file structure, build commands, env v
 - **Playwright e2e only** — no unit test framework is set up. The Playwright spec in `playwright/signup.spec.ts` runs in GitHub Actions, not locally.
 - The Playwright test is triggered by `repository_dispatch` with credentials passed via `client_payload` as AES-256-GCM ciphertext. The workflow decrypts them using `ENCRYPTION_KEY` (GitHub secret) and immediately masks the plaintext with `::add-mask::` before writing to `GITHUB_ENV` for Playwright to consume.
 - **Credential masking in report:** The Playwright spec uses `evaluate()` instead of `fill()` to set email/password fields, so credentials don't appear in HTML report step titles.
-- **Auth failure detection:** After login submission, the spec checks if the HSP login prompt is still visible. If so, it writes a `test-results/auth-failed` marker file and fails the test. The workflow uploads this as a named artifact (`auth-failed`), which `status.ts` checks to distinguish auth failures from other failures.
+- **Auth failure detection:** After login submission, the spec checks if the HSP login prompt is still visible. If so, it writes a `test-results/auth-failed` marker file and fails the test. The workflow uploads this as a named artifact (`auth-failed`).
 
 ## Security
 
