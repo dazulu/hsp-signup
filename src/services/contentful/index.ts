@@ -21,8 +21,13 @@ const SPACE_ID = process.env.EXPO_PUBLIC_CONTENTFUL_SPACE_ID ?? "";
 const ACCESS_TOKEN = process.env.EXPO_PUBLIC_CONTENTFUL_ACCESS_TOKEN ?? "";
 const BASE_URL = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master`;
 
+const ONE_HOUR = 60 * 60 * 1000;
+
 const CACHE_KEY = "app_contentful_events";
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+const CACHE_TTL_MS = ONE_HOUR;
+
+const MOBILE_APP_DATA_CACHE_KEY = "app_contentful_mobile_app_data";
+const MOBILE_APP_DATA_CACHE_TTL_MS = ONE_HOUR;
 
 export type EventsData = {
   hurling: ContentfulItem[];
@@ -58,14 +63,62 @@ const fetchRepeatingItems = async (
   return (data.items[0]?.fields.items as ContentfulItem[]) ?? null;
 };
 
-export const fetchMobileAppData = async (): Promise<MobileAppData | null> => {
+export const fetchMobileAppData = async (force = false): Promise<MobileAppData | null> => {
+  let stale: MobileAppData | null = null;
+
+  try {
+    const raw = await AsyncStorage.getItem(MOBILE_APP_DATA_CACHE_KEY);
+    if (raw) {
+      const cached = JSON.parse(raw) as { ts: number; data: MobileAppData };
+      if (!force && Date.now() - cached.ts < MOBILE_APP_DATA_CACHE_TTL_MS) {
+        return cached.data;
+      }
+      stale = cached.data;
+    }
+  } catch {
+    // Corrupted cache — ignore and fetch fresh
+  }
+
   try {
     const data = await fetchContentful<MobileAppDataFields>({
       content_type: "mobileAppData",
       "fields.staticId": "MOBILE_APP_DATA",
       limit: 1,
     });
-    return data.items[0]?.fields.jsonData ?? null;
+    const fresh = data.items[0]?.fields.jsonData ?? null;
+    if (fresh) {
+      await AsyncStorage.setItem(
+        MOBILE_APP_DATA_CACHE_KEY,
+        JSON.stringify({ ts: Date.now(), data: fresh }),
+      );
+    }
+    return fresh;
+  } catch {
+    return stale;
+  }
+};
+
+export const getCachedMobileAppData = async (): Promise<MobileAppData | null> => {
+  try {
+    const raw = await AsyncStorage.getItem(MOBILE_APP_DATA_CACHE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const cached = JSON.parse(raw) as { ts: number; data: MobileAppData };
+    return cached.data;
+  } catch {
+    return null;
+  }
+};
+
+export const getCachedEventsData = async (): Promise<EventsData | null> => {
+  try {
+    const raw = await AsyncStorage.getItem(CACHE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const cached = JSON.parse(raw) as { ts: number; data: EventsData };
+    return cached.data;
   } catch {
     return null;
   }
@@ -255,8 +308,8 @@ export const fetchTrainingQuote = async (
         if (personEntry) {
           const imageAsset = personEntry.fields.image
             ? assets.find(
-                (asset) => asset.sys.id === personEntry.fields.image.sys.id,
-              )
+              (asset) => asset.sys.id === personEntry.fields.image.sys.id,
+            )
             : undefined;
           result.person = {
             name: personEntry.fields.name,

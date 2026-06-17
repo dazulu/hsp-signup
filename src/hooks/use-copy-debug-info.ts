@@ -18,6 +18,7 @@ const STORAGE_KEYS = [
   "hsp_last_booking",
   "app_strava_cache_v2",
   "app_contentful_events",
+  "app_contentful_mobile_app_data",
   "app_gallery_cache_en",
   "app_gallery_cache_de",
   "app_has_opened_before",
@@ -32,6 +33,7 @@ const STORAGE_KEYS = [
 const CACHE_KEYS = new Set([
   "app_strava_cache_v2",
   "app_contentful_events",
+  "app_contentful_mobile_app_data",
   "app_gallery_cache_en",
   "app_gallery_cache_de",
   "app_contentful_quote",

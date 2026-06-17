@@ -11,6 +11,8 @@ import {
   type EventsData,
   fetchEvents,
   fetchMobileAppData,
+  getCachedEventsData,
+  getCachedMobileAppData,
 } from "../services/contentful";
 import type { MobileAppData } from "../services/contentful/types";
 import {
@@ -52,7 +54,7 @@ export const MobileAppDataProvider = ({
     setLoading(true);
 
     try {
-      const fetches: Promise<unknown>[] = [fetchMobileAppData()];
+      const fetches: Promise<unknown>[] = [fetchMobileAppData(force)];
       if (Platform.OS !== "web") {
         fetches.push(fetchEvents(force), fetchStravaData(force));
       }
@@ -100,6 +102,12 @@ export const MobileAppDataProvider = ({
     if (Platform.OS !== "web") {
       getCachedStravaData().then((cached) => {
         setStravaData((current) => current ?? cached);
+      });
+      getCachedMobileAppData().then((cached) => {
+        setData((current) => current ?? cached);
+      });
+      getCachedEventsData().then((cached) => {
+        setEvents((current) => current ?? cached);
       });
     }
     refresh(false);
