@@ -7,6 +7,10 @@ import * as Updates from "expo-updates";
 import { useCallback } from "react";
 import { Alert, Platform } from "react-native";
 import { useLocale } from "../i18n";
+import type {
+  TrainingReminderScheduleState,
+  TrainingReminderType,
+} from "../services/notifications/types";
 
 const appVersion = Constants.expoConfig?.version ?? "—";
 
@@ -48,6 +52,26 @@ const summariseCacheValue = (storageValue: string): string => {
   }
 };
 
+const summariseReminderState = (raw: string | null): string => {
+  if (!raw) {
+    return "  hurling: none\n  football: none";
+  }
+  try {
+    const state = JSON.parse(raw) as TrainingReminderScheduleState;
+    return (["hurling", "football"] as TrainingReminderType[])
+      .map((sport) => {
+        const entry = state[sport];
+        if (entry?.notificationId && entry.scheduledForIso) {
+          return `  ${sport}: scheduled for ${entry.scheduledForIso}`;
+        }
+        return `  ${sport}: none`;
+      })
+      .join("\n");
+  } catch {
+    return "  (invalid)";
+  }
+};
+
 export const useCopyDebugInfo = (): (() => Promise<void>) => {
   const { t } = useLocale();
 
@@ -59,6 +83,9 @@ export const useCopyDebugInfo = (): (() => Promise<void>) => {
     const pairs = await AsyncStorage.multiGet(STORAGE_KEYS);
     const storageLines = pairs
       .map(([storageKey, storageValue]) => {
+        if (storageKey === "app_training_reminder_state") {
+          return null;
+        }
         if (CACHE_KEYS.has(storageKey)) {
           const summary =
             storageValue == null ? "null" : summariseCacheValue(storageValue);
@@ -68,6 +95,11 @@ export const useCopyDebugInfo = (): (() => Promise<void>) => {
       })
       .filter(Boolean)
       .join("\n");
+
+    const reminderStateRaw =
+      pairs.find(([storageKey]) => storageKey === "app_training_reminder_state")?.[1] ??
+      null;
+    const notificationLines = summariseReminderState(reminderStateRaw);
 
     const brand = Device.brand ?? "";
     const model = Device.modelName ?? "unknown";
@@ -82,6 +114,7 @@ export const useCopyDebugInfo = (): (() => Promise<void>) => {
       `Runtime Version: ${Updates.runtimeVersion ?? "—"}`,
       `Channel: ${Updates.channel ?? "—"}`,
       storageLines ? `Storage:\n${storageLines}` : "Storage: (empty)",
+      `Notifications:\n${notificationLines}`,
     ].filter(Boolean);
 
     await Clipboard.setStringAsync(lines.join("\n"));
